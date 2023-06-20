@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c878b0d74e5429d83430ce6c8f280d, type: 3}
+  m_Name: PlasticExplosive
+  m_EditorClassIdentifier: 
+  displayName: Bombs
+  rewardKey: BOMB
+  cost: 200
+  damage: 100
+  explosionRadius: 3
+  explosionPower: 500
+  upwardsForce: 0
+  explosionPrefab: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  instancePrefab: {fileID: 2345039802422252422, guid: 79ffa8f559da349acbb3fd814ea03a5c, type: 3}
+  totalAmount: 3

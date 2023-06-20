@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
+  m_Name: EnemyMarksmanController
+  m_EditorClassIdentifier: 
+  canMoveAndShoot: 0
+  canAim: 1
+  scoreValue: 300
+  startWeapon: {fileID: 11400000, guid: 416349b48210e4dfc8723808ed6b49f4, type: 2}
+  shootPauseTimeMax: 6
+  shootPauseTimeMin: 4
+  maxBurstFrames: 1
+  minBurstFrames: 1
+  navAgentSpeed: 5

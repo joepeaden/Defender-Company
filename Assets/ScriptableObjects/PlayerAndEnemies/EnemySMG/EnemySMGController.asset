@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
+  m_Name: EnemySMGController
+  m_EditorClassIdentifier: 
+  canMoveAndShoot: 1
+  scoreValue: 200
+  startWeapon: {fileID: 11400000, guid: 5ac99aea48109476c90f84c8cf6c425f, type: 2}
+  shootPauseTimeMax: 4
+  shootPauseTimeMin: 2
+  maxBurstFrames: 90
+  minBurstFrames: 30
+  navAgentSpeed: 6

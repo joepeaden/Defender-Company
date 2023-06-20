@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  displayName: Pistol
+  rewardKey: 
+  cost: 0
+  projectile: {fileID: 6425079759990356200, guid: b5f2e306111ac4e2aab9f9da950c0040, type: 3}
+  recoil: 1
+  attackInterval: 0.1
+  range: 20
+  optimalRange: 15
+  ammoCapacity: 10
+  totalAmount: 20
+  attackSound: {fileID: 8300000, guid: 9a7d54770be339e478fc73a7609c5753, type: 3}
+  emptyWeaponSound: {fileID: 8300000, guid: e5127082088ae44b4b8998b0d577358d, type: 3}
+  reloadSound: {fileID: 8300000, guid: 393d45abd5a0840ee8f142707a4de56a, type: 3}
+  reloadTime: 1
+  isAutomatic: 0
+  isPistol: 1
+  projFiredPerShot: 1
+  modelPrefab: {fileID: 100000, guid: 792b88acfb4e778419bb4a4ca38f54d4, type: 3}
+  muzzlePosition: {x: 0.0866, y: 1.251, z: 1.2001}
+  hasInfiniteBackupAmmo: 1
+  accuracyAngle: 8
+  movementAccuracyPenalty: 2
+  aimingBoon: 2

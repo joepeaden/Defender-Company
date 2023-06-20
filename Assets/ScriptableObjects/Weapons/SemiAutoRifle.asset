@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
+  m_Name: SemiAutoRifle
+  m_EditorClassIdentifier: 
+  displayName: Semi-Auto Rifle
+  rewardKey: SAR
+  cost: 4000
+  projectile: {fileID: 6425079759990356200, guid: 2605da23b5e7c4c5fbad81084b707f57, type: 3}
+  recoil: 1
+  attackInterval: 0.2
+  range: 60
+  optimalRange: 40
+  ammoCapacity: 20
+  totalAmount: 80
+  attackSound: {fileID: 8300000, guid: 683f43b92ef1f2442a33beb5d10b1233, type: 3}
+  emptyWeaponSound: {fileID: 8300000, guid: 9e1008f3ca4054a6188ca33900d3d087, type: 3}
+  reloadSound: {fileID: 8300000, guid: f35e7cd65bdad439aa2a7227d481d66b, type: 3}
+  reloadTime: 2
+  isAutomatic: 0
+  isPistol: 0
+  projFiredPerShot: 1
+  muzzlePosition: {x: -0.13, y: 1.313, z: 2.218}
+  modelPrefab: {fileID: 100000, guid: 4af8bcf25a077c046a32a40e08621cfd, type: 3}
+  hasInfiniteBackupAmmo: 0
+  accuracyAngle: 10
+  movementAccuracyPenalty: 5
+  aimingBoon: 100

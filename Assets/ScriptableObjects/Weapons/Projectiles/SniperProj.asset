@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 006a28bab6cd3473188a9a50e3ea48c0, type: 3}
+  m_Name: SniperProj
+  m_EditorClassIdentifier: 
+  causesHeadShots: 1
+  velocity: 80
+  force: 15000
+  damage: 100
+  material: {fileID: 2100000, guid: efde5349fa4af45309403104738ee0ca, type: 2}
+  isExplosive: 0

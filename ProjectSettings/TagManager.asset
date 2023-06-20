@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - Cover
+  - WaveText
+  - PointsText
+  - WeaponText
+  - Pickup
+  - HealthBar
+  - HitBox
+  - Walls
+  - WeaponModel
+  - SnapToAimBox
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Actors
+  - Water
+  - UI
+  - MouseOnly
+  - InCover
+  - Projectiles
+  - HouseAndFurniture
+  - IgnoreActorsAndFurniture
+  - IgnoreFurniture
+  - Floor
+  - IgnoreActors
+  - PlayerZoneCollider
+  - PlayerOutline
+  - EnemyOutline
+  - EnemyFill
+  - SnapLayer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3eb87394f8036b4e802fb4d7c71e66c, type: 3}
+  m_Name: WaveData
+  m_EditorClassIdentifier: 
+  enemyPistolIntroWave: 0
+  enemyRifleIntroWave: 2
+  enemySMGIntroWave: 4
+  enemyBreacherIntroWave: 5
+  enemyMarksmanIntroWave: 3
+  enemyPistolPrefab: {fileID: 4385406812283568742, guid: 291dbce7e5a8e024d99ab897165b2a95, type: 3}
+  enemyRiflePrefab: {fileID: 369857449208888106, guid: ea8f386e5a32d4b5dbf337cd3c94b154, type: 3}
+  enemySMGPrefab: {fileID: 369857449208888106, guid: f73877ee24b288747aa3ee2bd93cb4f1, type: 3}
+  enemyBreacherPrefab: {fileID: 369857449208888106, guid: fcdf999de5f87914695885319ee60716, type: 3}
+  enemyMarksmanPrefab: {fileID: 369857449208888106, guid: 9cd8cae9c8503e04296e04e656941a85, type: 3}
+  baseEnemyCount: 2
+  maxEnemyCount: 0
+  wavePopulationMultiplier: 1.5
+  minSpawnTime: 5
+  maxSpawnTime: 10
+  waveDelay: 1
+  firstWaveDelay: 1
