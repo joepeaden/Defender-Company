@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Directly interacts with PlayerControls and sends out events / stores input info
+/// Directly interacts with PlayerControls and sends out events / stores input info.
 /// </summary>
 public static class PlayerInput
 {
@@ -14,6 +14,9 @@ public static class PlayerInput
 	public static UnityEvent OnReload = new UnityEvent();
 	public static UnityEvent OnUseEquipment= new UnityEvent();
 	public static UnityEvent OnInteract = new UnityEvent();
+	public static UnityEvent OnConfirm = new UnityEvent();
+	public static UnityEvent OnSelect = new UnityEvent();
+	public static UnityEvent<Vector2> OnNavigate = new UnityEvent<Vector2>();
 
 	public static Vector2 MovementInput => movementInput;
 	private static Vector2 movementInput;
@@ -46,7 +49,10 @@ public static class PlayerInput
         controls.Gameplay.Reload.performed += HandleReloadInput;
         controls.Gameplay.UseEquipment.performed += HandleUseEquipmentInput;
         controls.Gameplay.Interact.performed += HandleInteractInput;
-    }
+		controls.UI.Confirm.performed += HandleConfirmInput;
+		controls.UI.Select.performed += HandleSelectInput;
+		controls.UI.Navigate.started += HandleNavigationInput;
+	}
 
 	private static void HandleMovementInput(InputAction.CallbackContext cntxt)
 	{
@@ -126,10 +132,25 @@ public static class PlayerInput
 		OnInteract.Invoke();
 	}
 
+	private static void HandleConfirmInput(InputAction.CallbackContext cntxt)
+	{
+		OnConfirm.Invoke();
+	}
+
+	private static void HandleSelectInput(InputAction.CallbackContext cntxt)
+	{
+		OnSelect.Invoke();
+	}
+
+	private static void HandleNavigationInput(InputAction.CallbackContext cntxt)
+	{
+		OnNavigate.Invoke(cntxt.ReadValue<Vector2>());
+	}
+
 	/// <summary>
 	/// Enable gameplay controls.
 	/// </summary>
-	public static void EnableControls()
+	public static void EnableGameplayControls()
 	{
 		if (controls == null)
 		{
@@ -141,12 +162,36 @@ public static class PlayerInput
 	/// <summary>
 	/// Disable gameplay controls.
 	/// </summary>
-	public static void DisableControls()
+	public static void DisableGameplayControls()
 	{
 		if (controls == null)
 		{
 			controls = new PlayerControls();
 		}
 		controls.Gameplay.Disable();
+	}
+
+    /// <summary>
+    /// Disable gameplay controls.
+    /// </summary>
+    public static void EnableMenuControls()
+    {
+        if (controls == null)
+        {
+            controls = new PlayerControls();
+        }
+        controls.UI.Enable();
+    }
+
+    //	/// <summary>
+    ///// Disable gameplay controls.
+    ///// </summary>
+    public static void DisableMenuControls()
+    {
+        if (controls == null)
+        {
+            controls = new PlayerControls();
+        }
+        controls.UI.Disable();
 	}
 }

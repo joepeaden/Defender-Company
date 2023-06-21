@@ -44,11 +44,6 @@ public class GameplayUI : MonoBehaviour
 
     private Player player;
     private VolumeProfile postProcProfile;
-
-    // Input should really be centralized in an input handler class. We know this.
-    // And we don't give a fuck. Not today at least.
-    private PlayerControls controls;
-
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -66,11 +61,10 @@ public class GameplayUI : MonoBehaviour
         Scoreboard.OnScoreUpdated.AddListener(UpdateScore);
 
         confirmRewardButton.onClick.AddListener(HandleRewardConfirm);
-
-        controls = new PlayerControls();
-        controls.UI.Confirm.performed += HandleConfirmInput;
-        controls.UI.Select.performed += HandleSelectInput;
-        controls.UI.Navigate.started += HandleNavigation;
+        
+        PlayerInput.OnConfirm.AddListener(HandleRewardConfirm);
+        PlayerInput.OnSelect.AddListener(HandleSelectInput);
+        PlayerInput.OnNavigate.AddListener(HandleNavigation);
 
         ShopItemButton.OnNewHoveredButton.AddListener(UpdateHoveredButton);
     }
@@ -115,20 +109,13 @@ public class GameplayUI : MonoBehaviour
         player.OnUpdateEquipment.RemoveListener(UpdateEquipment);
         Scoreboard.OnScoreUpdated.RemoveListener(UpdateScore);
         confirmRewardButton.onClick.RemoveListener(HandleRewardConfirm);
-        controls.UI.Confirm.performed -= HandleConfirmInput;
-        controls.UI.Select.performed -= HandleSelectInput;
-        controls.UI.Navigate.started -= HandleNavigation;
+        PlayerInput.OnConfirm.RemoveListener(HandleRewardConfirm);
+        PlayerInput.OnSelect.RemoveListener(HandleSelectInput);
+        PlayerInput.OnNavigate.RemoveListener(HandleNavigation);
         ShopItemButton.OnNewHoveredButton.RemoveListener(UpdateHoveredButton);
     }
 
-    
-
-    private void HandleConfirmInput(InputAction.CallbackContext cntxt)
-    {
-        HandleRewardConfirm();
-    }
-
-    private void HandleSelectInput(InputAction.CallbackContext cntxt)
+    private void HandleSelectInput()
     {
         if (shopItemButtons[hoveredButtonIndex]!= null)
         {
@@ -136,9 +123,8 @@ public class GameplayUI : MonoBehaviour
         }
     }
 
-    private void HandleNavigation(InputAction.CallbackContext cntxt)
+    private void HandleNavigation(Vector2 input)
     {
-        Vector2 input = cntxt.ReadValue<Vector2>();
 
         // un-hover last button
         shopItemButtons[hoveredButtonIndex].GetComponent<ShopItemButton>().SetHover(false);
@@ -203,8 +189,8 @@ public class GameplayUI : MonoBehaviour
         OnRewardsPicked.Invoke(pickedRewardItem);
         // have to reset picked reward and structs are non-nullable
         pickedRewardItem = new ShopItem();
-        controls.UI.Disable();
-        PlayerInput.EnableControls();
+        PlayerInput.DisableMenuControls();
+        PlayerInput.EnableGameplayControls();
         ShowBattleUI();
     }
 
@@ -213,8 +199,8 @@ public class GameplayUI : MonoBehaviour
     /// </summary>
     private void ShowRewardUI()
     {
-        controls.UI.Enable();
-        PlayerInput.DisableControls();
+        PlayerInput.EnableMenuControls();
+        PlayerInput.DisableGameplayControls();
 
         rewardUI.SetActive(true);
         battleUI.SetActive(false);

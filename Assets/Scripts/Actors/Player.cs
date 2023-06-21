@@ -53,12 +53,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-		PlayerInput.EnableControls();
+		PlayerInput.EnableGameplayControls();
     }
 
 	private void OnDisable()
 	{
-		PlayerInput.DisableControls();
+		PlayerInput.DisableGameplayControls();
 	}
 
 	private void Update()
@@ -146,6 +146,13 @@ public class Player : MonoBehaviour
 		actor.OnDeath.RemoveListener(HandlePlayerDeath);
 		actor.OnGetHit.RemoveListener(HandleGetHit);
 		actor.OnHeal.RemoveListener(HandleHeal);
+		PlayerInput.OnSprint.RemoveListener(HandleSprintInput);
+		PlayerInput.OnAim.RemoveListener(HandleAimInput);
+		PlayerInput.OnFire.RemoveListener(HandleFireInput);
+		PlayerInput.OnSwitchWeapons.RemoveListener(HandleSwitchWeaponsInput);
+		PlayerInput.OnReload.RemoveListener(HandleReloadInput);
+		PlayerInput.OnUseEquipment.RemoveListener(HandleUseEquipmentInput);
+		PlayerInput.OnInteract.RemoveListener(HandleInteractInput);
 	}
 
 	#endregion
