@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
-  m_Name: PSASabre
+  m_Name: CombatRifle
   m_EditorClassIdentifier: 
   displayName: Combat Rifle
   rewardKey: PSA
@@ -30,7 +30,7 @@ MonoBehaviour:
   isPistol: 0
   projFiredPerShot: 1
   muzzlePosition: {x: -0.021, y: 1.374, z: 1.903}
-  modelPrefab: {fileID: 9143924192006986424, guid: 44927ce78ac77624dbcd4829ccd03108, type: 3}
+  spritePrefab: {fileID: 8843171384622211854, guid: 5be6886abfeac4538945f080fd1b0806, type: 3}
   hasInfiniteBackupAmmo: 0
   accuracyAngle: 8
   movementAccuracyPenalty: 2.5

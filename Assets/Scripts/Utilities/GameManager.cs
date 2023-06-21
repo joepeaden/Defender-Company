@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("More than one Game Manager, deleting one.");
             Destroy(this.gameObject);
+            return;
         }
         else
         {
@@ -47,7 +48,10 @@ public class GameManager : MonoBehaviour
         player = playerGO.GetComponent<Player>();
         player.OnPlayerDeath.AddListener(GameOver);
 
-        InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
+        PlayerInput.InitializeControls();
+
+        // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
+        //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
     }
 
     public void OnDestroy()

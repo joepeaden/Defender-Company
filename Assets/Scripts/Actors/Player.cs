@@ -1,8 +1,5 @@
-﻿using RootMotion.Demos;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// Controller for the player, also handles a few player specific things like death.
@@ -25,11 +22,6 @@ public class Player : MonoBehaviour
 
 	private Actor actor;
 
-	// control stuff
-	private PlayerControls controls;
-	private Vector2 movementInput;
-	private Vector2 rotationInput;
-	private bool usingMouseForRotation;
 	private bool targetInSights;
 	private bool attemptingToFire;
 	private bool triggerPull;
@@ -42,22 +34,13 @@ public class Player : MonoBehaviour
 		actor = GetComponent<Actor>();
 		actor.team = Actor.ActorTeam.Friendly;
 
-		controls = new PlayerControls();
-		controls.Gameplay.Move.performed += HandleMovementInput; 
-		controls.Gameplay.Move.canceled += ZeroMovementInput;
-		controls.Gameplay.Sprint.performed += HandleSprintPerformedInput;
-		controls.Gameplay.Sprint.canceled += HandleSprintStopInput;
-		controls.Gameplay.Rotate.performed += HandleRotationInput;
-        controls.Gameplay.RotateMouse.performed += HandleRotationInputMouse;
-        controls.Gameplay.Aim.performed += HandleAimBeginInput;
-		controls.Gameplay.Aim.canceled += HandleAimEndInput;
-		controls.Gameplay.Fire.started += HandleFireStartInput;
-		controls.Gameplay.Fire.canceled += HandleFireStopInput;
-		controls.Gameplay.SwitchWeapons.performed += HandleSwitchWeaponsInputController;
-        controls.Gameplay.SwitchWeaponsMouse.performed += HandleSwitchWeaponsInputMouse;
-        controls.Gameplay.Reload.performed += HandleReloadInput;
-		controls.Gameplay.UseEquipment.performed += HandleUseEquipmentInput;
-		controls.Gameplay.Interact.performed += HandleInteractInput;
+        PlayerInput.OnSprint.AddListener(HandleSprintInput);
+		PlayerInput.OnAim.AddListener(HandleAimInput);
+		PlayerInput.OnFire.AddListener(HandleFireInput);
+		PlayerInput.OnSwitchWeapons.AddListener(HandleSwitchWeaponsInput);
+        PlayerInput.OnReload.AddListener(HandleReloadInput);
+        PlayerInput.OnUseEquipment.AddListener(HandleUseEquipmentInput);
+        PlayerInput.OnInteract.AddListener(HandleInteractInput);
 	}
 
 	private void Start()
@@ -70,12 +53,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-		EnableControls();
+		PlayerInput.EnableControls();
     }
 
 	private void OnDisable()
 	{
-		DisableControls();
+		PlayerInput.DisableControls();
 	}
 
 	private void Update()
@@ -105,21 +88,19 @@ public class Player : MonoBehaviour
 			{
 				//// Movement ////
 				// get the move direction
-				Vector3 moveDir = new Vector3(movementInput.x, 0f, movementInput.y);
-				// adjust it for isometric camera pos
-				moveDir = Quaternion.AngleAxis(45, Vector3.up) * moveDir;
+				Vector3 moveDir = new Vector3(PlayerInput.MovementInput.x, 0f, PlayerInput.MovementInput.y);
 
 				moveDir = Vector3.ClampMagnitude(moveDir, 1f);
 
 				actor.Move(moveDir, false);
 
-				rotationInputToUse = rotationInput;
+				rotationInputToUse = PlayerInput.RotationInput;
 			}
 			else
 			{
 				// only go forward if sprinting
 				actor.Move(transform.forward, false);
-				rotationInputToUse = usingMouseForRotation ? rotationInput : movementInput;
+				rotationInputToUse = PlayerInput.UsingMouseForRotation ? PlayerInput.RotationInput : PlayerInput.MovementInput;
 			}
 
 			if (rotationInputToUse != Vector2.zero)
@@ -133,8 +114,6 @@ public class Player : MonoBehaviour
 					newRotationYAngle -= 180;
 				}
 
-				newRotationYAngle += 45f;
-
 				float rotationDelta = Mathf.Abs(newRotationYAngle - transform.rotation.eulerAngles.y);
 
 				// fix if we're going from 360 to 0 or the other way; this is confusing but don't stress it.
@@ -145,7 +124,7 @@ public class Player : MonoBehaviour
 				}
 
 				float controllerAimRotationSensitivity = baseControllerAimRotaitonSensitivity;
-				if (!usingMouseForRotation && targetInSights)
+				if (!PlayerInput.UsingMouseForRotation && targetInSights)
 				{
 					controllerAimRotationSensitivity = .01f;
 				}
@@ -167,99 +146,56 @@ public class Player : MonoBehaviour
 		actor.OnDeath.RemoveListener(HandlePlayerDeath);
 		actor.OnGetHit.RemoveListener(HandleGetHit);
 		actor.OnHeal.RemoveListener(HandleHeal);
-
-		controls.Gameplay.Move.performed -= HandleMovementInput;
-		controls.Gameplay.Move.canceled -= ZeroMovementInput;
-		controls.Gameplay.Sprint.performed -= HandleSprintPerformedInput;
-		controls.Gameplay.Sprint.canceled -= HandleSprintStopInput;
-		controls.Gameplay.Rotate.performed -= HandleRotationInput;
-		controls.Gameplay.RotateMouse.performed -= HandleRotationInputMouse;
-		controls.Gameplay.Aim.performed -= HandleAimBeginInput;
-		controls.Gameplay.Aim.canceled -= HandleAimEndInput;
-		controls.Gameplay.Fire.started -= HandleFireStartInput;
-		controls.Gameplay.Fire.canceled -= HandleFireStopInput;
-		controls.Gameplay.SwitchWeapons.performed -= HandleSwitchWeaponsInputController;
-		controls.Gameplay.SwitchWeaponsMouse.performed -= HandleSwitchWeaponsInputMouse;
-		controls.Gameplay.Reload.performed -= HandleReloadInput;
-		controls.Gameplay.UseEquipment.performed -= HandleUseEquipmentInput;
-		controls.Gameplay.Interact.performed -= HandleInteractInput;
 	}
 
-    #endregion
+	#endregion
 
-    ///////////////
-    #region Input
-    ///////////////
+	///////////////
+	#region Input
+	///////////////
 
-    private void HandleMovementInput(InputAction.CallbackContext cntxt)
+	private void HandleSprintInput(bool starting)
 	{
-		movementInput = cntxt.ReadValue<Vector2>();
-	}
-
-	private void ZeroMovementInput(InputAction.CallbackContext cntxt)
-	{
-		movementInput = Vector2.zero;
-	}
-
-	private void HandleSprintPerformedInput(InputAction.CallbackContext cntxt)
-	{
-		actor.SetState(Actor.State.Sprinting);
-	}
-
-	private void HandleSprintStopInput(InputAction.CallbackContext cntxt)
-	{
-		actor.SetState(Actor.State.Walking);
-
-		// since rotation is based on the movement input when sprinting, clean it up so we don't pop back to previous rot input value.
-		rotationInput = movementInput;
-	}
-
-	private void HandleRotationInput(InputAction.CallbackContext cntxt)
-	{
-		rotationInput = cntxt.ReadValue<Vector2>();
-
-        usingMouseForRotation = false;
-    }
-
-	private void HandleRotationInputMouse(InputAction.CallbackContext cntxt)
-	{
-		Vector3 mousePosition = cntxt.ReadValue<Vector2>();
-		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(transform.position);
-		Vector3 normalizedMouseInput = (mousePosition - playerPositionScreen).normalized;
-		rotationInput = normalizedMouseInput;
-
-		usingMouseForRotation = true;
-	}
-
-    private void HandleAimBeginInput(InputAction.CallbackContext cntxt)
-	{
-		actor.BeginAiming();
-	}
-
-	private void HandleAimEndInput(InputAction.CallbackContext cntxt)
-	{
-		actor.EndAiming();
-	}
-
-	private void HandleFireStartInput(InputAction.CallbackContext cntxt)
-	{
-		// removed to fix trigger bug. Add back if necessary.
-
-		// start input callback happens when start and finish input. Kinda wierd if you ask me.
-		if (!attemptingToFire)
+		if (starting)
+		{
+			actor.SetState(Actor.State.Sprinting);
+		}
+		else
         {
-            triggerPull = true;
-			attemptingToFire = true;
+			actor.SetState(Actor.State.Walking);
+		}
+	}
+
+	private void HandleAimInput(bool starting)
+	{
+		if (starting)
+		{
+			actor.BeginAiming();
+		}
+		else
+        {
+			actor.EndAiming();
         }
+	}
+
+	private void HandleFireInput(bool starting)
+	{
+		if (starting)
+		{
+			if (!attemptingToFire)
+			{
+				triggerPull = true;
+				attemptingToFire = true;
+			}
+		}
+		else
+        {
+			triggerPull = false;
+			attemptingToFire = false;
+		}
     }
 
-	private void HandleFireStopInput(InputAction.CallbackContext cntxt)
-    {
-        triggerPull = false;
-		attemptingToFire = false;
-    }
-
-	private void HandleSwitchWeaponsInputController(InputAction.CallbackContext cntxt)
+	private void HandleSwitchWeaponsInput()
 	{
 		if (actor.GetInventory().weaponCount > 1)
 		{
@@ -271,55 +207,25 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void HandleSwitchWeaponsInputMouse(InputAction.CallbackContext cntxt)
-	{
-        if (actor.GetInventory().weaponCount > 1)
-        {
-            bool result = actor.AttemptSwitchWeapons();
-            if (result == true)
-            {
-                OnSwitchWeapons.Invoke(actor.GetEquippedWeapon());
-            }
-        }
-    }
-
-
-    private void HandleReloadInput(InputAction.CallbackContext cntxt)
+    private void HandleReloadInput()
 	{
 		actor.AttemptReload();
 	}
 
-	private void HandleUseEquipmentInput(InputAction.CallbackContext cntxt)
+	private void HandleUseEquipmentInput()
 	{
 		actor.AttemptUseEquipment();
 		OnUpdateEquipment.Invoke(actor.GetInventory().GetEquipment());
 	}
 
-	private void HandleInteractInput(InputAction.CallbackContext cntxt)
+	private void HandleInteractInput()
 	{
 		actor.AttemptInteraction();
-
 		// hmmmmm I haven't figured out how to handle swapping equipment, etc. Or even if I will allow that.
 		OnUpdateEquipment.Invoke(actor.GetInventory().GetEquipment());
 	}
 
 	#endregion
-
-	/// <summary>
-    /// Enable gameplay controls.
-    /// </summary>
-	public void EnableControls()
-	{
-		controls.Gameplay.Enable();
-	}
-
-	/// <summary>
-    /// Disable gameplay controls.
-    /// </summary>
-	public void DisableControls()
-	{
-		controls.Gameplay.Disable();
-	}
 
 	public void HandleTargetInSights(bool inSights)
     {
@@ -345,7 +251,7 @@ public class Player : MonoBehaviour
 
 	private void HandlePlayerDeath()
 	{
-		this.enabled = false;
+		enabled = false;
 		OnPlayerDeath.Invoke();
 	}
 

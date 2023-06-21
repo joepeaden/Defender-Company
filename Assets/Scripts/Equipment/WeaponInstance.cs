@@ -210,7 +210,9 @@ public class WeaponInstance : MonoBehaviour
         StartCoroutine(Flash());
 
         if (ammoInWeapon > 0)
+        {
             StartCoroutine("PrepareToAttack");
+        }
     }
 
     /// <summary>

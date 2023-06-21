@@ -10,6 +10,9 @@ using UnityEngine.AI;
 /// Superclass for any actor (player, enemy, etc.)
 /// Actors are the bodies of enemy and player (as opposed to the Controller i.e. Player.cs, Enemy.cs being the brain)
 /// </summary>
+/// <remarks>
+/// Should not have any controls in here. Only body functions.
+/// </remarks>
 public class Actor : MonoBehaviour
 {
 	public UnityAction OnActorBeginAim;

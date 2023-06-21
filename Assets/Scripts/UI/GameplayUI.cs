@@ -204,7 +204,7 @@ public class GameplayUI : MonoBehaviour
         // have to reset picked reward and structs are non-nullable
         pickedRewardItem = new ShopItem();
         controls.UI.Disable();
-        player.EnableControls();
+        PlayerInput.EnableControls();
         ShowBattleUI();
     }
 
@@ -214,7 +214,7 @@ public class GameplayUI : MonoBehaviour
     private void ShowRewardUI()
     {
         controls.UI.Enable();
-        player.DisableControls();
+        PlayerInput.DisableControls();
 
         rewardUI.SetActive(true);
         battleUI.SetActive(false);

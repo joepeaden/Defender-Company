@@ -30,7 +30,7 @@ MonoBehaviour:
   isPistol: 0
   projFiredPerShot: 1
   muzzlePosition: {x: -0.13, y: 1.313, z: 2.218}
-  modelPrefab: {fileID: 100000, guid: 4af8bcf25a077c046a32a40e08621cfd, type: 3}
+  spritePrefab: {fileID: 8843171384622211854, guid: 36baf3283f864424499272e4863cc50d, type: 3}
   hasInfiniteBackupAmmo: 0
   accuracyAngle: 10
   movementAccuracyPenalty: 5
