@@ -109,6 +109,6 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         OnGameOver.Invoke();
-        SceneLoader.Instance.LoadScene(SceneLoader.SceneList.FailMenu, true);
+        //SceneLoader.Instance.LoadScene(SceneLoader.SceneName.FailMenu, true);
     }
 }

@@ -8,18 +8,18 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
-    path: Assets/Scenes/StartMenu.unity
-    guid: ed9815b710f43ca4f8f13af80787a8c8
   - enabled: 0
-    path: Assets/Scenes/House Prototype/House.unity
-    guid: 82ab8aaf79d7647478c6d2dddf469d99
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/FailMenu.unity
     guid: 2ee4d263f7b5e49e2846a4517a363cdb
   - enabled: 0
-    path: Assets/Scenes/Apartment Prototype/Apartment.unity
-    guid: c2d024289eaca4980a3eb33911e1992c
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Survival.unity
     guid: 85d61682163336b42b1d660a939fb6dd
