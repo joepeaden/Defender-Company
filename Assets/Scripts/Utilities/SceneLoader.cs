@@ -1,52 +1,65 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    //public static UnityEvent OnGameOverSceneLoaded = new UnityEvent();
+    public static UnityEvent OnSceneLoadComplete = new UnityEvent();
 
     public static SceneLoader Instance { get { return _instance; } }
     private static SceneLoader _instance;
 
-    public enum SceneList
+    public enum SceneName
     {
-        StartMenu,
-        House,
-        FailMenu,
-        Apartment,
-        Survival
+        MainMenu,
+        Mission
     }
 
     private void Awake()
     {
+        // singleton stuff
         if (_instance != null && _instance != this)
         {
             Debug.Log("More than one SceneLoader, deleting one.");
             Destroy(gameObject);
             return;
         }
-
         _instance = this;
 
-        //    SceneManager.sceneLoaded += HandleSceneLoaded;
-        //}
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
-        //private void OnDestroy()
-        //{
-        //    SceneManager.sceneLoaded -= HandleSceneLoaded;
+        LoadScene(SceneName.MainMenu, null, true);
     }
 
-    public void LoadScene(SceneList sceneToLoad, bool additive)
+    private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    /// <summary>
+    /// Load scene; additive or not.
+    /// </summary>
+    /// <param name="sceneToLoad"></param>
+    /// <param name="sceneToUnload">Pass null if you don't wanna unload nuthin</param>
+    /// <param name="additive"></param>
+    public void LoadScene(SceneName sceneToLoad, SceneName? sceneToUnload, bool additive)
+    {
+        if (sceneToUnload.HasValue)
+        {
+            SceneManager.UnloadSceneAsync(sceneToUnload.Value.ToString());
+        }
+
         SceneManager.LoadScene(sceneToLoad.ToString(), additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
     }
 
-    //private void HandleSceneLoaded(Scene s, LoadSceneMode m)
-    //{
-    //    if (s.name == "FailMenu")
-    //    {
-    //        OnGameOverSceneLoaded.Invoke();
-    //    }
-    //}
+    /// <summary>
+    /// Just sets the active scene.
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.SetActiveScene(scene);
+        OnSceneLoadComplete.Invoke();
+    }
 }
