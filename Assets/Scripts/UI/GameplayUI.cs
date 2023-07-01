@@ -78,7 +78,7 @@ public class GameplayUI : MonoBehaviour
         postProcProfile.TryGet(out v);
         v.intensity.Override(0f);
 
-        player = GameManager.Instance.GetPlayerScript();
+        player = MissionManager.Instance.GetPlayerScript();
         player.OnSwitchWeapons.AddListener(UpdateCurrentWeapon);
         player.OnUpdateEquipment.AddListener(UpdateEquipment);
         Inventory.OnNewItemAddedPlayer.AddListener(UpdateCurrentWeapon);

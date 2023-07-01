@@ -6,23 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 1
     path: Assets/Scenes/FailMenu.unity
     guid: 2ee4d263f7b5e49e2846a4517a363cdb
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Survival.unity
+    path: Assets/Scenes/MainMenu.unity
+    guid: 7c5122177a87d4a5e9176f6506a00b9f
+  - enabled: 1
+    path: Assets/Scenes/Mission.unity
     guid: 85d61682163336b42b1d660a939fb6dd
+  - enabled: 1
+    path: Assets/Scenes/Bootstrap.unity
+    guid: 9144454adce004d8e955dad83322b96b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1d73b7380b8dd452ea93c0e627f4dd9d, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: cc4772a0e8991084c9a6642a5fabac63, type: 2}

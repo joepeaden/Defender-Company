@@ -94,7 +94,7 @@ public static class PlayerInput
 	{
 		// generally I don't like having more processing in here, but it seemed appropriate.
 		Vector3 mousePosition = cntxt.ReadValue<Vector2>();
-		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(GameManager.Instance.GetPlayerGO().transform.position);
+		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(MissionManager.Instance.GetPlayerGO().transform.position);
 		Vector3 normalizedMouseInput = (mousePosition - playerPositionScreen).normalized;
 		rotationInput = normalizedMouseInput;
 		usingMouseForRotation = true;

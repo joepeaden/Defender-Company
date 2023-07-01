@@ -31,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
     {
         data = WaveManager.Instance.GetWaveData();
 
-        GameManager.OnGameOver.AddListener(Reset);
+        MissionManager.OnMissionEnd.AddListener(Reset);
 
         // for reloading the scene
         spawnableEnemyPrefabs.Clear();
@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>
     /// Reset at game over
     /// </summary>
-    private void Reset()
+    private void Reset(bool playerWon)
     {
         waveNumber = 0;
     }

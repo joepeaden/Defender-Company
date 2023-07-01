@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// This is the game over UI... not just "Menu"
+/// </summary>
 public class MenuUI : MonoBehaviour
 {
     [SerializeField]

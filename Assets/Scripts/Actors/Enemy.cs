@@ -223,7 +223,7 @@ public class Enemy : MonoBehaviour, ISetActive
 	private IEnumerator LookForTarget()
     {
 		// they know where you are.
-		target = GameManager.Instance.GetPlayerGO();
+		target = MissionManager.Instance.GetPlayerGO();
 		actor.target = target.GetComponent<Actor>().GetShootAtMeTransform();
 		yield return null;
 	}

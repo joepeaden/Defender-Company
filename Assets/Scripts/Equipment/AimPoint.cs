@@ -12,7 +12,7 @@ public class AimPoint : MonoBehaviour
 
     private void Start()
     {
-        OnTargetInSights.AddListener(GameManager.Instance.GetPlayerScript().HandleTargetInSights);
+        OnTargetInSights.AddListener(MissionManager.Instance.GetPlayerScript().HandleTargetInSights);
     }
 
     private void Update()

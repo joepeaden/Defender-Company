@@ -1,23 +1,19 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static UnityEvent OnSceneLoadComplete = new UnityEvent();
+
     public static SceneLoader Instance { get { return _instance; } }
     private static SceneLoader _instance;
 
     public enum SceneName
     {
         MainMenu,
-        Survival
+        Mission
     }
-
-    [SerializeField] private GameObject startMenuGO;
-    [SerializeField] private GameObject mainMenuGO;
-    [SerializeField] private GameObject missionSelectGO;
-    [SerializeField] private GameObject marketGO;
-
-    private GameObject currentlyLoadedScreen;
 
     private void Awake()
     {
@@ -30,50 +26,40 @@ public class SceneLoader : MonoBehaviour
         }
         _instance = this;
 
-        currentlyLoadedScreen = startMenuGO;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        LoadScene(SceneName.MainMenu, null, true);
     }
 
-    public void DisplayMainMenu()
+    private void OnDestroy()
     {
-        LoadScreen(mainMenuGO);
-    }
-
-    public void DisplayStartMenu()
-    {
-        LoadScreen(startMenuGO);
-    }
-
-    public void DisplayMissionSelect()
-    {
-        LoadScreen(missionSelectGO);
-    }
-
-    public void DisplayMarket()
-    {
-        LoadScreen(marketGO);
-    }
-
-    /// <summary>
-    /// Enable the screenToOpen, disable currentlyLoadedScreen, and set new currentlyLoadedScreen
-    /// </summary>
-    /// <remarks>
-    /// Called through the editor at least in the main menu
-    /// </remarks>
-    /// <param name="screenToOpen"></param>
-    public void LoadScreen(GameObject screenToOpen)
-    {
-        screenToOpen.SetActive(true);
-        currentlyLoadedScreen.SetActive(false);
-        currentlyLoadedScreen = screenToOpen;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
     /// Load scene; additive or not.
     /// </summary>
     /// <param name="sceneToLoad"></param>
+    /// <param name="sceneToUnload">Pass null if you don't wanna unload nuthin</param>
     /// <param name="additive"></param>
-    public void LoadScene(SceneName sceneToLoad, bool additive)
+    public void LoadScene(SceneName sceneToLoad, SceneName? sceneToUnload, bool additive)
     {
+        if (sceneToUnload.HasValue)
+        {
+            SceneManager.UnloadSceneAsync(sceneToUnload.Value.ToString());
+        }
+
         SceneManager.LoadScene(sceneToLoad.ToString(), additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Just sets the active scene.
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.SetActiveScene(scene);
+        OnSceneLoadComplete.Invoke();
     }
 }

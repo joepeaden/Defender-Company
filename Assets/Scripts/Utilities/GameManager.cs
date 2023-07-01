@@ -1,114 +1,27 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 /// <summary>
-/// Has references to the player.
+/// Handles transitions between Mission and Menu.
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-    public static UnityEvent OnGameOver = new UnityEvent();
-
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
-    public static bool isSlowMotion;
-    // should be in SO probably
-    public static float slowMotionSpeed = .5f;
-
-    [SerializeField] private GameObject playerGO;
-    private Player player;
-
-    private AudioSource genericSoundPlayer;
-
     private void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
-            Debug.Log("More than one Game Manager, deleting one.");
-            Destroy(this.gameObject);
-            return;
-        }
-        else
-        {
-            _instance = this;
-        }
-
-        if (!playerGO)
-        {
-            Debug.LogWarning("Player not assigned, finding by tag.");
-            playerGO = GameObject.FindGameObjectWithTag("Player");
-
-            if (!playerGO)
-            {
-                Debug.LogWarning("Player not found by tag.");
-            }
-        }
-
-        player = playerGO.GetComponent<Player>();
-        player.OnPlayerDeath.AddListener(GameOver);
-
-        PlayerInput.InitializeControls();
-
-        // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
-        //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
+        MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
     }
 
-    public void OnDestroy()
+    private void HandleMissionEnd(bool playerWon)
     {
-        player.OnPlayerDeath.RemoveListener(GameOver);
+        SceneLoader.OnSceneLoadComplete.AddListener(LoadAARScreen);
+        SceneLoader.Instance.LoadScene(SceneLoader.SceneName.MainMenu, SceneLoader.SceneName.Mission, true);
     }
 
     /// <summary>
-    /// Creates a new object with an audio source component to play the sound. One use of this is classes that aren't monobehaviours needing to play audio. 
+    /// Load AAR screen after the menu scene has loaded.
     /// </summary>
-    /// <param name="clip"></param>
-    public void PlaySound(AudioClip clip)
+    private void LoadAARScreen()
     {
-        if (genericSoundPlayer == null)
-        {
-            GameObject soundPlayerGO = Instantiate(new GameObject());
-            soundPlayerGO.name = "GM Sound Player";
-            genericSoundPlayer = soundPlayerGO.AddComponent<AudioSource>();
-            genericSoundPlayer.volume = 1f;
-        }
-        
-        genericSoundPlayer.clip = clip;
-        genericSoundPlayer.Play();
-        
-    }
-
-    public Player GetPlayerScript()
-    {
-        return player;
-    }
-
-    public GameObject GetPlayerGO()
-    {
-        return playerGO;
-    }
-
-    public void StartSlowMotion(float secondsToWait)
-    {
-        StartCoroutine(StartSlowMotionRoutine(secondsToWait));
-    }
-
-    private IEnumerator StartSlowMotionRoutine(float secondsToWait)
-    {
-        yield return new WaitForSeconds(secondsToWait);
-
-        isSlowMotion = true;
-        Time.timeScale = slowMotionSpeed;
-
-        yield return new WaitForSeconds(2.75f);
-
-        isSlowMotion = false;
-        Time.timeScale = 1f;
-    }
-
-    private void GameOver()
-    {
-        OnGameOver.Invoke();
-        //SceneLoader.Instance.LoadScene(SceneLoader.SceneName.FailMenu, true);
+        SceneLoader.OnSceneLoadComplete.RemoveListener(LoadAARScreen);
+        MenuScreenManager.Instance.DisplayAAR();
     }
 }

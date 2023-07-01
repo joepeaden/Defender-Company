@@ -10,13 +10,13 @@ public class Scoreboard : MonoBehaviour
     private void Start()
     {
         Enemy.OnEnemyKilled.AddListener(AddPoints);
-        GameManager.OnGameOver.AddListener(ResetPoints);
+        MissionManager.OnMissionEnd.AddListener(ResetPoints);
     }
 
     private void OnDestroy()
     {
         Enemy.OnEnemyKilled.RemoveListener(AddPoints);
-        GameManager.OnGameOver.RemoveListener(ResetPoints);
+        MissionManager.OnMissionEnd.RemoveListener(ResetPoints);
     }
 
     private static void AddPoints(int points)
@@ -42,7 +42,7 @@ public class Scoreboard : MonoBehaviour
         return false;
     }
 
-    private void ResetPoints()
+    private void ResetPoints(bool playerWon)
     {
         totalScore = 0;
     }

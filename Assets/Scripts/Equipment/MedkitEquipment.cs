@@ -28,7 +28,7 @@ public class MedkitEquipment : Equipment
 
                 // hmm. the thing is, this class is not a monobehavior. So it needs access to a gameobject to play audio. So for now,
                 // just have the manager make one and play the sound.
-                GameManager.Instance.PlaySound(medData.soundEffect);
+                MissionManager.Instance.PlaySound(medData.soundEffect);
 
                 return true;
             }
