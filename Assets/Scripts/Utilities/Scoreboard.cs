@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events; 
 
+/// <summary>
+/// Handles in-mission point scoring.
+/// </summary>
 public class Scoreboard : MonoBehaviour
 {
     public static UnityEvent<int> OnScoreUpdated = new UnityEvent<int>();

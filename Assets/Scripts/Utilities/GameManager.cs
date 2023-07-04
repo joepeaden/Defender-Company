@@ -5,6 +5,10 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // will eventually move these data into a seperate class.
+    private int PlayerCash => playerCash;
+    private int playerCash;
+
     private void Awake()
     {
         MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);

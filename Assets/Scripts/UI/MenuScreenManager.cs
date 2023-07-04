@@ -15,6 +15,16 @@ public class MenuScreenManager : MonoBehaviour
 
     void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Debug.Log("More than one Gameplay UI, deleting one.");
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
         currentlyLoadedScreen = startMenuGO;
     }
 
@@ -23,7 +33,7 @@ public class MenuScreenManager : MonoBehaviour
     /// </summary>
     public void DisplayAAR()
     {
-        LoadScreen(mainMenuGO);
+        LoadScreen(aarGo);
     }
 
     /// <remarks>
