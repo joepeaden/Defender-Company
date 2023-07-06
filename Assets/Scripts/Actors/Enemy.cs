@@ -14,6 +14,7 @@ using UnityEngine.Events;
 public class Enemy : MonoBehaviour, ISetActive
 {
 	public static UnityEvent<int> OnEnemyKilled = new UnityEvent<int>();
+	public static UnityEvent OnEnemySpawned = new UnityEvent();
 
 	[SerializeField]
 	private ControllerData data;
@@ -49,10 +50,7 @@ public class Enemy : MonoBehaviour, ISetActive
 			Activate();
 		}
 
-		if (actor.IsAlive)
-		{
-			MissionManager.enemiesAlive++;
-		}
+		OnEnemySpawned.Invoke();
 	}
 
     private void OnDestroy()
@@ -234,12 +232,6 @@ public class Enemy : MonoBehaviour, ISetActive
 	private void HandleEnemyDeath()
     {
 		StopAllCoroutines();
-
-		if (!actor.IsAlive)
-		{
-			MissionManager.enemiesAlive--;
-		}
-
 		OnEnemyKilled.Invoke(data.scoreValue);
 	}
 
