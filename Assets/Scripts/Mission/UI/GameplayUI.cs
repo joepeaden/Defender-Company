@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// Class for UI that is specific to in-level gameplay.
@@ -56,8 +55,6 @@ public class GameplayUI : MonoBehaviour
             _instance = this;
         }
 
-        WaveManager.OnPrepForNextWave.AddListener(StartNewWaveCoroutine);
-        WaveManager.OnWaveEnd.AddListener(ShowRewardUI);
         Scoreboard.OnScoreUpdated.AddListener(UpdateScore);
 
         confirmRewardButton.onClick.AddListener(HandleRewardConfirm);
@@ -103,8 +100,6 @@ public class GameplayUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        WaveManager.OnPrepForNextWave.RemoveListener(StartNewWaveCoroutine);
-        WaveManager.OnWaveEnd.RemoveListener(ShowRewardUI);
         player.OnSwitchWeapons.RemoveListener(UpdateCurrentWeapon);
         player.OnUpdateEquipment.RemoveListener(UpdateEquipment);
         Scoreboard.OnScoreUpdated.RemoveListener(UpdateScore);
