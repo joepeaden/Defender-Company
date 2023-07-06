@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour, ISetActive
 
 		if (actor.IsAlive)
 		{
-			WaveManager.totalEnemiesAlive++;
+			MissionManager.enemiesAlive++;
 		}
 	}
 
@@ -237,7 +237,7 @@ public class Enemy : MonoBehaviour, ISetActive
 
 		if (!actor.IsAlive)
 		{
-			WaveManager.totalEnemiesAlive--;
+			MissionManager.enemiesAlive--;
 		}
 
 		OnEnemyKilled.Invoke(data.scoreValue);

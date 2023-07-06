@@ -777,33 +777,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4578700069549726016, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 182226814}
-    - targetCorrespondingSourceObject: {fileID: 4578700069549726016, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 182226818}
-    - targetCorrespondingSourceObject: {fileID: 4578700069549726016, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 182226823}
   m_SourcePrefab: {fileID: 100100000, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
 --- !u!1 &182226813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4578700069549726016, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
   m_PrefabInstance: {fileID: 182226812}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &182226814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182226813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22003ae43a1584f139fecdb340a7bc2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialWaveNum: 0
-  waveData: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!114 &182226818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,33 +801,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4578700069549726018, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
   m_PrefabInstance: {fileID: 182226812}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &182226823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182226813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d0ca5a21f7604977b71233041c4ba46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dataStore: {fileID: 8100413924085744880, guid: 9641dce66f7be442cb3b438f138cfd0b, type: 3}
-  lootPrefab: {fileID: 5267115507854621970, guid: 3ee170151b6a64ab2ba7f74d6b0b2ee6, type: 3}
-  spawnPoints:
-  - {fileID: 761365858}
-  - {fileID: 1032979677}
-  - {fileID: 414801525}
-  - {fileID: 816083367}
-  - {fileID: 1111208773}
-  - {fileID: 229967737}
-  - {fileID: 316099675}
-  - {fileID: 1532307219}
-  - {fileID: 1600259199}
-  - {fileID: 1709134925}
-  - {fileID: 1993859978}
-  - {fileID: 1418483235}
 --- !u!1 &187887141
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!4 &187887143
 Transform:
   m_ObjectHideFlags: 0
@@ -1274,6 +1228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!4 &272368695
 Transform:
   m_ObjectHideFlags: 0
@@ -1626,6 +1581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!1 &324684234
 GameObject:
   m_ObjectHideFlags: 0
@@ -3982,6 +3938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 1
+  data: {fileID: 0}
 --- !u!1 &924464032
 GameObject:
   m_ObjectHideFlags: 0
@@ -4067,6 +4024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!33 &944606737
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -6160,6 +6118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!33 &1540079214
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7740,6 +7699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!33 &1860308771
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7823,6 +7783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!4 &1902672204
 Transform:
   m_ObjectHideFlags: 0
@@ -8121,6 +8082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesParent: {fileID: 9518769}
   canSpawnOnScreen: 0
+  data: {fileID: 11400000, guid: f036966372d2993439e04770f06d7a32, type: 2}
 --- !u!1 &1993859977
 GameObject:
   m_ObjectHideFlags: 0

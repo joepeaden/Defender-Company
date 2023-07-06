@@ -43,6 +43,12 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(BeginFirstWave());
     }
 
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        GameplayUI.OnRewardsPicked.RemoveListener(HandleRewardsPicked);
+    }
+
     /// <summary>
     /// Handle rewards picked event.
     /// </summary>
@@ -70,7 +76,8 @@ public class WaveManager : MonoBehaviour
             OnPrepForNextWave.Invoke();
 
             // start next wave
-            EnemySpawner.NextWave();
+            // commented out cause compiler issues and not using rn
+            //EnemySpawner.NextWave();
 
             // wait until something is spawned
             yield return new WaitUntil(() => totalEnemiesAlive > 0);
@@ -88,11 +95,5 @@ public class WaveManager : MonoBehaviour
     public WaveData GetWaveData()
     {
         return waveData;
-    }
-
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-        GameplayUI.OnRewardsPicked.RemoveListener(HandleRewardsPicked);
     }
 }

@@ -13,6 +13,12 @@ public class MissionManager : MonoBehaviour
     public static UnityEvent<bool> OnMissionEnd = new UnityEvent<bool>();
     public static UnityEvent OnMissionStart = new UnityEvent();
 
+    public static Mission CurrentMisison => currentMission;
+    private static Mission currentMission;
+    // reimplement later - do it clean
+    //public static int EnemiesAlive => enemiesAlive;
+    public static int enemiesAlive;
+
     private static MissionManager _instance;
     public static MissionManager Instance { get { return _instance; } }
     public static bool isSlowMotion;
@@ -53,16 +59,46 @@ public class MissionManager : MonoBehaviour
 
         PlayerInput.InitializeControls();
 
-        // notify anyone who cares - mission is a go!
-        OnMissionStart.Invoke();
-
         // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
         //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
     }
 
-    public void OnDestroy()
+    private void Start()
+    {
+        Mission mission = new Mission();
+        mission.enemyCount = 10;
+        mission.victoryCondition = Mission.VictoryCondition.EliminateAllEnemies;
+        InitializeMission(mission);
+    }
+
+    private void OnDestroy()
     {
         player.OnPlayerDeath.RemoveListener(HandlePlayerDeath);
+    }
+
+    private void InitializeMission(Mission mission)
+    {
+        currentMission = mission;
+        switch (mission.victoryCondition)
+        {
+            case Mission.VictoryCondition.EliminateAllEnemies:
+                StartCoroutine(CheckForAllEnemiesEliminated());
+                break;
+        }
+
+        // notify anyone who cares - mission is a go!
+        OnMissionStart.Invoke();
+    }
+
+    private IEnumerator CheckForAllEnemiesEliminated()
+    {
+        while (EnemySpawner.totalEnemiesSpawned < currentMission.enemyCount || enemiesAlive > 0)
+        {
+            yield return new WaitForSeconds(1f);
+
+        }
+
+        EndMission(true);
     }
 
     /// <summary>
@@ -114,6 +150,11 @@ public class MissionManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
-        OnMissionEnd.Invoke(false);
+        EndMission(false);
+    }
+
+    private void EndMission(bool playerWon)
+    {
+        OnMissionEnd.Invoke(playerWon);
     }
 }
