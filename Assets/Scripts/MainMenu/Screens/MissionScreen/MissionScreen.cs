@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Handles the Mission Screen obviously
+/// </summary>
 public class MissionScreen : MonoBehaviour
 {
     [SerializeField] private List<MissionData> missions;

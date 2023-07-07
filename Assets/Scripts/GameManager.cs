@@ -11,12 +11,15 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
 
-    // will eventually move these data into a seperate class.
-    private int PlayerCash => playerCash;
+    // will eventually move these data into a seperate class for saving.
+    public int PlayerCash => playerCash;
     private int playerCash;
 
     public MissionData CurrentMission => currentMission;
     private MissionData currentMission;
+
+    public bool PlayerWonLastMission => playerWonLastMission;
+    private bool playerWonLastMission;
 
     private void Awake()
     {
@@ -44,6 +47,12 @@ public class GameManager : MonoBehaviour
     {
         SceneLoader.OnSceneLoadComplete.AddListener(LoadAARScreen);
         SceneLoader.Instance.LoadScene(SceneLoader.SceneName.MainMenu, SceneLoader.SceneName.Mission, true);
+        playerWonLastMission = playerWon;
+
+        if (playerWonLastMission)
+        {
+            playerCash += currentMission.completionReward;
+        }
     }
 
     /// <summary>
