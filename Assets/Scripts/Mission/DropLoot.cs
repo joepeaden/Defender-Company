@@ -9,7 +9,7 @@ public class DropLoot : MonoBehaviour
     private Actor actor;
 
     // temporary, eventually will do a dropdown to select the loot type.
-    public string lootType;
+    public GearData.GearType gearType;
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public class DropLoot : MonoBehaviour
     private void DropTheLoot()
     {
         Loot l = Instantiate(loot, transform.position, Quaternion.identity).GetComponent<Loot>();
-        l.rewardKey = lootType;
+        l.gearType = gearType;
     }
 
     private void OnDestroy()

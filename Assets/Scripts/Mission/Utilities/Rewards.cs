@@ -30,12 +30,12 @@ public class Rewards : MonoBehaviour
 
     private void Start()
     {
-        GameplayUI.OnRewardsPicked.AddListener(HandleRewardPicked);
+        MissionUI.OnRewardsPicked.AddListener(HandleRewardPicked);
     }
 
     private void OnDestroy()
     {
-        GameplayUI.OnRewardsPicked.RemoveListener(HandleRewardPicked);
+        MissionUI.OnRewardsPicked.RemoveListener(HandleRewardPicked);
     }
 
     public List<ShopItem> GetRewardShopItems()
@@ -54,7 +54,8 @@ public class Rewards : MonoBehaviour
     private void HandleRewardPicked(ShopItem reward)
     {
         // no reward was picked
-        if (reward.rewardKey == null)
+        // this won't work anymore! Used to be a string but NO MORE!
+        if (reward.gearType == null)
         {
             return;
         }
@@ -73,7 +74,7 @@ public class Rewards : MonoBehaviour
             Loot loot = Instantiate(lootPrefab, spawnPoints[spawnPointIndex].position, Quaternion.identity).GetComponent<Loot>();
             if (loot)
             {
-                loot.rewardKey = reward.rewardKey;
+                loot.gearType = reward.gearType;
             }
             else
             {
@@ -90,13 +91,13 @@ public class Rewards : MonoBehaviour
 
 public struct ShopItem
 {
-    public string rewardKey;
+    public GearData.GearType gearType;
     public int cost;
     public string displayName;
 
-    public ShopItem(ShopRewardData data)
+    public ShopItem(GearData data)
     {
-        rewardKey = data.rewardKey;
+        gearType = data.gearType;
         cost = data.cost;
         displayName = data.displayName;
     }

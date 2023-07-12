@@ -8,12 +8,16 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 
 /// <summary>
-/// Class for UI that is specific to in-level gameplay.
+/// Class for UI that is specific to Mission gameplay.
 /// </summary>
-public class GameplayUI : MonoBehaviour
+/// <remarks>
+/// The rewards screen in here isn't used any more, and neither is the game over stuff. However you could add the pause screen in here. Could just replace
+/// rewards screen with pause screen (reuse code and UI).
+/// </remarks>
+public class MissionUI : MonoBehaviour
 {
-    public static GameplayUI Instance { get { return _instance; } }
-    private static GameplayUI _instance;
+    public static MissionUI Instance { get { return _instance; } }
+    private static MissionUI _instance;
 
     public static UnityEvent<ShopItem> OnRewardsPicked = new UnityEvent<ShopItem>();
 
@@ -169,7 +173,7 @@ public class GameplayUI : MonoBehaviour
     public void HandleRewardPicked(ShopItem shopItem)
     {
         // if it's the same button, deselect the reward by making a blank one.
-        if (shopItem.rewardKey == pickedRewardItem.rewardKey)
+        if (shopItem.gearType == pickedRewardItem.gearType)
         {
             // this could be better. Instantiating a new object every time isn't really necessary.
             // I don't care though. But now you know that I know. Bro.

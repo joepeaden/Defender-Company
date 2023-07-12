@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "MyScriptables/WeaponData")]
-public class WeaponData : ShopRewardData
+public class WeaponData : GearData
 {
 	public GameObject projectile;
 	public float recoil;

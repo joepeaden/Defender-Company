@@ -8,7 +8,7 @@ public class ShopItemButton : MonoBehaviour
     /// <summary>
     /// Param is rewardKey to compare. Used for updating button visuals/interactability when another button is selected.
     /// </summary>
-    private static UnityEvent<string> OnAShopButtonClicked = new UnityEvent<string>();
+    private static UnityEvent<GearData.GearType> OnAShopButtonClicked = new UnityEvent<GearData.GearType>();
     public static UnityEvent<Button> OnNewHoveredButton = new UnityEvent<Button>();
 
     [SerializeField] private TMP_Text label;
@@ -71,14 +71,14 @@ public class ShopItemButton : MonoBehaviour
     {
         if (!tooExpensive)
         {
-            GameplayUI.Instance.HandleRewardPicked(item);
-            OnAShopButtonClicked.Invoke(item.rewardKey);
+            MissionUI.Instance.HandleRewardPicked(item);
+            OnAShopButtonClicked.Invoke(item.gearType);
         }
     }
 
-    private void CheckIfSelected(string key)
+    private void CheckIfSelected(GearData.GearType key)
     {
-        isSelected = key == item.rewardKey;
+        isSelected = key == item.gearType;
         UpdateVisuals();
     }
 

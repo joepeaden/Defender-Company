@@ -4,10 +4,6 @@ using UnityEngine.Events;
 /// <summary>
 /// Controller for the player, also handles a few player specific things like death.
 /// </summary>
-/// <remarks>
-/// Honestly I kind of feel like input should be handled in its own class. Because then it would be very easy to find, understand, debug.
-/// But I don't feel like it at the moment.
-/// </remarks>
 public class Player : MonoBehaviour
 {
 	public UnityEvent<InventoryWeapon> OnSwitchWeapons = new UnityEvent<InventoryWeapon>();
@@ -48,7 +44,24 @@ public class Player : MonoBehaviour
 		actor.OnDeath.AddListener(HandlePlayerDeath);
 		actor.OnGetHit.AddListener(HandleGetHit);
 		actor.OnHeal.AddListener(HandleHeal);
-		actor.SetWeaponFromData(startWeapon);
+		//actor.SetWeaponFromData(startWeapon);
+
+		// add weapons the player owns - for now.
+		foreach (GearData gear in GameManager.Instance.Company.GetOwnedGear().Values)
+		{
+			if (gear as WeaponData)
+            {
+				actor.GetInventory().AttemptAddItem(new InventoryWeapon((WeaponData)gear));
+            }
+			else if (gear as MedkitData)
+			{
+				actor.GetInventory().AttemptAddItem(new MedkitEquipment((MedkitData)gear));
+			}
+			else if (gear as ExplosiveData)
+			{
+				actor.GetInventory().AttemptAddItem(new ExplosiveEquipment((ExplosiveData)gear));
+			}
+		}
 	}
 
     private void OnEnable()
@@ -63,7 +76,7 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
-		if (!GameplayUI.Instance || !GameplayUI.Instance.InMenu())
+		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
 		{
 			if (attemptingToFire)
 			{
@@ -80,7 +93,7 @@ public class Player : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (!GameplayUI.Instance || !GameplayUI.Instance.InMenu())
+		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
 		{
 			// rotation is based on movement when sprinting and rotation input when otherwise. So need this.
 			Vector2 rotationInputToUse;
@@ -274,12 +287,12 @@ public class Player : MonoBehaviour
 
 	private void HandleHeal()
     {
-		GameplayUI.Instance.HealthFlash();
+		MissionUI.Instance.HealthFlash();
 		UpdateHealthUI();
     }
 
 	private void UpdateHealthUI()
     {
-		GameplayUI.Instance.SetVignette(1f - ((float) actor.HitPoints) / ((float) actor.MaxHitPoints));
+		MissionUI.Instance.SetVignette(1f - ((float) actor.HitPoints) / ((float) actor.MaxHitPoints));
 	}
 }

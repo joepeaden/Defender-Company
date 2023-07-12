@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
         InventoryWeapon inventoryWeapon;
 
         inventoryWeapon = new InventoryWeapon(weaponData);
-        inventoryWeapon.rewardKey = weaponData.rewardKey;
+        inventoryWeapon.gearType = weaponData.gearType;
 
         //if (hasRifle)
         //{
@@ -105,7 +105,7 @@ public class Inventory : MonoBehaviour
         {
             // check if actor already has this weapon (if it even is a weapon)
             InventoryWeapon existingInventoryWeapon;
-            existingInventoryWeapon = weapons.Where(x => x.data.rewardKey.Equals(item.rewardKey)).FirstOrDefault<InventoryWeapon>();
+            existingInventoryWeapon = weapons.Where(x => x.data.gearType.Equals(item.gearType)).FirstOrDefault<InventoryWeapon>();
 
             InventoryItem itemToAddAmountTo = item;
             if (item as InventoryWeapon != null)
