@@ -42,9 +42,7 @@ public class MarketScreen : MonoBehaviour
         if (displayedGear.cost <= GameManager.Instance.Company.PlayerCash)
         {
             GameManager.Instance.Company.AddCash(-displayedGear.cost);
-            GameManager.Instance.Company.AddOwnedItem(displayedGear);
-
-
+            GameManager.Instance.Company.AddOwnedGear(displayedGear);
 
             // can optimize by just removing the button from market and adding to owned.
             RefreshMarket();

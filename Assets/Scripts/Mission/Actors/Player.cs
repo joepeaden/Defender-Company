@@ -44,9 +44,8 @@ public class Player : MonoBehaviour
 		actor.OnDeath.AddListener(HandlePlayerDeath);
 		actor.OnGetHit.AddListener(HandleGetHit);
 		actor.OnHeal.AddListener(HandleHeal);
-		//actor.SetWeaponFromData(startWeapon);
 
-		// add weapons the player owns - for now.
+		// add weapons the player owns - for now. This needs to be cleaned up where you can just AttemptAddItem and pass in the GearData.
 		foreach (GearData gear in GameManager.Instance.Company.GetOwnedGear().Values)
 		{
 			if (gear as WeaponData)

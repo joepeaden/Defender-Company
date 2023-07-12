@@ -23,7 +23,7 @@ public class PlayerCompany
         playerCash += amount;
     }
 
-    public void AddOwnedItem(GearData gear)
+    public void AddOwnedGear(GearData gear)
     {
         ownedGear.Add(gear.gearType, gear);
     }
