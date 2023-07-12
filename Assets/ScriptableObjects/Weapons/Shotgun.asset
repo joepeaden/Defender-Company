@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
+  gearType: 5
   displayName: Shotgun
   rewardKey: SHOTGUN
   cost: 5000

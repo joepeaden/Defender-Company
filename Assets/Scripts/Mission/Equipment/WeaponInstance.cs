@@ -271,7 +271,7 @@ public class WeaponInstance : MonoBehaviour
 
         if (_Actor.IsPlayer)
         {
-            GameplayUI.Instance.StartReloadBarAnimation(inventoryWeapon.data.reloadTime);
+            MissionUI.Instance.StartReloadBarAnimation(inventoryWeapon.data.reloadTime);
         }
 
         yield return new WaitForSeconds(inventoryWeapon.data.reloadTime);

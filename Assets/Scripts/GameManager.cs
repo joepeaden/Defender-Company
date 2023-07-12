@@ -8,18 +8,20 @@ using UnityEngine;
 /// </remarks>
 public class GameManager : MonoBehaviour
 {
+    // data store for market items
+    [SerializeField] private InventoryItemDataStorage dataStore;
+
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
-
-    // will eventually move these data into a seperate class for saving.
-    public int PlayerCash => playerCash;
-    private int playerCash;
 
     public MissionData CurrentMission => currentMission;
     private MissionData currentMission;
 
     public bool PlayerWonLastMission => playerWonLastMission;
     private bool playerWonLastMission;
+
+    public PlayerCompany Company => company;
+    private PlayerCompany company;
 
     private void Awake()
     {
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        company = new PlayerCompany(dataStore);
 
         MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
     }
@@ -51,7 +55,7 @@ public class GameManager : MonoBehaviour
 
         if (playerWonLastMission)
         {
-            playerCash += currentMission.completionReward;
+            company.AddCash(currentMission.completionReward);
         }
     }
 

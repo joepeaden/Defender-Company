@@ -11,7 +11,7 @@ public class Loot : Interactable, ISetActive
 
     public InventoryItem item;
     // temporary, eventually will do a dropdown to select the loot type.
-    public string rewardKey;
+    public GearData.GearType gearType;
 
     private MeshRenderer rend;
 
@@ -22,37 +22,37 @@ public class Loot : Interactable, ISetActive
 
     private void Start()
     {
-        switch (rewardKey)
+        switch (gearType)
         {
-            case "BOMB":
+            case GearData.GearType.PlasticExplosive:
                 item = new ExplosiveEquipment(dataStorage.plasticExplosive);
                 break;
-            case "MEDKIT":
+            case GearData.GearType.Medkit:
                 item = new MedkitEquipment(dataStorage.medkit);
                 break;
-            case "RIFLE":
+            case GearData.GearType.AssaultRifle:
                 item = new InventoryWeapon(dataStorage.assaultRifle);
                 break;
-            case "SMG":
+            case GearData.GearType.SubMachineGun:
                 item = new InventoryWeapon(dataStorage.subMachineGun);
                 break;
-            case "SAR":
+            case GearData.GearType.SemiAutoRifle:
                 item = new InventoryWeapon(dataStorage.semiAutoRifle);
                 break;
-            case "SHOTGUN":
+            case GearData.GearType.Shotgun:
                 item = new InventoryWeapon(dataStorage.shotgun);
                 break;
-            case "PISTOL":
+            case GearData.GearType.Pistol:
                 item = new InventoryWeapon(dataStorage.pistol);
                 break;
-            case "PSA":
+            case GearData.GearType.Sabre:
                 item = new InventoryWeapon(dataStorage.psaSabre);
                 break;
         }
 
-        item.rewardKey = rewardKey;
+        item.gearType = gearType;
 
-        GameplayUI.Instance.AddObjectiveMarker(this.gameObject, "SUPPORT");
+        MissionUI.Instance.AddObjectiveMarker(this.gameObject, "SUPPORT");
     }
 
     public override void Interact(Actor a)

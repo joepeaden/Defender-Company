@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4c878b0d74e5429d83430ce6c8f280d, type: 3}
   m_Name: PlasticExplosive
   m_EditorClassIdentifier: 
+  gearType: 1
   displayName: Bombs
   rewardKey: BOMB
   cost: 200

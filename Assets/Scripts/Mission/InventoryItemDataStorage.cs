@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Just ease of access for getting gear SOs. Could probably look more into addressables and fix this
+/// </summary>
 public class InventoryItemDataStorage : MonoBehaviour
 {
     public MedkitData medkit;

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
   m_Name: AssaultRifleData
   m_EditorClassIdentifier: 
+  gearType: 2
   displayName: Assault Rifle
   rewardKey: RIFLE
   cost: 200
