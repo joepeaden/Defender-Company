@@ -33,13 +33,13 @@ public class Enemy : MonoBehaviour, ISetActive
 		// probably should make like an init method for the actor.... but since it's really just two controllers and not likely to grow...
 		// whatever.
 		actor = GetComponent<Actor>();
-		actor.team = Actor.ActorTeam.Enemy;
-		actor.SetAgentSpeed(data.navAgentSpeed);
-		actor.OnGetHit.AddListener(RecoverFromHit);
     }
 
 	private void Start()
 	{
+		actor.team = Actor.ActorTeam.Enemy;
+		actor.SetAgentSpeed(data.navAgentSpeed);
+		actor.OnGetHit.AddListener(RecoverFromHit);
 		actor.AddCoverListener(ActorHasPotentialCover);
 		actor.OnDeath.AddListener(HandleEnemyDeath);
 

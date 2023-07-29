@@ -107,7 +107,7 @@ public class Actor : MonoBehaviour
 		mainCollider = GetComponent<CapsuleCollider>();
 		interactSensor = GetComponentInChildren<ActorInteractSensor>();
 		rigidBody = GetComponent<Rigidbody>();
-		navAgent = GetComponent<NavMeshAgent>();
+		navAgent =  GetComponent<NavMeshAgent>();
 		audioSource = GetComponent<AudioSource>();
 		inventory = GetComponent<Inventory>();
 		HitPoints = data.hitPoints;
@@ -261,7 +261,7 @@ public class Actor : MonoBehaviour
 
         newLookTarget.y = transform.position.y;
         lookTarget = newLookTarget;
-        transform.LookAt(lookTarget);
+		transform.LookAt(lookTarget);
 	}
 
 	public bool AttemptSwitchWeapons()
