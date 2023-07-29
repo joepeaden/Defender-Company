@@ -8,11 +8,19 @@ public class ActorSprite : MonoBehaviour
 {
     [SerializeField] private Actor actor;
     [SerializeField] private GameObject bloodPoofEffect;
+    [SerializeField] private Sprite actorFrontFacing;
+    [SerializeField] private Sprite actorBackFacing;
+    [SerializeField] private Sprite actorRightFacing;
+    [SerializeField] private Sprite actorLeftFacing;
+
+    private SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
-    
+
     void Start()
     {
         actor.OnDeath.AddListener(HandleActorDeath);
+
+        spriteRend = GetComponent<SpriteRenderer>();
 
         // leaving all this in just in case we add anims later.
         //actor.OnGetHit.AddListener(HandleActorHit);
@@ -20,6 +28,12 @@ public class ActorSprite : MonoBehaviour
         //actor.OnStand.AddListener(HandleStand);
         //reloadClip = ragAnim.runtimeAnimatorController.animationClips.Where(clip => clip.name == "Reload").FirstOrDefault();
         //actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
+    }
+
+    private void OnDestroy()
+    {
+        actor.OnDeath.RemoveListener(HandleActorDeath);
+        actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
     }
 
     private void HandleActorDeath()
@@ -35,10 +49,29 @@ public class ActorSprite : MonoBehaviour
         Destroy(poof);
     }
 
-    private void OnDestroy()
+    private void Update()
+    {  
+        if (actor.RotationParent.rotation.eulerAngles.y > 315 || actor.RotationParent.rotation.eulerAngles.y < 45)
+        {
+            spriteRend.sprite = actorBackFacing;
+        }
+        else if (actor.RotationParent.rotation.eulerAngles.y > 225 && actor.RotationParent.rotation.eulerAngles.y < 315)
+        {
+            spriteRend.sprite = actorLeftFacing;
+        }
+        else if (actor.RotationParent.rotation.eulerAngles.y > 135 && actor.RotationParent.rotation.eulerAngles.y < 225)
+        {
+            spriteRend.sprite = actorFrontFacing;
+        }
+        else
+        {
+            spriteRend.sprite = actorRightFacing;
+        }
+    }
+
+    private void LateUpdate()
     {
-        actor.OnDeath.RemoveListener(HandleActorDeath);
-        actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
+        transform.position = actor.RotationParent.position;
     }
 
     // leaving all this in just in case we add anims later.

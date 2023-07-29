@@ -69,6 +69,8 @@ public class Actor : MonoBehaviour
 	private NavMeshAgent navAgent;
 	private AudioSource audioSource;
 	private Inventory inventory;
+	public Transform RotationParent => rotationParent;
+	[SerializeField] private Transform rotationParent;
 	#endregion
 
 	private float moveForce;
@@ -107,7 +109,7 @@ public class Actor : MonoBehaviour
 		mainCollider = GetComponent<CapsuleCollider>();
 		interactSensor = GetComponentInChildren<ActorInteractSensor>();
 		rigidBody = GetComponent<Rigidbody>();
-		navAgent = GetComponent<NavMeshAgent>();
+		navAgent =  GetComponent<NavMeshAgent>();
 		audioSource = GetComponent<AudioSource>();
 		inventory = GetComponent<Inventory>();
 		HitPoints = data.hitPoints;
@@ -261,7 +263,7 @@ public class Actor : MonoBehaviour
 
         newLookTarget.y = transform.position.y;
         lookTarget = newLookTarget;
-        transform.LookAt(lookTarget);
+		rotationParent.LookAt(lookTarget);
 	}
 
 	public bool AttemptSwitchWeapons()
