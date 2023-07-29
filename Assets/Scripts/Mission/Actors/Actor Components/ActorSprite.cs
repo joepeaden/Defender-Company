@@ -51,15 +51,15 @@ public class ActorSprite : MonoBehaviour
 
     private void Update()
     {  
-        if (actor.RotationParent.rotation.eulerAngles.y > 315 || actor.RotationParent.rotation.eulerAngles.y < 45)
+        if (actor.transform.rotation.eulerAngles.y > 315 || actor.transform.rotation.eulerAngles.y < 45)
         {
             spriteRend.sprite = actorBackFacing;
         }
-        else if (actor.RotationParent.rotation.eulerAngles.y > 225 && actor.RotationParent.rotation.eulerAngles.y < 315)
+        else if (actor.transform.rotation.eulerAngles.y > 225 && actor.transform.rotation.eulerAngles.y < 315)
         {
             spriteRend.sprite = actorLeftFacing;
         }
-        else if (actor.RotationParent.rotation.eulerAngles.y > 135 && actor.RotationParent.rotation.eulerAngles.y < 225)
+        else if (actor.transform.rotation.eulerAngles.y > 135 && actor.transform.rotation.eulerAngles.y < 225)
         {
             spriteRend.sprite = actorFrontFacing;
         }
@@ -71,7 +71,7 @@ public class ActorSprite : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = actor.RotationParent.position;
+        transform.position = actor.transform.position;
     }
 
     // leaving all this in just in case we add anims later.

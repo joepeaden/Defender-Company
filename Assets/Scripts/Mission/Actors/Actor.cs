@@ -69,8 +69,6 @@ public class Actor : MonoBehaviour
 	private NavMeshAgent navAgent;
 	private AudioSource audioSource;
 	private Inventory inventory;
-	public Transform RotationParent => rotationParent;
-	[SerializeField] private Transform rotationParent;
 	#endregion
 
 	private float moveForce;
@@ -263,7 +261,7 @@ public class Actor : MonoBehaviour
 
         newLookTarget.y = transform.position.y;
         lookTarget = newLookTarget;
-		rotationParent.LookAt(lookTarget);
+		transform.LookAt(lookTarget);
 	}
 
 	public bool AttemptSwitchWeapons()

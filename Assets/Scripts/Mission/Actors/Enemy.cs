@@ -53,11 +53,6 @@ public class Enemy : MonoBehaviour, ISetActive
 		OnEnemySpawned.Invoke();
 	}
 
-    private void OnDisable()
-    {
-		Debug.Log("disable");
-    }
-
     private void OnDestroy()
     {
 		actor.OnGetHit.RemoveListener(RecoverFromHit);
