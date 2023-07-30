@@ -32,8 +32,6 @@ public class Player : ActorController
 	private new void Start()
 	{
 		base.Start();
-		//actor.OnDeath.AddListener(HandlePlayerDeath);
-		//actor.OnGetHit.AddListener(HandleGetHit);
 		actor.OnHeal.AddListener(HandleHeal);
 
 		// add weapons the player owns - for now. This needs to be cleaned up where you can just AttemptAddItem and pass in the GearData.
@@ -147,8 +145,6 @@ public class Player : ActorController
 	private new void OnDestroy()
 	{
 		base.OnDestroy();
-		//actor.OnDeath.RemoveListener(HandlePlayerDeath);
-		//actor.OnGetHit.RemoveListener(HandleGetHit);
 		actor.OnHeal.RemoveListener(HandleHeal);
 		PlayerInput.OnSprint.RemoveListener(HandleSprintInput);
 		PlayerInput.OnAim.RemoveListener(HandleAimInput);

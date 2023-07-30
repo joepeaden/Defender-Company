@@ -27,10 +27,7 @@ public class Enemy : ActorController, ISetActive
 	{
 		base.Start();
 
-		//actor.OnGetHit.AddListener(RecoverFromHit);
 		actor.AddCoverListener(ActorHasPotentialCover);
-		//actor.OnDeath.AddListener(HandleEnemyDeath);
-
 		actor.SetWeaponFromData(data.startWeapon);
 
 		if (activateOnStart)
