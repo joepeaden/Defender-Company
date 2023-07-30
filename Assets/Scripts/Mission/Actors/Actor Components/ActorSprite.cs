@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,7 @@ public class ActorSprite : MonoBehaviour
     [SerializeField] private Sprite actorBackFacing;
     [SerializeField] private Sprite actorRightFacing;
     [SerializeField] private Sprite actorLeftFacing;
+    [SerializeField] private List<Sprite> deadSprites;
 
     private SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
@@ -38,8 +40,9 @@ public class ActorSprite : MonoBehaviour
 
     private void HandleActorDeath()
     {
-        GameObject poof = Instantiate(bloodPoofEffect, transform.position, Quaternion.identity);
+        spriteRend.sprite = deadSprites[Random.Range(0, deadSprites.Count)];
 
+        GameObject poof = Instantiate(bloodPoofEffect, transform.position, Quaternion.identity);
         StartCoroutine(DeletePoofAfterWait(poof));
     }
 
@@ -50,22 +53,25 @@ public class ActorSprite : MonoBehaviour
     }
 
     private void Update()
-    {  
-        if (actor.transform.rotation.eulerAngles.y > 315 || actor.transform.rotation.eulerAngles.y < 45)
+    {
+        if (actor.IsAlive)
         {
-            spriteRend.sprite = actorBackFacing;
-        }
-        else if (actor.transform.rotation.eulerAngles.y > 225 && actor.transform.rotation.eulerAngles.y < 315)
-        {
-            spriteRend.sprite = actorLeftFacing;
-        }
-        else if (actor.transform.rotation.eulerAngles.y > 135 && actor.transform.rotation.eulerAngles.y < 225)
-        {
-            spriteRend.sprite = actorFrontFacing;
-        }
-        else
-        {
-            spriteRend.sprite = actorRightFacing;
+            if (actor.transform.rotation.eulerAngles.y > 315 || actor.transform.rotation.eulerAngles.y < 45)
+            {
+                spriteRend.sprite = actorBackFacing;
+            }
+            else if (actor.transform.rotation.eulerAngles.y > 225 && actor.transform.rotation.eulerAngles.y < 315)
+            {
+                spriteRend.sprite = actorLeftFacing;
+            }
+            else if (actor.transform.rotation.eulerAngles.y > 135 && actor.transform.rotation.eulerAngles.y < 225)
+            {
+                spriteRend.sprite = actorFrontFacing;
+            }
+            else
+            {
+                spriteRend.sprite = actorRightFacing;
+            }
         }
     }
 

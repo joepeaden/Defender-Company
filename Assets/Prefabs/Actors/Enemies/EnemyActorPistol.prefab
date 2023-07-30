@@ -62,15 +62,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.b
-      value: 0.09759998
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 0.740566
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.75100476
       objectReference: {fileID: 0}
     - target: {fileID: 872553116337195829, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -885,6 +885,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe920899fe8f244a8a1bef5229bb84e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnActorDeath:
+    m_PersistentCalls:
+      m_Calls: []
   data: {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}
   activateOnStart: 1
 --- !u!114 &3634169881766258620 stripped

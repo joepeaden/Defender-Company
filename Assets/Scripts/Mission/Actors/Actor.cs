@@ -17,15 +17,12 @@ public class Actor : MonoBehaviour
 {
 	public UnityAction OnActorBeginAim;
 	public UnityAction OnActorEndAim;
-	public UnityEvent OnDeath = new UnityEvent();
-	/// <summary>
-	/// 
-	/// </summary>
-	public UnityEvent<Projectile> OnGetHit = new UnityEvent<Projectile>();
-	public UnityEvent OnHeal = new UnityEvent();
-	public UnityEvent OnCrouch = new UnityEvent();
-	public UnityEvent OnStand = new UnityEvent();
-	public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
+	[HideInInspector] public UnityEvent OnDeath = new UnityEvent();
+	[HideInInspector] public UnityEvent<Projectile> OnGetHit = new UnityEvent<Projectile>();
+	[HideInInspector] public UnityEvent OnHeal = new UnityEvent();
+	[HideInInspector] public UnityEvent OnCrouch = new UnityEvent();
+	[HideInInspector] public UnityEvent OnStand = new UnityEvent();
+	[HideInInspector] public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
 
 	public enum State
 	{

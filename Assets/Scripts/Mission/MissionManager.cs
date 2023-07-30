@@ -54,7 +54,7 @@ public class MissionManager : MonoBehaviour
         }
 
         player = playerGO.GetComponent<Player>();
-        player.OnPlayerDeath.AddListener(HandlePlayerDeath);
+        player.AddDeathListener(HandlePlayerDeath);
 
         PlayerInput.InitializeControls();
 
@@ -72,7 +72,7 @@ public class MissionManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        player.OnPlayerDeath.RemoveListener(HandlePlayerDeath);
+        player.RemoveDeathListener(HandlePlayerDeath);
         Enemy.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
         Enemy.OnEnemyKilled.RemoveListener(HandleEnemyKilled);
     }
@@ -154,7 +154,7 @@ public class MissionManager : MonoBehaviour
         enemiesAlive++;
     }
 
-    private void HandleEnemyKilled(int pointValue)
+    private void HandleEnemyKilled()
     {
         enemiesAlive--;
     }

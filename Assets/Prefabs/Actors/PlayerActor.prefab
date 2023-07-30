@@ -902,6 +902,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6288928455270119811, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6365025369633413872, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.201
@@ -1003,13 +1007,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3bfc243c5b4e4479f0b6d7fd729add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnActorDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  data: {fileID: 11400000, guid: 9866dba8b3c734d019579fd832b9ff4a, type: 2}
   OnSwitchWeapons:
     m_PersistentCalls:
       m_Calls: []
   OnUpdateEquipment:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerDeath:
     m_PersistentCalls:
       m_Calls: []
   baseControllerAimRotaitonSensitivity: 1
