@@ -59,7 +59,7 @@ public class MissionUI : MonoBehaviour
             _instance = this;
         }
 
-        Scoreboard.OnScoreUpdated.AddListener(UpdateScore);
+        //Scoreboard.OnScoreUpdated.AddListener(UpdateScore);
 
         confirmRewardButton.onClick.AddListener(HandleRewardConfirm);
         
@@ -106,7 +106,7 @@ public class MissionUI : MonoBehaviour
     {
         player.OnSwitchWeapons.RemoveListener(UpdateCurrentWeapon);
         player.OnUpdateEquipment.RemoveListener(UpdateEquipment);
-        Scoreboard.OnScoreUpdated.RemoveListener(UpdateScore);
+        //Scoreboard.OnScoreUpdated.RemoveListener(UpdateScore);
         confirmRewardButton.onClick.RemoveListener(HandleRewardConfirm);
         PlayerInput.OnConfirm.RemoveListener(HandleRewardConfirm);
         PlayerInput.OnSelect.RemoveListener(HandleSelectInput);

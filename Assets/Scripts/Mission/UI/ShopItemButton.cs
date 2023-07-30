@@ -59,7 +59,7 @@ public class ShopItemButton : MonoBehaviour
         label.text = item.displayName;
         cost.text = $"${item.cost}";
         this.item = item;
-        tooExpensive = Scoreboard.totalScore - item.cost < 0;
+        //tooExpensive = Scoreboard.totalScore - item.cost < 0;
 
         UpdateVisuals();
     }

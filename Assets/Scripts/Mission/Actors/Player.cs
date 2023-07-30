@@ -4,19 +4,10 @@ using UnityEngine.Events;
 /// <summary>
 /// Controller for the player, also handles a few player specific things like death.
 /// </summary>
-public class Player : MonoBehaviour
+public class Player : ActorController
 {
-	public UnityEvent<InventoryWeapon> OnSwitchWeapons = new UnityEvent<InventoryWeapon>();
-	public UnityEvent<Equipment> OnUpdateEquipment = new UnityEvent<Equipment>();
-	public UnityEvent OnPlayerDeath = new UnityEvent();
-
-	// these should be in a SO
-	public float baseControllerAimRotaitonSensitivity;
-	public float controllerMaxRotationSensitivity;
-	public float controllerRotationSensitivity;
-	public WeaponData startWeapon;
-
-	private Actor actor;
+	[HideInInspector] public UnityEvent<InventoryWeapon> OnSwitchWeapons = new UnityEvent<InventoryWeapon>();
+	[HideInInspector] public UnityEvent<Equipment> OnUpdateEquipment = new UnityEvent<Equipment>();
 
 	private bool targetInSights;
 	private bool attemptingToFire;
@@ -25,10 +16,9 @@ public class Player : MonoBehaviour
 	///////////////
 	#region Unity Event Methods
 
-	private void Awake()
+	private new void Awake()
 	{
-		actor = GetComponent<Actor>();
-		actor.team = Actor.ActorTeam.Friendly;
+		base.Awake();
 
         PlayerInput.OnSprint.AddListener(HandleSprintInput);
 		PlayerInput.OnAim.AddListener(HandleAimInput);
@@ -39,10 +29,11 @@ public class Player : MonoBehaviour
         PlayerInput.OnInteract.AddListener(HandleInteractInput);
 	}
 
-	private void Start()
+	private new void Start()
 	{
-		actor.OnDeath.AddListener(HandlePlayerDeath);
-		actor.OnGetHit.AddListener(HandleGetHit);
+		base.Start();
+		//actor.OnDeath.AddListener(HandlePlayerDeath);
+		//actor.OnGetHit.AddListener(HandleGetHit);
 		actor.OnHeal.AddListener(HandleHeal);
 
 		// add weapons the player owns - for now. This needs to be cleaned up where you can just AttemptAddItem and pass in the GearData.
@@ -135,14 +126,14 @@ public class Player : MonoBehaviour
 					rotationDelta -= 359f;
 				}
 
-				float controllerAimRotationSensitivity = baseControllerAimRotaitonSensitivity;
+				float controllerAimRotationSensitivity = data.baseControllerAimRotaitonSensitivity;
 				if (!PlayerInput.UsingMouseForRotation && targetInSights)
 				{
 					controllerAimRotationSensitivity = .01f;
 				}
 
-				float stratifiedRotation = rotationDelta / controllerMaxRotationSensitivity;
-				float adjustedRotationDelta = stratifiedRotation * (actor.state[Actor.State.Aiming] ? controllerAimRotationSensitivity : controllerRotationSensitivity);
+				float stratifiedRotation = rotationDelta / data.controllerMaxRotationSensitivity;
+				float adjustedRotationDelta = stratifiedRotation * (actor.state[Actor.State.Aiming] ? controllerAimRotationSensitivity : data.controllerRotationSensitivity);
 				float adjustedRotationValue = transform.rotation.eulerAngles.y > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
 
 				Vector3 finalNewEulers = transform.rotation.eulerAngles + new Vector3(0f, adjustedRotationValue, 0f);
@@ -153,10 +144,11 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void OnDestroy()
+	private new void OnDestroy()
 	{
-		actor.OnDeath.RemoveListener(HandlePlayerDeath);
-		actor.OnGetHit.RemoveListener(HandleGetHit);
+		base.OnDestroy();
+		//actor.OnDeath.RemoveListener(HandlePlayerDeath);
+		//actor.OnGetHit.RemoveListener(HandleGetHit);
 		actor.OnHeal.RemoveListener(HandleHeal);
 		PlayerInput.OnSprint.RemoveListener(HandleSprintInput);
 		PlayerInput.OnAim.RemoveListener(HandleAimInput);
@@ -268,18 +260,18 @@ public class Player : MonoBehaviour
 		return (currentAmmo, totalAmmo);
 	}
 
-	private void HandlePlayerDeath()
-	{
-		enabled = false;
-		OnPlayerDeath.Invoke();
-	}
+	//private void HandlePlayerDeath()
+	//{
+	//	enabled = false;
+	//	//OnPlayerDeath.Invoke();
+	//}
 
 	/// <summary>
 	/// Don't need params; just update the health UI.
 	/// </summary>
 	/// <param name="hitLocation"></param>
 	/// <param name="hitDirection"></param>
-	private void HandleGetHit(Projectile proj)
+	protected override void HandleGetHit(Projectile proj)
 	{
 		UpdateHealthUI();
 	}
