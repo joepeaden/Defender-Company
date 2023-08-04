@@ -53,39 +53,40 @@ public class Rewards : MonoBehaviour
     
     private void HandleRewardPicked(ShopItem reward)
     {
+        // don't think we're using rewards any more anyway.
         // no reward was picked
         // this won't work anymore! Used to be a string but NO MORE!
-        if (reward.gearType == null)
-        {
-            return;
-        }
+        //if (reward.gearType == null)
+        //{
+        //    return;
+        //}
 
-        // make sure the player can afford
-        bool hadEnoughPoints = Scoreboard.TryRemovePoints(reward.cost);
-        if (hadEnoughPoints)
-        {
-            // spawn the loot somewhere
-            int spawnPointIndex = 0;
-            do
-            {
-                spawnPointIndex = Random.Range(0, spawnPoints.Count);
-            } while (!spawnPoints[spawnPointIndex].gameObject.activeInHierarchy);
+        //// make sure the player can afford
+        //bool hadEnoughPoints = Scoreboard.TryRemovePoints(reward.cost);
+        //if (hadEnoughPoints)
+        //{
+        //    // spawn the loot somewhere
+        //    int spawnPointIndex = 0;
+        //    do
+        //    {
+        //        spawnPointIndex = Random.Range(0, spawnPoints.Count);
+        //    } while (!spawnPoints[spawnPointIndex].gameObject.activeInHierarchy);
 
-            Loot loot = Instantiate(lootPrefab, spawnPoints[spawnPointIndex].position, Quaternion.identity).GetComponent<Loot>();
-            if (loot)
-            {
-                loot.gearType = reward.gearType;
-            }
-            else
-            {
-                Debug.LogError("No loot script on loot object");
-            }
-        }
-        else
-        {
-            // the idea is that the button catches this situation and we don't ever end up here. But just in case.
-            Debug.LogError("User tried to purchase item they could not afford");
-        }
+        //    Loot loot = Instantiate(lootPrefab, spawnPoints[spawnPointIndex].position, Quaternion.identity).GetComponent<Loot>();
+        //    if (loot)
+        //    {
+        //        loot.gearType = reward.gearType;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("No loot script on loot object");
+        //    }
+        //}
+        //else
+        //{
+        //    // the idea is that the button catches this situation and we don't ever end up here. But just in case.
+        //    Debug.LogError("User tried to purchase item they could not afford");
+        //}
     }
 }
 

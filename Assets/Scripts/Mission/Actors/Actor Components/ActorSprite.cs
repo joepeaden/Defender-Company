@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,11 +9,20 @@ public class ActorSprite : MonoBehaviour
 {
     [SerializeField] private Actor actor;
     [SerializeField] private GameObject bloodPoofEffect;
+    [SerializeField] private Sprite actorFrontFacing;
+    [SerializeField] private Sprite actorBackFacing;
+    [SerializeField] private Sprite actorRightFacing;
+    [SerializeField] private Sprite actorLeftFacing;
+    [SerializeField] private List<Sprite> deadSprites;
+
+    private SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
-    
+
     void Start()
     {
         actor.OnDeath.AddListener(HandleActorDeath);
+
+        spriteRend = GetComponent<SpriteRenderer>();
 
         // leaving all this in just in case we add anims later.
         //actor.OnGetHit.AddListener(HandleActorHit);
@@ -22,10 +32,17 @@ public class ActorSprite : MonoBehaviour
         //actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
     }
 
+    private void OnDestroy()
+    {
+        actor.OnDeath.RemoveListener(HandleActorDeath);
+        actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
+    }
+
     private void HandleActorDeath()
     {
-        GameObject poof = Instantiate(bloodPoofEffect, transform.position, Quaternion.identity);
+        spriteRend.sprite = deadSprites[Random.Range(0, deadSprites.Count)];
 
+        GameObject poof = Instantiate(bloodPoofEffect, transform.position, Quaternion.identity);
         StartCoroutine(DeletePoofAfterWait(poof));
     }
 
@@ -35,10 +52,32 @@ public class ActorSprite : MonoBehaviour
         Destroy(poof);
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        actor.OnDeath.RemoveListener(HandleActorDeath);
-        actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
+        if (actor.IsAlive)
+        {
+            if (actor.transform.rotation.eulerAngles.y > 315 || actor.transform.rotation.eulerAngles.y < 45)
+            {
+                spriteRend.sprite = actorBackFacing;
+            }
+            else if (actor.transform.rotation.eulerAngles.y > 225 && actor.transform.rotation.eulerAngles.y < 315)
+            {
+                spriteRend.sprite = actorLeftFacing;
+            }
+            else if (actor.transform.rotation.eulerAngles.y > 135 && actor.transform.rotation.eulerAngles.y < 225)
+            {
+                spriteRend.sprite = actorFrontFacing;
+            }
+            else
+            {
+                spriteRend.sprite = actorRightFacing;
+            }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        transform.position = actor.transform.position;
     }
 
     // leaving all this in just in case we add anims later.

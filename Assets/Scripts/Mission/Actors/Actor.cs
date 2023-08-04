@@ -17,15 +17,12 @@ public class Actor : MonoBehaviour
 {
 	public UnityAction OnActorBeginAim;
 	public UnityAction OnActorEndAim;
-	public UnityEvent OnDeath = new UnityEvent();
-	/// <summary>
-	/// 
-	/// </summary>
-	public UnityEvent<Projectile> OnGetHit = new UnityEvent<Projectile>();
-	public UnityEvent OnHeal = new UnityEvent();
-	public UnityEvent OnCrouch = new UnityEvent();
-	public UnityEvent OnStand = new UnityEvent();
-	public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
+	[HideInInspector] public UnityEvent OnDeath = new UnityEvent();
+	[HideInInspector] public UnityEvent<Projectile> OnGetHit = new UnityEvent<Projectile>();
+	[HideInInspector] public UnityEvent OnHeal = new UnityEvent();
+	[HideInInspector] public UnityEvent OnCrouch = new UnityEvent();
+	[HideInInspector] public UnityEvent OnStand = new UnityEvent();
+	[HideInInspector] public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
 
 	public enum State
 	{
@@ -112,7 +109,7 @@ public class Actor : MonoBehaviour
 		mainCollider = GetComponent<CapsuleCollider>();
 		interactSensor = GetComponentInChildren<ActorInteractSensor>();
 		rigidBody = GetComponent<Rigidbody>();
-		navAgent = GetComponent<NavMeshAgent>();
+		navAgent =  GetComponent<NavMeshAgent>();
 		audioSource = GetComponent<AudioSource>();
 		inventory = GetComponent<Inventory>();
 		HitPoints = data.hitPoints;
@@ -282,7 +279,7 @@ public class Actor : MonoBehaviour
 
         newLookTarget.y = transform.position.y;
         lookTarget = newLookTarget;
-        transform.LookAt(lookTarget);
+		transform.LookAt(lookTarget);
 	}
 
 	public bool AttemptSwitchWeapons()

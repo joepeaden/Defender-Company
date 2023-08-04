@@ -11,38 +11,23 @@ using UnityEngine.Events;
 /// It probably will be worth it to have an AIActor subclass and take some of the functionality from here.
 /// Stuff like the NavMesh and "perception"
 /// </remarks>
-public class Enemy : MonoBehaviour, ISetActive
+public class Enemy : ActorController, ISetActive
 {
-	public static UnityEvent<int> OnEnemyKilled = new UnityEvent<int>();
+	public static UnityEvent OnEnemyKilled = new UnityEvent();
 	public static UnityEvent OnEnemySpawned = new UnityEvent();
-
-	[SerializeField]
-	private ControllerData data;
 
 	public bool activateOnStart;
 
-	private Actor actor;
 	private bool pauseFurtherAttacks;
-	private GameObject target;
-	// a little lazy here
 	private bool isReloading;
 	private bool recoveringFromHit;
+	private GameObject target;
 
-	private void Awake()
-    {
-		// probably should make like an init method for the actor.... but since it's really just two controllers and not likely to grow...
-		// whatever.
-		actor = GetComponent<Actor>();
-		actor.team = Actor.ActorTeam.Enemy;
-		actor.SetAgentSpeed(data.navAgentSpeed);
-		actor.OnGetHit.AddListener(RecoverFromHit);
-    }
-
-	private void Start()
+	private new void Start()
 	{
-		actor.AddCoverListener(ActorHasPotentialCover);
-		actor.OnDeath.AddListener(HandleEnemyDeath);
+		base.Start();
 
+		actor.AddCoverListener(ActorHasPotentialCover);
 		actor.SetWeaponFromData(data.startWeapon);
 
 		if (activateOnStart)
@@ -51,11 +36,6 @@ public class Enemy : MonoBehaviour, ISetActive
 		}
 
 		OnEnemySpawned.Invoke();
-	}
-
-    private void OnDestroy()
-    {
-		actor.OnGetHit.RemoveListener(RecoverFromHit);
 	}
 
     private void Update()
@@ -122,7 +102,7 @@ public class Enemy : MonoBehaviour, ISetActive
 		}
 	}
 
-	private void RecoverFromHit(Projectile p)
+	protected override void HandleGetHit(Projectile p)
 	{
 		StartCoroutine(RecoverFromHitCoroutine());
 	}
@@ -226,14 +206,11 @@ public class Enemy : MonoBehaviour, ISetActive
 		yield return null;
 	}
 
-	/// <summary>
-	/// For now, just rotates the actor 90 degrees to look ded.
-	/// </summary>
-	private void HandleEnemyDeath()
+	protected override void HandleDeath()
     {
-		StopAllCoroutines();
-		OnEnemyKilled.Invoke(data.scoreValue);
-	}
+		OnEnemyKilled.Invoke();
+		base.HandleDeath();
+    }
 
 	/// <summary>
     /// Was used for cover system but didn't implement yet.

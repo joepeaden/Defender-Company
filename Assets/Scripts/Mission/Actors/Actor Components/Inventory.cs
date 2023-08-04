@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Actor))]
 public class Inventory : MonoBehaviour
 {
     public static UnityEvent OnNewItemAddedPlayer = new UnityEvent();
