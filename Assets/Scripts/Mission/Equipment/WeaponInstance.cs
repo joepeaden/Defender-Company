@@ -16,7 +16,10 @@ public class WeaponInstance : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private GameObject aimGlow;
     [SerializeField] private LineRenderer line;
-    [SerializeField] private Transform muzzle;
+    [SerializeField] private float crouchYPos;
+
+    // is muzzle needed any more?
+    [SerializeField] private Transform muzzle; 
 
     /// <summary>
     /// Just a debug option.
@@ -41,6 +44,7 @@ public class WeaponInstance : MonoBehaviour
         }
     }
 
+    private float standYPos;
     private GameObject weaponSpriteGameObject;
     private Vector3 actorVelocity;
     private int ammoInWeapon;
@@ -55,9 +59,13 @@ public class WeaponInstance : MonoBehaviour
 
     private void Start()
     {
+        standYPos = transform.position.y;
+
         _Actor.OnActorBeginAim += BeginAim;
         _Actor.OnActorEndAim += EndAim;
         _Actor.EmitVelocityInfo.AddListener(ReceiveActorVelocityData);
+        //_Actor.OnCrouch.AddListener(HandleCrouch);
+        //_Actor.OnStand.AddListener(HandleStand);
     }
 
     private void Update()
@@ -77,6 +85,15 @@ public class WeaponInstance : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        _Actor.OnActorBeginAim -= BeginAim;
+        _Actor.OnActorEndAim -= EndAim;
+        _Actor.EmitVelocityInfo.RemoveListener(ReceiveActorVelocityData);
+        //_Actor.OnCrouch.RemoveListener(HandleCrouch);
+        //_Actor.OnStand.RemoveListener(HandleStand);
+    }
+
     private void OnDisable()
     {
         StopAllCoroutines();
@@ -84,6 +101,15 @@ public class WeaponInstance : MonoBehaviour
         reloading = false;
     }
 
+    private void HandleStand()
+    {
+        transform.position = new Vector3(transform.position.x, standYPos, transform.position.z);
+    }
+
+    private void HandleCrouch()
+    {
+        transform.position = new Vector3(transform.position.x, crouchYPos, transform.position.z);
+    }
 
     private void BeginAim()
     {
@@ -335,12 +361,5 @@ public class WeaponInstance : MonoBehaviour
     private void ReceiveActorVelocityData(Vector3 vel)
     {
         actorVelocity = vel;
-    }
-
-    private void OnDestroy()
-    {
-        _Actor.OnActorBeginAim -= BeginAim;
-        _Actor.OnActorEndAim -= EndAim;
-        _Actor.EmitVelocityInfo.RemoveListener(ReceiveActorVelocityData);
     }
 }

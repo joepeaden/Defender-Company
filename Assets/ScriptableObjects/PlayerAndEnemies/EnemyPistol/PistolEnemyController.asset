@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveAndShoot: 0
   canAim: 0
+  useCoverChance: 0.2
   scoreValue: 50
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   shootPauseTimeMax: 4
@@ -21,3 +22,6 @@ MonoBehaviour:
   maxBurstFrames: 60
   minBurstFrames: 1
   navAgentSpeed: 5
+  baseControllerAimRotaitonSensitivity: 0
+  controllerMaxRotationSensitivity: 0
+  controllerRotationSensitivity: 0

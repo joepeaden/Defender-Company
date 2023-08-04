@@ -10,12 +10,12 @@ public class HitBox : MonoBehaviour
     private Actor actor;
     private Vector3 originalDimensions;
 
-    void Start()
+    void Awake()
     {
         originalDimensions = transform.localScale;
         actor = GetComponentInParent<Actor>();
-        actor.OnCrouch.AddListener(HandleCrouch);
-        actor.OnStand.AddListener(HandleStand);
+        //actor.OnCrouch.AddListener(HandleCrouch);
+        //actor.OnStand.AddListener(HandleStand);
         actor.OnDeath.AddListener(HandleDeath);
     }
 
@@ -32,17 +32,17 @@ public class HitBox : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void HandleCrouch()
-    {
-        transform.localScale = new Vector3(1f, .5f, 1f);
-        transform.localPosition = new Vector3(0f, 0f, 0f);
-    }
+ //   private void HandleCrouch()
+ //   {
+ //       transform.localScale = new Vector3(1f, .5f, 1f);
+ //       transform.localPosition = new Vector3(0f, 0f, 0f);
+ //   }
 
-    private void HandleStand()
-    {
-	    transform.localScale = originalDimensions;
-	    transform.localPosition = new Vector3(0f, 0.5f, 0f);
-	}
+ //   private void HandleStand()
+ //   {
+	//    transform.localScale = originalDimensions;
+	//    transform.localPosition = new Vector3(0f, 0.5f, 0f);
+	//}
 
     public Actor GetActor()
     {

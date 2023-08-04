@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: EnemySMGController
   m_EditorClassIdentifier: 
   canMoveAndShoot: 1
+  canAim: 0
+  useCoverChance: 0.1
   scoreValue: 200
   startWeapon: {fileID: 11400000, guid: 5ac99aea48109476c90f84c8cf6c425f, type: 2}
   shootPauseTimeMax: 4
@@ -20,3 +22,6 @@ MonoBehaviour:
   maxBurstFrames: 90
   minBurstFrames: 30
   navAgentSpeed: 6
+  baseControllerAimRotaitonSensitivity: 0
+  controllerMaxRotationSensitivity: 0
+  controllerRotationSensitivity: 0

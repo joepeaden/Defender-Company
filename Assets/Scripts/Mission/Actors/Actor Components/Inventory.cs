@@ -8,8 +8,9 @@ public class Inventory : MonoBehaviour
 {
     public static UnityEvent OnNewItemAddedPlayer = new UnityEvent();
 
-    [SerializeField] InventoryItemDataStorage dataStorage;
-    [SerializeField] WeaponInstance weaponInstance;
+    [SerializeField] private InventoryItemDataStorage dataStorage;
+    public WeaponInstance WeaponInstance => weaponInstance;
+    [SerializeField] private WeaponInstance weaponInstance;
     // temporary. eventually replace with dropdown for StartingWeapon
     //[SerializeField] private bool hasRifle;
     //[SerializeField] private bool hasSMG;

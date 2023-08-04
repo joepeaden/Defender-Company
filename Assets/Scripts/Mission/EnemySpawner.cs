@@ -28,7 +28,10 @@ public class EnemySpawner : MonoBehaviour
 
         // for reloading the scene
         spawnableEnemyPrefabs.Clear();
-        spawnableEnemyPrefabs.Add(data.enemyPistolPrefab);
+        foreach (GameObject enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
+        {
+            spawnableEnemyPrefabs.Add(enemyPrefab);
+        }
     }
 
     private void OnDestroy()

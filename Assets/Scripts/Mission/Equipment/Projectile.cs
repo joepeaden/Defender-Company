@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     protected ProjectileData data;
 
+    public Actor OwningActor => owningActor;
     protected Actor owningActor;
     //protected int damage;
 
@@ -51,10 +52,16 @@ public class Projectile : MonoBehaviour
         lastPoint = transform.position;
     }
 
+    public GameObject lastHitCover;
     void OnTriggerEnter (Collider other)
     {
         if (!destroying)
         {
+            if (other.gameObject.name == "Cover")
+            {
+                lastHitCover = other.gameObject;
+            }
+
             Actor actor = other.gameObject.GetComponentInParent<Actor>();
 
             // please don't kill yo self or teammates

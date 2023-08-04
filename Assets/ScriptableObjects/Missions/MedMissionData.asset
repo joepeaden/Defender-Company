@@ -16,3 +16,7 @@ MonoBehaviour:
   completionReward: 2500
   enemyCount: 25
   victoryCondition: 0
+  includedEnemyTypes:
+  - {fileID: 4385406812283568742, guid: 291dbce7e5a8e024d99ab897165b2a95, type: 3}
+  - {fileID: 369857449208888106, guid: ea8f386e5a32d4b5dbf337cd3c94b154, type: 3}
+  - {fileID: 369857449208888106, guid: fcdf999de5f87914695885319ee60716, type: 3}

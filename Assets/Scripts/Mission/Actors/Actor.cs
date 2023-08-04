@@ -89,8 +89,13 @@ public class Actor : MonoBehaviour
 	private bool isUsingNavAgent;
 	private List<AudioClip> deathSounds;
 	private List<AudioClip> woundSounds;
+
+	// both of these aren't used probably now.
 	private bool movingToCover;
 	private Cover targetCover;
+
+	// this one's actually used right now.
+	private GameObject cover;
 
 	private void Awake()
     {
@@ -156,6 +161,22 @@ public class Actor : MonoBehaviour
 			movingToCover = false;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Cover")
+        {
+			cover = other.gameObject;
+        }
+    }
+
+	private void OnTriggerExit(Collider other)
+	{
+		if (other.gameObject.name == "Cover")
+		{
+			cover = null;
+		}
+	}
 
 	public void AddHitPoints(int amountHealed)
     {
@@ -578,11 +599,17 @@ public class Actor : MonoBehaviour
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
-        {
+		{
 			return gotHit;
-        }
+		}
 
-		// this is not actually used, no crouching or anything at the moment.
+		// if we're crouching and the projectile went over the cover in front of us, don't hurt me pwease.
+		if (state[State.Crouching] && projectile.lastHitCover != null && projectile.lastHitCover == cover)
+		{
+				gotHit = false;
+		}
+
+		// should dodging chance from crouching come back? Could be neat.
 		//if (state[State.Crouching])
 		//{
 		//	float dogeRoll = Random.Range(0f, 1f);
