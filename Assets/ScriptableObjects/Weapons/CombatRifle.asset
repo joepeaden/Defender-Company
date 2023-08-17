@@ -15,7 +15,7 @@ MonoBehaviour:
   gearType: 7
   displayName: Combat Rifle
   rewardKey: PSA
-  cost: 7500
+  cost: 250
   projectile: {fileID: 6425079759990356200, guid: 10e53212ae4dd434ba9eea4767de7b90, type: 3}
   recoil: 0.88
   attackInterval: 0.068

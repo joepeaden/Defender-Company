@@ -890,6 +890,7 @@ MonoBehaviour:
       m_Calls: []
   data: {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}
   activateOnStart: 1
+  aiData: {fileID: 11400000, guid: c97b62c9c12dd40699ccbd2fa27d8db3, type: 2}
 --- !u!114 &3634169881766258620 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2062017164814779945, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}

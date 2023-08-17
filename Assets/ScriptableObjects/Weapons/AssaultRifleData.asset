@@ -15,7 +15,7 @@ MonoBehaviour:
   gearType: 2
   displayName: Assault Rifle
   rewardKey: RIFLE
-  cost: 200
+  cost: 250
   projectile: {fileID: 6425079759990356200, guid: 10e53212ae4dd434ba9eea4767de7b90, type: 3}
   recoil: 0.88
   attackInterval: 0.075

@@ -276,7 +276,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9f464ba89ef4ac64984e8609524b2647, type: 2}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -980,9 +980,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2738344216025007090}
-    - targetCorrespondingSourceObject: {fileID: 5753443716597660571, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2140760098038350036}
     - targetCorrespondingSourceObject: {fileID: 5364334159784760883, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5794034996210213739}
@@ -1017,10 +1014,6 @@ MonoBehaviour:
   OnUpdateEquipment:
     m_PersistentCalls:
       m_Calls: []
-  baseControllerAimRotaitonSensitivity: 1
-  controllerMaxRotationSensitivity: 10
-  controllerRotationSensitivity: 8
-  startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
 --- !u!114 &3542715468960505865 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2062017164814779945, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
@@ -1057,23 +1050,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1900118350494137881, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
   m_PrefabInstance: {fileID: 3294243890456372768}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7093125220531609019 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5753443716597660571, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-  m_PrefabInstance: {fileID: 3294243890456372768}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2140760098038350036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7093125220531609019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a42f40f35a13e4b81bedacdc434516e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7477787524443795475 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5364334159784760883, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}

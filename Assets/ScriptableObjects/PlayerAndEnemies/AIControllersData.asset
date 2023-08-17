@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxBehindCoverTime: 3
   minBehindCoverTime: 0.5
-  decisionRate: 0.25
-  coverSearchRadius: 20
+  decisionInterval: 0.25
+  coverSearchRadius: 10

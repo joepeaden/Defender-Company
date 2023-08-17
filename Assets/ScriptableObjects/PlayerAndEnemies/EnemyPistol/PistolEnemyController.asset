@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveAndShoot: 0
   canAim: 0
-  useCoverChance: 0.2
+  useCoverChance: 0.1
   scoreValue: 50
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   shootPauseTimeMax: 4

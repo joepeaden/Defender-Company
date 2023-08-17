@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour
     {
         if (!destroying)
         {
-            if (other.gameObject.name == "Cover")
+            if (other.gameObject.GetComponent<Cover>())
             {
                 lastHitCover = other.gameObject;
             }
@@ -68,8 +68,8 @@ public class Projectile : MonoBehaviour
             if (actor != null && actor.team == owningActor.team)
                 return;
 
-            // don't destroy if hit actor's collider (only do so on hit box)
-            bool shouldDestroy = other.CompareTag("HitBox") || (!other.isTrigger && actor == null);
+            // don't destroy if hit actor's collider (only do so on hit box), (commented: also don't destroy if this is a collision with horizontal cover.)
+            bool shouldDestroy = other.CompareTag("HitBox") || other.CompareTag("Cover"); //(!other.isTrigger && lastHitCover != other.gameObject && actor == null);
 
             // only hit an actor if it's the actor's hit box
             if (actor != null && other.gameObject.GetComponent<HitBox>())

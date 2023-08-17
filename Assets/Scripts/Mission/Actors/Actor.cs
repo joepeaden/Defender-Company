@@ -161,7 +161,7 @@ public class Actor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Cover")
+        if (other.gameObject.GetComponent<Cover>() != null)
         {
 			cover = other.gameObject;
         }
@@ -169,7 +169,7 @@ public class Actor : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (other.gameObject.name == "Cover")
+		if (other.gameObject.GetComponent<Cover>() != null)
 		{
 			cover = null;
 		}

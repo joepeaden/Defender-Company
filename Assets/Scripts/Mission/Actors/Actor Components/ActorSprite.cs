@@ -9,11 +9,20 @@ public class ActorSprite : MonoBehaviour
 {
     [SerializeField] private Actor actor;
     [SerializeField] private GameObject bloodPoofEffect;
-    [SerializeField] private Sprite actorFrontFacing;
-    [SerializeField] private Sprite actorBackFacing;
-    [SerializeField] private Sprite actorRightFacing;
-    [SerializeField] private Sprite actorLeftFacing;
+    [SerializeField] private Sprite actorFrontStand;
+    [SerializeField] private Sprite actorBackStand;
+    [SerializeField] private Sprite actorRightStand;
+    [SerializeField] private Sprite actorLeftStand;
+    [SerializeField] private Sprite actorFrontCrouch;
+    [SerializeField] private Sprite actorBackCrouch;
+    [SerializeField] private Sprite actorRightCrouch;
+    [SerializeField] private Sprite actorLeftCrouch;
     [SerializeField] private List<Sprite> deadSprites;
+
+    private Sprite frontSprite;
+    private Sprite backSprite;
+    private Sprite leftSprite;
+    private Sprite rightSprite;
 
     private SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
@@ -26,16 +35,23 @@ public class ActorSprite : MonoBehaviour
 
         // leaving all this in just in case we add anims later.
         //actor.OnGetHit.AddListener(HandleActorHit);
-        //actor.OnCrouch.AddListener(HandleCrouch);
-        //actor.OnStand.AddListener(HandleStand);
+        actor.OnCrouch.AddListener(HandleCrouch);
+        actor.OnStand.AddListener(HandleStand);
         //reloadClip = ragAnim.runtimeAnimatorController.animationClips.Where(clip => clip.name == "Reload").FirstOrDefault();
         //actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
+
+        frontSprite = actorFrontStand;
+        backSprite = actorBackStand;
+        leftSprite = actorLeftStand;
+        rightSprite = actorRightStand;
     }
 
     private void OnDestroy()
     {
         actor.OnDeath.RemoveListener(HandleActorDeath);
         actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
+        actor.OnCrouch.RemoveListener(HandleCrouch);
+        actor.OnStand.RemoveListener(HandleStand);
     }
 
     private void HandleActorDeath()
@@ -58,19 +74,19 @@ public class ActorSprite : MonoBehaviour
         {
             if (actor.transform.rotation.eulerAngles.y > 315 || actor.transform.rotation.eulerAngles.y < 45)
             {
-                spriteRend.sprite = actorBackFacing;
+                spriteRend.sprite = backSprite;
             }
             else if (actor.transform.rotation.eulerAngles.y > 225 && actor.transform.rotation.eulerAngles.y < 315)
             {
-                spriteRend.sprite = actorLeftFacing;
+                spriteRend.sprite = leftSprite;
             }
             else if (actor.transform.rotation.eulerAngles.y > 135 && actor.transform.rotation.eulerAngles.y < 225)
             {
-                spriteRend.sprite = actorFrontFacing;
+                spriteRend.sprite = frontSprite;
             }
             else
             {
-                spriteRend.sprite = actorRightFacing;
+                spriteRend.sprite = rightSprite;
             }
         }
     }
@@ -172,14 +188,18 @@ public class ActorSprite : MonoBehaviour
 
     private void HandleCrouch()
     {
-        //transform.localScale = new Vector3(1f, .5f, 1f);
-        //transform.localPosition = new Vector3(0f, 0f, 0f);
+        frontSprite = actorFrontCrouch;
+        backSprite = actorBackCrouch;
+        leftSprite = actorLeftCrouch;
+        rightSprite = actorRightCrouch;
     }
 
     private void HandleStand()
     {
-        //transform.localScale = originalDimensions;
-        //transform.localPosition = new Vector3(0f, 0.5f, 0f);
+        frontSprite = actorFrontStand;
+        backSprite = actorBackStand;
+        leftSprite = actorLeftStand;
+        rightSprite = actorRightStand;
     }
 
     #endregion

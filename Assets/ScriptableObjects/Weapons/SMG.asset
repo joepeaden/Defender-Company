@@ -15,7 +15,7 @@ MonoBehaviour:
   gearType: 3
   displayName: Submachine Gun
   rewardKey: SMG
-  cost: 1000
+  cost: 250
   projectile: {fileID: 6425079759990356200, guid: b5f2e306111ac4e2aab9f9da950c0040, type: 3}
   recoil: 1
   attackInterval: 0.03

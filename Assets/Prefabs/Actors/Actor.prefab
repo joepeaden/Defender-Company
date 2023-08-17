@@ -913,6 +913,7 @@ MonoBehaviour:
   audioSource: {fileID: 7227493840991707178}
   aimGlow: {fileID: 1745033373422121327}
   line: {fileID: 6621039823173931288}
+  crouchYPos: 0
   muzzle: {fileID: 0}
   drawAccuracyAngle: 0
 --- !u!82 &7227493840991707178
@@ -1261,10 +1262,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actor: {fileID: 6288928455270119811}
   bloodPoofEffect: {fileID: 1547757601392324, guid: d5f9bb227d35628428a7413762ab0190, type: 3}
-  actorFrontFacing: {fileID: 21300000, guid: b50ab2ae710834d2a848382a399dc307, type: 3}
-  actorBackFacing: {fileID: 21300000, guid: f202cb4102f034e1a8880d0bed84ffa4, type: 3}
-  actorRightFacing: {fileID: 21300000, guid: 9ee18a6d8d56d4406bbe20f9247ffa62, type: 3}
-  actorLeftFacing: {fileID: 21300000, guid: 64e68c9769f57441c90a096a35e4cbcc, type: 3}
+  actorFrontStand: {fileID: 21300000, guid: b50ab2ae710834d2a848382a399dc307, type: 3}
+  actorBackStand: {fileID: 21300000, guid: f202cb4102f034e1a8880d0bed84ffa4, type: 3}
+  actorRightStand: {fileID: 21300000, guid: 9ee18a6d8d56d4406bbe20f9247ffa62, type: 3}
+  actorLeftStand: {fileID: 21300000, guid: 64e68c9769f57441c90a096a35e4cbcc, type: 3}
+  actorFrontCrouch: {fileID: 21300000, guid: 37116192af76d43f5a9837eb91782de2, type: 3}
+  actorBackCrouch: {fileID: 21300000, guid: cf6f8b98855b94a4383591a47eb19152, type: 3}
+  actorRightCrouch: {fileID: 21300000, guid: aeed4e4b5dcb54b0c8d2a32ad8310047, type: 3}
+  actorLeftCrouch: {fileID: 21300000, guid: 9280d1b33c13b492ab5ae39071b52772, type: 3}
   deadSprites:
   - {fileID: 21300000, guid: 6336b75fac15a435e9c9b638f95ebfff, type: 3}
   - {fileID: 21300000, guid: a41512f512fb24d27b4e3d64cc75845f, type: 3}

@@ -72,11 +72,11 @@ public class Player : ActorController
 				triggerPull = false;
 			}
 
-			//if (Input.GetKeyDown(KeyCode.C))
-			//{
-			//	actor.ToggleCrouch();
-			//}
-		}
+			if (Input.GetKeyDown(KeyCode.C))
+            {
+                actor.ToggleCrouch();
+            }
+        }
 	}
 
 	private void FixedUpdate()
@@ -255,12 +255,6 @@ public class Player : ActorController
 
 		return (currentAmmo, totalAmmo);
 	}
-
-	//private void HandlePlayerDeath()
-	//{
-	//	enabled = false;
-	//	//OnPlayerDeath.Invoke();
-	//}
 
 	/// <summary>
 	/// Don't need params; just update the health UI.
