@@ -19,9 +19,9 @@ MonoBehaviour:
   startWeapon: {fileID: 11400000, guid: 7ee812632c51d344bbebe9005dbf8a6e, type: 2}
   shootPauseTimeMax: 4
   shootPauseTimeMin: 2
-  maxBurstFrames: 60
+  maxBurstFrames: 45
   minBurstFrames: 1
-  navAgentSpeed: 5
+  navAgentSpeed: 4
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

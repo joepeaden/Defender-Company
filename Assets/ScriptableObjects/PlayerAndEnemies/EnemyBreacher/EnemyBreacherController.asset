@@ -14,17 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveAndShoot: 1
   canAim: 0
-  usesCover: 0
-  maxBehindCoverTime: 2
-  minBehindCoverTime: 0.5
-  coverSearchRadius: 0
+  useCoverChance: 0
   scoreValue: 300
   startWeapon: {fileID: 11400000, guid: abb47702383f949c88dc7ed2f0ef932b, type: 2}
   shootPauseTimeMax: 4
   shootPauseTimeMin: 2
-  maxBurstFrames: 30
-  minBurstFrames: 30
-  navAgentSpeed: 4
+  maxBurstFrames: 1
+  minBurstFrames: 1
+  navAgentSpeed: 3
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

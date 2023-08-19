@@ -21,7 +21,7 @@ MonoBehaviour:
   shootPauseTimeMin: 2
   maxBurstFrames: 60
   minBurstFrames: 1
-  navAgentSpeed: 5
+  navAgentSpeed: 10
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

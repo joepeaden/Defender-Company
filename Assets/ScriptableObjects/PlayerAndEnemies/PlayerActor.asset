@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d353c0846a3f6a8438f71cbf95ebf6bd, type: 3}
   m_Name: PlayerActor
   m_EditorClassIdentifier: 
-  hitPoints: 500
+  hitPoints: 600
   recoilControl: 10
-  slowWalkMoveForce: 16
-  fastWalkMoveForce: 30
-  sprintMoveForce: 48
+  slowWalkMoveForce: 15
+  fastWalkMoveForce: 25
+  sprintMoveForce: 40
   rotationTorque: 30
   moveToCoverSpeed: 10
   coverSensorDistance: 1.25
