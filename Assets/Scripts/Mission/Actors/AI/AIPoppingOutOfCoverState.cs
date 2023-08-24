@@ -21,7 +21,7 @@ public class AIPoppingOutOfCoverState : AIState
         // for now just using the same values. Should be fine.
         // probably want it to go off bursts in the future.
 
-        if (!input.fullyOutOfCover)//input.targetInLOS)
+        if (input.fullyOutOfCover)//input.targetInLOS)
         {
             timeSincePoppedOutOfCover += Time.deltaTime;
         }

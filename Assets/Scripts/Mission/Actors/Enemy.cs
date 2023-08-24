@@ -81,7 +81,7 @@ public class Enemy : ActorController, ISetActive
             }
 
 			fullyInCover = AmIFullyInOrOutOfCover(true);
-
+			fullyOutOfCover = AmIFullyInOrOutOfCover(false);
 
 			// ya know. Maybe a smarter way to do this would be have the state call whatever methods to get whatever information it needs. Not all this info is relevant to every state.
 			AIInput newInput = new AIInput
@@ -318,7 +318,7 @@ public class Enemy : ActorController, ISetActive
 		}
 		else
         {
-			return blockingHits1 > 0 || blockingHits2 > 0 && targetHits.Count() > 0;
+			return blockingHits1 == 0 && blockingHits2 == 0 && targetHits.Count() > 0;
         }
 	}
 

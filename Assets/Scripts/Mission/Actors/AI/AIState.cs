@@ -20,8 +20,8 @@ public abstract class AIState
     public float TimeInState => timeInState;
     private float timeInState;
 
-    protected AIInput LatestInput => latestInput;
-    private AIInput latestInput;
+    //protected AIInput LatestInput => latestInput;
+    //private AIInput latestInput;
 
     // can add Enter if needed later.
     //public void Enter();
@@ -29,7 +29,7 @@ public abstract class AIState
     // going to change these "Enemy" refs to "AIController" later.
     public AIState HandleInput(AIInput input)
     {
-        latestInput = input;
+        //latestInput = input;
 
         // get how long we've been in this state.
         if (_prevAIState != null && _prevAIState.GetType() == this.GetType())

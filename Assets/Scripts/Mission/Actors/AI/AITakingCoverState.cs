@@ -21,7 +21,7 @@ public class AITakingCoverState : AIState
         return this;
     }
 
-    protected override void _StateUpdate()
+	protected override void _StateUpdate()
 	{
 		// make enemy not go to cover if it would bring them out of range of the target?
 		Collider closestCover = null;
@@ -44,29 +44,37 @@ public class AITakingCoverState : AIState
 
 		if (closestCover != null)
 		{
-			// if it's a "Floor" cover (not "Wall"), then it's horizontal cover.
-			if (closestCover.GetComponent<Cover>().coverType == Cover.CoverType.Floor)
+			if (!_controller.fullyInCover)
 			{
-				//inHorizontalCover = true;
-			}
 
-			Vector3[] arr = new Vector3[4];
-			arr[0] = closestCover.transform.position - Vector3.right * 50f;
-			arr[1] = closestCover.transform.position + Vector3.right * 50f;
-			arr[2] = closestCover.transform.position - Vector3.up * 50f;
-			arr[3] = closestCover.transform.position + Vector3.up * 50f;
-
-			Vector3 targetMovePosition = arr[0];
-			for (int i = 1; i < arr.Length; i++)
-			{
-				if ((_controller.GetTarget().transform.position - arr[i]).magnitude > (_controller.GetTarget().transform.position - targetMovePosition).magnitude)
+				// if it's a "Floor" cover (not "Wall"), then it's horizontal cover.
+				if (closestCover.GetComponent<Cover>().coverType == Cover.CoverType.Floor)
 				{
-					targetMovePosition = arr[i];
+					//inHorizontalCover = true;
 				}
-			}
 
-			_controller.GetActor().Move(closestCover.ClosestPoint(targetMovePosition));
-			//takingCover = true;
+				Vector3[] arr = new Vector3[4];
+				arr[0] = closestCover.transform.position - Vector3.right * 50f;
+				arr[1] = closestCover.transform.position + Vector3.right * 50f;
+				arr[2] = closestCover.transform.position - Vector3.up * 50f;
+				arr[3] = closestCover.transform.position + Vector3.up * 50f;
+
+				Vector3 targetMovePosition = arr[0];
+				for (int i = 1; i < arr.Length; i++)
+				{
+					if ((_controller.GetTarget().transform.position - arr[i]).magnitude > (_controller.GetTarget().transform.position - targetMovePosition).magnitude)
+					{
+						targetMovePosition = arr[i];
+					}
+				}
+
+				_controller.GetActor().Move(closestCover.ClosestPoint(targetMovePosition));
+				//takingCover = true;
+			}
+			else if (_controller.fullyInCover)
+			{
+				_controller.GetActor().Move(closestCover.ClosestPoint(_controller.transform.position));
+			}
 		}
 	}
 }
