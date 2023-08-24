@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 /// <summary>
 /// Controller for the player, also handles a few player specific things like death.
@@ -34,13 +35,20 @@ public class Player : ActorController
 		base.Start();
 		actor.OnHeal.AddListener(HandleHeal);
 
+		StartCoroutine(SetupGear());
+	}
+
+	private IEnumerator SetupGear()
+    {
+		yield return new WaitUntil(GameManager.Instance.IsInitialized);
+
 		// add weapons the player owns - for now. This needs to be cleaned up where you can just AttemptAddItem and pass in the GearData.
 		foreach (GearData gear in GameManager.Instance.Company.GetOwnedGear().Values)
 		{
 			if (gear as WeaponData)
-            {
+			{
 				actor.GetInventory().AttemptAddItem(new InventoryWeapon((WeaponData)gear));
-            }
+			}
 			else if (gear as MedkitData)
 			{
 				actor.GetInventory().AttemptAddItem(new MedkitEquipment((MedkitData)gear));

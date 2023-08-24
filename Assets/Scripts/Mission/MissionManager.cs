@@ -67,6 +67,13 @@ public class MissionManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(InitializeMissionWhenGameManagerReady());
+    }
+
+    private IEnumerator InitializeMissionWhenGameManagerReady()
+    {
+        yield return new WaitUntil(GameManager.Instance.IsInitialized);
+
         InitializeMission(GameManager.Instance.CurrentMission);
     }
 

@@ -19,7 +19,16 @@ public class AIControllersData : ScriptableObject
 	/// </summary>
     public float decisionInterval;
 	/// <summary>
-    /// Radius actor will search for cover.
+    /// Radius actor will search for cover
     /// </summary>
 	public int coverSearchRadius;
+	/// <summary>
+    /// Radius the actor can detect hostiles in
+    /// </summary>
+	public float detectionRadius;
+	/// <summary>
+	/// Max distance any member should be from pod leader
+	/// </summary>
+	public float maxPodSeparation;
 }
+

@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e0a4cb47fb85473db321ae3c411e1b9, type: 3}
-  m_Name: AIControllersData
+  m_Script: {fileID: 11500000, guid: 3a189bb168d8d90478a09ea08c2f3d72, type: 3}
+  m_Name: DefaultObject
   m_EditorClassIdentifier: 
-  maxBehindCoverTime: 6
-  minBehindCoverTime: 3
-  decisionInterval: 0.25
-  coverSearchRadius: 10
-  detectionRadius: 60
-  maxPodSeparation: 4
+  m_AddressableAssetSettingsGuid: b6431e3107ad04eb08604af802424bae

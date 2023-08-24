@@ -7,22 +7,13 @@ public class AITakingCoverState : AIState
 {
     protected override AIState _HandleInput(AIInput input)
     {
-		// every decision interval, decide if need to look for cover or not.
-		//if (input.timeForDecision)
+		//if (!input.targetInRange)
   //      {
-		//	if (_controller.Data.useCoverChance < Random.Range(0f, 1f))
-  //          {
-		//		return new AIHoldingPositionState();
-  //          }
-        //}
-
-		if (!input.targetInRange)
-        {
-			return new AIMovingToTargetState();
-		}
+		//	return new AIMovingToTargetState();
+		//}
 
 		// what if the player moved behind something though?
-		if (!input.targetInLOS)
+		if (input.fullyInCover)
         {
 			return new AIInCoverState();
         }

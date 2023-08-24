@@ -22,16 +22,13 @@ public class EnemySpawner : MonoBehaviour
     public WaveData data;
 
     public void Awake()
-    {
+    { 
         MissionManager.OnMissionEnd.AddListener(Reset);
         MissionManager.OnMissionStart.AddListener(StartSpawningCoroutine);
 
         // for reloading the scene
         spawnableEnemyPrefabs.Clear();
-        foreach (GameObject enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
-        {
-            spawnableEnemyPrefabs.Add(enemyPrefab);
-        }
+
     }
 
     private void OnDestroy()
@@ -50,6 +47,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawningCoroutine()
     {
+        foreach (GameObject enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
+        {
+            spawnableEnemyPrefabs.Add(enemyPrefab);
+        }
+
         shouldSpawn = true;
         StartCoroutine(SpawnEnemies());
     }
