@@ -151,6 +151,8 @@ public class Enemy : ActorController, ISetActive
 
 	private IEnumerator AttackRoutine()
     {
+		// need to also check if the actor is on the player's screen (unless they are a sniper?)
+
 		while (actor.IsAlive)
 		{
 			// if don't have ammo, reload
@@ -167,7 +169,7 @@ public class Enemy : ActorController, ISetActive
 			}
 
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
-			if (target != null && !isReloading && !recoveringFromHit && (targetInRange && (targetInOptimalRange || data.canMoveAndShoot)) && !actor.state[Actor.State.Crouching])
+			if (target != null && !isReloading && !recoveringFromHit && pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
 				actor.UpdateActorRotation(target.transform.position);
 
@@ -380,7 +382,7 @@ public class Enemy : ActorController, ISetActive
 		int initialWeaponAmmo = actor.GetEquippedWeaponAmmo();
 		int currentWeaponAmmo = initialWeaponAmmo;
 
-		while (numToFire > 0 && currentWeaponAmmo > 0 && targetInRange)
+		while (numToFire > 0 && currentWeaponAmmo > 0 && targetInLOS)
         {
 			// if it's the first shot, make sure to pass triggerpull param correctly.
             actor.AttemptAttack(true);

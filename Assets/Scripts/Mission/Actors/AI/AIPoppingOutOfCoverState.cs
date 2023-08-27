@@ -10,6 +10,8 @@ public class AIPoppingOutOfCoverState : AIState
     /// </summary>
     private float timeSincePoppedOutOfCover;
 
+    public Vector3 targetPos;
+
     protected override AIState _HandleInput(AIInput input)
     {
         //if (!input.targetInRange)
@@ -38,7 +40,7 @@ public class AIPoppingOutOfCoverState : AIState
     {
         if (!_controller.fullyOutOfCover)
         {
-            _controller.GetActor().Move(_controller.GetTarget().transform.position);
+            _controller.GetActor().Move(targetPos);//_controller.GetTarget().transform.position);
         }
         // give the actor a bit to get out of cover
         else //if (TimeInState > .5f)

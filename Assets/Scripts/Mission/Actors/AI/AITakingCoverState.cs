@@ -5,18 +5,28 @@ using UnityEngine;
 /// </summary>
 public class AITakingCoverState : AIState
 {
+	private Vector3 lastPosOutOfCover;
+
     protected override AIState _HandleInput(AIInput input)
     {
+
 		//if (!input.targetInRange)
   //      {
 		//	return new AIMovingToTargetState();
 		//}
 
+		if (_prevAIState != this || input.fullyOutOfCover)
+        {
+			lastPosOutOfCover = _controller.transform.position;
+        }
+
 		// what if the player moved behind something though?
 		if (input.fullyInCover)
         {
-			return new AIInCoverState();
-        }
+			AIInCoverState coverState = new AIInCoverState();
+			coverState.lastPosOutOfCover = lastPosOutOfCover;
+			return coverState;
+		}
 
         return this;
     }
