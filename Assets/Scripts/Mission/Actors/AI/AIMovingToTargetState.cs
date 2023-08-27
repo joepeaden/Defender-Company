@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /// <summary>
 /// The actor is moving towards its target.
 /// </summary>
@@ -11,7 +7,7 @@ public class AIMovingToTargetState : AIState
     {
         if(input.targetInOptimalRange && input.targetInLOS)
         {
-            return new AIHoldingPositionState();
+            return new AIHoldingPositionCombatState();
         }
 
         return this;

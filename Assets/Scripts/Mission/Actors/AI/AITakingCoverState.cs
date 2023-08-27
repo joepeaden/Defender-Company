@@ -5,32 +5,33 @@ using UnityEngine;
 /// </summary>
 public class AITakingCoverState : AIState
 {
+	private Vector3 lastPosOutOfCover;
+
     protected override AIState _HandleInput(AIInput input)
     {
-		// every decision interval, decide if need to look for cover or not.
-		//if (input.timeForDecision)
-  //      {
-		//	if (_controller.Data.useCoverChance < Random.Range(0f, 1f))
-  //          {
-		//		return new AIHoldingPositionState();
-  //          }
-        //}
 
-		if (!input.targetInRange)
+		//if (!input.targetInRange)
+  //      {
+		//	return new AIMovingToTargetState();
+		//}
+
+		if (_prevAIState != this || input.fullyOutOfCover)
         {
-			return new AIMovingToTargetState();
-		}
+			lastPosOutOfCover = _controller.transform.position;
+        }
 
 		// what if the player moved behind something though?
-		if (!input.targetInLOS)
+		if (input.fullyInCover)
         {
-			return new AIInCoverState();
-        }
+			AIInCoverState coverState = new AIInCoverState();
+			coverState.lastPosOutOfCover = lastPosOutOfCover;
+			return coverState;
+		}
 
         return this;
     }
 
-    protected override void _StateUpdate()
+	protected override void _StateUpdate()
 	{
 		// make enemy not go to cover if it would bring them out of range of the target?
 		Collider closestCover = null;
@@ -53,29 +54,37 @@ public class AITakingCoverState : AIState
 
 		if (closestCover != null)
 		{
-			// if it's a "Floor" cover (not "Wall"), then it's horizontal cover.
-			if (closestCover.GetComponent<Cover>().coverType == Cover.CoverType.Floor)
+			if (!_controller.fullyInCover)
 			{
-				//inHorizontalCover = true;
-			}
 
-			Vector3[] arr = new Vector3[4];
-			arr[0] = closestCover.transform.position - Vector3.right * 50f;
-			arr[1] = closestCover.transform.position + Vector3.right * 50f;
-			arr[2] = closestCover.transform.position - Vector3.up * 50f;
-			arr[3] = closestCover.transform.position + Vector3.up * 50f;
-
-			Vector3 targetMovePosition = arr[0];
-			for (int i = 1; i < arr.Length; i++)
-			{
-				if ((_controller.GetTarget().transform.position - arr[i]).magnitude > (_controller.GetTarget().transform.position - targetMovePosition).magnitude)
+				// if it's a "Floor" cover (not "Wall"), then it's horizontal cover.
+				if (closestCover.GetComponent<Cover>().coverType == Cover.CoverType.Floor)
 				{
-					targetMovePosition = arr[i];
+					//inHorizontalCover = true;
 				}
-			}
 
-			_controller.GetActor().Move(closestCover.ClosestPoint(targetMovePosition));
-			//takingCover = true;
+				Vector3[] arr = new Vector3[4];
+				arr[0] = closestCover.transform.position - Vector3.right * 50f;
+				arr[1] = closestCover.transform.position + Vector3.right * 50f;
+				arr[2] = closestCover.transform.position - Vector3.up * 50f;
+				arr[3] = closestCover.transform.position + Vector3.up * 50f;
+
+				Vector3 targetMovePosition = arr[0];
+				for (int i = 1; i < arr.Length; i++)
+				{
+					if ((_controller.GetTarget().transform.position - arr[i]).magnitude > (_controller.GetTarget().transform.position - targetMovePosition).magnitude)
+					{
+						targetMovePosition = arr[i];
+					}
+				}
+
+				_controller.GetActor().Move(closestCover.ClosestPoint(targetMovePosition));
+				//takingCover = true;
+			}
+			else if (_controller.fullyInCover)
+			{
+				_controller.GetActor().Move(closestCover.ClosestPoint(_controller.transform.position));
+			}
 		}
 	}
 }

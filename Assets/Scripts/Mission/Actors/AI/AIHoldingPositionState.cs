@@ -1,26 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 /// <summary>
-/// The actor is holding position.
+/// Actor is holding position (not in combat) and paying attention to detection radius / LOS.
 /// </summary>
 public class AIHoldingPositionState : AIState
 {
     protected override AIState _HandleInput(AIInput input)
     {
-        if (!input.targetInRange || !input.targetInLOS)
+        if (input.podAlerted)
         {
-            return new AIMovingToTargetState();
+            return new AIHoldingPositionCombatState();
         }
-        else if (input.timeForDecision && _controller.Data.useCoverChance > Random.Range(0f, 1f))
-        {
-            return new AITakingCoverState();
-        }
-        else
-        {
-            return this;
-        }
+
+        return this;
     }
 
     protected override void _StateUpdate()

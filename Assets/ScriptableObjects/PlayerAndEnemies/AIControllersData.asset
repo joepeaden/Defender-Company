@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0a4cb47fb85473db321ae3c411e1b9, type: 3}
   m_Name: AIControllersData
   m_EditorClassIdentifier: 
-  maxBehindCoverTime: 3
-  minBehindCoverTime: 0.5
+  maxBehindCoverTime: 6
+  minBehindCoverTime: 3
   decisionInterval: 0.25
   coverSearchRadius: 10
+  detectionRadius: 60
+  maxPodSeparation: 4

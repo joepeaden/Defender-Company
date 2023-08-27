@@ -175,6 +175,15 @@ public class Actor : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+    /// Get width of the actor's collider
+    /// </summary>
+	public float GetWidth()
+    {
+		//x and z should be the same for now.
+		return transform.lossyScale.z;
+    }
+
 	public void AddHitPoints(int amountHealed)
     {
 		HitPoints = Mathf.Clamp(amountHealed + HitPoints, 0, MaxHitPoints);
