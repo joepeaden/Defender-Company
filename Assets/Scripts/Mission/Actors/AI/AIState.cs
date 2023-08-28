@@ -13,7 +13,7 @@ public abstract class AIState
     /// <summary>
     /// Ref to the AI controller.
     /// </summary>
-    protected Enemy _controller;
+    protected AIActorController _controller;
     /// <summary>
     /// How long the actor has been in this state.
     /// </summary>
@@ -40,7 +40,7 @@ public abstract class AIState
         return _HandleInput(input);
     }
 
-    public void StateUpdate(Enemy controller, AIState prevAIState)
+    public void StateUpdate(AIActorController controller, AIState prevAIState)
     {
         Debug.Log(this.GetType());
 

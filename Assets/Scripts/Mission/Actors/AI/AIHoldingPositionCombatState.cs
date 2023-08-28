@@ -18,12 +18,14 @@ public class AIHoldingPositionCombatState : AIState
         //{
         //    return new AIMovingToTargetState();
         //}
+
+        // we're not taking cover for now.
         // if we decide to take cover do it
         //else
-        if (input.timeForDecision && _controller.Data.useCoverChance > Random.Range(0f, 1f))
-        {
-            return new AITakingCoverState();
-        }
+        //if (input.timeForDecision && _controller.Data.useCoverChance > Random.Range(0f, 1f))
+        //{
+        //    return new AITakingCoverState();
+        //}
 
         // if neither, in range and LOS and not trying to take cover
         return this;

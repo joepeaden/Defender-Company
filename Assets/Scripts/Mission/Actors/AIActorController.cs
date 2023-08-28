@@ -11,7 +11,7 @@ using UnityEngine.Events;
 /// It probably will be worth it to have an AIActor subclass and take some of the functionality from here.
 /// Stuff like the NavMesh and "perception"
 /// </remarks>
-public class Enemy : ActorController, ISetActive
+public class AIActorController : ActorController, ISetActive
 {
 	public static UnityEvent OnEnemyKilled = new UnityEvent();
 	public static UnityEvent OnEnemySpawned = new UnityEvent();
@@ -31,13 +31,13 @@ public class Enemy : ActorController, ISetActive
 	public bool fullyOutOfCover;
 
 	// the pod this actor is a member of
-	public AIPod pod;
+	//public AIPod pod;
 
     private new void Awake()
     {
 		base.Awake();
 
-		aiState = new AIHoldingPositionState();
+		aiState = new AIMovingToTargetState();//AIHoldingPositionState();
     }
 
     private new void Start()
@@ -71,14 +71,14 @@ public class Enemy : ActorController, ISetActive
 			}
 			targetInRange = IsTargetInRange(false);
 			targetInOptimalRange = IsTargetInRange(true);
-			targetInLOS = IsTargetInLOS(false);
+			targetInLOS = IsTargetInLOS(true);
 
 			//bool targetInDetectionRadius = IsTargetInDetectionRadius();
 
-			if (IsTargetInDetectionRadius() && targetInLOS)
-            {
-				pod.isAlerted = true;
-            }
+			//if (IsTargetInDetectionRadius() && targetInLOS)
+   //         {
+			//	pod.isAlerted = true;
+   //         }
 
 			fullyInCover = AmIFullyInOrOutOfCover(true);
 			fullyOutOfCover = AmIFullyInOrOutOfCover(false);
@@ -91,8 +91,8 @@ public class Enemy : ActorController, ISetActive
 				targetInOptimalRange = targetInOptimalRange,
 				targetInLOS = targetInLOS,
 				//targetInDetectionRadius = targetInDetectionRadius,
-				distFromPodLeader = (transform.position - pod.leader.transform.position).magnitude,
-				podAlerted = pod.isAlerted,
+				distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
+				podAlerted = true,//pod.isAlerted,
 				fullyInCover = fullyInCover,
 				fullyOutOfCover = fullyOutOfCover
 			};
@@ -169,7 +169,7 @@ public class Enemy : ActorController, ISetActive
 			}
 
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
-			if (target != null && !isReloading && !recoveringFromHit && pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
+			if (target != null && !isReloading && !recoveringFromHit && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
 				actor.UpdateActorRotation(target.transform.position);
 

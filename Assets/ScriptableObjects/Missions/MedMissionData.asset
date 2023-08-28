@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc78ac2007d4b3fb2ee03bf9c26f12, type: 3}
   m_Name: MedMissionData
   m_EditorClassIdentifier: 
-  missionTitle: Elimination (Med)
+  missionTitle: South Gate (Med)
   completionReward: 2500
   enemyCount: 25
   victoryCondition: 0
   includedEnemyTypes:
   - {fileID: 4385406812283568742, guid: 291dbce7e5a8e024d99ab897165b2a95, type: 3}
   - {fileID: 369857449208888106, guid: ea8f386e5a32d4b5dbf337cd3c94b154, type: 3}
-  - {fileID: 369857449208888106, guid: fcdf999de5f87914695885319ee60716, type: 3}

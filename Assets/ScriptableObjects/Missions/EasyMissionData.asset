@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc78ac2007d4b3fb2ee03bf9c26f12, type: 3}
   m_Name: EasyMissionData
   m_EditorClassIdentifier: 
-  missionTitle: Elimination (Easy)
+  missionTitle: South Gate (Easy)
   completionReward: 1000
   enemyCount: 10
   victoryCondition: 0

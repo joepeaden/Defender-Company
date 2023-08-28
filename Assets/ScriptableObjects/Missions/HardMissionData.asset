@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc78ac2007d4b3fb2ee03bf9c26f12, type: 3}
   m_Name: HardMissionData
   m_EditorClassIdentifier: 
-  missionTitle: Elimination (Hard)
+  missionTitle: South Gate (Hard)
   completionReward: 5000
   enemyCount: 50
   victoryCondition: 0
   includedEnemyTypes:
   - {fileID: 4385406812283568742, guid: 291dbce7e5a8e024d99ab897165b2a95, type: 3}
   - {fileID: 369857449208888106, guid: ea8f386e5a32d4b5dbf337cd3c94b154, type: 3}
-  - {fileID: 369857449208888106, guid: fcdf999de5f87914695885319ee60716, type: 3}
-  - {fileID: 369857449208888106, guid: 9cd8cae9c8503e04296e04e656941a85, type: 3}
-  - {fileID: 369857449208888106, guid: f73877ee24b288747aa3ee2bd93cb4f1, type: 3}

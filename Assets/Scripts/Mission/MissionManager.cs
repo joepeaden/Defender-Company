@@ -58,8 +58,8 @@ public class MissionManager : MonoBehaviour
 
         PlayerInput.InitializeControls();
 
-        Enemy.OnEnemySpawned.AddListener(HandleEnemySpawned);
-        Enemy.OnEnemyKilled.AddListener(HandleEnemyKilled);
+        AIActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
+        AIActorController.OnEnemyKilled.AddListener(HandleEnemyKilled);
 
         // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
         //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
@@ -80,8 +80,8 @@ public class MissionManager : MonoBehaviour
     private void OnDestroy()
     {
         player.RemoveDeathListener(HandlePlayerDeath);
-        Enemy.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
-        Enemy.OnEnemyKilled.RemoveListener(HandleEnemyKilled);
+        AIActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
+        AIActorController.OnEnemyKilled.RemoveListener(HandleEnemyKilled);
     }
 
     public void InitializeMission(MissionData mission)

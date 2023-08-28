@@ -7,7 +7,7 @@ public class AIMovingToPodLeaderState : AIState
     {
         if (input.distFromPodLeader < _controller.GetAIData().maxPodSeparation)
         {
-            return new AIHoldingPositionState();
+            //return new AIHoldingPositionState();
         }
 
         return this;
@@ -15,6 +15,6 @@ public class AIMovingToPodLeaderState : AIState
 
     protected override void _StateUpdate()
     {
-        _controller.GetActor().Move(_controller.pod.leader.transform.position);
+        //_controller.GetActor().Move(_controller.pod.leader.transform.position);
     }
 }

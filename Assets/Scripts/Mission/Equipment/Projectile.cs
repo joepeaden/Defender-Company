@@ -24,6 +24,8 @@ public class Projectile : MonoBehaviour
     private Vector3 lastPoint;
     private bool destroying;
 
+    public bool firedWhileCrouching;
+
     private void Awake()
     {
         lastPoint = transform.position;
@@ -69,7 +71,7 @@ public class Projectile : MonoBehaviour
                 return;
 
             // don't destroy if hit actor's collider (only do so on hit box), (commented: also don't destroy if this is a collision with horizontal cover.)
-            bool shouldDestroy = other.CompareTag("HitBox") || other.CompareTag("Cover"); //(!other.isTrigger && lastHitCover != other.gameObject && actor == null);
+            bool shouldDestroy = other.CompareTag("HitBox") || (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
 
             // only hit an actor if it's the actor's hit box
             if (actor != null && other.gameObject.GetComponent<HitBox>())
@@ -115,6 +117,12 @@ public class Projectile : MonoBehaviour
         {
             audioSource.clip = data.attackSound;
             audioSource.Play();
+        }
+
+        // just to tell if it should hit floor cover or not
+        if (owningActor.state[Actor.State.Crouching])
+        {
+            firedWhileCrouching = true;
         }
     }
 

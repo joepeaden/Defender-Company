@@ -32,6 +32,7 @@ public class MissionUI : MonoBehaviour
     [SerializeField] private RectTransform reloadBarTransform;
     [SerializeField] private GameObject objectiveMarkerPrefab;
     [SerializeField] private Image healGreenOutImg;
+    [SerializeField] private GameObject gateGameObject;
     #endregion
 
     #region RewardUI vars
@@ -85,8 +86,11 @@ public class MissionUI : MonoBehaviour
         Inventory.OnNewItemAddedPlayer.AddListener(UpdateCurrentWeapon);
 
         // missed the UpdateCurrentWeapon initial event, so just update it.
-        UpdateCurrentWeapon(player.GetInventory().GetEquippedWeapon());
-        UpdateEquipment(player.GetInventory().GetEquipment());
+        //UpdateCurrentWeapon(player.GetInventory().GetEquippedWeapon());
+        //UpdateEquipment(player.GetInventory().GetEquipment());
+
+        StartNewWaveCoroutine();
+        AddObjectiveMarker(gateGameObject, "DEFEND");
     }
 
     private void Update()

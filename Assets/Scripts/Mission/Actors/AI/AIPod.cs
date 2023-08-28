@@ -6,7 +6,7 @@ public class AIPod : MonoBehaviour
 {
 		//public int podNum;
 		// public enemy number one!
-		public Enemy leader;
+		public AIActorController leader;
 	//public List<Enemy> members;
 
 	public bool isAlerted;
