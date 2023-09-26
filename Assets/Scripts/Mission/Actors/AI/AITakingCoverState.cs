@@ -72,7 +72,7 @@ public class AITakingCoverState : AIState
 				Vector3 targetMovePosition = arr[0];
 				for (int i = 1; i < arr.Length; i++)
 				{
-					if ((_controller.GetTarget().transform.position - arr[i]).magnitude > (_controller.GetTarget().transform.position - targetMovePosition).magnitude)
+					if ((_controller.AttackTarget.transform.position - arr[i]).magnitude > (_controller.AttackTarget.transform.position - targetMovePosition).magnitude)
 					{
 						targetMovePosition = arr[i];
 					}

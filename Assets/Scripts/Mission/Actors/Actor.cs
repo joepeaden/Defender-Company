@@ -80,7 +80,7 @@ public class Actor : MonoBehaviour
 	/// <summary>
     /// Not sure if it's really the actor's target, but a guess.
     /// </summary>
-	public Transform target;
+	//public Transform target;
 	public ActorTeam team;
 
 	private bool isUsingNavAgent;
@@ -200,7 +200,8 @@ public class Actor : MonoBehaviour
     {
 		for (int i = 0; i < transform.childCount; i++)
 		{
-			transform.GetChild(i).gameObject.SetActive(visible);
+			if (transform.GetChild(i).name != "SelectionHighlight")
+				transform.GetChild(i).gameObject.SetActive(visible);
 		}
 	}
 

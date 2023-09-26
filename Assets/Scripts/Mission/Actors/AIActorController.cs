@@ -11,18 +11,20 @@ using UnityEngine.Events;
 /// It probably will be worth it to have an AIActor subclass and take some of the functionality from here.
 /// Stuff like the NavMesh and "perception"
 /// </remarks>
-public class AIActorController : ActorController, ISetActive
+public abstract class AIActorController : ActorController, ISetActive
 {
-	public static UnityEvent OnEnemyKilled = new UnityEvent();
-	public static UnityEvent OnEnemySpawned = new UnityEvent();
-
+	public static UnityEvent<Actor.ActorTeam> OnActorKilled = new UnityEvent<Actor.ActorTeam>();
+	
 	public bool activateOnStart;
 	[SerializeField] private AIControllersData aiData;
 
 	private bool pauseFurtherAttacks;
 	private bool isReloading;
 	private bool recoveringFromHit;
-	private GameObject target;
+	public GameObject AttackTarget => attackTarget;
+	protected GameObject attackTarget;
+	public Transform MoveTarget => moveTarget;
+	protected Transform moveTarget;
 	private bool targetInRange;
 	private bool targetInOptimalRange;
 	public bool targetInLOS;
@@ -30,20 +32,12 @@ public class AIActorController : ActorController, ISetActive
 	public bool fullyInCover;
 	public bool fullyOutOfCover;
 
-	// the pod this actor is a member of
-	//public AIPod pod;
+	protected AIState aiState;
+	private float timeSinceLastDecision;
 
-    private new void Awake()
-    {
-		base.Awake();
-
-		aiState = new AIMovingToTargetState();//AIHoldingPositionState();
-    }
-
-    private new void Start()
+	protected new void Start()
 	{
 		base.Start();
-
 
 		//actor.AddCoverListener(ActorHasPotentialCover);
 		actor.SetWeaponFromData(data.startWeapon);
@@ -52,23 +46,18 @@ public class AIActorController : ActorController, ISetActive
 		{
 			Activate();
 		}
-
-		OnEnemySpawned.Invoke();
 	}
 
-	AIState aiState;
-	float timeSinceLastDecision;
-
-	//AIInput input;
-	private void Update()
+	protected void Update()
 	{
-		if (actor.IsAlive)
+		if (actor.IsAlive && isActiveAndEnabled)
 		{
 			timeSinceLastDecision += Time.deltaTime;
 			if (timeSinceLastDecision > aiData.decisionInterval)
 			{
 				timeSinceLastDecision = 0f;
 			}
+
 			targetInRange = IsTargetInRange(false);
 			targetInOptimalRange = IsTargetInRange(true);
 			targetInLOS = IsTargetInLOS(true);
@@ -112,12 +101,9 @@ public class AIActorController : ActorController, ISetActive
 		if (actor.IsAlive)
 		{
 			pauseFurtherAttacks = false;
-			// they know where you are.
-			target = MissionManager.Instance.GetPlayerGO();
-			actor.target = target.GetComponent<Actor>().GetShootAtMeTransform();
-			//StartCoroutine(MoveRoutine());
-			StartCoroutine(AttackRoutine());
-			//StartCoroutine(LookForCoverRoutine());
+			//target = MissionManager.Instance.GetPlayerGO();
+			//actor.target = target.GetComponent<Actor>().GetShootAtMeTransform();
+			//StartCoroutine(AttackRoutine());
 		}
 	}
 
@@ -131,7 +117,7 @@ public class AIActorController : ActorController, ISetActive
 		if (actor.IsAlive)
 		{
 			pauseFurtherAttacks = true;
-			target = null;
+			attackTarget = null;
 			StopAllCoroutines();
 
 			// if remove this move order, the actor goes to last player position. Might want it to be like that down the line. Just something to consider.
@@ -139,10 +125,46 @@ public class AIActorController : ActorController, ISetActive
 		}
 	}
 
-	public GameObject GetTarget()
-	{
-		return target;
+	public Vector3 movePosition;
+	public virtual void MoveToPosition(Vector3 position)
+    {
+		movePosition = position;
+		aiState = new AIMovingToPositionState();
+		aiState.HandleInput(new AIInput());
 	}
+
+	public void SetMoveTarget(Transform t)
+    {
+		moveTarget = t;
+		aiState = new AIMovingToTargetState();
+		(aiState as AIMovingToTargetState).followOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+		aiState.HandleInput(new AIInput());
+	}
+
+	public void SetAttackTarget(GameObject g)
+	{
+		if (isActiveAndEnabled)
+		{
+			attackTarget = g;
+			//if (target.GetComponent<Actor>() != null)
+			//      {
+			//	actor.target = target.GetComponent<Actor>().GetShootAtMeTransform();
+			//}
+			//else
+			//      {
+			//	actor.target = target.transform;
+			//      }
+
+			StartCoroutine(AttackRoutine());
+		}
+	}
+
+	public void ClearAttackTarget()
+    {
+		StopCoroutine(AttackRoutine());
+		attackTarget = null;
+		//actor.target = null;
+    }
 
 	public AIControllersData GetAIData()
     {
@@ -152,9 +174,20 @@ public class AIActorController : ActorController, ISetActive
 	private IEnumerator AttackRoutine()
     {
 		// need to also check if the actor is on the player's screen (unless they are a sniper?)
-
+		
 		while (actor.IsAlive)
 		{
+			if (!attackTarget.GetComponent<Actor>().IsAlive)
+            {
+				ClearAttackTarget();
+				break;
+            }
+			//if (target == null)
+   //         {
+			//	yield return null;
+			//	continue;
+   //         }
+
 			// if don't have ammo, reload
 			if (actor.GetEquippedWeaponAmmo() <= 0)
 			{
@@ -169,9 +202,9 @@ public class AIActorController : ActorController, ISetActive
 			}
 
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
-			if (target != null && !isReloading && !recoveringFromHit && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
+			if (attackTarget != null && !isReloading && !recoveringFromHit && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
-				actor.UpdateActorRotation(target.transform.position);
+				actor.UpdateActorRotation(attackTarget.transform.position);
 
 				if (!pauseFurtherAttacks)
 				{
@@ -206,20 +239,20 @@ public class AIActorController : ActorController, ISetActive
 
 	private bool IsTargetInRange(bool optimalRange)
     {
-		if (target == null)
+		if (attackTarget == null)
         {
 			return false;
         }
 
 		InventoryWeapon weapon = actor.GetEquippedWeapon();
-		float distFromTarget = (target.transform.position - transform.position).magnitude;
+		float distFromTarget = (attackTarget.transform.position - transform.position).magnitude;
 		return distFromTarget <= (optimalRange ? weapon.data.optimalRange : weapon.data.range);
     }
 
 	private bool IsTargetInDetectionRadius()
 	{
 		// if in detection radius return true
-		if (target != null && (transform.position - target.transform.position).magnitude <= aiData.detectionRadius)
+		if (attackTarget != null && (transform.position - attackTarget.transform.position).magnitude <= aiData.detectionRadius)
         {
 			return true;
         }
@@ -233,25 +266,30 @@ public class AIActorController : ActorController, ISetActive
 	/// <returns></returns>
 	private bool AmIFullyInOrOutOfCover(bool intoCover)
 	{
+		if (attackTarget == null)
+        {
+			return false;
+        }
+
 		float actorWidth = actor.GetWidth();
 
-		Quaternion q = Quaternion.LookRotation(target.transform.position - transform.position);
+		Quaternion q = Quaternion.LookRotation(attackTarget.transform.position - transform.position);
 		Vector3 newRot = q * Vector3.right;
 
 
 		//Debug.DrawRay(transform.position + (transform.right * actorWidth / 2), ((transform.position + (transform.right * actorWidth / 2))) * 10f, Color.red);
 
 		Vector3 rayStartPos = transform.position + (newRot * (actorWidth / 2));
-		Vector3 rayDir = target.transform.position - rayStartPos;//((transform.position + (transform.right * actorWidth / 2)));
+		Vector3 rayDir = attackTarget.transform.position - rayStartPos;//((transform.position + (transform.right * actorWidth / 2)));
 
 		Ray r = new Ray(rayStartPos, rayDir);
 
-		Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
+		//Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
 
 		RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
 		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == target).ToArray();
+		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
 		RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
 		// in Line of Sight
@@ -278,15 +316,15 @@ public class AIActorController : ActorController, ISetActive
 		}
 
 		rayStartPos = transform.position + (-newRot * (actorWidth / 2));
-		rayDir = target.transform.position - rayStartPos;//((transform.position - (transform.right * actorWidth / 2)));
+		rayDir = attackTarget.transform.position - rayStartPos;//((transform.position - (transform.right * actorWidth / 2)));
 		r = new Ray(rayStartPos, rayDir);
 
-		Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
+		//Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
 
 		hits = Physics.RaycastAll(r, 1000f);
 		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == target).ToArray();
+		targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
 		blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
 		int blockingHits2 = 0;
@@ -326,11 +364,16 @@ public class AIActorController : ActorController, ISetActive
 
     private bool IsTargetInLOS(bool ignoreFloorCover)
     {
-		Ray r = new Ray(transform.position, (target.transform.position - transform.position));
+		if (attackTarget == null)
+        {
+			return false;
+        }
+
+		Ray r = new Ray(transform.position, (attackTarget.transform.position - transform.position));
 		RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
 		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == target).ToArray();
+		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
 		RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
 		// in Line of Sight
@@ -364,7 +407,7 @@ public class AIActorController : ActorController, ISetActive
 
 	protected override void HandleDeath()
     {
-		OnEnemyKilled.Invoke();
+		OnActorKilled.Invoke(actor.team);
 		base.HandleDeath();
     }
 

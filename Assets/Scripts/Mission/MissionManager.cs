@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,8 +25,11 @@ public class MissionManager : MonoBehaviour
     // should be in SO probably
     public static float slowMotionSpeed = .5f;
 
+    [SerializeField] private GameObject gateGO;
     [SerializeField] private GameObject playerGO;
     private Player player;
+
+    public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>(); 
 
     private AudioSource genericSoundPlayer;
 
@@ -58,8 +62,8 @@ public class MissionManager : MonoBehaviour
 
         PlayerInput.InitializeControls();
 
-        AIActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
-        AIActorController.OnEnemyKilled.AddListener(HandleEnemyKilled);
+        EnemyActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
+        AIActorController.OnActorKilled.AddListener(HandleActorKilled);
 
         // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
         //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
@@ -80,8 +84,8 @@ public class MissionManager : MonoBehaviour
     private void OnDestroy()
     {
         player.RemoveDeathListener(HandlePlayerDeath);
-        AIActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
-        AIActorController.OnEnemyKilled.RemoveListener(HandleEnemyKilled);
+        EnemyActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
+        AIActorController.OnActorKilled.RemoveListener(HandleActorKilled);
     }
 
     public void InitializeMission(MissionData mission)
@@ -133,6 +137,11 @@ public class MissionManager : MonoBehaviour
         return player;
     }
 
+    public GameObject GetGateGO()
+    {
+        return gateGO;
+    }
+
     public GameObject GetPlayerGO()
     {
         return playerGO;
@@ -161,9 +170,16 @@ public class MissionManager : MonoBehaviour
         enemiesAlive++;
     }
 
-    private void HandleEnemyKilled()
+    private void HandleActorKilled(Actor.ActorTeam team)
     {
-        enemiesAlive--;
+        if (team == Actor.ActorTeam.Enemy)
+        {
+            enemiesAlive--;
+        }
+        else
+        {
+            Debug.Log("Friendly Actor killed");
+        }
     }
 
     private void HandlePlayerDeath()

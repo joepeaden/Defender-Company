@@ -91,7 +91,25 @@ public class MissionUI : MonoBehaviour
 
         StartNewWaveCoroutine();
         AddObjectiveMarker(gateGameObject, "DEFEND");
+
+        //PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
+        //PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
     }
+
+    // fuck it for now
+    private bool isSelectionDragging;
+    //private void OnDragStartRegistered()
+    //{
+    //    isSelectionDragging = true;
+
+    //    selectionBox.SetActive(true);
+    //}
+    //private void OnDragEndRegistered()
+    //{
+    //    isSelectionDragging = false;
+
+    //    selectionBox.SetActive(false);
+    //}
 
     private void Update()
     {
@@ -104,7 +122,28 @@ public class MissionUI : MonoBehaviour
 
             ammoTxt.text = "Ammo: " + loaded + "/" + totalAmmoString;
         }
+
+        if (isSelectionDragging)
+        {
+            Vector2 dragStart = Camera.main.WorldToScreenPoint(PlayerInput.dragStart);
+            Vector2 dragEnd = Camera.main.WorldToScreenPoint(PlayerInput.dragEnd);
+
+
+            selectionBox.GetComponent<RectTransform>().anchorMax = dragStart;
+            selectionBox.GetComponent<RectTransform>().anchorMin = dragEnd;
+
+            //Rect r = selectionBox.GetComponent<RectTransform>().rect;
+
+            //r.xMin = PlayerInput.dragStart.x;
+            //r.xMax = PlayerInput.dragEnd.x;
+            //r.yMax = PlayerInput.dragStart.y;
+            //r.yMin = PlayerInput.dragEnd.y;
+
+            //selectionBox.GetComponent<RectTransform>().rect = r;
+        }
     }
+
+    public GameObject selectionBox;
 
     private void OnDestroy()
     {

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
-  m_Name: PistolEnemyController
+  m_Name: FriendlyActorController
   m_EditorClassIdentifier: 
-  canMoveAndShoot: 0
+  canMoveAndShoot: 1
   canAim: 0
-  useCoverChance: 0.1
-  scoreValue: 50
-  startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
+  useCoverChance: 0.3
+  scoreValue: 200
+  startWeapon: {fileID: 11400000, guid: 7ee812632c51d344bbebe9005dbf8a6e, type: 2}
   shootPauseTimeMax: 4
   shootPauseTimeMin: 2
   maxBurstFrames: 60
-  minBurstFrames: 1
-  navAgentSpeed: 5
+  minBurstFrames: 15
+  navAgentSpeed: 9
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

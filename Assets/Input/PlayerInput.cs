@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Directly interacts with PlayerControls and sends out events / stores input info.
@@ -18,6 +20,8 @@ public static class PlayerInput
 	public static UnityEvent OnSelect = new UnityEvent();
 	public static UnityEvent OnBButton = new UnityEvent();
 	public static UnityEvent<Vector2> OnNavigate = new UnityEvent<Vector2>();
+	public static UnityEvent OnDragStarted = new UnityEvent();
+	public static UnityEvent OnDragEnded = new UnityEvent();
 
 	public static Vector2 MovementInput => movementInput;
 	private static Vector2 movementInput;
@@ -25,6 +29,12 @@ public static class PlayerInput
 	private static Vector2 rotationInput;
 	public static bool UsingMouseForRotation => usingMouseForRotation;
 	private static bool usingMouseForRotation;
+
+	private static List<FriendlyActorController> selectedFriendlies = new List<FriendlyActorController>();
+	private static AIActorController targetedActor;
+
+	public static Vector3 dragStart;
+	public static Vector3 dragEnd;
 
 	private static PlayerControls controls;
 
@@ -35,6 +45,7 @@ public static class PlayerInput
 			controls = new PlayerControls();
 		}
 
+		controls.Gameplay.EnterCommandMode.performed += HandleCommandModeEnter;
 		controls.Gameplay.Move.performed += HandleMovementInput;
         controls.Gameplay.Move.canceled += ZeroMovementInput;
         controls.Gameplay.Sprint.performed += HandleSprintPerformedInput;
@@ -54,6 +65,136 @@ public static class PlayerInput
 		controls.UI.Select.performed += HandleSelectInput;
 		controls.UI.Navigate.started += HandleNavigationInput;
 		controls.UI.BButton.performed += HandleBButtonInput;
+		controls.Command.ExitCommandMode.performed += HandleCommandModeExit;
+		controls.Command.Select.performed += HandleCommandSelect;
+		controls.Command.RightClick.performed += HandleCommandRightClick;
+		controls.Command.Drag.performed += HandleCommandDragStart;
+		controls.Command.Drag.canceled += HandleCommandDragEnd;
+		controls.Command.FollowMe.performed += HandleCommandFollow;
+	}
+
+	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
+    {
+		selectedFriendlies.ForEach(x => x.SetMoveTarget(MissionManager.Instance.GetPlayerGO().transform));
+    }
+
+	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)
+    {
+		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
+		foreach (RaycastHit hit in hits)
+        {
+			// only select friendly actors for now.
+			AIActorController actorCont = hit.transform.gameObject.GetComponent<AIActorController>();
+			if (actorCont != null && actorCont.GetActor().team == Actor.ActorTeam.Friendly)
+            {
+				ClearSelectedFriendlies();
+
+				selectedFriendlies.Add(hit.transform.gameObject.GetComponent<FriendlyActorController>());
+
+				hit.transform.gameObject.GetComponent<FriendlyActorController>().UpdateSelection(true);
+            }
+        }
+	}
+
+	private static void ClearSelectedFriendlies()
+    {
+		foreach (FriendlyActorController friendly in selectedFriendlies)
+		{
+			friendly.UpdateSelection(false);
+		}
+		selectedFriendlies.Clear();
+	}
+
+	private static void HandleCommandDragStart(InputAction.CallbackContext cntxt)
+	{
+		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		dragStart = worldPoint;
+
+		OnDragStarted.Invoke();
+
+		ClearSelectedFriendlies();
+	}
+
+	private static void HandleCommandDragEnd(InputAction.CallbackContext cntxt)
+	{
+		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		dragEnd = worldPoint;
+
+		float rightmostValue = dragStart.x > dragEnd.x ? dragStart.x : dragEnd.x;
+		float leftmostValue = dragStart.x == rightmostValue ? dragEnd.x : dragStart.x;
+		float topmostValue = dragStart.z > dragEnd.z ? dragStart.z : dragEnd.z;
+		float bottommostValue = dragStart.z == topmostValue ? dragEnd.z : dragStart.z;
+
+		foreach (FriendlyActorController friendly in MissionManager.Instance.friendlyActors)
+        {
+			if (friendly != null)
+            {
+				// if friendly within selection box
+				if (friendly.transform.position.x > leftmostValue && friendly.transform.position.x < rightmostValue
+					&& friendly.transform.position.z > bottommostValue && friendly.transform.position.z < topmostValue)
+                {
+					friendly.UpdateSelection(true);
+					selectedFriendlies.Add(friendly);
+                }
+            }
+        }
+
+		OnDragEnded.Invoke();
+	}
+
+	private static void HandleCommandRightClick(InputAction.CallbackContext cntxt)
+	{
+		// now for the record it would be good to have a "Selection Manager" probably. Or maybe a "commands manager".
+
+		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+		bool isTargetingSomeone = false;
+		Debug.DrawRay(worldPoint, Vector3.down, Color.red);
+		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
+		foreach (RaycastHit hit in hits)
+		{
+			// it's important that we check the collider of the hit not the transform. For some reason, the transform
+			// is a reference to teh actual actor transform not the collider transform.
+			AIActorController actorTarget = hit.collider.gameObject.GetComponent<AIActorController>();
+			if (actorTarget != null && actorTarget.GetActor().team == Actor.ActorTeam.Enemy)
+			{
+				targetedActor = hit.collider.gameObject.GetComponent<AIActorController>();
+				isTargetingSomeone = true;	
+			}
+		}
+
+		if (!isTargetingSomeone)
+        {
+			targetedActor = null;
+        }
+
+		if (selectedFriendlies != null)
+		{
+			if (isTargetingSomeone)
+			{
+				selectedFriendlies.ForEach((friendly) => friendly.SetAttackTarget(targetedActor.gameObject));
+			}
+			else
+			{
+				worldPoint.y = 0f;
+
+				selectedFriendlies.ForEach((friendly) => friendly.MoveToPosition(worldPoint));
+			}
+		}
+	}
+
+	private static void HandleCommandModeExit(InputAction.CallbackContext cntxt)
+	{
+		controls.Command.Disable();
+		controls.Gameplay.Enable();
+	}
+
+	private static void HandleCommandModeEnter(InputAction.CallbackContext cntxt)
+	{
+		controls.Gameplay.Disable();
+		controls.Command.Enable();
 	}
 
 	private static void HandleBButtonInput(InputAction.CallbackContext cntxt)
@@ -201,5 +342,25 @@ public static class PlayerInput
             controls = new PlayerControls();
         }
         controls.UI.Disable();
+	}
+
+	public static void EnableCommandControls()
+	{
+		if (controls == null)
+		{
+			controls = new PlayerControls();
+		}
+
+		controls.Command.Enable();
+	}
+
+	public static void DisableCommandControls()
+	{
+		if (controls == null)
+		{
+			controls = new PlayerControls();
+		}
+
+		controls.Command.Disable();
 	}
 }

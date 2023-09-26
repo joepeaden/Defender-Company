@@ -213,6 +213,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Enter Command Mode"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f72ed88-59cb-4d20-be76-1e0cd392cfcd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -468,6 +477,125 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Rotate Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa99b506-53a5-4391-bf9a-b26ca1d2402f"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter Command Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Command"",
+            ""id"": ""173c501e-4796-4d61-bd4a-f031965ca4a5"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit Command Mode"",
+                    ""type"": ""Button"",
+                    ""id"": ""98197270-8709-4059-8c54-d6edf09bafd4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d9716bb-7dd4-4aaf-8d0b-57d523db7850"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""8ab99da2-5ded-4183-b94f-8648821b4234"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Button"",
+                    ""id"": ""2fb8f1b6-fe8f-4a24-8dd9-928a5ba362c9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Follow Me"",
+                    ""type"": ""Button"",
+                    ""id"": ""b7912b84-dcd2-4774-85be-97cc25e1a882"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""c5c229b2-62b8-45ff-8d77-8c04e3c120c1"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit Command Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55716318-13ae-4976-9711-c3cf1c5fa45b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d9680f7-5911-4f99-8626-533e23abc646"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf63dba4-8d3e-4213-bf5e-9b00444a16ff"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=0.1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88e22d08-faad-4f4c-9b5b-1966fa1335a1"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Follow Me"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -493,6 +621,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_UseEquipment = m_Gameplay.FindAction("Use Equipment", throwIfNotFound: true);
         m_Gameplay_SwitchWeaponsMouse = m_Gameplay.FindAction("Switch Weapons Mouse", throwIfNotFound: true);
         m_Gameplay_RotateMouse = m_Gameplay.FindAction("Rotate Mouse", throwIfNotFound: true);
+        m_Gameplay_EnterCommandMode = m_Gameplay.FindAction("Enter Command Mode", throwIfNotFound: true);
+        // Command
+        m_Command = asset.FindActionMap("Command", throwIfNotFound: true);
+        m_Command_ExitCommandMode = m_Command.FindAction("Exit Command Mode", throwIfNotFound: true);
+        m_Command_Select = m_Command.FindAction("Select", throwIfNotFound: true);
+        m_Command_RightClick = m_Command.FindAction("Right Click", throwIfNotFound: true);
+        m_Command_Drag = m_Command.FindAction("Drag", throwIfNotFound: true);
+        m_Command_FollowMe = m_Command.FindAction("Follow Me", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -635,6 +771,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_UseEquipment;
     private readonly InputAction m_Gameplay_SwitchWeaponsMouse;
     private readonly InputAction m_Gameplay_RotateMouse;
+    private readonly InputAction m_Gameplay_EnterCommandMode;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -650,6 +787,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @UseEquipment => m_Wrapper.m_Gameplay_UseEquipment;
         public InputAction @SwitchWeaponsMouse => m_Wrapper.m_Gameplay_SwitchWeaponsMouse;
         public InputAction @RotateMouse => m_Wrapper.m_Gameplay_RotateMouse;
+        public InputAction @EnterCommandMode => m_Wrapper.m_Gameplay_EnterCommandMode;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -692,6 +830,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RotateMouse.started += instance.OnRotateMouse;
             @RotateMouse.performed += instance.OnRotateMouse;
             @RotateMouse.canceled += instance.OnRotateMouse;
+            @EnterCommandMode.started += instance.OnEnterCommandMode;
+            @EnterCommandMode.performed += instance.OnEnterCommandMode;
+            @EnterCommandMode.canceled += instance.OnEnterCommandMode;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -729,6 +870,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @RotateMouse.started -= instance.OnRotateMouse;
             @RotateMouse.performed -= instance.OnRotateMouse;
             @RotateMouse.canceled -= instance.OnRotateMouse;
+            @EnterCommandMode.started -= instance.OnEnterCommandMode;
+            @EnterCommandMode.performed -= instance.OnEnterCommandMode;
+            @EnterCommandMode.canceled -= instance.OnEnterCommandMode;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -746,6 +890,84 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Command
+    private readonly InputActionMap m_Command;
+    private List<ICommandActions> m_CommandActionsCallbackInterfaces = new List<ICommandActions>();
+    private readonly InputAction m_Command_ExitCommandMode;
+    private readonly InputAction m_Command_Select;
+    private readonly InputAction m_Command_RightClick;
+    private readonly InputAction m_Command_Drag;
+    private readonly InputAction m_Command_FollowMe;
+    public struct CommandActions
+    {
+        private @PlayerControls m_Wrapper;
+        public CommandActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ExitCommandMode => m_Wrapper.m_Command_ExitCommandMode;
+        public InputAction @Select => m_Wrapper.m_Command_Select;
+        public InputAction @RightClick => m_Wrapper.m_Command_RightClick;
+        public InputAction @Drag => m_Wrapper.m_Command_Drag;
+        public InputAction @FollowMe => m_Wrapper.m_Command_FollowMe;
+        public InputActionMap Get() { return m_Wrapper.m_Command; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CommandActions set) { return set.Get(); }
+        public void AddCallbacks(ICommandActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CommandActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CommandActionsCallbackInterfaces.Add(instance);
+            @ExitCommandMode.started += instance.OnExitCommandMode;
+            @ExitCommandMode.performed += instance.OnExitCommandMode;
+            @ExitCommandMode.canceled += instance.OnExitCommandMode;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
+            @Drag.started += instance.OnDrag;
+            @Drag.performed += instance.OnDrag;
+            @Drag.canceled += instance.OnDrag;
+            @FollowMe.started += instance.OnFollowMe;
+            @FollowMe.performed += instance.OnFollowMe;
+            @FollowMe.canceled += instance.OnFollowMe;
+        }
+
+        private void UnregisterCallbacks(ICommandActions instance)
+        {
+            @ExitCommandMode.started -= instance.OnExitCommandMode;
+            @ExitCommandMode.performed -= instance.OnExitCommandMode;
+            @ExitCommandMode.canceled -= instance.OnExitCommandMode;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
+            @Drag.started -= instance.OnDrag;
+            @Drag.performed -= instance.OnDrag;
+            @Drag.canceled -= instance.OnDrag;
+            @FollowMe.started -= instance.OnFollowMe;
+            @FollowMe.performed -= instance.OnFollowMe;
+            @FollowMe.canceled -= instance.OnFollowMe;
+        }
+
+        public void RemoveCallbacks(ICommandActions instance)
+        {
+            if (m_Wrapper.m_CommandActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICommandActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CommandActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CommandActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CommandActions @Command => new CommandActions(this);
     public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
@@ -766,5 +988,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnUseEquipment(InputAction.CallbackContext context);
         void OnSwitchWeaponsMouse(InputAction.CallbackContext context);
         void OnRotateMouse(InputAction.CallbackContext context);
+        void OnEnterCommandMode(InputAction.CallbackContext context);
+    }
+    public interface ICommandActions
+    {
+        void OnExitCommandMode(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
+        void OnDrag(InputAction.CallbackContext context);
+        void OnFollowMe(InputAction.CallbackContext context);
     }
 }

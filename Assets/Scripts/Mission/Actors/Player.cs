@@ -62,6 +62,7 @@ public class Player : ActorController
 
     private void OnEnable()
     {
+		
 		PlayerInput.EnableGameplayControls();
     }
 
