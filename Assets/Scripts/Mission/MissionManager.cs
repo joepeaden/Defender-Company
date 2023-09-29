@@ -69,7 +69,7 @@ public class MissionManager : MonoBehaviour
         //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
     }
 
-    private void Start()
+    public void EndBuildPhase()
     {
         StartCoroutine(InitializeMissionWhenGameManagerReady());
     }

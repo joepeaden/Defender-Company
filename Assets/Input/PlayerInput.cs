@@ -22,6 +22,7 @@ public static class PlayerInput
 	public static UnityEvent<Vector2> OnNavigate = new UnityEvent<Vector2>();
 	public static UnityEvent OnDragStarted = new UnityEvent();
 	public static UnityEvent OnDragEnded = new UnityEvent();
+	//public static UnityEvent OnPlaceBuilding = new UnityEvent();
 
 	public static Vector2 MovementInput => movementInput;
 	private static Vector2 movementInput;
@@ -71,7 +72,18 @@ public static class PlayerInput
 		controls.Command.Drag.performed += HandleCommandDragStart;
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
+		//controls.Build.LeftClick.performed += HandleBuildLeftClick;
 	}
+
+	// at some point - migrate building controls to here... ? Is it necessary?
+	// Maybe? Maybe not?
+	// depends how complex the become.
+
+	//private static void HandleBuildLeftClick(InputAction.CallbackContext cntxt)
+ //   {
+
+ //       OnPlaceBuilding.Invoke();
+ //   }
 
 	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
     {
