@@ -1044,6 +1044,8 @@ MonoBehaviour:
   targetInLOS: 0
   fullyInCover: 0
   fullyOutOfCover: 0
+  bombPrefab: {fileID: 2345039802422252422, guid: 79ffa8f559da349acbb3fd814ea03a5c, type: 3}
+  movePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &3634169881766258620 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2062017164814779945, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}

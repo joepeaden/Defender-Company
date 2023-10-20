@@ -71,6 +71,7 @@ public class MissionManager : MonoBehaviour
 
     public void EndBuildPhase()
     {
+        MissionUI.Instance.ShowBattleUI();
         StartCoroutine(InitializeMissionWhenGameManagerReady());
     }
 

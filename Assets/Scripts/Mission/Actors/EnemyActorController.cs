@@ -1,4 +1,5 @@
 ﻿using UnityEngine.Events;
+using UnityEngine;
 
 /// <summary>
 /// Base class for enemy actors.
@@ -13,7 +14,8 @@ public class EnemyActorController : AIActorController, ISetActive
 
 		if (isActiveAndEnabled)
 		{
-			aiState = new AIMovingToTargetState();//AIHoldingPositionState();
+			aiState = new AIMovingToTargetState();
+			//new AIDeliveringBombState();
 		}
 	}
 
@@ -25,7 +27,7 @@ public class EnemyActorController : AIActorController, ISetActive
 
 		if (isActiveAndEnabled)
 		{
-			SetMoveTarget(MissionManager.Instance.GetPlayerGO().transform);
+			SetMoveTarget(MissionManager.Instance.GetPlayerGO().transform); // GameObject.FindGameObjectWithTag("WallBuilding").transform);
 		}
 		//SetTarget(MissionManager.Instance.GetGateGO());
 		//SetMoveTarget(MissionManager.GetGate());

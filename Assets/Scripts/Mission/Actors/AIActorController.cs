@@ -125,6 +125,12 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
+	public GameObject bombPrefab;
+	public void PlaceBomb()
+    {
+		Instantiate(bombPrefab, transform.position, transform.rotation);
+    }
+
 	public Vector3 movePosition;
 	public virtual void MoveToPosition(Vector3 position)
     {
@@ -136,8 +142,8 @@ public abstract class AIActorController : ActorController, ISetActive
 	public void SetMoveTarget(Transform t)
     {
 		moveTarget = t;
-		aiState = new AIMovingToTargetState();
-		(aiState as AIMovingToTargetState).followOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+		//aiState = new AIMovingToTargetState();
+		//(aiState as AIMovingToTargetState).followOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
 		aiState.HandleInput(new AIInput());
 	}
 

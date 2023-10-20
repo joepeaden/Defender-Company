@@ -18,10 +18,6 @@ public class FriendlyActorController : AIActorController, ISetActive
 
     public override void MoveToPosition(Vector3 position)
     {
-        // add a little variance so units aren't on top of eachother
-        position.x += Random.Range(-3f, 3f);
-        position.z += Random.Range(-3f, 3f);
-
         base.MoveToPosition(position);
         movePositionSprite.transform.position = position;
     }

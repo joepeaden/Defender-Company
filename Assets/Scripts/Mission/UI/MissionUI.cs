@@ -46,6 +46,16 @@ public class MissionUI : MonoBehaviour
     private List<Button> shopItemButtons = new List<Button>();
     #endregion
 
+    [Header("Building UI")]
+    [SerializeField] private GameObject buildingUI;
+    [SerializeField] private TMP_Text remainingTUText;
+    private TMP_Text wallBuildingButtonText;
+    [SerializeField] private Button wallBuildingButton;
+    private TMP_Text stairsBuildingButtonText;
+    [SerializeField] private Button stairsBuildingButton;
+    private TMP_Text mineBuildingButtonText;
+    [SerializeField] private Button mineBuildingButton;
+
     private Player player;
     private VolumeProfile postProcProfile;
     private void Awake()
@@ -69,6 +79,10 @@ public class MissionUI : MonoBehaviour
         PlayerInput.OnNavigate.AddListener(HandleNavigation);
 
         ShopItemButton.OnNewHoveredButton.AddListener(UpdateHoveredButton);
+
+        wallBuildingButtonText = wallBuildingButton.transform.GetComponentInChildren<TMP_Text>();
+        stairsBuildingButtonText = stairsBuildingButton.transform.GetComponentInChildren<TMP_Text>();
+        mineBuildingButtonText = mineBuildingButton.transform.GetComponentInChildren<TMP_Text>();
     }
 
     private void Start()
@@ -89,7 +103,6 @@ public class MissionUI : MonoBehaviour
         //UpdateCurrentWeapon(player.GetInventory().GetEquippedWeapon());
         //UpdateEquipment(player.GetInventory().GetEquipment());
 
-        StartNewWaveCoroutine();
         AddObjectiveMarker(gateGameObject, "DEFEND");
 
         //PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
@@ -272,9 +285,24 @@ public class MissionUI : MonoBehaviour
         }
     }
 
-    private void ShowBattleUI()
+    public void UpdateRemainingTU(int newVal)
     {
+        remainingTUText.text = "Remaining Time Units: " + newVal;
+        
+        wallBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
+        wallBuildingButtonText.color = wallBuildingButton.interactable ? Color.white : Color.red;
+        stairsBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
+        stairsBuildingButtonText.color = stairsBuildingButton.interactable ? Color.white : Color.red;
+        //mineBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
+        //mineBuildingButtonText.color = mineBuildingButton.interactable ? Color.white : Color.red;
+    }
+
+    public void ShowBattleUI()
+    {
+        ShowWaveText();
+
         rewardUI.SetActive(false);
+        buildingUI.SetActive(false);
         battleUI.SetActive(true);
     }
 
@@ -307,7 +335,7 @@ public class MissionUI : MonoBehaviour
         equipmentTxt.text = str;
     }
 
-    private void StartNewWaveCoroutine()
+    private void ShowWaveText()
     {
         StartCoroutine(WaveTextFade());
     }

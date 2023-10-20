@@ -15,6 +15,7 @@ TagManager:
   - Walls
   - WeaponModel
   - SnapToAimBox
+  - WallBuilding
   layers:
   - Default
   - TransparentFX

@@ -30,31 +30,42 @@ public class ExplosiveInstance : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(explosionPos, data.explosionRadius);
         foreach (Collider hit in colliders)
         {
+            // keeping the shatter stuff - if we go back to 3D, that'll be a good idea.
+
             // lol
-            Shatter shat = hit.GetComponent<Shatter>();
-            if (shat != null)
-            {
-                shat.ShatterObject();
-            }
+            //Shatter shat = hit.GetComponent<Shatter>();
+            //if (shat != null)
+            //{
+            //    shat.ShatterObject();
+            //}
 
             //Actor hitActor = hit.GetComponent<Actor>();
             //if (hitActor != null)
             //{
             //    hitActor.GetHit(data.damage);
             //}
+
+            Building hitBuilding = hit.GetComponent<Building>();
+            if (hitBuilding != null)
+            {
+                hitBuilding.hitPoints -= data.damage;
+            }
+
         }
+
+        // don't need force for now.
 
         // apply force
         // colliders is retrieved twice becasue if there's a Shatter object now we need to detect the pieces.
         // Yeah, there's better ways to do this, whatever.
-        colliders = Physics.OverlapSphere(explosionPos, data.explosionRadius);
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
+        //colliders = Physics.OverlapSphere(explosionPos, data.explosionRadius);
+        //foreach (Collider hit in colliders)
+        //{
+        //    Rigidbody rb = hit.GetComponent<Rigidbody>();
 
-            if (rb != null)
-                rb.AddExplosionForce(data.explosionPower, explosionPos, data.explosionRadius, data.upwardsForce);
-        }
+        //    if (rb != null)
+        //        rb.AddExplosionForce(data.explosionPower, explosionPos, data.explosionRadius, data.upwardsForce);
+        //}
 
         Instantiate(data.explosionPrefab, transform.position, transform.rotation);
 

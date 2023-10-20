@@ -88,11 +88,17 @@ public class Actor : MonoBehaviour
 	private List<AudioClip> woundSounds;
 
 	// both of these aren't used probably now.
-	private bool movingToCover;
-	private Cover targetCover;
+	//private bool movingToCover;
+	//private Cover targetCover;
 
 	// this one's actually used right now.
-	private GameObject cover;
+	//private GameObject cover;
+
+	// these things affect hit chances
+	public bool IsInCover => isBehindSandbags;
+	private bool isBehindSandbags;
+	public bool IsOnWall => isOnWall;
+	private bool isOnWall;
 
 	private void Awake()
     {
@@ -149,36 +155,43 @@ public class Actor : MonoBehaviour
 		EmitVelocityInfo.Invoke(isUsingNavAgent ? navAgent.velocity : rigidBody.velocity);
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-		Cover collisionCover = collision.gameObject.GetComponent<Cover>();
-
-		if (collisionCover && collisionCover == targetCover)
+		if (collision.gameObject.CompareTag("WallBuilding"))
         {
-			movingToCover = false;
+			isOnWall = true;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<Cover>() != null)
-        {
-			cover = other.gameObject;
-        }
-    }
-
-	private void OnTriggerExit(Collider other)
+	private void OnCollisionExit(Collision collision)
 	{
-		if (other.gameObject.GetComponent<Cover>() != null)
+		if (collision.gameObject.CompareTag("WallBuilding"))
 		{
-			cover = null;
+			isOnWall = false;
 		}
 	}
 
-	/// <summary>
+
+	private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<CoverZone>() != null)
+        {
+            isBehindSandbags = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<CoverZone>() != null)
+        {
+            isBehindSandbags = false;
+        }
+    }
+
+    /// <summary>
     /// Get width of the actor's collider
     /// </summary>
-	public float GetWidth()
+    public float GetWidth()
     {
 		//x and z should be the same for now.
 		return transform.lossyScale.z;
@@ -601,8 +614,7 @@ public class Actor : MonoBehaviour
 	/// </summary>
 	/// <param name="damage">Damage to deal to this actor.</param>
 	/// <returns>If the projectile should </returns>
-	//public bool GetHit(int damage, Vector3 hitLocation, Vector3 hitDirection)
-	public bool GetHit(Projectile projectile)
+	public bool ProcessHit(Projectile projectile)
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
@@ -611,22 +623,36 @@ public class Actor : MonoBehaviour
 		}
 
 		// if we're crouching and the projectile went over the cover in front of us, don't hurt me pwease.
-		if (state[State.Crouching] && projectile.lastHitCover != null && projectile.lastHitCover == cover)
-		{
-				gotHit = false;
-		}
-
-		// should dodging chance from crouching come back? Could be neat.
-		//if (state[State.Crouching])
+		//if (state[State.Crouching] && projectile.lastHitCover != null && projectile.lastHitCover == cover)
 		//{
-		//	float dogeRoll = Random.Range(0f, 1f);
-
-		//	Debug.Log("Chance: " + data.crouchDogeChance + "Rolled: " + dogeRoll);
-
-		//	gotHit = dogeRoll > data.crouchDogeChance;
+		//	gotHit = false;
 		//}
 
-		if (gotHit)
+		// should dodging chance from crouching come back? Could be neat.
+		//if ()
+		//      {
+		//          float dogeRoll = Random.Range(0f, 1f);
+
+		//          Debug.Log("Chance: " + data.crouchDogeChance + "Rolled: " + dogeRoll);
+
+		//          gotHit = dogeRoll > data.crouchDogeChance;
+		//      }
+
+		int hitPenalty = 0;
+		if (isBehindSandbags)
+		{
+			hitPenalty += 30;
+		}
+		if (isOnWall)
+		{
+			hitPenalty += 30;
+		}
+
+		float hitRoll = Random.Range(0, 100);
+		gotHit = hitRoll > hitPenalty;
+
+		
+        if (gotHit)
 		{
 			HitPoints -= projectile.GetData().damage;
 

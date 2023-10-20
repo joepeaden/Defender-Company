@@ -161,7 +161,7 @@ public static class PlayerInput
 		// now for the record it would be good to have a "Selection Manager" probably. Or maybe a "commands manager".
 
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+		//CoverZone coverZone = null;
 		bool isTargetingSomeone = false;
 		Debug.DrawRay(worldPoint, Vector3.down, Color.red);
 		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
@@ -175,6 +175,10 @@ public static class PlayerInput
 				targetedActor = hit.collider.gameObject.GetComponent<AIActorController>();
 				isTargetingSomeone = true;	
 			}
+
+			// need to get cover position for each actor.
+			// also idk if it's super good idea to do all these raycasts. would it not be better to just detect the click on the gameobject with OnPointerDown or something?
+			//coverZone = hit.collider.gameObject.GetComponent<CoverZone>();
 		}
 
 		if (!isTargetingSomeone)
@@ -190,9 +194,69 @@ public static class PlayerInput
 			}
 			else
 			{
-				worldPoint.y = 0f;
+				for (int i = 0; i < selectedFriendlies.Count; i++)
+                {
+					Vector3 newPos;
+					//if (coverZone == null)
+					//{
+					newPos = worldPoint;
+					newPos.y = 0f;
+					// first guy should go exactly on mouse click
+					if (i != 0)
+					{
+						// makes this kinda shape
+						// x x x
+						// x x x
+						// x x x
+						// yeah yeah yeah I know I know I know this could be done with some modulo stuff or whatever but I don't feel like it.
 
-				selectedFriendlies.ForEach((friendly) => friendly.MoveToPosition(worldPoint));
+						if (i == 1)
+						{
+							newPos.x += 3;
+						}
+						else if (i == 2)
+						{
+							newPos.z += 3;
+						}
+						else if (i == 3)
+						{
+							newPos.x += 3;
+							newPos.z += 3;
+						}
+						else if (i == 4)
+						{
+							newPos.x += 6;
+						}
+						else if (i == 5)
+						{
+							newPos.x += 6;
+							newPos.z += 3;
+						}
+						else if (i == 6)
+						{
+							newPos.z += 6;
+						}
+						else if (i == 7)
+						{
+							newPos.x += 3;
+							newPos.z += 6;
+						}
+						else if (i == 8)
+						{
+							newPos.x += 6;
+							newPos.z += 6;
+						}
+					}
+					//}
+					//else
+					//{
+					//	newPos = coverZone.GetRandomPositionInZone();
+					//}
+
+                    selectedFriendlies[i].MoveToPosition(newPos);
+				}
+
+								
 			}
 		}
 	}
