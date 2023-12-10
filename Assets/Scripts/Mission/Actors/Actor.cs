@@ -218,6 +218,17 @@ public class Actor : MonoBehaviour
 		}
 	}
 
+	public bool CheckForValidPath(Vector3 position)
+    {
+		NavMeshPath path = new NavMeshPath();
+		return navAgent.CalculatePath(position, path);
+		//if (path.status == NavMeshPathStatus.PathPartial)
+		//{
+		//}
+
+		//return 
+    }
+
 	// Either this method needs to be done away with or it needs to be only internal... I don't think
 	// that actors should be calling this method. They should just call a method like ToggleCrouch() instead of 
 	// SetState(Crouch). Figure out how to handle states. Don't want the impression that this is the only place 
@@ -560,6 +571,8 @@ public class Actor : MonoBehaviour
 		inventory.AttemptAddItem(loot.item);
     }
 
+	bool hasSetMove = false;
+
 	/// <summary>
 	/// Move laterally in moveVector direction. Move force can be found in the ActorData Scriptable Object.
 	/// </summary>
@@ -567,7 +580,12 @@ public class Actor : MonoBehaviour
 	/// <param name="moveVector">If not useNavMesh, direction of movement. If useNavMesh, the destination of the agent.</param>
 	public void Move(Vector3 moveVector, bool useNavMesh = true)
     {
-		isUsingNavAgent = useNavMesh;
+		if (navAgent.destination == moveVector)
+        {
+            return;
+        }
+		
+        isUsingNavAgent = useNavMesh;
 
 		if (moveVector != Vector3.zero)
 		{
@@ -596,7 +614,10 @@ public class Actor : MonoBehaviour
 		else if (useNavMesh)
         {
 			navAgent.destination = transform.position;
+			//hasSetMove = true;
         }
+
+		hasSetMove = true;
 	}
 
     public void StopMoving()

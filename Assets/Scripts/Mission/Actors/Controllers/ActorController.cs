@@ -6,7 +6,7 @@ public abstract class ActorController : MonoBehaviour
     [HideInInspector]
     public UnityEvent OnActorDeath = new UnityEvent();
 
-    public ControllerData Data => data;
+    //private ControllerData Data => data;
     [SerializeField]
     protected ControllerData data;
     protected Actor actor;
@@ -69,5 +69,10 @@ public abstract class ActorController : MonoBehaviour
     public Actor GetActor()
     {
         return actor;
+    }
+
+    public void SetControllerData(ControllerData newControllerData)
+    {
+        data = newControllerData;
     }
 }

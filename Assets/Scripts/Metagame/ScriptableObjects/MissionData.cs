@@ -19,6 +19,6 @@ public class MissionData : ScriptableObject
     public int completionReward;
     public int enemyCount;
     public VictoryCondition victoryCondition;
-    public List<GameObject> includedEnemyTypes;
+    public List<ControllerData> includedEnemyTypes;
 }
 

@@ -87,7 +87,7 @@ public static class PlayerInput
 
 	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
     {
-		selectedFriendlies.ForEach(x => x.SetMoveTarget(MissionManager.Instance.GetPlayerGO().transform));
+		selectedFriendlies.ForEach(x => x.SetFollowTarget(MissionManager.Instance.GetPlayerGO().transform));
     }
 
 	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)

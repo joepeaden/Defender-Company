@@ -13,11 +13,12 @@ public class EnemySpawner : MonoBehaviour
     public Transform enemiesParent;
     [SerializeField]
     private bool canSpawnOnScreen;
+    [SerializeField] GameObject actorPrefab;
 
     /// <summary>
     /// The current list of enemy prefabs to be chosen from (based on current wave)
     /// </summary>
-    private static List<GameObject> spawnableEnemyPrefabs = new List<GameObject>();
+    private static List<ControllerData> spawnableEnemyTypes = new List<ControllerData>();
 
     public WaveData data;
 
@@ -27,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
         MissionManager.OnMissionStart.AddListener(StartSpawningCoroutine);
 
         // for reloading the scene
-        spawnableEnemyPrefabs.Clear();
+        spawnableEnemyTypes.Clear();
 
     }
 
@@ -47,9 +48,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawningCoroutine()
     {
-        foreach (GameObject enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
+        foreach (ControllerData enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
         {
-            spawnableEnemyPrefabs.Add(enemyPrefab);
+            spawnableEnemyTypes.Add(enemyPrefab);
         }
 
         shouldSpawn = true;
@@ -63,7 +64,7 @@ public class EnemySpawner : MonoBehaviour
             float waitTime = Random.Range(data.minSpawnTime, data.maxSpawnTime);
             yield return new WaitForSeconds(waitTime);
 
-            int randomEnemyIndex = Random.Range(0, spawnableEnemyPrefabs.Count);
+            int randomEnemyIndex = Random.Range(0, spawnableEnemyTypes.Count);
 
             // here because it's after the waitforseconds, so should be no accidental spawns after over the limit
             if (totalEnemiesSpawned >= MissionManager.CurrentMisison.enemyCount)
@@ -90,7 +91,9 @@ public class EnemySpawner : MonoBehaviour
             // while waiting other spawners may have already spit out some and may want to not spawn now.
             if (shouldSpawn)
             {
-                Instantiate(spawnableEnemyPrefabs[randomEnemyIndex], transform.position, Quaternion.identity, enemiesParent);
+                Instantiate(actorPrefab, transform.position, Quaternion.identity, enemiesParent);
+                // set the enemy type
+                actorPrefab.GetComponentInChildren<ActorController>().SetControllerData(spawnableEnemyTypes[randomEnemyIndex]);
 
                 totalEnemiesSpawned++;
                 if (totalEnemiesSpawned >= MissionManager.CurrentMisison.enemyCount)

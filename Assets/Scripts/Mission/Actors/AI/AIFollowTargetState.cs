@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// The actor is moving towards its target.
 /// </summary>
-public class AIMovingToTargetState : AIState
+public class AIFollowTargetState : AIState
 {
     protected override AIState _HandleInput(AIInput input)
     {
@@ -21,7 +21,7 @@ public class AIMovingToTargetState : AIState
     {
         //if ((_controller.transform.position - _controller.MoveTarget.position).magnitude > 5f)
         //{
-            _controller.GetActor().Move(_controller.MoveTarget.position + followOffset);
+        _controller.GetActor().Move(_controller.FollowTarget.position);// + followOffset);
         //}
     }
 }

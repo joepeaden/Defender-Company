@@ -8,10 +8,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ControllerData", menuName = "MyScriptables/ControllerData")]
 public class ControllerData : ScriptableObject
 {
+	/// <summary>
+    /// Defines how an AI Actor will act.
+    /// </summary>
+	public enum AIBehaviourType
+    {
+		Attacker,
+		Sapper
+    }
+
 	// not all of these are gonna be used. Can split this data up between player and AI if deemed necessary.
 	// deemed is a cool word.
 
 	// AI control stuff (and navAgentSpeed which is for both)
+	public AIBehaviourType behaviourType;
 	public bool canMoveAndShoot;
 	public bool canAim;
 	/// <summary>

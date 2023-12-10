@@ -26,6 +26,12 @@ public abstract class AIState
     // can add Enter if needed later.
     //public void Enter();
 
+    public virtual void EnterState(AIActorController controller, AIState prevAIState)
+    {
+        _controller = controller;
+        _prevAIState = prevAIState;
+    }
+
     // going to change these "Enemy" refs to "AIController" later.
     public AIState HandleInput(AIInput input)
     {
@@ -42,10 +48,10 @@ public abstract class AIState
 
     public void StateUpdate(AIActorController controller, AIState prevAIState)
     {
-        Debug.Log(this.GetType());
+        //Debug.Log(this.GetType());
 
-        _controller = controller;
-        _prevAIState = prevAIState;
+        //_controller = controller;
+        //_prevAIState = prevAIState;
         _StateUpdate();
     }
 

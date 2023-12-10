@@ -23,8 +23,10 @@ public abstract class AIActorController : ActorController, ISetActive
 	private bool recoveringFromHit;
 	public GameObject AttackTarget => attackTarget;
 	protected GameObject attackTarget;
-	public Transform MoveTarget => moveTarget;
-	protected Transform moveTarget;
+	public Transform FollowTarget => followTarget;
+	protected Transform followTarget;
+	public Vector3 MovePosition => movePosition;
+	public Vector3 movePosition;
 	private bool targetInRange;
 	private bool targetInOptimalRange;
 	public bool targetInLOS;
@@ -50,7 +52,7 @@ public abstract class AIActorController : ActorController, ISetActive
 
 	protected void Update()
 	{
-		if (actor.IsAlive && isActiveAndEnabled)
+		if (actor.IsAlive && isActiveAndEnabled && aiState != null)
 		{
 			timeSinceLastDecision += Time.deltaTime;
 			if (timeSinceLastDecision > aiData.decisionInterval)
@@ -80,8 +82,8 @@ public abstract class AIActorController : ActorController, ISetActive
 				targetInOptimalRange = targetInOptimalRange,
 				targetInLOS = targetInLOS,
 				//targetInDetectionRadius = targetInDetectionRadius,
-				distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
-				podAlerted = true,//pod.isAlerted,
+				//distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
+				//podAlerted = true,//pod.isAlerted,
 				fullyInCover = fullyInCover,
 				fullyOutOfCover = fullyOutOfCover
 			};
@@ -91,10 +93,16 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
-	/// <summary>
-	/// Begin lookng for player and show model.
-	/// </summary>
-	public void Activate()
+  //  public void Move(Vector3 movePosition)
+  //  {
+		//if (movePosition)
+		//GetActor().Move(movePosition);
+  //  }
+
+    /// <summary>
+    /// Begin lookng for player and show model.
+    /// </summary>
+    public void Activate()
 	{
 		actor.SetVisibility(true);
 
@@ -131,20 +139,25 @@ public abstract class AIActorController : ActorController, ISetActive
 		Instantiate(bombPrefab, transform.position, transform.rotation);
     }
 
-	public Vector3 movePosition;
 	public virtual void MoveToPosition(Vector3 position)
     {
+		// don't tell the navagent to go to the same place twice
+		if (position == movePosition)
+        {
+			return;
+        }
+
 		movePosition = position;
-		aiState = new AIMovingToPositionState();
-		aiState.HandleInput(new AIInput());
+
+		actor.Move(movePosition);
 	}
 
-	public void SetMoveTarget(Transform t)
+	public void SetFollowTarget(Transform t)
     {
-		moveTarget = t;
-		//aiState = new AIMovingToTargetState();
-		//(aiState as AIMovingToTargetState).followOffset = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
-		aiState.HandleInput(new AIInput());
+		followTarget = t;
+		aiState = new AIFollowTargetState();
+		aiState.EnterState(this, null);
+		//aiState.HandleInput(new AIInput());
 	}
 
 	public void SetAttackTarget(GameObject g)
