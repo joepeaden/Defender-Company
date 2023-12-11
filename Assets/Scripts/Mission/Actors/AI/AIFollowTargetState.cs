@@ -1,27 +1,30 @@
 using UnityEngine;
 
 /// <summary>
-/// The actor is moving towards its target.
+/// The actor is following something.
 /// </summary>
 public class AIFollowTargetState : AIState
 {
-    protected override AIState _HandleInput(AIInput input)
+    protected override void _EnterState()
     {
-        //if(input.targetInOptimalRange && input.targetInLOS)
-        //{
-        //    return new AIHoldingPositionCombatState();
-        //}
+        ;
+    }
 
+    protected override AIState _StateUpdate()
+    {
+        _controller.GetActor().Move(_controller.FollowTarget.position);
+
+        if (_controller.ShouldGoToPosition())
+        {
+            return new AIMovingToPositionState();
+        }
+        
         return this;
     }
 
-    public Vector3 followOffset;
-
-    protected override void _StateUpdate()
+    protected override void _ExitState()
     {
-        //if ((_controller.transform.position - _controller.MoveTarget.position).magnitude > 5f)
-        //{
-        _controller.GetActor().Move(_controller.FollowTarget.position);// + followOffset);
-        //}
+        base._ExitState();
+        _controller.StopFollowingSomething();
     }
 }

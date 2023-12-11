@@ -218,16 +218,19 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	public bool CheckForValidPath(Vector3 position)
-    {
-		NavMeshPath path = new NavMeshPath();
-		return navAgent.CalculatePath(position, path);
-		//if (path.status == NavMeshPathStatus.PathPartial)
-		//{
-		//}
+	//public Vector3 GetNearestNavPosition(Vector3 targetPos)
+ //   {
+	//	NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 10f, NavMesh.AllAreas);
 
-		//return 
-    }
+	//	return hit.position;
+	//	//NavMeshPath path = new NavMeshPath();
+	//	//return navAgent.CalculatePath(position, path);
+	//	//if (path.status == NavMeshPathStatus.PathPartial)
+	//	//{
+	//	//}
+
+	//	//return 
+ //   }
 
 	// Either this method needs to be done away with or it needs to be only internal... I don't think
 	// that actors should be calling this method. They should just call a method like ToggleCrouch() instead of 
@@ -571,8 +574,6 @@ public class Actor : MonoBehaviour
 		inventory.AttemptAddItem(loot.item);
     }
 
-	bool hasSetMove = false;
-
 	/// <summary>
 	/// Move laterally in moveVector direction. Move force can be found in the ActorData Scriptable Object.
 	/// </summary>
@@ -616,8 +617,6 @@ public class Actor : MonoBehaviour
 			navAgent.destination = transform.position;
 			//hasSetMove = true;
         }
-
-		hasSetMove = true;
 	}
 
     public void StopMoving()

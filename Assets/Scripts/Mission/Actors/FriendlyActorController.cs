@@ -11,14 +11,14 @@ public class FriendlyActorController : AIActorController, ISetActive
     protected new void Start()
     {
         base.Start();
-		aiState = new AIHoldingPositionCombatState();
+		SetInitialState(new AIHoldingPositionCombatState());
 
         MissionManager.Instance.friendlyActors.Add(this);
     }
 
-    public override void MoveToPosition(Vector3 position)
+    public override void GoToPosition(Vector3 position)
     {
-        base.MoveToPosition(position);
+        base.GoToPosition(position);
         movePositionSprite.transform.position = position;
     }
 

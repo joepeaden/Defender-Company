@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.Events;
-
-public abstract class AIState
+﻿public abstract class AIState
 {
     /// <summary>
     /// Previous AIState.
@@ -20,41 +14,39 @@ public abstract class AIState
     public float TimeInState => timeInState;
     private float timeInState;
 
-    //protected AIInput LatestInput => latestInput;
-    //private AIInput latestInput;
-
-    // can add Enter if needed later.
-    //public void Enter();
-
-    public virtual void EnterState(AIActorController controller, AIState prevAIState)
+    public void EnterState(AIActorController controller, AIState prevAIState)
     {
-        _controller = controller;
-        _prevAIState = prevAIState;
-    }
-
-    // going to change these "Enemy" refs to "AIController" later.
-    public AIState HandleInput(AIInput input)
-    {
-        //latestInput = input;
-
-        // get how long we've been in this state.
-        if (_prevAIState != null && _prevAIState.GetType() == this.GetType())
+        if (prevAIState == this)
         {
-            timeInState = Time.deltaTime + _prevAIState.TimeInState;
+            return;
         }
 
-        return _HandleInput(input);
+        _controller = controller;
+        _prevAIState = prevAIState;
+
+        _EnterState();
     }
 
-    public void StateUpdate(AIActorController controller, AIState prevAIState)
+    public AIState StateUpdate(AIActorController controller, AIState prevAIState)
     {
         //Debug.Log(this.GetType());
 
         //_controller = controller;
         //_prevAIState = prevAIState;
-        _StateUpdate();
+        AIState newState = _StateUpdate();
+        if (newState != this)
+        {
+            _ExitState();
+        }
+
+        return newState;
     }
 
-    protected abstract AIState _HandleInput(AIInput input);
-    protected abstract void _StateUpdate();
+    protected virtual void _ExitState()
+    {
+
+    }
+
+    protected abstract AIState _StateUpdate();
+    protected abstract void _EnterState();
 }

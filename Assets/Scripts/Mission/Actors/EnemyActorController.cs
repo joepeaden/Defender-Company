@@ -12,8 +12,9 @@ public class EnemyActorController : AIActorController, ISetActive
 	//{
 	//	base.Awake();
 
-		
+
 	//}
+
 
     protected new void Start()
 	{
@@ -32,31 +33,22 @@ public class EnemyActorController : AIActorController, ISetActive
 		switch (data.behaviourType)
 		{
 			case ControllerData.AIBehaviourType.Sapper:
-				
-				aiState = new AIMovingToPositionStateSapper();
-				aiState.EnterState(this, null);
-				//foreach (GameObject wallGameObject in GameObject.FindGameObjectsWithTag("WallBuilding"))
-				//            {
-				//                if (!wallGameObject.GetComponent<Building>().isTargeted)
-				//                {
-				//                    wallGameObject.GetComponent<Building>().isTargeted = true;
-				//                    MoveToPosition(wallGameObject.transform.position);
-				//                    return;
-				//                }
-				//            }
+				SetInitialState(new AIDeliveringBombState());
 				break;
-
-                // if we made it here then there's no available targets, just attack instead of bombing.
-                // THAT'S RIGHT, IT'S A GOTO! EVERYBODY FREAK OUT!
-                //goto case ControllerData.AIBehaviourType.Attacker;
-
 			case ControllerData.AIBehaviourType.Attacker:
-				//aiState = new AIFollowTargetState();
-				SetFollowTarget(MissionManager.Instance.GetPlayerGO().transform);
-				return;
+				SetInitialState(new AIFollowTargetState());
+				break;
 			default:
 				aiState = new AIHoldingPositionCombatState();
-				return;
+				break;
 		}
 	}
+
+   // public void OnCollisionEnter(Collider col)
+   // {
+   //     if (col)
+   //     {
+			//bumpedIntoWall = true;
+   //     }
+   // }
 }

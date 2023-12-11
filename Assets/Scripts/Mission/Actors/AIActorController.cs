@@ -54,42 +54,47 @@ public abstract class AIActorController : ActorController, ISetActive
 	{
 		if (actor.IsAlive && isActiveAndEnabled && aiState != null)
 		{
-			timeSinceLastDecision += Time.deltaTime;
-			if (timeSinceLastDecision > aiData.decisionInterval)
+			//timeSinceLastDecision += Time.deltaTime;
+			//if (timeSinceLastDecision > aiData.decisionInterval)
+			//{
+			//	timeSinceLastDecision = 0f;
+			//}
+
+			//targetInRange = IsTargetInRange(false);
+			//targetInOptimalRange = IsTargetInRange(true);
+			//targetInLOS = IsTargetInLOS(true);
+
+			////bool targetInDetectionRadius = IsTargetInDetectionRadius();
+
+			////if (IsTargetInDetectionRadius() && targetInLOS)
+			////         {
+			////	pod.isAlerted = true;
+			////         }
+
+			//fullyInCover = AmIFullyInOrOutOfCover(true);
+			//fullyOutOfCover = AmIFullyInOrOutOfCover(false);
+
+			//// ya know. Maybe a smarter way to do this would be have the state call whatever methods to get whatever information it needs. Not all this info is relevant to every state.
+			//AIInput newInput = new AIInput
+			//{
+			//	timeForDecision = timeSinceLastDecision == 0f,
+			//	targetInRange = targetInRange,
+			//	targetInOptimalRange = targetInOptimalRange,
+			//	targetInLOS = targetInLOS,
+			//	//targetInDetectionRadius = targetInDetectionRadius,
+			//	//distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
+			//	//podAlerted = true,//pod.isAlerted,
+			//	fullyInCover = fullyInCover,
+			//	fullyOutOfCover = fullyOutOfCover
+			//};
+
+			//aiState = aiState.HandleInput(newInput);
+			AIState oldAiState = aiState;
+			aiState = aiState.StateUpdate(this, aiState);
+			if (oldAiState != aiState)
 			{
-				timeSinceLastDecision = 0f;
+				aiState.EnterState(this, oldAiState);
 			}
-
-			targetInRange = IsTargetInRange(false);
-			targetInOptimalRange = IsTargetInRange(true);
-			targetInLOS = IsTargetInLOS(true);
-
-			//bool targetInDetectionRadius = IsTargetInDetectionRadius();
-
-			//if (IsTargetInDetectionRadius() && targetInLOS)
-   //         {
-			//	pod.isAlerted = true;
-   //         }
-
-			fullyInCover = AmIFullyInOrOutOfCover(true);
-			fullyOutOfCover = AmIFullyInOrOutOfCover(false);
-
-			// ya know. Maybe a smarter way to do this would be have the state call whatever methods to get whatever information it needs. Not all this info is relevant to every state.
-			AIInput newInput = new AIInput
-			{
-				timeForDecision = timeSinceLastDecision == 0f,
-				targetInRange = targetInRange,
-				targetInOptimalRange = targetInOptimalRange,
-				targetInLOS = targetInLOS,
-				//targetInDetectionRadius = targetInDetectionRadius,
-				//distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
-				//podAlerted = true,//pod.isAlerted,
-				fullyInCover = fullyInCover,
-				fullyOutOfCover = fullyOutOfCover
-			};
-
-			aiState = aiState.HandleInput(newInput);
-			aiState.StateUpdate(this, aiState);
 		}
 	}
 
@@ -99,10 +104,43 @@ public abstract class AIActorController : ActorController, ISetActive
 		//GetActor().Move(movePosition);
   //  }
 
-    /// <summary>
-    /// Begin lookng for player and show model.
-    /// </summary>
-    public void Activate()
+	protected void SetInitialState(AIState initialState)
+    {
+		if (initialState as AIFollowTargetState != null)
+		{
+			FollowThisThing(MissionManager.Instance.GetPlayerGO().transform);
+		}
+		else if (initialState as AIDeliveringBombState != null)
+        {
+			bool foundWall = false;
+            foreach (GameObject wallGameObject in GameObject.FindGameObjectsWithTag("WallBuilding"))
+            {
+                if (!wallGameObject.GetComponent<Building>().isTargeted)
+                {
+                    wallGameObject.GetComponent<Building>().isTargeted = true;
+
+					GoToPosition(wallGameObject.transform.position - (transform.forward * 3f));
+                    foundWall = true;
+                    break;
+                }
+            }
+
+			// if can't find suitible target, just attack
+            if (!foundWall)
+            {
+				initialState = new AIFollowTargetState();
+                FollowThisThing(MissionManager.Instance.GetPlayerGO().transform);
+            }
+        }
+
+		aiState = initialState;
+		aiState.EnterState(this, null);
+	}
+
+	/// <summary>
+	/// Begin lookng for player and show model.
+	/// </summary>
+	public void Activate()
 	{
 		actor.SetVisibility(true);
 
@@ -139,7 +177,17 @@ public abstract class AIActorController : ActorController, ISetActive
 		Instantiate(bombPrefab, transform.position, transform.rotation);
     }
 
-	public virtual void MoveToPosition(Vector3 position)
+	public bool ShouldGoToPosition()
+    {
+		return movePosition != Vector3.zero;
+    }
+
+	public void StopGoingToPosition()
+    {
+		movePosition = Vector3.zero;
+    }
+
+	public virtual void GoToPosition(Vector3 position)
     {
 		// don't tell the navagent to go to the same place twice
 		if (position == movePosition)
@@ -148,16 +196,21 @@ public abstract class AIActorController : ActorController, ISetActive
         }
 
 		movePosition = position;
-
-		actor.Move(movePosition);
 	}
 
-	public void SetFollowTarget(Transform t)
+	public bool ShouldFollowSomething()
+    {
+		return followTarget != null;
+    }
+
+	public void StopFollowingSomething()
+    {
+		followTarget = null;
+    }
+
+	public void FollowThisThing(Transform t)
     {
 		followTarget = t;
-		aiState = new AIFollowTargetState();
-		aiState.EnterState(this, null);
-		//aiState.HandleInput(new AIInput());
 	}
 
 	public void SetAttackTarget(GameObject g)

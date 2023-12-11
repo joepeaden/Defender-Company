@@ -1,28 +1,11 @@
 using UnityEngine;
 
-public class AIDeliveringBombState : AIState
+public class AIDeliveringBombState : AIMovingToPositionState
 {
-    bool hasPlantedBomb = false;
-
-    protected override AIState _HandleInput(AIInput input)
+    protected override void _ExitState()
     {
-        return this;
-    }
+        base._ExitState();
 
-    protected override void _StateUpdate()
-    {
-        if (!hasPlantedBomb)
-        {
-            if ((_controller.FollowTarget.position - _controller.transform.position).magnitude < 6f)
-            {
-                _controller.PlaceBomb();
-                hasPlantedBomb = true;
-            }
-            else
-            {
-                _controller.GetActor().Move(_controller.MovePosition);
-
-            }
-        }
+        _controller.PlaceBomb();
     }
 }

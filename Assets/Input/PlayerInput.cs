@@ -87,7 +87,7 @@ public static class PlayerInput
 
 	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
     {
-		selectedFriendlies.ForEach(x => x.SetFollowTarget(MissionManager.Instance.GetPlayerGO().transform));
+		selectedFriendlies.ForEach(x => x.FollowThisThing(MissionManager.Instance.GetPlayerGO().transform));
     }
 
 	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)
@@ -247,13 +247,8 @@ public static class PlayerInput
 							newPos.z += 6;
 						}
 					}
-					//}
-					//else
-					//{
-					//	newPos = coverZone.GetRandomPositionInZone();
-					//}
 
-                    selectedFriendlies[i].MoveToPosition(newPos);
+                    selectedFriendlies[i].GoToPosition(newPos);
 				}
 
 								
