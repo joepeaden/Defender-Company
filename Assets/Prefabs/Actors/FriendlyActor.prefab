@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_FlipX: 0
@@ -373,7 +373,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a5eaabce74f0c114186db956167794eb, type: 2}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalScale.x
@@ -1219,11 +1219,11 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 531818308a8a14cc399be3e6ec18f7fc, type: 2}
   activateOnStart: 1
   aiData: {fileID: 11400000, guid: c97b62c9c12dd40699ccbd2fa27d8db3, type: 2}
+  movePosition: {x: 0, y: 0, z: 0}
   targetInLOS: 0
   fullyInCover: 0
   fullyOutOfCover: 0
   bombPrefab: {fileID: 0}
-  movePosition: {x: 0, y: 0, z: 0}
   movePositionSprite: {fileID: 5405348601360001930}
   selectionHighlight: {fileID: 5309291495994027439}
 --- !u!114 &3634169881766258620 stripped

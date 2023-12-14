@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Directly interacts with PlayerControls and sends out events / stores input info.
@@ -92,6 +93,8 @@ public static class PlayerInput
 
 	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)
     {
+		ClearSelectedFriendlies();
+
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
@@ -119,42 +122,46 @@ public static class PlayerInput
 		selectedFriendlies.Clear();
 	}
 
-	private static void HandleCommandDragStart(InputAction.CallbackContext cntxt)
+	private static async void HandleCommandDragStart(InputAction.CallbackContext cntxt)
 	{
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		dragStart = worldPoint;
 
-		OnDragStarted.Invoke();
+		await Task.Delay(200);
 
-		ClearSelectedFriendlies();
+		if (Mouse.current.leftButton.isPressed)
+		{
+			dragStart = worldPoint;
+			//OnDragStarted.Invoke();
+			ClearSelectedFriendlies();
+		}
 	}
 
 	private static void HandleCommandDragEnd(InputAction.CallbackContext cntxt)
 	{
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		dragEnd = worldPoint;
+        dragEnd = worldPoint;
 
-		float rightmostValue = dragStart.x > dragEnd.x ? dragStart.x : dragEnd.x;
-		float leftmostValue = dragStart.x == rightmostValue ? dragEnd.x : dragStart.x;
-		float topmostValue = dragStart.z > dragEnd.z ? dragStart.z : dragEnd.z;
-		float bottommostValue = dragStart.z == topmostValue ? dragEnd.z : dragStart.z;
+        float rightmostValue = dragStart.x > dragEnd.x ? dragStart.x : dragEnd.x;
+        float leftmostValue = dragStart.x == rightmostValue ? dragEnd.x : dragStart.x;
+        float topmostValue = dragStart.z > dragEnd.z ? dragStart.z : dragEnd.z;
+        float bottommostValue = dragStart.z == topmostValue ? dragEnd.z : dragStart.z;
 
-		foreach (FriendlyActorController friendly in MissionManager.Instance.friendlyActors)
+        foreach (FriendlyActorController friendly in MissionManager.Instance.friendlyActors)
         {
-			if (friendly != null)
+            if (friendly != null)
             {
-				// if friendly within selection box
-				if (friendly.transform.position.x > leftmostValue && friendly.transform.position.x < rightmostValue
-					&& friendly.transform.position.z > bottommostValue && friendly.transform.position.z < topmostValue)
+                // if friendly within selection box
+                if (friendly.transform.position.x > leftmostValue && friendly.transform.position.x < rightmostValue
+                    && friendly.transform.position.z > bottommostValue && friendly.transform.position.z < topmostValue)
                 {
-					friendly.UpdateSelection(true);
-					selectedFriendlies.Add(friendly);
+                    friendly.UpdateSelection(true);
+                    selectedFriendlies.Add(friendly);
                 }
             }
         }
 
-		OnDragEnded.Invoke();
-	}
+        //OnDragEnded.Invoke();
+    }
 
 	private static void HandleCommandRightClick(InputAction.CallbackContext cntxt)
 	{

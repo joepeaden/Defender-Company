@@ -24,8 +24,6 @@ public class Building : MonoBehaviour
 
             BuildingManager.Instance.RebuildNav();
             Destroy(gameObject);
-
-            //StartCoroutine(TriggerRebuildAfterAFrame());
         }
 
         if (isBeingPlaced)
@@ -34,12 +32,4 @@ public class Building : MonoBehaviour
             transform.position = BuildingManager.Instance.GetClosestSnapPos(mousePos);
         }
     }
-
-    //private IEnumerator TriggerRebuildAfterAFrame()
-    //{
-    //    yield return null;
-
-    //    BuildingManager.Instance.RebuildNav();
-    //    Destroy(gameObject);
-    //}
 }

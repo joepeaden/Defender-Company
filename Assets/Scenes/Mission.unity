@@ -339,7 +339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &44666399
 Transform:
   m_ObjectHideFlags: 0
@@ -11608,6 +11608,7 @@ MonoBehaviour:
   equipmentTxt: {fileID: 1920675721}
   reloadBarTransform: {fileID: 641457012}
   objectiveMarkerPrefab: {fileID: 9171761444369206799, guid: cb903c644fbe34bfcaee4db63f0f83f9, type: 3}
+  entityMarkerPrefab: {fileID: 9171761444369206799, guid: 54c9f0d9b8ce44ee5a77d23f7e828cb3, type: 3}
   healGreenOutImg: {fileID: 1098954812}
   gateGameObject: {fileID: 1722411294}
   rewardUI: {fileID: 1153375447}
@@ -13061,7 +13062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2064763569
 Transform:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class Actor : MonoBehaviour
 	public UnityAction OnActorBeginAim;
 	public UnityAction OnActorEndAim;
 	[HideInInspector] public UnityEvent OnDeath = new UnityEvent();
-	[HideInInspector] public UnityEvent<Projectile> OnGetHit = new UnityEvent<Projectile>();
+	[HideInInspector] public UnityEvent OnGetHit = new UnityEvent();
 	[HideInInspector] public UnityEvent OnHeal = new UnityEvent();
 	[HideInInspector] public UnityEvent OnCrouch = new UnityEvent();
 	[HideInInspector] public UnityEvent OnStand = new UnityEvent();
@@ -634,7 +634,7 @@ public class Actor : MonoBehaviour
 	/// </summary>
 	/// <param name="damage">Damage to deal to this actor.</param>
 	/// <returns>If the projectile should </returns>
-	public bool ProcessHit(Projectile projectile)
+	public bool ProcessHit(int damage)
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
@@ -674,7 +674,7 @@ public class Actor : MonoBehaviour
 		
         if (gotHit)
 		{
-			HitPoints -= projectile.GetData().damage;
+			HitPoints -= damage;
 
 			// don't always play the sound.
 			int index = Random.Range(0, woundSounds.Count * 3);
@@ -683,7 +683,7 @@ public class Actor : MonoBehaviour
 				PlaySound(woundSounds[index]);
 			}
 
-			OnGetHit.Invoke(projectile);
+			OnGetHit.Invoke();
 
 			if (HitPoints <= 0)
 			{

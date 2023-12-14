@@ -38,6 +38,33 @@ public class Player : ActorController
 		actor.OnHeal.AddListener(HandleHeal);
 
 		StartCoroutine(SetupGear());
+
+		string[] nameOptions =
+		{
+			"Rourke",
+			"Niels",
+			"Smith",
+			"Danson",
+			"Peters",
+			"Wang",
+			"O'Malley",
+			"Bauer",
+			"Rochefort",
+			"Dumas",
+			"Garcia",
+			"Vargas",
+			"Anderson",
+			"Thomas",
+			"Brown",
+			"Grey",
+			"Benson",
+			"Al-Hilli",
+			"Cohen",
+			"Rosenberg",
+			"Goldstein"
+		};
+		int randomIndex = Random.Range(0, nameOptions.Length - 1);
+		MissionUI.Instance.AddEntityMarker(this, nameOptions[randomIndex]);
 	}
 
 	private IEnumerator SetupGear()
@@ -270,9 +297,7 @@ public class Player : ActorController
 	/// <summary>
 	/// Don't need params; just update the health UI.
 	/// </summary>
-	/// <param name="hitLocation"></param>
-	/// <param name="hitDirection"></param>
-	protected override void HandleGetHit(Projectile proj)
+	protected override void HandleGetHit()
 	{
 		UpdateHealthUI();
 	}

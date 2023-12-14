@@ -60,9 +60,9 @@ public abstract class AIActorController : ActorController, ISetActive
 			//	timeSinceLastDecision = 0f;
 			//}
 
-			//targetInRange = IsTargetInRange(false);
-			//targetInOptimalRange = IsTargetInRange(true);
-			//targetInLOS = IsTargetInLOS(true);
+			targetInRange = IsTargetInRange(false);
+            targetInOptimalRange = IsTargetInRange(true);
+            targetInLOS = IsTargetInLOS(true);
 
 			////bool targetInDetectionRadius = IsTargetInDetectionRadius();
 
@@ -290,7 +290,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
-	protected override void HandleGetHit(Projectile p)
+	protected override void HandleGetHit()
 	{
 		StartCoroutine(RecoverFromHitCoroutine());
 	}

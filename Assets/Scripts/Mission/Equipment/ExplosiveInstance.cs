@@ -39,11 +39,11 @@ public class ExplosiveInstance : MonoBehaviour
             //    shat.ShatterObject();
             //}
 
-            //Actor hitActor = hit.GetComponent<Actor>();
-            //if (hitActor != null)
-            //{
-            //    hitActor.GetHit(data.damage);
-            //}
+            Actor hitActor = hit.GetComponent<Actor>();
+            if (hitActor != null)
+            {
+                hitActor.ProcessHit(data.damage);
+            }
 
             Building hitBuilding = hit.GetComponent<Building>();
             if (hitBuilding != null)

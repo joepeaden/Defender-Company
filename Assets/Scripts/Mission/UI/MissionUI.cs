@@ -31,6 +31,7 @@ public class MissionUI : MonoBehaviour
     [SerializeField] private TMP_Text equipmentTxt;
     [SerializeField] private RectTransform reloadBarTransform;
     [SerializeField] private GameObject objectiveMarkerPrefab;
+    [SerializeField] private GameObject entityMarkerPrefab;
     [SerializeField] private Image healGreenOutImg;
     [SerializeField] private GameObject gateGameObject;
     #endregion
@@ -215,6 +216,12 @@ public class MissionUI : MonoBehaviour
     {
         GameObject marker = Instantiate(objectiveMarkerPrefab, battleUI.transform);
         marker.GetComponent<ObjectiveMarker>().SetData(objectToMark.transform, label);
+    }
+
+    public void AddEntityMarker(ActorController controller, string label)
+    {
+        GameObject marker = Instantiate(entityMarkerPrefab, battleUI.transform);
+        marker.GetComponent<EntityMarker>().SetData(controller, label);
     }
 
     public bool InMenu()

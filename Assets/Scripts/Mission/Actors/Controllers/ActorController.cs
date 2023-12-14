@@ -33,7 +33,7 @@ public abstract class ActorController : MonoBehaviour
     /// <summary>
     /// Some times ya get hit. But you gotta just get up. Keep pushing forward. Don't stop. You can do this.
     /// </summary>
-    protected abstract void HandleGetHit(Projectile p);
+    protected abstract void HandleGetHit();
 
     /// <summary>
     /// Think about life. How it went. Did you do all you could? Did you say what you needed to say?

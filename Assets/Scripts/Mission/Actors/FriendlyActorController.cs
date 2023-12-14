@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class FriendlyActorController : AIActorController, ISetActive
 {
@@ -14,6 +15,33 @@ public class FriendlyActorController : AIActorController, ISetActive
 		SetInitialState(new AIHoldingPositionCombatState());
 
         MissionManager.Instance.friendlyActors.Add(this);
+
+        string[] nameOptions =
+        {
+            "Rourke",
+            "Niels",
+            "Smith",
+            "Danson",
+            "Peters",
+            "Wang",
+            "O'Malley",
+            "Bauer",
+            "Rochefort",
+            "Dumas",
+            "Garcia",
+            "Vargas",
+            "Anderson",
+            "Thomas",
+            "Brown",
+            "Grey",
+            "Benson",
+            "Al-Hilli",
+            "Cohen",
+            "Rosenberg",
+            "Goldstein"
+        };
+        int randomIndex = Random.Range(0, nameOptions.Length - 1);
+        MissionUI.Instance.AddEntityMarker(this, nameOptions[randomIndex]);
     }
 
     public override void GoToPosition(Vector3 position)

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 /// <summary>
 /// Tracks a given object with a UI element.
@@ -15,19 +16,33 @@ public class ObjectiveMarker : MonoBehaviour
     /// </summary>
     public int heightOffset;
 
-    private TMP_Text label;
+    protected TMP_Text label;
+    protected Image dotImage;
     private Transform objectiveTransform;
     private RectTransform rectTrans;
+
 
     private void Awake()
     {
         rectTrans = GetComponent<RectTransform>();
         label = GetComponentInChildren<TMP_Text>();
+        dotImage = GetComponentInChildren<Image>();
     }
 
     public void SetData(Transform objectToMark, string newLabel)
     {
         objectiveTransform = objectToMark;
+
+        if (label == null)
+        {
+            label = GetComponentInChildren<TMP_Text>();
+        }
+
+        if (dotImage == null)
+        {
+            dotImage = GetComponentInChildren<Image>();
+        }
+
         label.text = newLabel;
     }
 
