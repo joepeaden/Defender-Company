@@ -65,6 +65,21 @@ public class Player : ActorController
 		};
 		int randomIndex = Random.Range(0, nameOptions.Length - 1);
 		MissionUI.Instance.AddEntityMarker(this, nameOptions[randomIndex]);
+
+		StartCoroutine(AttackCoroutine());
+	}
+
+	private IEnumerator AttackCoroutine()
+	{
+		while (true)
+		{
+			if (attemptingToFire && !pauseFurtherAttacks)
+			{
+				StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
+			}
+
+			yield return new WaitForSeconds(data.timeBetweenBursts);
+		}
 	}
 
 	private IEnumerator SetupGear()
@@ -103,13 +118,7 @@ public class Player : ActorController
 	{
 		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
 		{
-			if (attemptingToFire)
-			{
-				actor.AttemptAttack(triggerPull);
-				triggerPull = false;
-			}
-
-			if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 actor.ToggleCrouch();
             }
@@ -227,16 +236,16 @@ public class Player : ActorController
 	{
 		if (starting)
 		{
-			if (!attemptingToFire)
-			{
-				triggerPull = true;
+            if (!attemptingToFire)
+            {
+                triggerPull = true;
 				attemptingToFire = true;
-			}
-		}
+            }
+        }
 		else
         {
-			triggerPull = false;
-			attemptingToFire = false;
+            triggerPull = false;
+            attemptingToFire = false;
 		}
     }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,10 +7,10 @@ public abstract class ActorController : MonoBehaviour
     [HideInInspector]
     public UnityEvent OnActorDeath = new UnityEvent();
 
-    //private ControllerData Data => data;
     [SerializeField]
     protected ControllerData data;
     protected Actor actor;
+    protected bool pauseFurtherAttacks;
 
     protected void Awake()
     {
@@ -74,5 +75,50 @@ public abstract class ActorController : MonoBehaviour
     public void SetControllerData(ControllerData newControllerData)
     {
         data = newControllerData;
+    }
+
+    protected IEnumerator FireBurst(int numToFire)
+    {
+        if (data.canAim && !actor.IsPlayer)
+        {
+            actor.BeginAiming();
+            // wait and aim for a second
+            yield return new WaitForSeconds(1f);
+        }
+
+        pauseFurtherAttacks = true;
+
+        InventoryWeapon equippedWeapon = actor.GetEquippedWeapon();
+
+        int initialWeaponAmmo = actor.GetEquippedWeaponAmmo();
+        int currentWeaponAmmo = initialWeaponAmmo;
+
+        while (numToFire > 0 && currentWeaponAmmo > 0)// && (actor.IsPlayer || targetInLOS))
+        {
+            // if it's the first shot, make sure to pass triggerpull param correctly.
+            actor.AttemptAttack(true);
+            currentWeaponAmmo = actor.GetEquippedWeaponAmmo();
+
+            numToFire--;
+
+            if (!equippedWeapon.data.isAutomatic)
+            {
+                yield return new WaitUntil(() => actor.GetWeaponInstance().IsReadyToAttack());
+                //yield return new WaitForSeconds(Random.Range(actor.data.minSemiAutoFireRate, actor.data.maxSemiAutoFireRate));
+            }
+            else
+            {
+                yield return new WaitUntil(() => actor.GetWeaponInstance().IsReadyToAttack());
+            }
+        }
+
+        if (data.canAim && !actor.IsPlayer)
+        {
+            actor.EndAiming();
+        }
+
+        yield return new WaitForSeconds(data.timeBetweenBursts);
+
+        pauseFurtherAttacks = false;
     }
 }

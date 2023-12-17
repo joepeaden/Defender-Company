@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
   m_Name: EnemyRifleController
   m_EditorClassIdentifier: 
+  behaviourType: 0
   canMoveAndShoot: 0
   canAim: 0
   useCoverChance: 0.8
   scoreValue: 100
   startWeapon: {fileID: 11400000, guid: 7ee812632c51d344bbebe9005dbf8a6e, type: 2}
-  shootPauseTimeMax: 4
-  shootPauseTimeMin: 2
-  maxBurstFrames: 45
-  minBurstFrames: 1
+  timeBetweenBursts: 3
   navAgentSpeed: 4
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0

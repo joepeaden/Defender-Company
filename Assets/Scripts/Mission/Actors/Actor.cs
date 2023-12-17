@@ -303,6 +303,11 @@ public class Actor : MonoBehaviour
 		GetInventory().SetWeaponFromData(startWeapon);
 	}
 
+	public WeaponInstance GetWeaponInstance()
+    {
+		return inventory.GetWeaponInstance();
+    }
+
 	/// <summary>
 	/// Rotate the actor to look at lookTarget.
 	/// </summary>

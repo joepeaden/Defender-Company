@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
   m_Name: EnemyBreacherController
   m_EditorClassIdentifier: 
+  behaviourType: 0
   canMoveAndShoot: 1
   canAim: 0
   useCoverChance: 0
   scoreValue: 300
   startWeapon: {fileID: 11400000, guid: abb47702383f949c88dc7ed2f0ef932b, type: 2}
-  shootPauseTimeMax: 4
-  shootPauseTimeMin: 2
-  maxBurstFrames: 1
-  minBurstFrames: 1
+  timeBetweenBursts: 5
   navAgentSpeed: 3
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0

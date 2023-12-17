@@ -194,7 +194,7 @@ public class WeaponInstance : MonoBehaviour
 
     public bool InitiateAttack(float actorRecoilControl, bool triggerPull)
     {
-        if (!reloading && (triggerPull || inventoryWeapon.data.isAutomatic))
+        if (!reloading)// && (triggerPull || inventoryWeapon.data.isAutomatic))
         {
             // wait for gun to cycle (fire rate)
             if (readyToAttack)
@@ -219,7 +219,7 @@ public class WeaponInstance : MonoBehaviour
 
         readyToAttack = false;
 
-        for (int proj = 0; proj < inventoryWeapon.data.projFiredPerShot; proj++)
+        for (int proj = 0; proj < inventoryWeapon.data.projPerShot; proj++)
         {
             float accuracyAngle = GetAccuracy();
 
@@ -267,6 +267,11 @@ public class WeaponInstance : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         weaponFlash.SetActive(false);
+    }
+
+    public bool IsReadyToAttack()
+    {
+        return readyToAttack;
     }
 
     // refers to the time in between shots

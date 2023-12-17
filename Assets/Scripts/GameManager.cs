@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
         company = new PlayerCompany(dataStore);
     }
 
+    public InventoryItemDataStorage GetDataStore()
+    {
+        return dataStore;
+    }
+
     private void OnLoadMissionDone(UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<MissionData> obj)
     {
         SetCurrentMission(obj.Result);

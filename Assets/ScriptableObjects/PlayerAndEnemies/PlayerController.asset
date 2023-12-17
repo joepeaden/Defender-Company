@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
   m_Name: PlayerController
   m_EditorClassIdentifier: 
+  behaviourType: 0
   canMoveAndShoot: 0
   canAim: 0
+  useCoverChance: 0
   scoreValue: 0
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
-  shootPauseTimeMax: 0
-  shootPauseTimeMin: 0
-  maxBurstFrames: 0
-  minBurstFrames: 0
+  timeBetweenBursts: 1
   navAgentSpeed: 5
   baseControllerAimRotaitonSensitivity: 1
   controllerMaxRotationSensitivity: 10

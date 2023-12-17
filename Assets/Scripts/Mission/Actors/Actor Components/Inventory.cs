@@ -260,4 +260,9 @@ public class Inventory : MonoBehaviour
 
         return null;
     }
+
+    public WeaponInstance GetWeaponInstance()
+    {
+        return weaponInstance;
+    }
 }

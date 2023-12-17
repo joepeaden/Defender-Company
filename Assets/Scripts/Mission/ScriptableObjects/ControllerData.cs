@@ -30,11 +30,20 @@ public class ControllerData : ScriptableObject
 	public float useCoverChance;
 	public int scoreValue;
 	public WeaponData startWeapon;
-	public float shootPauseTimeMax;
-	public float shootPauseTimeMin;
-	public float maxBurstFrames;
-	public float minBurstFrames;
-	public float navAgentSpeed;
+
+	#region AttackData
+	/// <summary>
+    /// Pause between bursts
+    /// </summary>
+    public float timeBetweenBursts;
+	/// <summary>
+    /// Number of projectiles fired in a burst
+    /// </summary>
+	//public int projectilesInBurst;
+
+    #endregion
+
+    public float navAgentSpeed;
 
 	// player control stuff
 	public float baseControllerAimRotaitonSensitivity;

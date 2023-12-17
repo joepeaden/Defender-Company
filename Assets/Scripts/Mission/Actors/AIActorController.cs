@@ -18,7 +18,7 @@ public abstract class AIActorController : ActorController, ISetActive
 	public bool activateOnStart;
 	[SerializeField] private AIControllersData aiData;
 
-	private bool pauseFurtherAttacks;
+	//private bool pauseFurtherAttacks;
 	private bool isReloading;
 	private bool recoveringFromHit;
 	public GameObject AttackTarget => attackTarget;
@@ -280,9 +280,7 @@ public abstract class AIActorController : ActorController, ISetActive
 
 				if (!pauseFurtherAttacks)
 				{
-					int numToFire = (int)Random.Range(data.minBurstFrames, data.maxBurstFrames);
-
-					StartCoroutine(FireBurst(numToFire));
+					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
 				}
 			}
 
@@ -482,45 +480,4 @@ public abstract class AIActorController : ActorController, ISetActive
 		OnActorKilled.Invoke(actor.team);
 		base.HandleDeath();
     }
-
-	private IEnumerator FireBurst(int numToFire)
-    {
-		if (data.canAim)
-		{
-			actor.BeginAiming();
-		}
-
-		pauseFurtherAttacks = true;
-
-		yield return new WaitForSeconds(1f);
-
-		int initialWeaponAmmo = actor.GetEquippedWeaponAmmo();
-		int currentWeaponAmmo = initialWeaponAmmo;
-
-		while (numToFire > 0 && currentWeaponAmmo > 0 && targetInLOS)
-        {
-			// if it's the first shot, make sure to pass triggerpull param correctly.
-            actor.AttemptAttack(true);
-			currentWeaponAmmo = actor.GetEquippedWeaponAmmo();
-
-			numToFire--;
-
-			InventoryWeapon weapon = actor.GetEquippedWeapon();
-			if (!weapon.data.isAutomatic)
-			{
-				yield return new WaitForSeconds(Random.Range(actor.data.minSemiAutoFireRate, actor.data.maxSemiAutoFireRate));
-			}
-            else
-            {
-				yield return null;
-			}
-		}
-
-		actor.EndAiming();
-
-		// the -1 is to account for the 1 second pause at beginning
-		yield return new WaitForSeconds(Random.Range(data.shootPauseTimeMin, data.shootPauseTimeMax) - 1f);
-
-		pauseFurtherAttacks = false;
-	}
 }

@@ -6,6 +6,7 @@ public class WeaponData : GearData
 	public GameObject projectile;
 	public float recoil;
 	public float attackInterval;
+	public int projPerBurst;
 	public int range;
 	public int optimalRange;
 	public int ammoCapacity;
@@ -19,7 +20,7 @@ public class WeaponData : GearData
 	public float reloadTime;
 	public bool isAutomatic;
 	public bool isPistol;
-	public int projFiredPerShot;
+	public int projPerShot;
 	public Vector3 muzzlePosition;
 
 	[Header("Model Info")]

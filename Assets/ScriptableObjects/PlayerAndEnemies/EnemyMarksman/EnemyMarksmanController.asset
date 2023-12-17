@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
   m_Name: EnemyMarksmanController
   m_EditorClassIdentifier: 
+  behaviourType: 0
   canMoveAndShoot: 0
   canAim: 1
   useCoverChance: 0.9
   scoreValue: 300
   startWeapon: {fileID: 11400000, guid: 416349b48210e4dfc8723808ed6b49f4, type: 2}
-  shootPauseTimeMax: 6
-  shootPauseTimeMin: 4
-  maxBurstFrames: 1
-  minBurstFrames: 1
+  timeBetweenBursts: 3
   navAgentSpeed: 5
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0

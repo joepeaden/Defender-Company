@@ -19,6 +19,7 @@ MonoBehaviour:
   projectile: {fileID: 6425079759990356200, guid: 2605da23b5e7c4c5fbad81084b707f57, type: 3}
   recoil: 1
   attackInterval: 0.2
+  projPerBurst: 1
   range: 60
   optimalRange: 40
   ammoCapacity: 20
@@ -29,7 +30,7 @@ MonoBehaviour:
   reloadTime: 2
   isAutomatic: 0
   isPistol: 0
-  projFiredPerShot: 1
+  projPerShot: 1
   muzzlePosition: {x: -0.13, y: 1.313, z: 2.218}
   spritePrefab: {fileID: 8843171384622211854, guid: 36baf3283f864424499272e4863cc50d, type: 3}
   hasInfiniteBackupAmmo: 0
