@@ -15,6 +15,6 @@ MonoBehaviour:
   causesHeadShots: 0
   velocity: 50
   force: 3000
-  damage: 34
+  damage: 10
   material: {fileID: 2100000, guid: 05b485efd271f504ea632b458bfb3cbc, type: 2}
   isExplosive: 0

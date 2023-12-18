@@ -1,8 +1,11 @@
-﻿public abstract class AIState
+﻿using UnityEngine;
+
+public abstract class AIState
 {
     /// <summary>
     /// Previous AIState.
     /// </summary>
+    public AIState PrevAIState => _prevAIState;
     protected AIState _prevAIState;
     /// <summary>
     /// Ref to the AI controller.
@@ -29,13 +32,13 @@
 
     public AIState StateUpdate(AIActorController controller, AIState prevAIState)
     {
-        //Debug.Log(this.GetType());
+        timeInState += Time.deltaTime;
 
-        //_controller = controller;
-        //_prevAIState = prevAIState;
         AIState newState = _StateUpdate();
         if (newState != this)
         {
+            // must enter new state first particularly for AIDazedState (needs follow or move pos before being cleared)
+            newState.EnterState(_controller, this);
             _ExitState();
         }
 

@@ -22,6 +22,11 @@ public class AIHoldingPositionCombatState : AIState
             return new AIFollowTargetState();
         }
 
+        if (_controller.IsDazed())
+        {
+            return new AIDazedState();
+        }
+
         return this;
     }
 }

@@ -12,7 +12,6 @@ public class Player : ActorController
 
 	private bool targetInSights;
 	private bool attemptingToFire;
-	private bool triggerPull;
 
 	///////////////
 	#region Unity Event Methods
@@ -73,12 +72,16 @@ public class Player : ActorController
 	{
 		while (true)
 		{
-			if (attemptingToFire && !pauseFurtherAttacks)
+			if (attemptingToFire)
 			{
-				StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
-			}
+				if (!pauseFurtherAttacks)
+				{
+					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
+				}
 
-			yield return new WaitForSeconds(data.timeBetweenBursts);
+				yield return new WaitForSeconds(data.timeBetweenBursts);
+			}
+			yield return null;
 		}
 	}
 
@@ -238,13 +241,11 @@ public class Player : ActorController
 		{
             if (!attemptingToFire)
             {
-                triggerPull = true;
 				attemptingToFire = true;
             }
         }
 		else
         {
-            triggerPull = false;
             attemptingToFire = false;
 		}
     }

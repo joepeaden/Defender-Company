@@ -20,7 +20,7 @@ public abstract class AIActorController : ActorController, ISetActive
 
 	//private bool pauseFurtherAttacks;
 	private bool isReloading;
-	private bool recoveringFromHit;
+	private bool isDazed;
 	public GameObject AttackTarget => attackTarget;
 	protected GameObject attackTarget;
 	public Transform FollowTarget => followTarget;
@@ -91,10 +91,6 @@ public abstract class AIActorController : ActorController, ISetActive
 			//aiState = aiState.HandleInput(newInput);
 			AIState oldAiState = aiState;
 			aiState = aiState.StateUpdate(this, aiState);
-			if (oldAiState != aiState)
-			{
-				aiState.EnterState(this, oldAiState);
-			}
 		}
 	}
 
@@ -274,7 +270,7 @@ public abstract class AIActorController : ActorController, ISetActive
 			}
 
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
-			if (attackTarget != null && !isReloading && !recoveringFromHit && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
+			if (attackTarget != null && !isReloading && !isDazed && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
 				actor.UpdateActorRotation(attackTarget.transform.position);
 
@@ -290,21 +286,17 @@ public abstract class AIActorController : ActorController, ISetActive
 
 	protected override void HandleGetHit()
 	{
-		StartCoroutine(RecoverFromHitCoroutine());
+		isDazed = true;
 	}
-	
-	/// <summary>
-    /// Basically for a stagger effect.
-    /// </summary>
-    /// <returns></returns>
-	private IEnumerator RecoverFromHitCoroutine()
+
+	public bool IsDazed()
     {
-		recoveringFromHit = true;
+		return isDazed;
+    }
 
-		// don't feel like making this configurable - I'm lazy and trying to actually finish this thing.
-		yield return new WaitForSeconds(.5f);
-
-		recoveringFromHit = false;
+	public void StopBeingDazed()
+    {
+		isDazed = false;
     }
 
 	private bool IsTargetInRange(bool optimalRange)

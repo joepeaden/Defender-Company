@@ -624,10 +624,10 @@ public class Actor : MonoBehaviour
         }
 	}
 
-    public void StopMoving()
-    {
-		Move(Vector3.zero);
-    }
+  //  public void StopMoving()
+  //  {
+		//Move(Vector3.zero);
+  //  }
 
     public Inventory GetInventory()
     {

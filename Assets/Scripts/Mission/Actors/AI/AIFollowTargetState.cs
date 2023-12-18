@@ -18,6 +18,11 @@ public class AIFollowTargetState : AIState
         {
             return new AIMovingToPositionState();
         }
+
+        if (_controller.IsDazed())
+        {
+            return new AIDazedState();
+        }
         
         return this;
     }
