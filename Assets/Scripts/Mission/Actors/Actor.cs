@@ -46,7 +46,8 @@ public class Actor : MonoBehaviour
 	public bool IsAlive { get; private set; } = true;
 	public bool IsPlayer;
 	public int HitPoints { get; private set; }
-	public int MaxHitPoints { get { return data.hitPoints; } }
+	public int MaxHitPoints { get; private set; }
+	public int AccuracyRating { get; private set; }
 
 	public ActorData data;
 	[SerializeField] private MeshRenderer modelRenderer;
@@ -139,6 +140,11 @@ public class Actor : MonoBehaviour
 
 		// initialize the move force.
 		moveForce = data.fastWalkMoveForce;
+
+		if (team == ActorTeam.Enemy)
+        {
+			MaxHitPoints = data.hitPoints;
+        }
 	}
 
     private void OnDestroy()
@@ -216,6 +222,13 @@ public class Actor : MonoBehaviour
 			if (transform.GetChild(i).name != "SelectionHighlight")
 				transform.GetChild(i).gameObject.SetActive(visible);
 		}
+	}
+
+	public void SetSoldier(CompanySoldier soldier)
+    {
+		MaxHitPoints = soldier.HitPoints;
+		SetAgentSpeed(soldier.MoveSpeed);
+		AccuracyRating = soldier.AccuracyRating;
 	}
 
 	//public Vector3 GetNearestNavPosition(Vector3 targetPos)

@@ -74,6 +74,8 @@ public static class PlayerInput
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
 		//controls.Build.LeftClick.performed += HandleBuildLeftClick;
+
+		MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
 	}
 
 	// at some point - migrate building controls to here... ? Is it necessary?
@@ -93,7 +95,7 @@ public static class PlayerInput
 
 	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)
     {
-		ClearSelectedFriendlies();
+		DeselectFriendlies();
 
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -104,7 +106,7 @@ public static class PlayerInput
 			AIActorController actorCont = hit.transform.gameObject.GetComponent<AIActorController>();
 			if (actorCont != null && actorCont.GetActor().team == Actor.ActorTeam.Friendly)
             {
-				ClearSelectedFriendlies();
+				DeselectFriendlies();
 
 				selectedFriendlies.Add(hit.transform.gameObject.GetComponent<FriendlyActorController>());
 
@@ -113,12 +115,18 @@ public static class PlayerInput
         }
 	}
 
-	private static void ClearSelectedFriendlies()
+	private static void HandleMissionEnd(bool playerWon)
+    {
+		selectedFriendlies.Clear();
+	}
+
+	private static void DeselectFriendlies()
     {
 		foreach (FriendlyActorController friendly in selectedFriendlies)
 		{
 			friendly.UpdateSelection(false);
 		}
+
 		selectedFriendlies.Clear();
 	}
 
@@ -132,7 +140,7 @@ public static class PlayerInput
 		{
 			dragStart = worldPoint;
 			//OnDragStarted.Invoke();
-			ClearSelectedFriendlies();
+			DeselectFriendlies();
 		}
 	}
 

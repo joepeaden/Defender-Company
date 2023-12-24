@@ -26,6 +26,8 @@ public class EnemyActorController : AIActorController, ISetActive
 		{
 			SetBehaviour();
 		}
+
+		actor.SetAgentSpeed(data.navAgentSpeed);		
 	}
 
 	private void SetBehaviour()

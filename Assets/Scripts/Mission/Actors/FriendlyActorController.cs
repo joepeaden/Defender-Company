@@ -9,39 +9,25 @@ public class FriendlyActorController : AIActorController, ISetActive
     [SerializeField]
     private GameObject selectionHighlight;
 
+    CompanySoldier companySoldier;
+
     protected new void Start()
     {
         base.Start();
 		SetInitialState(new AIHoldingPositionCombatState());
+        MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
+    }
 
-        MissionManager.Instance.friendlyActors.Add(this);
-
-        string[] nameOptions =
-        {
-            "Rourke",
-            "Niels",
-            "Smith",
-            "Danson",
-            "Peters",
-            "Wang",
-            "O'Malley",
-            "Bauer",
-            "Rochefort",
-            "Dumas",
-            "Garcia",
-            "Vargas",
-            "Anderson",
-            "Thomas",
-            "Brown",
-            "Grey",
-            "Benson",
-            "Al-Hilli",
-            "Cohen",
-            "Rosenberg",
-            "Goldstein"
-        };
-        int randomIndex = Random.Range(0, nameOptions.Length - 1);
-        MissionUI.Instance.AddEntityMarker(this, nameOptions[randomIndex]);
+    /// <summary>
+    /// Set the soldier for this friendly actor to be associated with
+    /// </summary>
+    /// <param name="soldier"></param>
+    public void SetSoldier(CompanySoldier soldier)
+    {
+        companySoldier = soldier;
+        transform.parent.gameObject.SetActive(true);
+        transform.parent.gameObject.name = companySoldier.Name;
+        actor.SetSoldier(soldier);
     }
 
     public override void GoToPosition(Vector3 position)

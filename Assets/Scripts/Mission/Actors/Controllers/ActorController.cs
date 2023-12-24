@@ -19,13 +19,6 @@ public abstract class ActorController : MonoBehaviour
         actor.OnGetHit.AddListener(HandleGetHit);
     }
 
-    protected void Start()
-    {
-        // keep in mind. Player doesn't really need this (do they?). If not, then when implementing friendly AI can put it in
-        // future ActorAIController class. This would allow seperation of the ControllerData scriptable object between player and AI.
-        actor.SetAgentSpeed(data.navAgentSpeed);
-    }
-
     protected void OnDestroy()
     {
         actor.OnDeath.RemoveListener(HandleDeath);

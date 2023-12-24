@@ -9,6 +9,7 @@ public class MenuScreenManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuGO;
     [SerializeField] private GameObject missionSelectGO;
     [SerializeField] private GameObject marketGO;
+    [SerializeField] private GameObject recruitmentGO;
     [SerializeField] private GameObject aarGo;
 
     private GameObject currentlyLoadedScreen;
@@ -66,6 +67,14 @@ public class MenuScreenManager : MonoBehaviour
     public void DisplayMarket()
     {
         ToggleScreen(marketGO);
+    }
+
+    /// <summary>
+    /// Set in the inspector
+    /// </summary>
+    public void DisplayRecruitment()
+    {
+        ToggleScreen(recruitmentGO);
     }
 
     /// <summary>

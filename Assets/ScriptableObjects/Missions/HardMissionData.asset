@@ -17,5 +17,5 @@ MonoBehaviour:
   enemyCount: 50
   victoryCondition: 0
   includedEnemyTypes:
-  - {fileID: 4385406812283568742, guid: 291dbce7e5a8e024d99ab897165b2a95, type: 3}
-  - {fileID: 369857449208888106, guid: ea8f386e5a32d4b5dbf337cd3c94b154, type: 3}
+  - {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}
+  - {fileID: 11400000, guid: bd1446c01f3ba446fadcb0a9a49d0c77, type: 2}

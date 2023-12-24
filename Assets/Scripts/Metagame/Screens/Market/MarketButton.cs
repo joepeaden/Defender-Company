@@ -9,4 +9,9 @@ public class MarketButton : MonoBehaviour
     {
         buttonTitle.text = gearData.displayName;
     }
+
+    public void Initialize(string itemName)
+    {
+        buttonTitle.text = itemName;
+    }
 }

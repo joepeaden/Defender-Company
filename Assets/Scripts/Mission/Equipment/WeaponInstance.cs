@@ -257,6 +257,8 @@ public class WeaponInstance : MonoBehaviour
             accuracyAngle *= inventoryWeapon.data.movementAccuracyPenalty;
         }
 
+        accuracyAngle -= actor.AccuracyRating * 3;
+
         return accuracyAngle;
     }
 

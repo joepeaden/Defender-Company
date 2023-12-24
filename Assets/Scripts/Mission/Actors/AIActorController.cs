@@ -37,9 +37,9 @@ public abstract class AIActorController : ActorController, ISetActive
 	protected AIState aiState;
 	private float timeSinceLastDecision;
 
-	protected new void Start()
+	protected void Start()
 	{
-		base.Start();
+		//base.Start();
 
 		//actor.AddCoverListener(ActorHasPotentialCover);
 		actor.SetWeaponFromData(data.startWeapon);

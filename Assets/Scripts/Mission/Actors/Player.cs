@@ -33,7 +33,6 @@ public class Player : ActorController
 
 	private new void Start()
 	{
-		base.Start();
 		actor.OnHeal.AddListener(HandleHeal);
 
 		StartCoroutine(SetupGear());

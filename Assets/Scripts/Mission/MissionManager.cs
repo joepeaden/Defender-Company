@@ -29,7 +29,10 @@ public class MissionManager : MonoBehaviour
     [SerializeField] private GameObject playerGO;
     private Player player;
 
-    public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>(); 
+    // list of friendlies that are disabled until they are activated and initialized with CompanySoldier info. Basically for spawning allies in.
+    [SerializeField] private List<FriendlyActorController> friendlyActorBodies = new List<FriendlyActorController>();
+    // already initialized friendlies that are in the mission.
+    public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>();
 
     private AudioSource genericSoundPlayer;
 
@@ -65,8 +68,22 @@ public class MissionManager : MonoBehaviour
         EnemyActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
         AIActorController.OnActorKilled.AddListener(HandleActorKilled);
 
+        
         // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
         //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
+    }
+
+    private void Start()
+    {
+        friendlyActors.Clear();
+        List<CompanySoldier> soldiers = GameManager.Instance.Company.GetSoldiers();
+        for (int i = 0; i < GameManager.Instance.Company.GetSoldiers().Count; i++)
+        {
+            CompanySoldier soldier = soldiers[i];
+            FriendlyActorController actorController = friendlyActorBodies[i];
+            actorController.SetSoldier(soldier);
+            friendlyActors.Add(actorController);
+        }
     }
 
     public void EndBuildPhase()

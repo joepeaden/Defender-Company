@@ -8,9 +8,11 @@ using UnityEngine;
 public class PlayerCompany
 {
     public int PlayerCash => playerCash;
-    private int playerCash;
+    private int playerCash = 300;
 
     private Dictionary<GearData.GearType, GearData> ownedGear = new Dictionary<GearData.GearType, GearData>();
+
+    private List<CompanySoldier> soldiers = new List<CompanySoldier>();
 
     // eventually remove the dataStore param when we add addressables. Or whatever. Just clean this up at some point.
     public PlayerCompany(InventoryItemDataStorage dataStore)
@@ -31,5 +33,15 @@ public class PlayerCompany
     public Dictionary<GearData.GearType, GearData> GetOwnedGear()
     {
         return ownedGear;
+    }
+
+    public void AddRecruit(CompanySoldier recruit)
+    {
+        soldiers.Add(recruit);
+    }
+
+    public List<CompanySoldier> GetSoldiers()
+    {
+        return soldiers;
     }
 }
