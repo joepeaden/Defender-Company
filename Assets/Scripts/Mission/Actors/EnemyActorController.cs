@@ -27,7 +27,9 @@ public class EnemyActorController : AIActorController, ISetActive
 			SetBehaviour();
 		}
 
-		actor.SetAgentSpeed(data.navAgentSpeed);		
+		actor.SetAgentSpeed(data.navAgentSpeed);
+
+		actor.SetWeaponFromData(data.startWeapon);
 	}
 
 	private void SetBehaviour()
@@ -46,11 +48,16 @@ public class EnemyActorController : AIActorController, ISetActive
 		}
 	}
 
-   // public void OnCollisionEnter(Collider col)
-   // {
-   //     if (col)
-   //     {
-			//bumpedIntoWall = true;
-   //     }
-   // }
+    //protected override void HandleDeath()
+    ////{
+    //    base.HandleDeath();
+    //}
+
+    // public void OnCollisionEnter(Collider col)
+    // {
+    //     if (col)
+    //     {
+    //bumpedIntoWall = true;
+    //     }
+    // }
 }

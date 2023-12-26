@@ -42,8 +42,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		//base.Start();
 
 		//actor.AddCoverListener(ActorHasPotentialCover);
-		actor.SetWeaponFromData(data.startWeapon);
-
+		
 		if (activateOnStart)
 		{
 			Activate();

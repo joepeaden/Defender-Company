@@ -22,6 +22,7 @@ public class Actor : MonoBehaviour
 	[HideInInspector] public UnityEvent OnHeal = new UnityEvent();
 	[HideInInspector] public UnityEvent OnCrouch = new UnityEvent();
 	[HideInInspector] public UnityEvent OnStand = new UnityEvent();
+	[HideInInspector] public UnityEvent OnGotKill = new UnityEvent();
 	[HideInInspector] public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
 
 	public enum State
@@ -652,7 +653,7 @@ public class Actor : MonoBehaviour
 	/// </summary>
 	/// <param name="damage">Damage to deal to this actor.</param>
 	/// <returns>If the projectile should </returns>
-	public bool ProcessHit(int damage)
+	public bool ProcessHit(int damage, Projectile projectile = null)
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
@@ -705,12 +706,22 @@ public class Actor : MonoBehaviour
 
 			if (HitPoints <= 0)
 			{
+				if (projectile != null)
+				{
+					projectile.OwningActor.TallyKill();
+				}
+
 				Die();
 			}
 		}
 
 		return gotHit;
 	}
+
+	public void TallyKill()
+    {
+		OnGotKill.Invoke();
+    }
 
 	/// <summary>
     /// Play a sound using the Actor's audio source.

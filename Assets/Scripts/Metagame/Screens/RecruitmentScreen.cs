@@ -88,7 +88,9 @@ public class RecruitmentScreen : MonoBehaviour
             int hitPoints = Random.Range(50, 150);
             float speed = Random.Range(2, 7);
             int accuracyRating = Random.Range(0, 5);
-            potentialrecruits.Add(new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, (int) (hitPoints+(speed*60)+(accuracyRating*100)))); ;
+            WeaponData weapon = GameManager.Instance.GetDataStore().pistol;
+            int cost = (int) (hitPoints + (speed * 60) + (accuracyRating * 100) + weapon.cost);
+            potentialrecruits.Add(new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, weapon, cost));
         }
 
         return potentialrecruits;

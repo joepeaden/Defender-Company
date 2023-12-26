@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour
         SceneLoader.Instance.LoadScene(SceneLoader.SceneName.MainMenu, SceneLoader.SceneName.Mission, true);
         playerWonLastMission = playerWon;
 
+        company.UpdateSoldiers();
+
         if (playerWonLastMission)
         {
             company.AddCash(currentMission.completionReward);

@@ -44,4 +44,16 @@ public class PlayerCompany
     {
         return soldiers;
     }
+
+    public void UpdateSoldiers()
+    {
+        for (int i = 0; i < soldiers.Count; i++)
+        {
+            CompanySoldier soldier = soldiers[i];
+            if (soldier.XP >= soldier.Level * 10)
+            {
+                soldier.LevelUp();
+            }
+        }
+    }
 }

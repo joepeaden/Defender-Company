@@ -77,7 +77,7 @@ public class Projectile : MonoBehaviour
             if (actor != null && other.gameObject.GetComponent<HitBox>())
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-                shouldDestroy = actor.ProcessHit(data.damage);
+                shouldDestroy = actor.ProcessHit(data.damage, this);
 
                 if (data.isExplosive)
                 {

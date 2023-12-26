@@ -16,6 +16,8 @@ public class FriendlyActorController : AIActorController, ISetActive
         base.Start();
 		SetInitialState(new AIHoldingPositionCombatState());
         MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
+
+        actor.OnGotKill.AddListener(HandleGotKill);
     }
 
     /// <summary>
@@ -27,7 +29,21 @@ public class FriendlyActorController : AIActorController, ISetActive
         companySoldier = soldier;
         transform.parent.gameObject.SetActive(true);
         transform.parent.gameObject.name = companySoldier.Name;
-        actor.SetSoldier(soldier);
+        actor.SetSoldier(companySoldier);
+        actor.SetWeaponFromData(companySoldier.CurrentWeapon);
+
+        companySoldier.ResetMissionVariables();
+    }
+
+    private void HandleGotKill()
+    {
+        companySoldier.MissionKills += 1;
+    }
+
+    protected override void HandleGetHit()
+    {
+        base.HandleGetHit();
+        companySoldier.MissionHP = actor.HitPoints;
     }
 
     public override void GoToPosition(Vector3 position)
