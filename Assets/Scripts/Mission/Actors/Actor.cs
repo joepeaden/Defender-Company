@@ -148,6 +148,26 @@ public class Actor : MonoBehaviour
         }
 	}
 
+    public Vector2 GetActorFacing()
+    {
+		if (transform.rotation.eulerAngles.y > 315 || transform.rotation.eulerAngles.y < 45)
+		{
+			return Vector2.up;
+		}
+		else if (transform.rotation.eulerAngles.y > 225 && transform.rotation.eulerAngles.y < 315)
+		{
+			return Vector2.left;
+		}
+		else if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 225)
+		{
+			return Vector2.down;
+		}
+		else
+		{
+			return Vector2.right;
+		}
+	}
+
     private void OnDestroy()
     {
 		OnDeath.RemoveAllListeners();

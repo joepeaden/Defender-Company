@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerCompany
 {
     public int PlayerCash => playerCash;
-    private int playerCash = 300;
+    private int playerCash = 30000;
 
     private Dictionary<GearData.GearType, GearData> ownedGear = new Dictionary<GearData.GearType, GearData>();
 

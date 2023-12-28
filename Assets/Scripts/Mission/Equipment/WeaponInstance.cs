@@ -17,6 +17,7 @@ public class WeaponInstance : MonoBehaviour
     [SerializeField] private GameObject aimGlow;
     [SerializeField] private LineRenderer line;
     [SerializeField] private float crouchYPos;
+    [SerializeField] WeaponSprite weaponSprite;
 
     // is muzzle needed any more?
     [SerializeField] private Transform muzzle; 
@@ -45,7 +46,6 @@ public class WeaponInstance : MonoBehaviour
     }
 
     private float standYPos;
-    private GameObject weaponSpriteGameObject;
     private Vector3 actorVelocity;
     private int ammoInWeapon;
     // states
@@ -82,6 +82,27 @@ public class WeaponInstance : MonoBehaviour
 
             Debug.DrawRay(transform.position, ray1Dir * Vector3.forward * 10f, Color.red);
             Debug.DrawRay(transform.position, ray2Dir * Vector3.forward * 10f, Color.red);
+        }
+
+        Vector2 facing = actor.GetActorFacing();
+        if (facing == Vector2.up)
+        {
+            weaponSprite.FaceBack();
+        }
+
+        if (facing == Vector2.left)
+        {
+            weaponSprite.FaceLeft();
+        }
+
+        if (facing == Vector2.down)
+        {
+            weaponSprite.FaceFront();
+        }
+
+        if (facing == Vector2.right)
+        {
+            weaponSprite.FaceRight();
         }
     }
 
@@ -147,15 +168,8 @@ public class WeaponInstance : MonoBehaviour
 
         ammoInWeapon = weapon.amountLoaded;
 
-        if (weaponSpriteGameObject != null)
-        {
-            Destroy(weaponSpriteGameObject);
-            // Destroy doesn't immediately make it null, it happens at end of frame.
-            weaponSpriteGameObject = null;
-        }
-        weaponSpriteGameObject = Instantiate(weapon.data.spritePrefab, transform);
-        weaponSpriteGameObject.tag = WEAPON_SPRITE_TAG;
-
+        weaponSprite.SetData(weapon.data);
+        
         // update position cause weapons are different lengths
         transform.localPosition = weapon.data.muzzlePosition;
         inventoryWeapon = weapon;

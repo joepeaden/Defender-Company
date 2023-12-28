@@ -23,10 +23,11 @@ public class WeaponData : GearData
 	public int projPerShot;
 	public Vector3 muzzlePosition;
 
-	[Header("Model Info")]
-	public GameObject spritePrefab;
-	//public Vector3 modelPosition;
-	//public Vector3 modelRotation;
+	[Header("Sprite Info")]
+	public Sprite upSprite;
+	public Sprite leftSprite;
+	public Sprite downSprite;
+	public Sprite rightSprite;
 
 	public bool hasInfiniteBackupAmmo;
 
