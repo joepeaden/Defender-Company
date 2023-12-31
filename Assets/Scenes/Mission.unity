@@ -1056,9 +1056,10 @@ MonoBehaviour:
   gridSize: 0
   wallBuildingPrefab: {fileID: 3194097672140570826, guid: f325c836c8d6848b1b332752ccf3ed49, type: 3}
   stairsBuildingPrefab: {fileID: 3194097672140570826, guid: a26b404c7a89d41dca46525a2683ba1c, type: 3}
+  barricadesPrefab: {fileID: 3194097672140570826, guid: 0872f84facab9429d96e67f3aaea15df, type: 3}
   minesBuildingPrefab: {fileID: 3194097672140570826, guid: f325c836c8d6848b1b332752ccf3ed49, type: 3}
   navMeshSurface: {fileID: 740406333}
-  timeUnitsRemaining: 50
+  timeUnitsRemaining: 20
   buildingTUCost: 1
 --- !u!114 &182226827 stripped
 MonoBehaviour:
@@ -5217,12 +5218,12 @@ GameObject:
   - component: {fileID: 769632826}
   - component: {fileID: 769632825}
   m_Layer: 5
-  m_Name: Mines Buton
+  m_Name: Barricades Buton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &769632824
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5287,7 +5288,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 769632826}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 182226825}
+        m_TargetAssemblyTypeName: BuildingManager, Assembly-CSharp
+        m_MethodName: AttachBarricadesToMouse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &769632826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5665,6 +5678,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816083366}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &841949068 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1391314936588170530, guid: d9f2e617d3bb0d04b8b567cc744f13c1, type: 3}
+  m_PrefabInstance: {fileID: 1579995690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &842500807
 GameObject:
   m_ObjectHideFlags: 0
@@ -5756,7 +5774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mines (5 TU)
+  m_text: Barriades (5 TU)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
   m_sharedMaterial: {fileID: -1644954341006048005, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
@@ -7111,7 +7129,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 48
+  orthographic size: 30
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -7135,7 +7153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079223096}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -24.2, y: 20.000002, z: 78.22}
+  m_LocalPosition: {x: -25.2, y: 20.000002, z: 96.00003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11487,10 +11505,10 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_Follow: {fileID: 841949068}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 48
+    OrthographicSize: 30
     NearClipPlane: -20
     FarClipPlane: 1000
     Dutch: 0
@@ -11515,7 +11533,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1759652718}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -24.2, y: 20.000002, z: 78.22}
+  m_LocalPosition: {x: -25.2, y: 20.000002, z: 96.00003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11858,7 +11876,7 @@ MonoBehaviour:
   remainingTUText: {fileID: 1129970981}
   wallBuildingButton: {fileID: 2063506768}
   stairsBuildingButton: {fileID: 1989872165}
-  mineBuildingButton: {fileID: 769632825}
+  barricadesBuildingButton: {fileID: 769632825}
   selectionBox: {fileID: 189924408}
 --- !u!114 &1830051043
 MonoBehaviour:

@@ -97,10 +97,10 @@ public class Actor : MonoBehaviour
 	//private GameObject cover;
 
 	// these things affect hit chances
-	public bool IsInCover => isBehindSandbags;
-	private bool isBehindSandbags;
-	public bool IsOnWall => isOnWall;
-	private bool isOnWall;
+	//public bool IsInCover => isBehindSandbags;
+	[SerializeField] public bool isBehindSandbags;
+	//public bool IsOnWall => isOnWall;
+	[SerializeField] public bool isOnWall;
 
 	private void Awake()
     {
@@ -181,39 +181,6 @@ public class Actor : MonoBehaviour
 	{
 		EmitVelocityInfo.Invoke(isUsingNavAgent ? navAgent.velocity : rigidBody.velocity);
 	}
-
-    private void OnCollisionStay(Collision collision)
-    {
-		if (collision.gameObject.CompareTag("WallBuilding"))
-        {
-			isOnWall = true;
-        }
-    }
-
-	private void OnCollisionExit(Collision collision)
-	{
-		if (collision.gameObject.CompareTag("WallBuilding"))
-		{
-			isOnWall = false;
-		}
-	}
-
-
-	private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.GetComponent<CoverZone>() != null)
-        {
-            isBehindSandbags = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<CoverZone>() != null)
-        {
-            isBehindSandbags = false;
-        }
-    }
 
     /// <summary>
     /// Get width of the actor's collider

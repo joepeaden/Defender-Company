@@ -91,11 +91,10 @@ public class EnemySpawner : MonoBehaviour
             // while waiting other spawners may have already spit out some and may want to not spawn now.
             if (shouldSpawn)
             {
-                Instantiate(actorPrefab, transform.position, Quaternion.identity, enemiesParent);
-                // set the enemy type
-                actorPrefab.GetComponentInChildren<ActorController>().SetControllerData(spawnableEnemyTypes[randomEnemyIndex]);
+                GameObject newEnemy = Instantiate(actorPrefab, transform.position, Quaternion.identity, enemiesParent);
+                newEnemy.GetComponentInChildren<Actor>().GetComponentInChildren<ActorController>().SetControllerData(spawnableEnemyTypes[randomEnemyIndex]);
+                newEnemy.name = "Enemy " + ++totalEnemiesSpawned; 
 
-                totalEnemiesSpawned++;
                 if (totalEnemiesSpawned >= MissionManager.CurrentMisison.enemyCount)
                 {
                     shouldSpawn = false;

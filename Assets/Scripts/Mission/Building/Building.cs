@@ -7,12 +7,12 @@ public class Building : MonoBehaviour
     public int hitPoints = 10;
     public bool isBeingPlaced = false;
     public BuildingType buildingType;
-    public bool isTargeted;
+    [HideInInspector] public bool isTargeted;
 
     public enum BuildingType
     {
         Wall,
-        Sandbags,
+        Barricades,
         Stairs
     }
 

@@ -12,6 +12,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private int gridSize;
     [SerializeField] private GameObject wallBuildingPrefab;
     [SerializeField] private GameObject stairsBuildingPrefab;
+    [SerializeField] private GameObject barricadesPrefab;
     [SerializeField] private GameObject minesBuildingPrefab;
     [SerializeField] private NavMeshSurface navMeshSurface;
 
@@ -59,12 +60,7 @@ public class BuildingManager : MonoBehaviour
                 if (Input.GetButton("Fire1"))
                 {
                     // don't place if something is already there
-                    if (occupiedPositions.ContainsKey(placeHolderObject.transform.position))
-                    {
-                        // add some visual feedback
-                        ;
-                    }
-                    else
+                    if (!occupiedPositions.ContainsKey(placeHolderObject.transform.position) || occupiedPositions.ContainsKey(placeHolderObject.transform.position) && placeHolderObject.GetComponent<Building>().buildingType == Building.BuildingType.Barricades && occupiedPositions[placeHolderObject.transform.position].GetComponent<Building>().buildingType == Building.BuildingType.Wall)
                     {
                         // place otherwise and reduce time units
                         timeUnitsRemaining -= buildingTUCost;
@@ -72,6 +68,11 @@ public class BuildingManager : MonoBehaviour
                         GameObject newBuilding = Instantiate(buildingToInstantiate, placeHolderObject.transform.position, buildingToInstantiate.transform.rotation);
                         newBuilding.transform.Rotate(new Vector3(0, buildingZRotation, 0));
                         occupiedPositions[placeHolderObject.transform.position] = newBuilding;
+                    }
+                    else
+                    {
+                        // add some visual feedback
+                        ;
                     }
                 }
                 else if (Input.GetKeyDown(KeyCode.E))
@@ -166,5 +167,22 @@ public class BuildingManager : MonoBehaviour
         placeHolderObject = Instantiate(stairsBuildingPrefab);
         placeHolderObject.GetComponent<Building>().isBeingPlaced = true;
         buildingToInstantiate = stairsBuildingPrefab;
+    }
+
+    public void AttachBarricadesToMouse()
+    {
+        if (timeUnitsRemaining - buildingTUCost < 0)
+        {
+            return;
+        }
+
+        if (placeHolderObject != null)
+        {
+            Destroy(placeHolderObject);
+        }
+
+        placeHolderObject = Instantiate(barricadesPrefab);
+        placeHolderObject.GetComponent<Building>().isBeingPlaced = true;
+        buildingToInstantiate = barricadesPrefab;
     }
 }

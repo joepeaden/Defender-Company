@@ -48,4 +48,34 @@ public class HitBox : MonoBehaviour
     {
         return actor;
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
+        {
+            if (other.gameObject.GetComponent<CoverZone>() != null)
+            {
+                actor.isBehindSandbags = true;
+            }
+            if (other.gameObject.CompareTag("WallBuilding"))
+            {
+                actor.isOnWall = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
+        {
+            if (other.gameObject.GetComponent<CoverZone>() != null)
+            {
+                actor.isBehindSandbags = false;
+            }
+            if (other.gameObject.CompareTag("WallBuilding"))
+            {
+                actor.isOnWall = false;
+            }
+        }
+    }
 }

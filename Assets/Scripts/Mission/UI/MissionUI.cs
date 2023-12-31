@@ -54,8 +54,8 @@ public class MissionUI : MonoBehaviour
     [SerializeField] private Button wallBuildingButton;
     private TMP_Text stairsBuildingButtonText;
     [SerializeField] private Button stairsBuildingButton;
-    private TMP_Text mineBuildingButtonText;
-    [SerializeField] private Button mineBuildingButton;
+    private TMP_Text barricadesBuildingButtonText;
+    [SerializeField] private Button barricadesBuildingButton;
 
     private Player player;
     private VolumeProfile postProcProfile;
@@ -83,7 +83,7 @@ public class MissionUI : MonoBehaviour
 
         wallBuildingButtonText = wallBuildingButton.transform.GetComponentInChildren<TMP_Text>();
         stairsBuildingButtonText = stairsBuildingButton.transform.GetComponentInChildren<TMP_Text>();
-        mineBuildingButtonText = mineBuildingButton.transform.GetComponentInChildren<TMP_Text>();
+        barricadesBuildingButtonText = barricadesBuildingButton.transform.GetComponentInChildren<TMP_Text>();
     }
 
     private void Start()
@@ -300,8 +300,8 @@ public class MissionUI : MonoBehaviour
         wallBuildingButtonText.color = wallBuildingButton.interactable ? Color.white : Color.red;
         stairsBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
         stairsBuildingButtonText.color = stairsBuildingButton.interactable ? Color.white : Color.red;
-        //mineBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
-        //mineBuildingButtonText.color = mineBuildingButton.interactable ? Color.white : Color.red;
+        barricadesBuildingButton.interactable = newVal > BuildingManager.Instance.buildingTUCost;
+        barricadesBuildingButtonText.color = barricadesBuildingButton.interactable ? Color.white : Color.red;
     }
 
     public void ShowBattleUI()
