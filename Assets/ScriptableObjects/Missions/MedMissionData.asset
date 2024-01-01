@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionTitle: South Gate (Med)
   completionReward: 2500
-  enemyCount: 3
+  enemyCount: 30
   victoryCondition: 0
   includedEnemyTypes:
   - {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}

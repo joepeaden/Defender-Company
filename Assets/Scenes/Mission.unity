@@ -1061,6 +1061,12 @@ MonoBehaviour:
   navMeshSurface: {fileID: 740406333}
   timeUnitsRemaining: 20
   buildingTUCost: 1
+  rightWallSprite: {fileID: 21300000, guid: 694d9d29849b149d6adf85295da07566, type: 3}
+  leftWallSprite: {fileID: 21300000, guid: 8dba490304d6f42db93da123192d65cb, type: 3}
+  topRightWallSprite: {fileID: 21300000, guid: 694d9d29849b149d6adf85295da07566, type: 3}
+  topLeftWallSprite: {fileID: 21300000, guid: 8dba490304d6f42db93da123192d65cb, type: 3}
+  bottomRightWallSprite: {fileID: 21300000, guid: 5aa42ad97501348d1b63166f607aceb1, type: 3}
+  bottomLeftWallSprite: {fileID: 21300000, guid: a68aa28012bae414cbab5222b63b4229, type: 3}
 --- !u!114 &182226827 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4578700069549726019, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}

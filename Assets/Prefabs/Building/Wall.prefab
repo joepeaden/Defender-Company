@@ -73,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9e10a2618f3cd4002b7ea6d27f60999b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -134,6 +134,22 @@ MonoBehaviour:
   isBeingPlaced: 0
   buildingType: 0
   isTargeted: 0
+  vertWallSprite: {fileID: 21300000, guid: 6856764e711a64a30b2e4d4b36dcfe0c, type: 3}
+  vertWallCapTopSprite: {fileID: 21300000, guid: 817b06aeaee0d4c36a888ed3f1562307, type: 3}
+  vertWallCapBotSprite: {fileID: 21300000, guid: 4db3b7e267d8f4dcfb477be003a125dd, type: 3}
+  horizWallSprite: {fileID: 21300000, guid: e38ab9e33dd204ce8988aee649057983, type: 3}
+  horizWallCapRightSprite: {fileID: 21300000, guid: c5439b95afbe7467287af7b0220ca519, type: 3}
+  horizWallCapLeftSprite: {fileID: 21300000, guid: 7a380f95147e740978fc16b4c15bb7bd, type: 3}
+  topRightWallCornerSprite: {fileID: 21300000, guid: 0020576e7e1bf48e084ff6035d79d742, type: 3}
+  topLeftWallCornerSprite: {fileID: 21300000, guid: 523ede2394d6b493e9397ca2e8a36b0a, type: 3}
+  bottomRightWallCornerSprite: {fileID: 21300000, guid: 1bf3d446b109946699e6db08b7784bf8, type: 3}
+  bottomLeftWallCornerSprite: {fileID: 21300000, guid: eb79ca3a6c7e34ec78207412dcf83809, type: 3}
+  singleWallSprite: {fileID: 21300000, guid: 9e10a2618f3cd4002b7ea6d27f60999b, type: 3}
+  centerWallSprite: {fileID: 21300000, guid: 3fc3bbee8e0fc452cb74f40d9f1d17d4, type: 3}
+  centerRightWallSprite: {fileID: 21300000, guid: c6ce83617f6d3407ba9a02c9568b9dfa, type: 3}
+  centerLeftWallSprite: {fileID: 21300000, guid: be4030865f78a44e4b610acb0974a5f9, type: 3}
+  centerTopWallSprite: {fileID: 21300000, guid: bee7581b6729a452e91fe3b548d20e26, type: 3}
+  centerBottomWallSprite: {fileID: 21300000, guid: 8c932990ffeed4a5c9e3365c80687b16, type: 3}
 --- !u!65 &2774173615364054086
 BoxCollider:
   m_ObjectHideFlags: 0

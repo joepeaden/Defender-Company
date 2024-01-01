@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.AI.Navigation;
+using UnityEngine.Events;
 
 public class BuildingManager : MonoBehaviour
 {
     private static BuildingManager _instance;
     public static BuildingManager Instance => _instance;
+
+    /// <summary>
+    /// Called wbenever a building is destroyed, placed, or removed.
+    /// </summary>
+    public UnityEvent OnBuildingModified = new UnityEvent();
 
     [SerializeField] private int gridSize;
     [SerializeField] private GameObject wallBuildingPrefab;
@@ -68,6 +74,13 @@ public class BuildingManager : MonoBehaviour
                         GameObject newBuilding = Instantiate(buildingToInstantiate, placeHolderObject.transform.position, buildingToInstantiate.transform.rotation);
                         newBuilding.transform.Rotate(new Vector3(0, buildingZRotation, 0));
                         occupiedPositions[placeHolderObject.transform.position] = newBuilding;
+
+                        if (placeHolderObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
+                        {
+                            OnBuildingModified.Invoke();
+                            newBuilding.GetComponent<Building>().HandleWallPlaced();
+                            newBuilding.GetComponent<Building>().OnBuildingDestroyed.AddListener(HandleBuildingDestroyed);
+                        }
                     }
                     else
                     {
@@ -96,6 +109,8 @@ public class BuildingManager : MonoBehaviour
                     occupiedPositions.Remove(snapPos);
                     timeUnitsRemaining += buildingTUCost;
                     MissionUI.Instance.UpdateRemainingTU(timeUnitsRemaining);
+
+                    OnBuildingModified.Invoke();
                 }
             }
         }
@@ -104,6 +119,7 @@ public class BuildingManager : MonoBehaviour
     private void OnDestroy()
     {
         MissionManager.OnMissionStart.RemoveListener(HandleMisisonStart);
+        OnBuildingModified.RemoveAllListeners();
     }
 
     private void HandleMisisonStart()
@@ -111,6 +127,14 @@ public class BuildingManager : MonoBehaviour
         DisablePlacementMode();
         canEditBuildings = false;
         RebuildNav();
+    }
+
+    public void HandleBuildingDestroyed(Building building)
+    {
+        occupiedPositions.Remove(building.transform.position);
+
+        RebuildNav();
+        OnBuildingModified.Invoke();
     }
 
     public void RebuildNav()
@@ -133,6 +157,18 @@ public class BuildingManager : MonoBehaviour
         Vector3 roundedPos = new Vector3(roundedX, 0, roundedZ);
      
         return roundedPos; 
+    }
+
+    public bool IsSpaceOccupiedBy(Vector3 positionToCheck, Building.BuildingType buildingType)
+    {
+        if (occupiedPositions.ContainsKey(positionToCheck))
+        {
+            return occupiedPositions[positionToCheck].GetComponent<Building>().buildingType == buildingType; 
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void AttachWallBuildingToMouse()
