@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PistolProj
   m_EditorClassIdentifier: 
   causesHeadShots: 0
-  velocity: 50
+  velocity: 30
   force: 3000
   damage: 10
   material: {fileID: 2100000, guid: 05b485efd271f504ea632b458bfb3cbc, type: 2}

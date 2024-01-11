@@ -22,14 +22,12 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private GameObject minesBuildingPrefab;
     [SerializeField] private NavMeshSurface navMeshSurface;
 
-    //private Dictionary<Vector3, (int, int)> posToGridCoord = new Dictionary<Vector3, (int, int)>();
     Dictionary<Vector3, GameObject> occupiedPositions = new Dictionary<Vector3, GameObject>();
     private GameObject placeHolderObject = null;
     private GameObject buildingToInstantiate;
 
     [SerializeField] private int timeUnitsRemaining;
     public int buildingTUCost;
-    //public int minesTUCost;
     private bool canEditBuildings;
     private float buildingZRotation;
 
@@ -40,17 +38,6 @@ public class BuildingManager : MonoBehaviour
 
     private void Start()
     {
-        //float xOffset = 0f, zOffset = 0f;
-        //for (int i = 0; i < gridSize; i++)
-        //{
-        //    for (int j = 0; j < gridSize; j++)
-        //    {
-        //        posToGridCoord.Add(new Vector3(xOffset, 0f, zOffset), (i, j));
-        //        xOffset += 1;
-        //    }
-        //    zOffset += 1;
-        //}
-
         MissionManager.OnMissionStart.AddListener(HandleMisisonStart);
         canEditBuildings = true;
     }
@@ -152,8 +139,6 @@ public class BuildingManager : MonoBehaviour
     {
         int roundedX = (int)Mathf.Ceil(position.x / 5) * 5;
         int roundedZ = (int)Mathf.Ceil(position.z / 5) * 5;
-        //float roundedX = Mathf.Round(position.x);
-        //float roundedZ = Mathf.Round(position.z);
         Vector3 roundedPos = new Vector3(roundedX, 0, roundedZ);
      
         return roundedPos; 

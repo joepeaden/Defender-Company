@@ -102,10 +102,12 @@ public class MarketScreen : MonoBehaviour
         List<GearData> marketItems = new List<GearData>();
         marketItems.Add(dataStore.medkit);
         marketItems.Add(dataStore.assaultRifle);
-        marketItems.Add(dataStore.subMachineGun);
-        marketItems.Add(dataStore.semiAutoRifle);
-        marketItems.Add(dataStore.shotgun);
-        marketItems.Add(dataStore.psaSabre);
+
+        // removed temporarily until figure out graphics and balance for them
+        //marketItems.Add(dataStore.subMachineGun);
+        //marketItems.Add(dataStore.semiAutoRifle);
+        //marketItems.Add(dataStore.shotgun);
+        //marketItems.Add(dataStore.psaSabre);
         return marketItems;
     }
 

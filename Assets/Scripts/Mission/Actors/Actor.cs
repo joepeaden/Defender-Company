@@ -146,6 +146,11 @@ public class Actor : MonoBehaviour
         {
 			MaxHitPoints = data.hitPoints;
         }
+
+		if (IsPlayer)
+        {
+			navAgent.enabled = false;
+        }
 	}
 
     public Vector2 GetActorFacing()
@@ -168,7 +173,19 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-    private void OnDestroy()
+	public Vector2 GetActorFacingLeftRight()
+	{
+		if (transform.rotation.eulerAngles.y > 180 && transform.rotation.eulerAngles.y < 360)
+		{
+			return Vector2.left;
+		}
+		else
+		{
+			return Vector2.right;
+		}
+	}
+
+	private void OnDestroy()
     {
 		OnDeath.RemoveAllListeners();
 		OnGetHit.RemoveAllListeners();

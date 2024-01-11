@@ -25,7 +25,7 @@ public class AimPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SnapToAimBox") && !other.CompareTag("Player"))
+        if (other.CompareTag("HitBox") && !other.CompareTag("Player"))
         {
             targetActor = other.transform.parent.GetComponent<Actor>();
             OnTargetInSights.Invoke(true);
@@ -34,7 +34,7 @@ public class AimPoint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("SnapToAimBox") && !other.CompareTag("Player"))
+        if (other.CompareTag("HitBox") && !other.CompareTag("Player"))
         {
             targetActor = null;
             OnTargetInSights.Invoke(false);

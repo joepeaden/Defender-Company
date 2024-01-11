@@ -32,7 +32,10 @@ MonoBehaviour:
   isPistol: 0
   projPerShot: 1
   muzzlePosition: {x: -0.021, y: 1.374, z: 1.903}
-  spritePrefab: {fileID: 8843171384622211854, guid: f69063753a09c4c5bbe0dc9976247885, type: 3}
+  upSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
+  leftSprite: {fileID: 21300000, guid: 334d26305743742febfcc7a4eff0962b, type: 3}
+  downSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
+  rightSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
   hasInfiniteBackupAmmo: 0
   accuracyAngle: 8
   movementAccuracyPenalty: 3

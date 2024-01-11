@@ -70,27 +70,27 @@ public class ActorSprite : MonoBehaviour
 
     private void Update()
     {
-        Vector2 facing = actor.GetActorFacing();
+        //Vector2 facing = actor.GetActorFacing();
 
-        if (facing == Vector2.up)
-        {
-            spriteRend.sprite = backSprite;
-        }
+        //if (facing == Vector2.up)
+        //{
+        //    spriteRend.sprite = backSprite;
+        //}
 
-        if (facing == Vector2.left)
-        {
-            spriteRend.sprite = leftSprite;
-        }
+        //if (facing == Vector2.left)
+        //{
+        //    spriteRend.sprite = leftSprite;
+        //}
 
-        if (facing == Vector2.down)
-        {
-            spriteRend.sprite = frontSprite;
-        }
+        //if (facing == Vector2.down)
+        //{
+        //    spriteRend.sprite = frontSprite;
+        //}
 
-        if (facing == Vector2.right)
-        {
-            spriteRend.sprite = rightSprite;
-        }
+        //if (facing == Vector2.right)
+        //{
+        //    spriteRend.sprite = rightSprite;
+        //}
     }
 
         //    if (actor.IsAlive)

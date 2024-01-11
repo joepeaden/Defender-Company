@@ -32,10 +32,10 @@ MonoBehaviour:
   isPistol: 1
   projPerShot: 1
   muzzlePosition: {x: 0.0866, y: 1.251, z: 1.2001}
-  upSprite: {fileID: 21300000, guid: 30a49c0254682483ca861390feba39df, type: 3}
-  leftSprite: {fileID: 21300000, guid: b68e8c9144e114696bf5220bbc3cc188, type: 3}
-  downSprite: {fileID: 21300000, guid: cba146735fb364b31a4bcb76277bce0c, type: 3}
-  rightSprite: {fileID: 21300000, guid: cc9c4c1af0a99441a83e77ea44c993e0, type: 3}
+  upSprite: {fileID: 21300000, guid: 65c446883517a4fcaa3ce4ca1bc0c15b, type: 3}
+  leftSprite: {fileID: 21300000, guid: 65c446883517a4fcaa3ce4ca1bc0c15b, type: 3}
+  downSprite: {fileID: 21300000, guid: 4c0a06ea3e47d461b9afc514e2f9269d, type: 3}
+  rightSprite: {fileID: 21300000, guid: 4c0a06ea3e47d461b9afc514e2f9269d, type: 3}
   hasInfiniteBackupAmmo: 1
   accuracyAngle: 8
   movementAccuracyPenalty: 2

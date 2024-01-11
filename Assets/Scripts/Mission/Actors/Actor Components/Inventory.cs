@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
 {
     public static UnityEvent OnNewItemAddedPlayer = new UnityEvent();
 
-    [SerializeField] private InventoryItemDataStorage dataStorage;
+    //[SerializeField] private InventoryItemDataStorage dataStorage;
     public WeaponInstance WeaponInstance => weaponInstance;
     [SerializeField] private WeaponInstance weaponInstance;
     // temporary. eventually replace with dropdown for StartingWeapon
@@ -68,7 +68,7 @@ public class Inventory : MonoBehaviour
 
     public void SetWeaponFromData(WeaponData weaponData = null)
     {
-        weaponData = weaponData != null ? weaponData : dataStorage.pistol;
+        //weaponData = weaponData != null ? weaponData : dataStorage.pistol;
 
         InventoryWeapon inventoryWeapon;
 

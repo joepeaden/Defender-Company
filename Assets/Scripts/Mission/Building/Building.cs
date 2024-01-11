@@ -71,6 +71,8 @@ public class Building : MonoBehaviour
         bool isLeftOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x - 5f, transform.position.y, transform.position.z), buildingType);
         bool isDownOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x, transform.position.y, transform.position.z - 5f), buildingType);
 
+        // pick the sprite for this wall depending on which other nearby positions are occupied.
+
         if (!isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
         {
             spriteRenderer.sprite = singleWallSprite;

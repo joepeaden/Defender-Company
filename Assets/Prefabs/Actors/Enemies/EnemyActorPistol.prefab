@@ -267,14 +267,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 1515454217889355326, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: dataStorage
-      value: 
-      objectReference: {fileID: 8100413924085744880, guid: 9641dce66f7be442cb3b438f138cfd0b, type: 3}
-    - target: {fileID: 1515454217889355326, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: weaponInstance
-      value: 
-      objectReference: {fileID: 3634169881766258620}
     - target: {fileID: 1745033373422121327, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Layer
       value: 16
@@ -899,22 +891,6 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.0000000055879354
       objectReference: {fileID: 0}
-    - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 5343905166255433907, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -1046,17 +1022,6 @@ MonoBehaviour:
   fullyInCover: 0
   fullyOutOfCover: 0
   bombPrefab: {fileID: 2345039802422252422, guid: 79ffa8f559da349acbb3fd814ea03a5c, type: 3}
---- !u!114 &3634169881766258620 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2062017164814779945, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-  m_PrefabInstance: {fileID: 3383025682066104725}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2d02c79f0aceb34a895e5fe96533e03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3795541066882850700 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1900118350494137881, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}

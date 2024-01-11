@@ -19,9 +19,6 @@ public class WeaponInstance : MonoBehaviour
     [SerializeField] private float crouchYPos;
     [SerializeField] WeaponSprite weaponSprite;
 
-    // is muzzle needed any more?
-    [SerializeField] private Transform muzzle; 
-
     /// <summary>
     /// Just a debug option.
     /// </summary>
@@ -84,26 +81,18 @@ public class WeaponInstance : MonoBehaviour
             Debug.DrawRay(transform.position, ray2Dir * Vector3.forward * 10f, Color.red);
         }
 
-        Vector2 facing = actor.GetActorFacing();
-        if (facing == Vector2.up)
-        {
-            weaponSprite.FaceBack();
-        }
-
-        if (facing == Vector2.left)
-        {
-            weaponSprite.FaceLeft();
-        }
-
-        if (facing == Vector2.down)
-        {
-            weaponSprite.FaceFront();
-        }
-
-        if (facing == Vector2.right)
-        {
-            weaponSprite.FaceRight();
-        }
+        //if (inventoryWeapon != null && inventoryWeapon.data != null)
+        //{
+            Vector2 facing = actor.GetActorFacingLeftRight();
+            if (facing == Vector2.left)
+            {
+                weaponSprite.FaceLeft();
+            }
+            else if (facing == Vector2.right)
+            {
+                weaponSprite.FaceRight();
+            }
+        //}
     }
 
     private void OnDestroy()
@@ -171,7 +160,7 @@ public class WeaponInstance : MonoBehaviour
         weaponSprite.SetData(weapon.data);
         
         // update position cause weapons are different lengths
-        transform.localPosition = weapon.data.muzzlePosition;
+        //transform.localPosition = weapon.data.muzzlePosition;
         inventoryWeapon = weapon;
     }
 
