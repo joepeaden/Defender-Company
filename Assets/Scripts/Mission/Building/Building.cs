@@ -61,82 +61,82 @@ public class Building : MonoBehaviour
 
     public void HandleWallPlaced()
     {
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        }
+        //if (spriteRenderer == null)
+        //{
+        //    spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        //}
 
-        bool isUpOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f), buildingType);
-        bool isRightOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x + 5f, transform.position.y, transform.position.z), buildingType);
-        bool isLeftOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x - 5f, transform.position.y, transform.position.z), buildingType);
-        bool isDownOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x, transform.position.y, transform.position.z - 5f), buildingType);
+        //bool isUpOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f), buildingType);
+        //bool isRightOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x + 5f, transform.position.y, transform.position.z), buildingType);
+        //bool isLeftOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x - 5f, transform.position.y, transform.position.z), buildingType);
+        //bool isDownOccupiedByWall = BuildingManager.Instance.IsSpaceOccupiedBy(new Vector3(transform.position.x, transform.position.y, transform.position.z - 5f), buildingType);
 
-        // pick the sprite for this wall depending on which other nearby positions are occupied.
+        //// pick the sprite for this wall depending on which other nearby positions are occupied.
 
-        if (!isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = singleWallSprite;
-        }
-        else if (isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = horizWallCapLeftSprite;
-        }
-        else if (isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = horizWallSprite;
-        }
-        else if (!isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = horizWallCapRightSprite;
-        }
-        else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = vertWallSprite;
-        }
-        else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = vertWallCapTopSprite;
-        }
-        else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = vertWallCapBotSprite;
-        }
-        else if (!isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = topRightWallCornerSprite;
-        }
-        else if (isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = topLeftWallCornerSprite;
-        }
-        else if (isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = bottomLeftWallCornerSprite;
-        }
-        else if (!isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = bottomRightWallCornerSprite;
-        }
-        else if (isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = centerWallSprite;
-        }
-        else if (!isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = centerRightWallSprite;
-        }
-        else if (isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = centerLeftWallSprite;
-        }
-        else if (isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = centerTopWallSprite;
-        }
-        else if (isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
-        {
-            spriteRenderer.sprite = centerBottomWallSprite;
-        }
+        //if (!isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = singleWallSprite;
+        //}
+        //else if (isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = horizWallCapLeftSprite;
+        //}
+        //else if (isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = horizWallSprite;
+        //}
+        //else if (!isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = horizWallCapRightSprite;
+        //}
+        //else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = vertWallSprite;
+        //}
+        //else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = vertWallCapTopSprite;
+        //}
+        //else if (!isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = vertWallCapBotSprite;
+        //}
+        //else if (!isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = topRightWallCornerSprite;
+        //}
+        //else if (isRightOccupiedByWall && !isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = topLeftWallCornerSprite;
+        //}
+        //else if (isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = bottomLeftWallCornerSprite;
+        //}
+        //else if (!isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = bottomRightWallCornerSprite;
+        //}
+        //else if (isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = centerWallSprite;
+        //}
+        //else if (!isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = centerRightWallSprite;
+        //}
+        //else if (isRightOccupiedByWall && !isLeftOccupiedByWall && isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = centerLeftWallSprite;
+        //}
+        //else if (isRightOccupiedByWall && isLeftOccupiedByWall && !isUpOccupiedByWall && isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = centerTopWallSprite;
+        //}
+        //else if (isRightOccupiedByWall && isLeftOccupiedByWall && isUpOccupiedByWall && !isDownOccupiedByWall)
+        //{
+        //    spriteRenderer.sprite = centerBottomWallSprite;
+        //}
     }
 
 

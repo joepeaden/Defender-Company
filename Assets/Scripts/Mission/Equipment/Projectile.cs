@@ -31,14 +31,14 @@ public class Projectile : MonoBehaviour
         lastPoint = transform.position;
         audioSource = GetComponent<AudioSource>();
 
-        GetComponent<MeshRenderer>().material = data.material;
+        //GetComponent<MeshRenderer>().material = data.material;
     }
 
     private void FixedUpdate()
     {
         if (data.velocity != 0)
         {
-            GetComponent<Rigidbody>().velocity = data.velocity * transform.forward;
+            GetComponent<Rigidbody2D>().velocity = data.velocity * transform.up;
         }
         else
         {
@@ -90,7 +90,7 @@ public class Projectile : MonoBehaviour
             if (shouldDestroy)
             {
                 destroying = true;
-                GetComponent<MeshRenderer>().enabled = false;
+                //GetComponent<MeshRenderer>().enabled = false;
                 StartCoroutine(BeginDestruction());
             }
         }

@@ -29,7 +29,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private int timeUnitsRemaining;
     public int buildingTUCost;
     private bool canEditBuildings;
-    private float buildingZRotation;
+    private float buildingYRotation;
 
     private void Awake()
     {
@@ -59,7 +59,7 @@ public class BuildingManager : MonoBehaviour
                         timeUnitsRemaining -= buildingTUCost;
                         MissionUI.Instance.UpdateRemainingTU(timeUnitsRemaining);
                         GameObject newBuilding = Instantiate(buildingToInstantiate, placeHolderObject.transform.position, buildingToInstantiate.transform.rotation);
-                        newBuilding.transform.Rotate(new Vector3(0, buildingZRotation, 0));
+                        newBuilding.transform.Rotate(new Vector3(0, buildingYRotation, 0));
                         occupiedPositions[placeHolderObject.transform.position] = newBuilding;
 
                         if (placeHolderObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
@@ -77,8 +77,8 @@ public class BuildingManager : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.E))
                 {
-                    placeHolderObject.transform.Rotate(new Vector3(0, 90, 0));
-                    buildingZRotation = placeHolderObject.transform.rotation.eulerAngles.y;
+                    placeHolderObject.transform.Rotate(new Vector3(0, 0, 90));
+                    buildingYRotation = placeHolderObject.transform.rotation.eulerAngles.z;
                 }
 
                 if (timeUnitsRemaining < buildingTUCost || Input.GetButtonDown("Fire2")) // right click to not place tings anymore 
@@ -137,9 +137,9 @@ public class BuildingManager : MonoBehaviour
 
     public Vector3 GetClosestSnapPos(Vector3 position)
     {
-        int roundedX = (int)Mathf.Ceil(position.x / 5) * 5;
-        int roundedZ = (int)Mathf.Ceil(position.z / 5) * 5;
-        Vector3 roundedPos = new Vector3(roundedX, 0, roundedZ);
+        int roundedX = (int)Mathf.Ceil(position.x / 1) * 1;
+        int roundedY = (int)Mathf.Ceil(position.y / 1) * 1;
+        Vector3 roundedPos = new Vector3(roundedX, roundedY, 0);
      
         return roundedPos; 
     }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.AI;
+//using UnityEngine.AI;
+using Pathfinding;
 
 [RequireComponent(typeof(Inventory))]
 
@@ -64,8 +65,8 @@ public class Actor : MonoBehaviour
     #region Components
     private ActorInteractSensor interactSensor;
 	private CapsuleCollider mainCollider;
-    private Rigidbody rigidBody;
-	private NavMeshAgent navAgent;
+    private Rigidbody2D rigidBody;
+	private AIPath pathfinder;
 	private AudioSource audioSource;
 	private Inventory inventory;
 	#endregion
@@ -85,7 +86,7 @@ public class Actor : MonoBehaviour
 	//public Transform target;
 	public ActorTeam team;
 
-	private bool isUsingNavAgent;
+	private bool isUsingPathfinding;
 	private List<AudioClip> deathSounds;
 	private List<AudioClip> woundSounds;
 
@@ -116,8 +117,8 @@ public class Actor : MonoBehaviour
 
 		mainCollider = GetComponent<CapsuleCollider>();
 		interactSensor = GetComponentInChildren<ActorInteractSensor>();
-		rigidBody = GetComponent<Rigidbody>();
-		navAgent =  GetComponent<NavMeshAgent>();
+		rigidBody = GetComponent<Rigidbody2D>();
+		pathfinder = GetComponent<AIPath>();
 		audioSource = GetComponent<AudioSource>();
 		inventory = GetComponent<Inventory>();
 		HitPoints = data.hitPoints;
@@ -149,40 +150,8 @@ public class Actor : MonoBehaviour
 
 		if (IsPlayer)
         {
-			navAgent.enabled = false;
+			DisablePathfinding();
         }
-	}
-
-    public Vector2 GetActorFacing()
-    {
-		if (transform.rotation.eulerAngles.y > 315 || transform.rotation.eulerAngles.y < 45)
-		{
-			return Vector2.up;
-		}
-		else if (transform.rotation.eulerAngles.y > 225 && transform.rotation.eulerAngles.y < 315)
-		{
-			return Vector2.left;
-		}
-		else if (transform.rotation.eulerAngles.y > 135 && transform.rotation.eulerAngles.y < 225)
-		{
-			return Vector2.down;
-		}
-		else
-		{
-			return Vector2.right;
-		}
-	}
-
-	public Vector2 GetActorFacingLeftRight()
-	{
-		if (transform.rotation.eulerAngles.y > 180 && transform.rotation.eulerAngles.y < 360)
-		{
-			return Vector2.left;
-		}
-		else
-		{
-			return Vector2.right;
-		}
 	}
 
 	private void OnDestroy()
@@ -196,13 +165,50 @@ public class Actor : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		EmitVelocityInfo.Invoke(isUsingNavAgent ? navAgent.velocity : rigidBody.velocity);
+        //EmitVelocityInfo.Invoke(isUsingPathfinding ? .velocity : rigidBody.velocity);
 	}
 
-    /// <summary>
-    /// Get width of the actor's collider
-    /// </summary>
-    public float GetWidth()
+	private void DisablePathfinding()
+	{
+		pathfinder.enabled = false;
+	}
+
+	public Vector2 GetActorFacing()
+	{
+		if (transform.rotation.eulerAngles.z > 315 || transform.rotation.eulerAngles.z < 45)
+		{
+			return Vector2.up;
+		}
+		else if (transform.rotation.eulerAngles.z > 225 && transform.rotation.eulerAngles.z < 315)
+		{
+			return Vector2.left;
+		}
+		else if (transform.rotation.eulerAngles.z > 135 && transform.rotation.eulerAngles.z < 225)
+		{
+			return Vector2.down;
+		}
+		else
+		{
+			return Vector2.right;
+		}
+	}
+
+	public Vector2 GetActorFacingLeftRight()
+	{
+		if (transform.rotation.eulerAngles.z > 180 && transform.rotation.eulerAngles.z < 360)
+		{
+			return Vector2.right;
+		}
+		else
+		{
+			return Vector2.left;
+		}
+	}
+
+	/// <summary>
+	/// Get width of the actor's collider
+	/// </summary>
+	public float GetWidth()
     {
 		//x and z should be the same for now.
 		return transform.lossyScale.z;
@@ -217,7 +223,7 @@ public class Actor : MonoBehaviour
 
 	public void SetAgentSpeed(float speed)
     {
-		navAgent.speed = speed;
+        pathfinder.maxSpeed = speed;
     }
 
     public void SetVisibility(bool visible)
@@ -604,26 +610,26 @@ public class Actor : MonoBehaviour
 	/// <param name="moveVector">If not useNavMesh, direction of movement. If useNavMesh, the destination of the agent.</param>
 	public void Move(Vector3 moveVector, bool useNavMesh = true)
     {
-		if (navAgent.destination == moveVector)
+		if (pathfinder.destination == moveVector)
         {
             return;
         }
-		
-        isUsingNavAgent = useNavMesh;
+
+        isUsingPathfinding = useNavMesh;
 
 		if (moveVector != Vector3.zero)
 		{
 			if (useNavMesh)
 			{
-				if(navAgent == null)
+				if(pathfinder == null)
                 {
-					Debug.LogWarning("No NavMeshAgent attatched to actor " + gameObject.name + ", but attempted to use it.");
+                    Debug.LogWarning("No NavMeshAgent attatched to actor " + gameObject.name + ", but attempted to use it.");
                 }
-				else if (navAgent.destination != moveVector)
-				{
-					navAgent.destination = moveVector;
-				}
-			}
+                else if (pathfinder.destination != moveVector)
+                {
+                    pathfinder.destination = moveVector;
+                }
+            }
 			else
 			{
 				rigidBody.AddForce(moveVector * moveForce);
@@ -637,14 +643,14 @@ public class Actor : MonoBehaviour
         }
 		else if (useNavMesh)
         {
-			navAgent.destination = transform.position;
-			//hasSetMove = true;
+            pathfinder.destination = transform.position;
+            //hasSetMove = true;
         }
 	}
 
   //  public void StopMoving()
   //  {
-		//Move(Vector3.zero);
+		//Move(Vector2.zero);
   //  }
 
     public Inventory GetInventory()
@@ -746,7 +752,7 @@ public class Actor : MonoBehaviour
 		IsAlive = false;
 
 		// disable components
-		navAgent.enabled = false;
+		pathfinder.enabled = false;
 		mainCollider.enabled = false;
 
 		int index = Random.Range(0, deathSounds.Count * 3);

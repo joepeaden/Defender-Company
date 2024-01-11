@@ -132,38 +132,38 @@ public class Player : ActorController
 		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
 		{
 			// rotation is based on movement when sprinting and rotation input when otherwise. So need this.
-			Vector2 rotationInputToUse;
-			if (!actor.state[Actor.State.Sprinting])
-			{
+			//Vector2 rotationInputToUse;
+			//if (!actor.state[Actor.State.Sprinting])
+			//{
 				//// Movement ////
 				// get the move direction
-				Vector3 moveDir = new Vector3(PlayerInput.MovementInput.x, 0f, PlayerInput.MovementInput.y);
+				Vector2 moveDir = new Vector2(PlayerInput.MovementInput.x, PlayerInput.MovementInput.y);
 
-				moveDir = Vector3.ClampMagnitude(moveDir, 1f);
+				moveDir = Vector2.ClampMagnitude(moveDir, 1f);
 
 				actor.Move(moveDir, false);
 
-				rotationInputToUse = PlayerInput.RotationInput;
-			}
-			else
-			{
-				// only go forward if sprinting
-				actor.Move(transform.forward, false);
-				rotationInputToUse = PlayerInput.UsingMouseForRotation ? PlayerInput.RotationInput : PlayerInput.MovementInput;
-			}
+				//rotationInputToUse = PlayerInput.RotationInput;
+			//}
+			//else
+			//{
+			//	// only go forward if sprinting
+			//	actor.Move(transform.forward, false);
+			//	rotationInputToUse = PlayerInput.UsingMouseForRotation ? PlayerInput.RotationInput : PlayerInput.MovementInput;
+			//}
 
-			if (rotationInputToUse != Vector2.zero)
-			{
+			//if (rotationInputToUse != Vector2.zero)
+			//{
 				// Get the angle of rotation based on the controller input (look, math! I did it!)
-				float newRotationYAngle = Mathf.Atan(rotationInputToUse.x / rotationInputToUse.y) * Mathf.Rad2Deg;
+				float newRotationYAngle = Mathf.Atan(-PlayerInput.RotationInput.x / PlayerInput.RotationInput.y) * Mathf.Rad2Deg;
 
 				// handle the wierd problem with negative y values (idk why man it works ok?)
-				if (rotationInputToUse.y < 0)
+				if (PlayerInput.RotationInput.y < 0)
 				{
 					newRotationYAngle -= 180;
 				}
 
-				float rotationDelta = Mathf.Abs(newRotationYAngle - transform.rotation.eulerAngles.y);
+				float rotationDelta = Mathf.Abs(newRotationYAngle - transform.rotation.eulerAngles.z);
 
 				// fix if we're going from 360 to 0 or the other way; this is confusing but don't stress it.
 				// basically just need to remember that transform.Rotate tatkes a number of degrees to rotate as a param. So going from 359 -> 0  degree rotation should not be -359 degrees, but should be 1 degree. Ya feel me?
@@ -180,13 +180,13 @@ public class Player : ActorController
 
 				float stratifiedRotation = rotationDelta / data.controllerMaxRotationSensitivity;
 				float adjustedRotationDelta = stratifiedRotation * (actor.state[Actor.State.Aiming] ? controllerAimRotationSensitivity : data.controllerRotationSensitivity);
-				float adjustedRotationValue = transform.rotation.eulerAngles.y > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
+				float adjustedRotationValue = transform.rotation.eulerAngles.z > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
 
-				Vector3 finalNewEulers = transform.rotation.eulerAngles + new Vector3(0f, adjustedRotationValue, 0f);
+				Vector3 finalNewEulers = transform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
 				Quaternion finalNewRotation = new Quaternion();
 				finalNewRotation.eulerAngles = finalNewEulers;
 				transform.rotation = finalNewRotation;
-            }
+            //}
 		}
 	}
 

@@ -21,7 +21,7 @@ public class WeaponSprite : MonoBehaviour
     {
         if (weaponData != null)
         {
-            Quaternion q = Quaternion.Euler(new Vector3(90, 180, 0));
+            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 180));
             transform.localRotation = q;
             spriteRenderer.sprite = weaponData.downSprite;
         }
@@ -31,7 +31,7 @@ public class WeaponSprite : MonoBehaviour
     {
         if (weaponData != null)
         {
-        Quaternion q = Quaternion.Euler(new Vector3(90, 90, 0));
+            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 270));
             transform.localRotation = q;
             spriteRenderer.sprite = weaponData.leftSprite;
         }
@@ -41,9 +41,9 @@ public class WeaponSprite : MonoBehaviour
     {
         if (weaponData != null)
         {
-        Quaternion q = Quaternion.Euler(new Vector3(90, 0, 0));
-        transform.localRotation = q;
-        spriteRenderer.sprite = weaponData.upSprite;
+            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 0));
+            transform.localRotation = q;
+            spriteRenderer.sprite = weaponData.upSprite;
         }
     }
 
@@ -51,9 +51,9 @@ public class WeaponSprite : MonoBehaviour
     {
         if (weaponData != null)
         {
-        Quaternion q = Quaternion.Euler(new Vector3(90, 270, 0));
+            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 90));
             transform.localRotation = q;
-        spriteRenderer.sprite = weaponData.rightSprite;
+            spriteRenderer.sprite = weaponData.rightSprite;
         }
     }
 }

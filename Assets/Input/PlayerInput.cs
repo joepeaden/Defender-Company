@@ -99,8 +99,8 @@ public static class PlayerInput
 
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
-		foreach (RaycastHit hit in hits)
+		RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector3.forward);
+		foreach (RaycastHit2D hit in hits)
         {
 			// only select friendly actors for now.
 			AIActorController actorCont = hit.transform.gameObject.GetComponent<AIActorController>();
@@ -151,8 +151,8 @@ public static class PlayerInput
 
         float rightmostValue = dragStart.x > dragEnd.x ? dragStart.x : dragEnd.x;
         float leftmostValue = dragStart.x == rightmostValue ? dragEnd.x : dragStart.x;
-        float topmostValue = dragStart.z > dragEnd.z ? dragStart.z : dragEnd.z;
-        float bottommostValue = dragStart.z == topmostValue ? dragEnd.z : dragStart.z;
+        float topmostValue = dragStart.y > dragEnd.y ? dragStart.y : dragEnd.y;
+        float bottommostValue = dragStart.y == topmostValue ? dragEnd.y : dragStart.y;
 
         foreach (FriendlyActorController friendly in MissionManager.Instance.friendlyActors)
         {
@@ -160,7 +160,7 @@ public static class PlayerInput
             {
                 // if friendly within selection box
                 if (friendly.transform.position.x > leftmostValue && friendly.transform.position.x < rightmostValue
-                    && friendly.transform.position.z > bottommostValue && friendly.transform.position.z < topmostValue)
+                    && friendly.transform.position.y > bottommostValue && friendly.transform.position.y < topmostValue)
                 {
                     friendly.UpdateSelection(true);
                     selectedFriendlies.Add(friendly);
@@ -179,8 +179,8 @@ public static class PlayerInput
 		//CoverZone coverZone = null;
 		bool isTargetingSomeone = false;
 		Debug.DrawRay(worldPoint, Vector3.down, Color.red);
-		RaycastHit[] hits = Physics.RaycastAll(worldPoint, Vector3.down);
-		foreach (RaycastHit hit in hits)
+		RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector3.forward);
+		foreach (RaycastHit2D hit in hits)
 		{
 			// it's important that we check the collider of the hit not the transform. For some reason, the transform
 			// is a reference to teh actual actor transform not the collider transform.
@@ -215,7 +215,7 @@ public static class PlayerInput
 					//if (coverZone == null)
 					//{
 					newPos = worldPoint;
-					newPos.y = 0f;
+					//newPos.y = 0f;
 					// first guy should go exactly on mouse click
 					if (i != 0)
 					{
@@ -231,12 +231,12 @@ public static class PlayerInput
 						}
 						else if (i == 2)
 						{
-							newPos.z += 3;
+							newPos.y += 3;
 						}
 						else if (i == 3)
 						{
 							newPos.x += 3;
-							newPos.z += 3;
+							newPos.y += 3;
 						}
 						else if (i == 4)
 						{
@@ -245,21 +245,21 @@ public static class PlayerInput
 						else if (i == 5)
 						{
 							newPos.x += 6;
-							newPos.z += 3;
+							newPos.y += 3;
 						}
 						else if (i == 6)
 						{
-							newPos.z += 6;
+							newPos.y += 6;
 						}
 						else if (i == 7)
 						{
 							newPos.x += 3;
-							newPos.z += 6;
+							newPos.y += 6;
 						}
 						else if (i == 8)
 						{
 							newPos.x += 6;
-							newPos.z += 6;
+							newPos.y += 6;
 						}
 					}
 

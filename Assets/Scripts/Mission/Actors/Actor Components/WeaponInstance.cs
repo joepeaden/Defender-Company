@@ -172,7 +172,7 @@ public class WeaponInstance : MonoBehaviour
         while (aiming)
         {
             RaycastHit hit;
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(transform.position, transform.right);
 
             // CLEAN: collision layer stuff is probably too complicated plus names are all outdated.
             int layerMask = LayerMask.GetMask(LayerNames.CollisionLayers.HouseAndFurniture.ToString(), LayerNames.CollisionLayers.Actors.ToString(), LayerNames.CollisionLayers.IgnoreFurniture.ToString(), "PlayerZoneCollider");
