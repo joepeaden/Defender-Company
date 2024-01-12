@@ -14,12 +14,12 @@ public class AIMovingToPositionState : AIState
     {
         _controller.GetActor().Move(_controller.movePosition);
 
-        Vector3 zeroedTargetPos = _controller.GetActor().transform.position;
-        zeroedTargetPos.y = 0f;
-        Vector3 zeroedCurrentPos = _controller.MovePosition;
-        zeroedCurrentPos.y = 0f;
+        //Vector3 zeroedTargetPos = _controller.GetActor().transform.position;
+        //Vector3 zeroedCurrentPos = _controller.MovePosition;
+        //zeroedTargetPos.y = 0f;
+        //zeroedCurrentPos.y = 0f;
 
-        bool hasReachedDestination = (zeroedTargetPos - zeroedCurrentPos).magnitude < .5f;
+        bool hasReachedDestination = _controller.GetActor().Pathfinder.reachedDestination;//(zeroedTargetPos - zeroedCurrentPos).magnitude == 0f;//<= (this as AIDeliveringBombState == null ? 0f : 1.5f);
 
         if (hasReachedDestination || !_controller.ShouldGoToPosition())
         {

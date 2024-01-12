@@ -32,7 +32,7 @@ public abstract class ActorController : MonoBehaviour
     /// <summary>
     /// Think about life. How it went. Did you do all you could? Did you say what you needed to say?
     /// </summary>
-    protected virtual void HandleDeath()
+    protected virtual void HandleDeath(bool fromExplosive)
     {
         StopAllCoroutines();
         enabled = false;

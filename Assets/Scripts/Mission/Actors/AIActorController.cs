@@ -114,7 +114,10 @@ public abstract class AIActorController : ActorController, ISetActive
                 {
                     wallGameObject.GetComponent<Building>().isTargeted = true;
 
-					GoToPosition(wallGameObject.transform.position - (transform.forward * 3f));
+					Pathfinding.NNInfo info = AstarPath.active.GetNearest(wallGameObject.transform.position);
+					Vector3 targetPos = info.position - ((info.position - transform.position).normalized * actor.GetColliderRadius()*2);
+
+					GoToPosition(targetPos);
                     foundWall = true;
                     break;
                 }
@@ -327,100 +330,101 @@ public abstract class AIActorController : ActorController, ISetActive
 	/// <returns></returns>
 	private bool AmIFullyInOrOutOfCover(bool intoCover)
 	{
-		if (attackTarget == null)
-        {
-			return false;
-        }
+		return true;
+		//if (attackTarget == null)
+  //      {
+		//	return false;
+  //      }
 
-		float actorWidth = actor.GetWidth();
+		//float actorWidth = actor.GetWidth();
 
-		Quaternion q = Quaternion.LookRotation(attackTarget.transform.position - transform.position);
-		Vector3 newRot = q * Vector3.right;
+		//Quaternion q = Quaternion.LookRotation(attackTarget.transform.position - transform.position);
+		//Vector3 newRot = q * Vector3.right;
 
 
-		//Debug.DrawRay(transform.position + (transform.right * actorWidth / 2), ((transform.position + (transform.right * actorWidth / 2))) * 10f, Color.red);
+		////Debug.DrawRay(transform.position + (transform.right * actorWidth / 2), ((transform.position + (transform.right * actorWidth / 2))) * 10f, Color.red);
 
-		Vector3 rayStartPos = transform.position + (newRot * (actorWidth / 2));
-		Vector3 rayDir = attackTarget.transform.position - rayStartPos;//((transform.position + (transform.right * actorWidth / 2)));
+		//Vector3 rayStartPos = transform.position + (newRot * (actorWidth / 2));
+		//Vector3 rayDir = attackTarget.transform.position - rayStartPos;//((transform.position + (transform.right * actorWidth / 2)));
 
-		Ray r = new Ray(rayStartPos, rayDir);
+		//Ray r = new Ray(rayStartPos, rayDir);
 
-		//Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
+		////Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
 
-		RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
-		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
+		//RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
+		//// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
+		//RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
+		//RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
-		// in Line of Sight
-		int blockingHits1 = 0;
-		// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
-		foreach (RaycastHit targetHit in targetHits)
-		{
-			foreach (RaycastHit blockHit in blockHits)
-			{
-				Cover cover = blockHit.transform.GetComponent<Cover>();
-				// if blocking thing is closer than target and not a "floor" cover.
-				if (blockHit.distance < targetHit.distance)
-				{
-					//if (cover != null && cover.coverType == Cover.CoverType.Floor)
-					//{
-					//	blockingHits += ignoreFloorCover ? 0 : 1;
-					//}
-					//else
-					//{
-					blockingHits1 += 1;
-					//}
-				}
-			}
-		}
+		//// in Line of Sight
+		//int blockingHits1 = 0;
+		//// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
+		//foreach (RaycastHit targetHit in targetHits)
+		//{
+		//	foreach (RaycastHit blockHit in blockHits)
+		//	{
+		//		Cover cover = blockHit.transform.GetComponent<Cover>();
+		//		// if blocking thing is closer than target and not a "floor" cover.
+		//		if (blockHit.distance < targetHit.distance)
+		//		{
+		//			//if (cover != null && cover.coverType == Cover.CoverType.Floor)
+		//			//{
+		//			//	blockingHits += ignoreFloorCover ? 0 : 1;
+		//			//}
+		//			//else
+		//			//{
+		//			blockingHits1 += 1;
+		//			//}
+		//		}
+		//	}
+		//}
 
-		rayStartPos = transform.position + (-newRot * (actorWidth / 2));
-		rayDir = attackTarget.transform.position - rayStartPos;//((transform.position - (transform.right * actorWidth / 2)));
-		r = new Ray(rayStartPos, rayDir);
+		//rayStartPos = transform.position + (-newRot * (actorWidth / 2));
+		//rayDir = attackTarget.transform.position - rayStartPos;//((transform.position - (transform.right * actorWidth / 2)));
+		//r = new Ray(rayStartPos, rayDir);
 
-		//Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
+		////Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
 
-		hits = Physics.RaycastAll(r, 1000f);
-		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
+		//hits = Physics.RaycastAll(r, 1000f);
+		//// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
+		//targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
+		//blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
-		int blockingHits2 = 0;
-		// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
-		foreach (RaycastHit targetHit in targetHits)
-		{
-			foreach (RaycastHit blockHit in blockHits)
-			{
-				Cover cover = blockHit.transform.GetComponent<Cover>();
-				// if blocking thing is closer than target and not a "floor" cover.
-				if (blockHit.distance < targetHit.distance)
-				{
-					//if (cover != null && cover.coverType == Cover.CoverType.Floor)
-					//{
-					//	blockingHits += ignoreFloorCover ? 0 : 1;
-					//}
-					//else
-					//{
-					blockingHits2 += 1;
-					//}
-				}
-			}
-		}
+		//int blockingHits2 = 0;
+		//// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
+		//foreach (RaycastHit targetHit in targetHits)
+		//{
+		//	foreach (RaycastHit blockHit in blockHits)
+		//	{
+		//		Cover cover = blockHit.transform.GetComponent<Cover>();
+		//		// if blocking thing is closer than target and not a "floor" cover.
+		//		if (blockHit.distance < targetHit.distance)
+		//		{
+		//			//if (cover != null && cover.coverType == Cover.CoverType.Floor)
+		//			//{
+		//			//	blockingHits += ignoreFloorCover ? 0 : 1;
+		//			//}
+		//			//else
+		//			//{
+		//			blockingHits2 += 1;
+		//			//}
+		//		}
+		//	}
+		//}
 
-		// if we made it here and hit a target, then we do indeed have LOS and Range (otherwise would have returned or skipped this block)
-		//;
+		//// if we made it here and hit a target, then we do indeed have LOS and Range (otherwise would have returned or skipped this block)
+		////;
 
-		if (intoCover)
-		{
-			return blockingHits1 > 0 && blockingHits2 > 0 && targetHits.Count() > 0;
-		}
-		else
-        {
-			return blockingHits1 == 0 && blockingHits2 == 0 && targetHits.Count() > 0;
-        }
+		//if (intoCover)
+		//{
+		//	return blockingHits1 > 0 && blockingHits2 > 0 && targetHits.Count() > 0;
+		//}
+		//else
+  //      {
+		//	return blockingHits1 == 0 && blockingHits2 == 0 && targetHits.Count() > 0;
+  //      }
 	}
 
     private bool IsTargetInLOS(bool ignoreFloorCover)
@@ -430,19 +434,19 @@ public abstract class AIActorController : ActorController, ISetActive
 			return false;
         }
 
-		Ray r = new Ray(transform.position, (attackTarget.transform.position - transform.position));
-		RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
+		//Ray r = new Ray();
+		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, (attackTarget.transform.position - transform.position), 1000f);
 		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
-		RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
+		RaycastHit2D[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
+		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
 
 		// in Line of Sight
 		int blockingHits = 0;
 		// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
-		foreach (RaycastHit targetHit in targetHits)
+		foreach (RaycastHit2D targetHit in targetHits)
 		{
-			foreach (RaycastHit blockHit in blockHits)
+			foreach (RaycastHit2D blockHit in blockHits)
 			{
 				Cover cover = blockHit.transform.GetComponent<Cover>();
 				// if blocking thing is closer than target and not a "floor" cover.
@@ -466,9 +470,9 @@ public abstract class AIActorController : ActorController, ISetActive
 		return targetInLOSInput;
     }
 
-	protected override void HandleDeath()
+	protected override void HandleDeath(bool fromExplosive)
     {
 		OnActorKilled.Invoke(actor.team);
-		base.HandleDeath();
+		base.HandleDeath(fromExplosive);
     }
 }

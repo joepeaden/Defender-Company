@@ -6,7 +6,7 @@ public class TargetDetectionTrigger : MonoBehaviour
 {
     public AIActorController actorController;
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("HitBox") && other.GetComponent<HitBox>().GetActor().team != actorController.GetActor().team)
         {

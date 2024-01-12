@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using Unity.AI.Navigation;
+using Pathfinding;
 using UnityEngine.Events;
 
 public class BuildingManager : MonoBehaviour
@@ -20,7 +19,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private GameObject stairsBuildingPrefab;
     [SerializeField] private GameObject barricadesPrefab;
     [SerializeField] private GameObject minesBuildingPrefab;
-    [SerializeField] private NavMeshSurface navMeshSurface;
+    [SerializeField] private AstarPath pathfindingGrid;
 
     Dictionary<Vector3, GameObject> occupiedPositions = new Dictionary<Vector3, GameObject>();
     private GameObject placeHolderObject = null;
@@ -113,20 +112,20 @@ public class BuildingManager : MonoBehaviour
     {
         DisablePlacementMode();
         canEditBuildings = false;
-        RebuildNav();
+        RebuildPathfindingGrid();
     }
 
     public void HandleBuildingDestroyed(Building building)
     {
         occupiedPositions.Remove(building.transform.position);
 
-        RebuildNav();
+        RebuildPathfindingGrid();
         OnBuildingModified.Invoke();
     }
 
-    public void RebuildNav()
+    public void RebuildPathfindingGrid()
     {
-        navMeshSurface.BuildNavMesh();
+        pathfindingGrid.Scan();
     }
 
     private void DisablePlacementMode()

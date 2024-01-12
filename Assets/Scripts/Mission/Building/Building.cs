@@ -145,7 +145,7 @@ public class Building : MonoBehaviour
     {
         if (hitPoints <= 0)
         {
-            GetComponentInChildren<Collider>().enabled = false;
+            GetComponentInChildren<Collider2D>().enabled = false;
 
             OnBuildingDestroyed.Invoke(this);
 

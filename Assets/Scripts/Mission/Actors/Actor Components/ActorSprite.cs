@@ -8,7 +8,10 @@ using UnityEngine;
 public class ActorSprite : MonoBehaviour
 {
     [SerializeField] private Actor actor;
-    [SerializeField] private GameObject bloodPoofEffect;
+    //[SerializeField] private GameObject bloodPoofEffect;
+    [SerializeField] private List<Sprite> bloodSplats;
+    [SerializeField] private List<Sprite> bodyParts;
+
     [SerializeField] private Sprite actorFrontStand;
     [SerializeField] private Sprite actorBackStand;
     [SerializeField] private Sprite actorRightStand;
@@ -30,6 +33,7 @@ public class ActorSprite : MonoBehaviour
     void Start()
     {
         actor.OnDeath.AddListener(HandleActorDeath);
+        actor.OnGetHit.AddListener(HandleActorHit);
 
         spriteRend = GetComponent<SpriteRenderer>();
 
@@ -44,6 +48,7 @@ public class ActorSprite : MonoBehaviour
         backSprite = actorBackStand;
         leftSprite = actorLeftStand;
         rightSprite = actorRightStand;
+
     }
 
     private void OnDestroy()
@@ -54,19 +59,82 @@ public class ActorSprite : MonoBehaviour
         actor.OnStand.RemoveListener(HandleStand);
     }
 
-    private void HandleActorDeath()
+    private void HandleActorDeath(bool fromExplosive)
     {
-        spriteRend.sprite = deadSprites[Random.Range(0, deadSprites.Count)];
+        if (fromExplosive)
+        {
+            Quaternion randomRotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 359)));
+            GameObject bloodSplat = Instantiate(new GameObject(), transform.position, randomRotation);
+            SpriteRenderer bloodSpltSpriteRenderer = bloodSplat.AddComponent<SpriteRenderer>();
+            bloodSpltSpriteRenderer.sprite = bloodSplats[Random.Range(0, bloodSplats.Count)];
 
-        GameObject poof = Instantiate(bloodPoofEffect, transform.position, Quaternion.identity);
-        StartCoroutine(DeletePoofAfterWait(poof));
+            randomRotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 359)));
+            GameObject bodyPart = Instantiate(new GameObject(), transform.position, randomRotation);
+            SpriteRenderer bodyPartSpriteRenderer = bodyPart.AddComponent<SpriteRenderer>();
+            bodyPartSpriteRenderer.sprite = bodyParts[0];
+            Rigidbody2D rb = bodyPart.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
+            rb.drag = Random.Range(3f, 5f);
+            float randomForce = Random.Range(200f, 800f);
+            Vector2 direction = new Vector2(0f, Random.Range(-1f, 1f));
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+            randomForce = Random.Range(200f, 800f);
+            direction = new Vector2(Random.Range(-1f, 1f), 0f);
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+
+            randomRotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 359)));
+            bodyPart = Instantiate(new GameObject(), transform.position, randomRotation);
+            bodyPartSpriteRenderer = bodyPart.AddComponent<SpriteRenderer>();
+            bodyPartSpriteRenderer.sprite = bodyParts[1];
+            rb = bodyPart.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
+            rb.drag = Random.Range(3f, 5f);
+            randomForce = Random.Range(200f, 800f);
+            direction = new Vector2(Random.Range(-1f, 1f), 0f);
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+            randomForce = Random.Range(200f, 800f);
+            direction = new Vector2(0f, Random.Range(-1f, 1f));
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+
+            randomRotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 359)));
+            bodyPart = Instantiate(new GameObject(), transform.position, randomRotation);
+            bodyPartSpriteRenderer = bodyPart.AddComponent<SpriteRenderer>();
+            bodyPartSpriteRenderer.sprite = bodyParts[2];
+            rb = bodyPart.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 0f;
+            rb.drag = Random.Range(3f, 5f);
+            randomForce = Random.Range(200f, 800f);
+            direction = new Vector2(0f, Random.Range(-1f, 1f));
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+            randomForce = Random.Range(200f, 800f);
+            direction = new Vector2(Random.Range(-1f, 1f), 0f);
+            rb.AddForceAtPosition(direction * randomForce, transform.position);
+
+            spriteRend.enabled = false;
+        }
+        else
+        {
+            spriteRend.sprite = deadSprites[Random.Range(0, deadSprites.Count)];
+        }
+        //StartCoroutine(DeletePoofAfterWait(poof));
     }
 
-    private IEnumerator DeletePoofAfterWait(GameObject poof)
+    private void HandleActorHit()
     {
-        yield return new WaitForSeconds(1.5f);
-        Destroy(poof);
+        // don't 
+        if (Random.Range(0, 10) > 7)
+        {
+            GameObject bloodSplat = Instantiate(new GameObject(), transform.position, transform.rotation);
+            SpriteRenderer bloodSpltSpriteRenderer = bloodSplat.AddComponent<SpriteRenderer>();
+            bloodSpltSpriteRenderer.sprite = bloodSplats[Random.Range(0, bloodSplats.Count)];
+        }
     }
+
+    //private IEnumerator DeletePoofAfterWait(GameObject poof)
+    //{
+    //    yield return new WaitForSeconds(1.5f);
+    //    Destroy(poof);
+    //}
 
     private void Update()
     {

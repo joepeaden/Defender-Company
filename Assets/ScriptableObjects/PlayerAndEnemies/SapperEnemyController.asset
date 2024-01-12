@@ -19,8 +19,7 @@ MonoBehaviour:
   scoreValue: 50
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   timeBetweenBursts: 2
-  projectilesInBurst: 1
-  navAgentSpeed: 5
+  navAgentSpeed: 3
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

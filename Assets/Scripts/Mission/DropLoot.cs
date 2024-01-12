@@ -17,7 +17,7 @@ public class DropLoot : MonoBehaviour
         actor.OnDeath.AddListener(DropTheLoot);        
     }
 
-    private void DropTheLoot()
+    private void DropTheLoot(bool fromExplosive)
     {
         Loot l = Instantiate(loot, transform.position, Quaternion.identity).GetComponent<Loot>();
         l.gearType = gearType;

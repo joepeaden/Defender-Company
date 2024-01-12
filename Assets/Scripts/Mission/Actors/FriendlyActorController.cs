@@ -57,9 +57,9 @@ public class FriendlyActorController : AIActorController, ISetActive
         selectionHighlight.SetActive(isSelected);
     }
 
-    protected override void HandleDeath()
+    protected override void HandleDeath(bool fromExplosive)
     {
-        base.HandleDeath();
+        base.HandleDeath(fromExplosive);
         MissionManager.Instance.friendlyActors.Remove(this);
     }
 }

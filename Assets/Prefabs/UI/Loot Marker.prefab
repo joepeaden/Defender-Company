@@ -32,7 +32,7 @@ RectTransform:
   - {fileID: 9171761445500621141}
   - {fileID: 9171761445645517080}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   padding: 30
   heightOffset: 20
+  label: {fileID: 9171761445500621142}
+  dotImage: {fileID: 9171761445645517081}
 --- !u!1 &9171761445500621140
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,16 +46,16 @@ public class Projectile : MonoBehaviour
         }
 
         movementDirection = (transform.position - lastPoint);
-        Physics.Raycast(lastPoint, movementDirection.normalized, out RaycastHit hitInfo, movementDirection.magnitude);
+        RaycastHit2D hitInfo = Physics2D.Raycast(lastPoint, movementDirection.normalized, movementDirection.magnitude);
         if (hitInfo.collider != null)
         {
-            OnTriggerEnter(hitInfo.collider);
+            OnTriggerEnter2D(hitInfo.collider);
         }
         lastPoint = transform.position;
     }
 
     public GameObject lastHitCover;
-    void OnTriggerEnter (Collider other)
+    void OnTriggerEnter2D (Collider2D other)
     {
         if (!destroying)
         {
@@ -77,7 +77,7 @@ public class Projectile : MonoBehaviour
             if (actor != null && other.gameObject.GetComponent<HitBox>())
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-                shouldDestroy = actor.ProcessHit(data.damage, this);
+                shouldDestroy = actor.ProcessHit(data.damage, projectile: this);
 
                 if (data.isExplosive)
                 {

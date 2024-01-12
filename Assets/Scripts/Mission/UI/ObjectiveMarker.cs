@@ -16,8 +16,8 @@ public class ObjectiveMarker : MonoBehaviour
     /// </summary>
     public int heightOffset;
 
-    protected TMP_Text label;
-    protected Image dotImage;
+    [SerializeField] protected TMP_Text label;
+    [SerializeField] protected Image dotImage;
     private Transform objectiveTransform;
     private RectTransform rectTrans;
 
@@ -25,23 +25,11 @@ public class ObjectiveMarker : MonoBehaviour
     private void Awake()
     {
         rectTrans = GetComponent<RectTransform>();
-        label = GetComponentInChildren<TMP_Text>();
-        dotImage = GetComponentInChildren<Image>();
     }
 
     public void SetData(Transform objectToMark, string newLabel)
     {
         objectiveTransform = objectToMark;
-
-        if (label == null)
-        {
-            label = GetComponentInChildren<TMP_Text>();
-        }
-
-        if (dotImage == null)
-        {
-            dotImage = GetComponentInChildren<Image>();
-        }
 
         label.text = newLabel;
     }

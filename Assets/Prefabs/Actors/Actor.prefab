@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 5922548439532969883}
   - component: {fileID: 8959686158009534886}
   - component: {fileID: 2550736703317225369}
+  - component: {fileID: 2521997411126289696}
   m_Layer: 3
   m_Name: Look Rotation Parent
   m_TagString: Untagged
@@ -463,6 +464,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2521997411126289696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572431464358274882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  smoothType: 0
+  subdivisions: 2
+  iterations: 2
+  strength: 0.5
+  uniformLength: 1
+  maxSegmentLength: 2
+  bezierTangentLength: 0.4
+  offset: 0.2
+  factor: 0.1
 --- !u!1 &1310252469257724915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1133,8 +1156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5179043301488269364}
   - component: {fileID: 7325362490278089332}
-  - component: {fileID: 4021624406903865689}
-  - component: {fileID: 6301925084418930527}
+  - component: {fileID: 6953176562615382597}
   m_Layer: 3
   m_Name: Hit Box
   m_TagString: HitBox
@@ -1151,7 +1173,7 @@ Transform:
   m_GameObject: {fileID: 5753443716597660571}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.36, y: 0.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1900118350494137881}
@@ -1169,8 +1191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42f40f35a13e4b81bedacdc434516e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &4021624406903865689
-BoxCollider2D:
+--- !u!58 &6953176562615382597
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1198,67 +1220,12 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &6301925084418930527
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5753443716597660571}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.25
 --- !u!1 &6460251532327145423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1357,7 +1324,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actor: {fileID: 6288928455270119811}
-  bloodPoofEffect: {fileID: 1547757601392324, guid: d5f9bb227d35628428a7413762ab0190, type: 3}
+  bloodSplats:
+  - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
+  - {fileID: 21300000, guid: df787ab818ec04ef1b294a7dec32b205, type: 3}
+  - {fileID: 21300000, guid: 8757205f9bc22437184e286803e9540a, type: 3}
+  bodyParts:
+  - {fileID: 21300000, guid: 1d9d40e59ae5d47c48b3d96b354b58af, type: 3}
+  - {fileID: 21300000, guid: 92c9600f6c1154e6a898e855b14a42bf, type: 3}
+  - {fileID: 21300000, guid: c5d6c068f33c94b5b87e997a425bf3b3, type: 3}
   actorFrontStand: {fileID: 21300000, guid: b50ab2ae710834d2a848382a399dc307, type: 3}
   actorBackStand: {fileID: 21300000, guid: f202cb4102f034e1a8880d0bed84ffa4, type: 3}
   actorRightStand: {fileID: 21300000, guid: 9ee18a6d8d56d4406bbe20f9247ffa62, type: 3}
@@ -1367,9 +1341,8 @@ MonoBehaviour:
   actorRightCrouch: {fileID: 21300000, guid: aeed4e4b5dcb54b0c8d2a32ad8310047, type: 3}
   actorLeftCrouch: {fileID: 21300000, guid: 9280d1b33c13b492ab5ae39071b52772, type: 3}
   deadSprites:
-  - {fileID: 21300000, guid: 6336b75fac15a435e9c9b638f95ebfff, type: 3}
-  - {fileID: 21300000, guid: a41512f512fb24d27b4e3d64cc75845f, type: 3}
-  - {fileID: 21300000, guid: b80d92a8f4a7246ba9a1fbb922bd9705, type: 3}
+  - {fileID: 21300000, guid: 658a766ccfb9d42c89347d1b455a7221, type: 3}
+  - {fileID: 21300000, guid: b521f06fc888f49eaafc4694ecc00a8a, type: 3}
 --- !u!1 &6904973392823136998
 GameObject:
   m_ObjectHideFlags: 0

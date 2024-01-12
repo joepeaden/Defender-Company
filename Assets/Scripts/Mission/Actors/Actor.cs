@@ -18,7 +18,10 @@ public class Actor : MonoBehaviour
 {
 	public UnityAction OnActorBeginAim;
 	public UnityAction OnActorEndAim;
-	[HideInInspector] public UnityEvent OnDeath = new UnityEvent();
+	/// <summary>
+    /// Boolean is if the actor died from an explosive
+    /// </summary>
+	[HideInInspector] public UnityEvent<bool> OnDeath = new UnityEvent<bool>();
 	[HideInInspector] public UnityEvent OnGetHit = new UnityEvent();
 	[HideInInspector] public UnityEvent OnHeal = new UnityEvent();
 	[HideInInspector] public UnityEvent OnCrouch = new UnityEvent();
@@ -64,8 +67,9 @@ public class Actor : MonoBehaviour
 
     #region Components
     private ActorInteractSensor interactSensor;
-	private CapsuleCollider mainCollider;
+	private CircleCollider2D mainCollider;
     private Rigidbody2D rigidBody;
+	public AIPath Pathfinder => pathfinder;
 	private AIPath pathfinder;
 	private AudioSource audioSource;
 	private Inventory inventory;
@@ -115,7 +119,7 @@ public class Actor : MonoBehaviour
 			{ State.InCover, false }
 		};
 
-		mainCollider = GetComponent<CapsuleCollider>();
+		mainCollider = GetComponent<CircleCollider2D>();
 		interactSensor = GetComponentInChildren<ActorInteractSensor>();
 		rigidBody = GetComponent<Rigidbody2D>();
 		pathfinder = GetComponent<AIPath>();
@@ -208,10 +212,10 @@ public class Actor : MonoBehaviour
 	/// <summary>
 	/// Get width of the actor's collider
 	/// </summary>
-	public float GetWidth()
+	public float GetColliderRadius()
     {
 		//x and z should be the same for now.
-		return transform.lossyScale.z;
+		return mainCollider.radius;
     }
 
 	public void AddHitPoints(int amountHealed)
@@ -343,9 +347,12 @@ public class Actor : MonoBehaviour
 
 		//transform.rotation = Quaternion.Euler(rotation);
 
-        newLookTarget.y = transform.position.y;
+        //newLookTarget.y = transform.position.y;
         lookTarget = newLookTarget;
-		transform.LookAt(lookTarget);
+		//transform.LookAt(lookTarget);
+
+		transform.up = lookTarget - transform.position;
+		//transform.Rotate(0, 0, -90);
 	}
 
 	public bool AttemptSwitchWeapons()
@@ -663,7 +670,7 @@ public class Actor : MonoBehaviour
 	/// </summary>
 	/// <param name="damage">Damage to deal to this actor.</param>
 	/// <returns>If the projectile should </returns>
-	public bool ProcessHit(int damage, Projectile projectile = null)
+	public bool ProcessHit(int damage, bool fromExplosive = false, Projectile projectile = null)
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
@@ -721,7 +728,7 @@ public class Actor : MonoBehaviour
 					projectile.OwningActor.TallyKill();
 				}
 
-				Die();
+				Die(fromExplosive);
 			}
 		}
 
@@ -747,7 +754,7 @@ public class Actor : MonoBehaviour
 	/// <summary>
 	/// Kill this actor.
 	/// </summary>
-	private void Die()
+	private void Die(bool fromExplosive)
 	{
 		IsAlive = false;
 
@@ -764,6 +771,6 @@ public class Actor : MonoBehaviour
 		EndAiming();
 
 		// have actor handle it's own inevitable destruction. It's ok buddy.
-		OnDeath.Invoke();
+		OnDeath.Invoke(fromExplosive);
 	}
 }

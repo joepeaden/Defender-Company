@@ -27,7 +27,7 @@ public class HitBox : MonoBehaviour
     /// <summary>
     /// Disables hit box on actor death.
     /// </summary>
-    private void HandleDeath()
+    private void HandleDeath(bool fromExplosive)
     {
         gameObject.SetActive(false);
     }
@@ -49,7 +49,7 @@ public class HitBox : MonoBehaviour
         return actor;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
         {
@@ -64,7 +64,7 @@ public class HitBox : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
         {
