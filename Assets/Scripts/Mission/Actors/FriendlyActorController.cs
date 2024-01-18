@@ -33,6 +33,9 @@ public class FriendlyActorController : AIActorController, ISetActive
         actor.SetWeaponFromData(companySoldier.CurrentWeapon);
 
         companySoldier.ResetMissionVariables();
+
+        gameObject.name = soldier.Name;
+        nameIsSet = true;
     }
 
     private void HandleGotKill()

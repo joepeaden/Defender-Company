@@ -70,7 +70,7 @@ public static class PlayerInput
 		controls.Command.ExitCommandMode.performed += HandleCommandModeExit;
 		controls.Command.Select.performed += HandleCommandSelect;
 		controls.Command.RightClick.performed += HandleCommandRightClick;
-		controls.Command.Drag.performed += HandleCommandDragStart;
+		controls.Command.Drag.started += HandleCommandDragStart;
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
 		//controls.Build.LeftClick.performed += HandleBuildLeftClick;
@@ -80,7 +80,7 @@ public static class PlayerInput
 
 	// at some point - migrate building controls to here... ? Is it necessary?
 	// Maybe? Maybe not?
-	// depends how complex the become.
+	// depends how complex they become.
 
 	//private static void HandleBuildLeftClick(InputAction.CallbackContext cntxt)
  //   {
@@ -97,22 +97,22 @@ public static class PlayerInput
     {
 		DeselectFriendlies();
 
-		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1000f, ~LayerMask.GetMask("ActorBodies"));
 
-		RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector3.forward);
-		foreach (RaycastHit2D hit in hits)
-        {
+		// I actually don't know why this conditional works. Interesting. I wonder if there's an implemented boolean comparision in the type...
+		if (hit)
+		{
 			// only select friendly actors for now.
 			AIActorController actorCont = hit.transform.gameObject.GetComponent<AIActorController>();
 			if (actorCont != null && actorCont.GetActor().team == Actor.ActorTeam.Friendly)
-            {
+			{
 				DeselectFriendlies();
 
 				selectedFriendlies.Add(hit.transform.gameObject.GetComponent<FriendlyActorController>());
-
 				hit.transform.gameObject.GetComponent<FriendlyActorController>().UpdateSelection(true);
-            }
-        }
+			}
+		}
 	}
 
 	private static void HandleMissionEnd(bool playerWon)
@@ -130,30 +130,37 @@ public static class PlayerInput
 		selectedFriendlies.Clear();
 	}
 
-	private static async void HandleCommandDragStart(InputAction.CallbackContext cntxt)
+	private static void HandleCommandDragStart(InputAction.CallbackContext cntxt)
 	{
-		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-		await Task.Delay(200);
-
-		if (Mouse.current.leftButton.isPressed)
-		{
-			dragStart = worldPoint;
-			//OnDragStarted.Invoke();
-			DeselectFriendlies();
-		}
-	}
+		dragStart = Input.mousePosition;
+		OnDragStarted.Invoke();
+    }
 
 	private static void HandleCommandDragEnd(InputAction.CallbackContext cntxt)
 	{
-		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        dragEnd = worldPoint;
+        dragEnd = Input.mousePosition;
 
-        float rightmostValue = dragStart.x > dragEnd.x ? dragStart.x : dragEnd.x;
-        float leftmostValue = dragStart.x == rightmostValue ? dragEnd.x : dragStart.x;
-        float topmostValue = dragStart.y > dragEnd.y ? dragStart.y : dragEnd.y;
-        float bottommostValue = dragStart.y == topmostValue ? dragEnd.y : dragStart.y;
+		Vector2 dragStartWorldPos = Camera.main.ScreenToWorldPoint(dragStart);
+		Vector2 dragEndWorldPos = Camera.main.ScreenToWorldPoint(dragEnd);
 
+		// make sure the UI knows drag has stopped (or that there was no drag)
+		OnDragEnded.Invoke();
+
+		// don't consider it a drag unless 
+		if ((dragEndWorldPos - dragStartWorldPos).magnitude < 2f)
+        {
+			return;
+        }
+
+		DeselectFriendlies();
+
+		// get the four corners of the selelection rectangle
+		float rightmostValue = dragStartWorldPos.x > dragEndWorldPos.x ? dragStartWorldPos.x : dragEndWorldPos.x;
+        float leftmostValue = dragStartWorldPos.x == rightmostValue ? dragEndWorldPos.x : dragStartWorldPos.x;
+        float topmostValue = dragStartWorldPos.y > dragEndWorldPos.y ? dragStartWorldPos.y : dragEndWorldPos.y;
+        float bottommostValue = dragStartWorldPos.y == topmostValue ? dragEndWorldPos.y : dragStartWorldPos.y;
+
+		// select friendlies within that rectangle
         foreach (FriendlyActorController friendly in MissionManager.Instance.friendlyActors)
         {
             if (friendly != null)
@@ -167,11 +174,9 @@ public static class PlayerInput
                 }
             }
         }
-
-        //OnDragEnded.Invoke();
     }
 
-	private static void HandleCommandRightClick(InputAction.CallbackContext cntxt)
+    private static void HandleCommandRightClick(InputAction.CallbackContext cntxt)
 	{
 		// now for the record it would be good to have a "Selection Manager" probably. Or maybe a "commands manager".
 
@@ -227,39 +232,39 @@ public static class PlayerInput
 
 						if (i == 1)
 						{
-							newPos.x += 3;
+							newPos.x += 1;
 						}
 						else if (i == 2)
 						{
-							newPos.y += 3;
+							newPos.y += 1;
 						}
 						else if (i == 3)
 						{
-							newPos.x += 3;
-							newPos.y += 3;
+							newPos.x += 1;
+							newPos.y += 1;
 						}
 						else if (i == 4)
 						{
-							newPos.x += 6;
+							newPos.x += 2;
 						}
 						else if (i == 5)
 						{
-							newPos.x += 6;
-							newPos.y += 3;
+							newPos.x += 2;
+							newPos.y += 1;
 						}
 						else if (i == 6)
 						{
-							newPos.y += 6;
+							newPos.y += 2;
 						}
 						else if (i == 7)
 						{
-							newPos.x += 3;
-							newPos.y += 6;
+							newPos.x += 1;
+							newPos.y += 2;
 						}
 						else if (i == 8)
 						{
-							newPos.x += 6;
-							newPos.y += 6;
+							newPos.x += 2;
+							newPos.y += 2;
 						}
 					}
 

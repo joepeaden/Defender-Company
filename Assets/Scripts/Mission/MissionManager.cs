@@ -75,14 +75,25 @@ public class MissionManager : MonoBehaviour
 
     private void Start()
     {
-        friendlyActors.Clear();
-        List<CompanySoldier> soldiers = GameManager.Instance.Company.GetSoldiers();
-        for (int i = 0; i < GameManager.Instance.Company.GetSoldiers().Count; i++)
+        if (GameManager.Instance.Company != null)
         {
-            CompanySoldier soldier = soldiers[i];
-            FriendlyActorController actorController = friendlyActorBodies[i];
-            actorController.SetSoldier(soldier);
-            friendlyActors.Add(actorController);
+            List<CompanySoldier> soldiers = GameManager.Instance.Company.GetSoldiers();
+            for (int i = 0; i < soldiers.Count; i++)
+            {
+                CompanySoldier soldier = soldiers[i];
+                FriendlyActorController actorController = friendlyActorBodies[i];
+                actorController.SetSoldier(soldier);
+                friendlyActors.Add(actorController);
+            }
+        }
+        // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
+        else
+        {
+            GameObject[] friendlyBodies = GameObject.FindGameObjectsWithTag("FriendlyActorBody");
+            for (int i = 0; i <  friendlyBodies.Length; i++)
+            {
+                friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
+            }
         }
     }
 

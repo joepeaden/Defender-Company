@@ -16,6 +16,7 @@ TagManager:
   - WeaponModel
   - SnapToAimBox
   - WallBuilding
+  - FriendlyActorBody
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - EnemyFill
   - SnapLayer
   - Building
-  - 
+  - ActorBodies
   - 
   - 
   - 

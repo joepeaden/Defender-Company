@@ -152,8 +152,8 @@ GameObject:
   - component: {fileID: 5922548439532969883}
   - component: {fileID: 8959686158009534886}
   - component: {fileID: 2550736703317225369}
-  m_Layer: 3
-  m_Name: Look Rotation Parent
+  m_Layer: 20
+  m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

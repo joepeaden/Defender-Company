@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3697046242640056988}
   - component: {fileID: 8749304545861988586}
   - component: {fileID: 890308715921755800}
-  m_Layer: 3
+  m_Layer: 20
   m_Name: DetectionCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,6 +289,10 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: 0.3739166
       objectReference: {fileID: 0}
+    - target: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_TagString
+      value: FriendlyActorBody
+      objectReference: {fileID: 0}
     - target: {fileID: 582410297507431152, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Layer
       value: 16
@@ -315,7 +319,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a5eaabce74f0c114186db956167794eb, type: 2}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 1310252469257724913, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalPosition.x

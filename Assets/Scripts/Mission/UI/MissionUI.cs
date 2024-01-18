@@ -34,6 +34,7 @@ public class MissionUI : MonoBehaviour
     [SerializeField] private GameObject entityMarkerPrefab;
     [SerializeField] private Image healGreenOutImg;
     [SerializeField] private GameObject gateGameObject;
+    [SerializeField] private GameObject selectionRectangle;
     #endregion
 
     #region RewardUI vars
@@ -106,24 +107,18 @@ public class MissionUI : MonoBehaviour
 
         AddObjectiveMarker(gateGameObject, "DEFEND");
 
-        //PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
-        //PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
+        PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
+        PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
     }
 
-    // fuck it for now
-    private bool isSelectionDragging;
-    //private void OnDragStartRegistered()
-    //{
-    //    isSelectionDragging = true;
-
-    //    selectionBox.SetActive(true);
-    //}
-    //private void OnDragEndRegistered()
-    //{
-    //    isSelectionDragging = false;
-
-    //    selectionBox.SetActive(false);
-    //}
+    private void OnDragStartRegistered()
+    {
+        selectionRectangle.SetActive(true);
+    }
+    private void OnDragEndRegistered()
+    {
+        selectionRectangle.SetActive(false);
+    }
 
     private void Update()
     {
@@ -136,28 +131,7 @@ public class MissionUI : MonoBehaviour
 
             ammoTxt.text = "Ammo: " + loaded + "/" + totalAmmoString;
         }
-
-        if (isSelectionDragging)
-        {
-            Vector2 dragStart = Camera.main.WorldToScreenPoint(PlayerInput.dragStart);
-            Vector2 dragEnd = Camera.main.WorldToScreenPoint(PlayerInput.dragEnd);
-
-
-            selectionBox.GetComponent<RectTransform>().anchorMax = dragStart;
-            selectionBox.GetComponent<RectTransform>().anchorMin = dragEnd;
-
-            //Rect r = selectionBox.GetComponent<RectTransform>().rect;
-
-            //r.xMin = PlayerInput.dragStart.x;
-            //r.xMax = PlayerInput.dragEnd.x;
-            //r.yMax = PlayerInput.dragStart.y;
-            //r.yMin = PlayerInput.dragEnd.y;
-
-            //selectionBox.GetComponent<RectTransform>().rect = r;
-        }
     }
-
-    public GameObject selectionBox;
 
     private void OnDestroy()
     {
@@ -214,8 +188,11 @@ public class MissionUI : MonoBehaviour
 
     public void AddObjectiveMarker(GameObject objectToMark, string label)
     {
-        GameObject marker = Instantiate(objectiveMarkerPrefab, battleUI.transform);
-        marker.GetComponent<ObjectiveMarker>().SetData(objectToMark.transform, label);
+        if (objectToMark != null)
+        {
+            GameObject marker = Instantiate(objectiveMarkerPrefab, battleUI.transform);
+            marker.GetComponent<ObjectiveMarker>().SetData(objectToMark.transform, label);
+        }
     }
 
     public void AddEntityMarker(ActorController controller, string label)

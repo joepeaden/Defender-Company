@@ -37,6 +37,9 @@ public abstract class AIActorController : ActorController, ISetActive
 	protected AIState aiState;
 	private float timeSinceLastDecision;
 
+	protected bool nameIsSet;
+	private static int nameIndex;
+
 	protected void Start()
 	{
 		//base.Start();
@@ -47,6 +50,12 @@ public abstract class AIActorController : ActorController, ISetActive
 		{
 			Activate();
 		}
+
+		if (!nameIsSet)
+        {
+			gameObject.name = $"Actor {nameIndex} ({actor.team})";
+			nameIndex++;
+        }
 	}
 
 	protected void Update()
