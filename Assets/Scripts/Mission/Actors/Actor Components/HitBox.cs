@@ -57,7 +57,7 @@ public class HitBox : MonoBehaviour
             {
                 actor.isBehindSandbags = true;
             }
-            if (other.gameObject.CompareTag("WallBuilding"))
+            if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
             {
                 actor.isOnWall = true;
             }
@@ -72,7 +72,7 @@ public class HitBox : MonoBehaviour
             {
                 actor.isBehindSandbags = false;
             }
-            if (other.gameObject.CompareTag("WallBuilding"))
+            if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
             {
                 actor.isOnWall = false;
             }

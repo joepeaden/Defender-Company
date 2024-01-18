@@ -22,6 +22,7 @@ public class LayerNames : MonoBehaviour
         IgnoreActors = 13,
         PlayerOutline = 15,
         EnemyOutline = 16,
-        EnemyFill = 17
+        EnemyFill = 17,
+        Building = 19
     }
 }

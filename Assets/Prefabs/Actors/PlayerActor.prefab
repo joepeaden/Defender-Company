@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: infiniteBackupAmmo
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2550736703317225369, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2766843684067106454, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Layer
       value: 15

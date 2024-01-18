@@ -152,7 +152,6 @@ GameObject:
   - component: {fileID: 5922548439532969883}
   - component: {fileID: 8959686158009534886}
   - component: {fileID: 2550736703317225369}
-  - component: {fileID: 2521997411126289696}
   m_Layer: 3
   m_Name: Look Rotation Parent
   m_TagString: Untagged
@@ -458,34 +457,12 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &2521997411126289696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572431464358274882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  smoothType: 0
-  subdivisions: 2
-  iterations: 2
-  strength: 0.5
-  uniformLength: 1
-  maxSegmentLength: 2
-  bezierTangentLength: 0.4
-  offset: 0.2
-  factor: 0.1
+  m_Radius: 0.2
 --- !u!1 &1310252469257724915
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +494,7 @@ Transform:
   - {fileID: 1900118350494137881}
   - {fileID: 7556884380886236059}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1745033373422121327
 GameObject:

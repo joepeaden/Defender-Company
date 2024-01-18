@@ -70,8 +70,8 @@ public class Projectile : MonoBehaviour
             if (actor != null && actor.team == owningActor.team)
                 return;
 
-            // don't destroy if hit actor's collider (only do so on hit box), (commented: also don't destroy if this is a collision with horizontal cover.)
-            bool shouldDestroy = other.CompareTag("HitBox") || (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
+            // if hit a HIT BOX (not other actor components) or a building, need to destroy bullet
+            bool shouldDestroy = other.CompareTag("HitBox") || other.GetComponent<Building>() != null; //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
 
             // only hit an actor if it's the actor's hit box
             if (actor != null && other.gameObject.GetComponent<HitBox>())
@@ -137,6 +137,8 @@ public class Projectile : MonoBehaviour
     /// <returns></returns>
     private IEnumerator BeginDestruction()
     {
+        GetComponent<Collider2D>().enabled = false;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
         yield return new WaitForSeconds(1.5f);
         Destroy(gameObject);
     }

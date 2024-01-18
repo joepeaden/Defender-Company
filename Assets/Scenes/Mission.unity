@@ -1089,7 +1089,7 @@ Transform:
   m_GameObject: {fileID: 173698893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 933125461}
@@ -1136,8 +1136,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4536068, g: 0.4716981, b: 0.38937342, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4aae9af3ff9bc456f8a0f7ed21a78c50, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4205,7 +4205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACYn+vawBvxXwIAABcFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVE1z2jAQ/SuMzqVjCIyT3lpCSA9JmNBOLr4Ia401yJJHHwGS4b93V7axQ09ev327+/bD/mRSuxpyb+zKSvFkBLAfI0Y2+zbqnY9w5DujN/IDOs6bFL4kEo+cV+6lQXxCYc5U4K3Mf+qdInKCYNCyMLZaih0sjPMO4YIrB+iyxlO0RuhzxI74GN9RyAmtaUrWB1p3yeiMZg7ag+2pyfd5S20sojbMoHPFqxoEye4DJkmXG61I1NhSyyH5uVFKulYP86c69vvKT9StkBx7iwKIW4LclZ50DgNfisKBbxu3/HQvLY6oych+mWZuFXf7RtU7V4FqzKez6e1tlNTkffqPMp5Ed2FN9diVbhrypcz3KDLnzg9mO4Tvv2oP+sDVnm8VvJWgn83KmqAFOr0NFBocTO/710t3ixLyfY83Uq/AUA821O2n3Q71cI4DOC6UrLZxdbMG2CgTxx33DxYX8xsFx+twbQpEScVfB3/4bnhGreNBWufR1XapSd7WBEtUtowzo26CXxirIcKt6Bo0V/60xjT+eotXvkHZK88Dpw+mLd76uu/gKiTCPT9Jrlxrc7gsy5Xm8ASufAleSQ29aHI845wWRuvmyIYz6cI2wRY8H4TtghRfT4uJmbi7naez7bRIb3g6GeNrmqYFFDdzkcwmBYu3JzX2ydW6EdqOB7em++Qa76z7j4xWltfx4IXlh5X8qMxg5FIXZpNbAP3SZLgIB4tF8KMUSyFxQBvwXuq4b/aZMWXyPYjskiiLnS6P3vKsz5KxWr4bT0jGFvHHkTGCL7e8tvAu4UDFu2Rndv4HUEsDBBQAAAgIAACYn+sy+gFFbAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrRSikmKpYWpuUmSUZq5caK5oS6Qa25unpaaZmyaYmBimKYUC1RfUlmQ6peYmwrRE5BYkpGWmZeSmZeu516UmeIOMlopthYAUEsBAi0AFAAACAgAAJif69rAG/FfAgAAFwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAJif6zL6AUVsAAAAeAAAAAkAJAAAAAAAAAAAAAAArAIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
+    dataString: UEsDBBQAAAgIAACYn+vJ8tjmXgIAABgFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1v2zAM/SuBzuvgpAnc7ralabpD26BZ0YsvikXHQmTJ0EeTtMh/HynbsZthJ9PkI/UeSemTSe1qyL2xSyvFoxHAfowY2ezbqA8+wIFvjV7LD+gwb1L4kkA8Yl64lwb9Y0pzpgJvZf5TbxWBE3QGLQtjq4XYwtw479BdcOUAQ9Z4ytbo+hyxA36ubinliNYkJesDrdtkdEIzB+3B9tDk+6yFNhZBG2TQueJVDYJo9wnjpKuNVgRqlNRiiH5ulJKu5cP8sY56X/iR1ArJUVskQNgS5Lb0xHOY+FwUDnwr3PLjnbTYoqYi+2WavlXc7RpW71wFOmM2mU5ubiKlpu7jP5CrcQwX1lQP3dGNIF/KfIckc+78oLdD991X7kHvudrxjYK3EvSTWVoTtMCgt4FSg4PJXf97VjcvId/1/obqhTPUgwl182mnQxpOsQGHuZLVJo5u2jjWysR2x/mDxcH8RsJxO1xbAr3E4tXBH74drlEbuJfWeQy1KjXR25hgCcoWsWekJvi5sRrssEINmit/XGEdfznGi9j/s+453Zj29DbWXYSLlOju8UlyEVqZ/XlarjT7R3Dlc/BKauhbTYEnbNTcaN1s2VBSl7YOtuD5IG0bpPi6W0xMxe3NLJ1uJkV6zdPxFf6maVpAcT0TyXRcsLh8UqNOrlYN0bY9ODbdF9e4aN1DMlpaXseNF5bvl/KjMq5HSl2YdW4B9HNT4UwcLB6Ct1IshMQGrcF7qePA2WfGlMl3ILJzoSwqXRy85VlfJWO1fDeePBmbx5cjY+Q+L/PKwruEPR3eFTux019QSwMEFAAACAgAAJif6zL6AUVsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tFKKSYqlham5SZJRmrlxormhLpBrbm6elppmbJpiYGKYphQLVF9SWZDql5ibCtETkFiSkZaZl5KZl67nXpSZ4g4yWim2FgBQSwECLQAUAAAICAAAmJ/ryfLY5l4CAAAYBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/rMvoBRWwAAAB4AAAACQAkAAAAAAAAAAAAAACrAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAGIDAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -4233,7 +4233,39 @@ MonoBehaviour:
     _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
     _AreaColors:
     - {r: 0, g: 0, b: 0, a: 0}
-  tagNames: []
+  tagNames:
+  - Basic Ground
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
   heuristic: 2
   heuristicScale: 1
   threadCount: 1
