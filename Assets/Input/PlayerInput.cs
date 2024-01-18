@@ -98,7 +98,7 @@ public static class PlayerInput
 		DeselectFriendlies();
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1000f, ~LayerMask.GetMask("ActorBodies"));
+		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1000f, LayerMask.GetMask("ActorBodies"));
 
 		// I actually don't know why this conditional works. Interesting. I wonder if there's an implemented boolean comparision in the type...
 		if (hit)
