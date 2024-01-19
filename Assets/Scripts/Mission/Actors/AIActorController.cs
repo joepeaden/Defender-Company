@@ -261,6 +261,13 @@ public abstract class AIActorController : ActorController, ISetActive
 				ClearAttackTarget();
 				break;
             }
+
+			// temporary, make bombers not stop to shoot anyone
+			//if (aiState as AIDeliveringBombState != null)
+   //         {
+			//	break;
+   //         }
+
 			//if (target == null)
    //         {
 			//	yield return null;
@@ -448,7 +455,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
 
 		RaycastHit2D[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.Building).ToArray();
+		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == LayerMask.NameToLayer("Building")).ToArray();
 
 		// in Line of Sight
 		int blockingHits = 0;

@@ -28,7 +28,7 @@ public class Player : ActorController
         PlayerInput.OnUseEquipment.AddListener(HandleUseEquipmentInput);
         PlayerInput.OnInteract.AddListener(HandleInteractInput);
 
-		MissionManager.OnMissionStart.AddListener(EnablePlayerControls);
+		MissionManager.OnAttackStart.AddListener(EnablePlayerControls);
 	}
 
 	private new void Start()
@@ -201,7 +201,7 @@ public class Player : ActorController
 		PlayerInput.OnReload.RemoveListener(HandleReloadInput);
 		PlayerInput.OnUseEquipment.RemoveListener(HandleUseEquipmentInput);
 		PlayerInput.OnInteract.RemoveListener(HandleInteractInput);
-		MissionManager.OnMissionStart.RemoveListener(EnablePlayerControls);
+		MissionManager.OnAttackStart.RemoveListener(EnablePlayerControls);
 	}
 
 	#endregion

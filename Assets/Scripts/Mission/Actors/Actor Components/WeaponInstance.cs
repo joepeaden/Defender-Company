@@ -159,8 +159,6 @@ public class WeaponInstance : MonoBehaviour
 
         weaponSprite.SetData(weapon.data);
         
-        // update position cause weapons are different lengths
-        //transform.localPosition = weapon.data.muzzlePosition;
         inventoryWeapon = weapon;
     }
 
@@ -171,24 +169,17 @@ public class WeaponInstance : MonoBehaviour
     {
         while (aiming)
         {
-            RaycastHit hit;
-            Ray ray = new Ray(transform.position, transform.right);
+            Ray2D ray = new Ray2D(transform.position, transform.up);
+            int layerMask = LayerMask.GetMask("ActorBodies");
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
-            // CLEAN: collision layer stuff is probably too complicated plus names are all outdated.
-            int layerMask = LayerMask.GetMask(LayerNames.CollisionLayers.HouseAndFurniture.ToString(), LayerNames.CollisionLayers.Actors.ToString(), LayerNames.CollisionLayers.IgnoreFurniture.ToString(), "PlayerZoneCollider");
-
-            if (Physics.Raycast(ray, out hit, int.MaxValue, layerMask))
+            if (hit)
             {
                 aimGlow.transform.position = hit.point;
 
                 line.enabled = true;
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, hit.point);
-
-                if (actor.IsPlayer)
-                {
-                    aimDir = (hit.point - transform.position).normalized;
-                }
             }
 
             yield return null;

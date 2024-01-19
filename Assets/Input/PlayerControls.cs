@@ -539,6 +539,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Control Pawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""02ac20f3-7def-4898-ae87-5cbc9cefc1fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -596,32 +605,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Follow Me"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Build"",
-            ""id"": ""1688a112-e96e-4855-bc52-2ea5ed07ccb7"",
-            ""actions"": [
-                {
-                    ""name"": ""Left Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""2d9aebc1-9f32-444c-9f3f-d8de9fff1392"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
+                },
                 {
                     ""name"": """",
-                    ""id"": ""ca654885-1cf6-4e4d-912d-d54f83ce855b"",
-                    ""path"": """",
+                    ""id"": ""37cd4b82-c742-40f7-8b48-084a69e8b03f"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Left Click"",
+                    ""action"": ""Control Pawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -657,9 +649,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Command_RightClick = m_Command.FindAction("Right Click", throwIfNotFound: true);
         m_Command_Drag = m_Command.FindAction("Drag", throwIfNotFound: true);
         m_Command_FollowMe = m_Command.FindAction("Follow Me", throwIfNotFound: true);
-        // Build
-        m_Build = asset.FindActionMap("Build", throwIfNotFound: true);
-        m_Build_LeftClick = m_Build.FindAction("Left Click", throwIfNotFound: true);
+        m_Command_ControlPawn = m_Command.FindAction("Control Pawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -930,6 +920,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Command_RightClick;
     private readonly InputAction m_Command_Drag;
     private readonly InputAction m_Command_FollowMe;
+    private readonly InputAction m_Command_ControlPawn;
     public struct CommandActions
     {
         private @PlayerControls m_Wrapper;
@@ -939,6 +930,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_Command_RightClick;
         public InputAction @Drag => m_Wrapper.m_Command_Drag;
         public InputAction @FollowMe => m_Wrapper.m_Command_FollowMe;
+        public InputAction @ControlPawn => m_Wrapper.m_Command_ControlPawn;
         public InputActionMap Get() { return m_Wrapper.m_Command; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -963,6 +955,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @FollowMe.started += instance.OnFollowMe;
             @FollowMe.performed += instance.OnFollowMe;
             @FollowMe.canceled += instance.OnFollowMe;
+            @ControlPawn.started += instance.OnControlPawn;
+            @ControlPawn.performed += instance.OnControlPawn;
+            @ControlPawn.canceled += instance.OnControlPawn;
         }
 
         private void UnregisterCallbacks(ICommandActions instance)
@@ -982,6 +977,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @FollowMe.started -= instance.OnFollowMe;
             @FollowMe.performed -= instance.OnFollowMe;
             @FollowMe.canceled -= instance.OnFollowMe;
+            @ControlPawn.started -= instance.OnControlPawn;
+            @ControlPawn.performed -= instance.OnControlPawn;
+            @ControlPawn.canceled -= instance.OnControlPawn;
         }
 
         public void RemoveCallbacks(ICommandActions instance)
@@ -999,52 +997,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public CommandActions @Command => new CommandActions(this);
-
-    // Build
-    private readonly InputActionMap m_Build;
-    private List<IBuildActions> m_BuildActionsCallbackInterfaces = new List<IBuildActions>();
-    private readonly InputAction m_Build_LeftClick;
-    public struct BuildActions
-    {
-        private @PlayerControls m_Wrapper;
-        public BuildActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftClick => m_Wrapper.m_Build_LeftClick;
-        public InputActionMap Get() { return m_Wrapper.m_Build; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(BuildActions set) { return set.Get(); }
-        public void AddCallbacks(IBuildActions instance)
-        {
-            if (instance == null || m_Wrapper.m_BuildActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_BuildActionsCallbackInterfaces.Add(instance);
-            @LeftClick.started += instance.OnLeftClick;
-            @LeftClick.performed += instance.OnLeftClick;
-            @LeftClick.canceled += instance.OnLeftClick;
-        }
-
-        private void UnregisterCallbacks(IBuildActions instance)
-        {
-            @LeftClick.started -= instance.OnLeftClick;
-            @LeftClick.performed -= instance.OnLeftClick;
-            @LeftClick.canceled -= instance.OnLeftClick;
-        }
-
-        public void RemoveCallbacks(IBuildActions instance)
-        {
-            if (m_Wrapper.m_BuildActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IBuildActions instance)
-        {
-            foreach (var item in m_Wrapper.m_BuildActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_BuildActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public BuildActions @Build => new BuildActions(this);
     public interface IUIActions
     {
         void OnNavigate(InputAction.CallbackContext context);
@@ -1074,9 +1026,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnDrag(InputAction.CallbackContext context);
         void OnFollowMe(InputAction.CallbackContext context);
-    }
-    public interface IBuildActions
-    {
-        void OnLeftClick(InputAction.CallbackContext context);
+        void OnControlPawn(InputAction.CallbackContext context);
     }
 }

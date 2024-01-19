@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc78ac2007d4b3fb2ee03bf9c26f12, type: 3}
   m_Name: EasyMissionData
   m_EditorClassIdentifier: 
-  missionTitle: South Gate (Easy)
+  missionTitle: Deployment Alpha
+  missionDifficulty: Easy
   completionReward: 1000
   enemyCount: 15
+  perTurnAttackChance: 0.3
+  numberOfTurns: 5
   victoryCondition: 0
   includedEnemyTypes:
   - {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}

@@ -182,7 +182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5463536956494449377, guid: 4ececd4e8cf8246ddade93895bde51fd, type: 3}
       propertyPath: m_Name
-      value: Reward
+      value: Subtitle
       objectReference: {fileID: 0}
     - target: {fileID: 5463536956494449377, guid: 4ececd4e8cf8246ddade93895bde51fd, type: 3}
       propertyPath: m_IsActive
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missionTitle: {fileID: 7395182874085782377}
-  missionReward: {fileID: 2870637399676998910}
+  missionSubTitle: {fileID: 2870637399676998910}
 --- !u!114 &7395182874797473308 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2958021014380618909, guid: 4ececd4e8cf8246ddade93895bde51fd, type: 3}

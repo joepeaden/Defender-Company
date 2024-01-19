@@ -51,6 +51,15 @@ public class FriendlyActorController : AIActorController, ISetActive
 
     public override void GoToPosition(Vector3 position)
     {
+        if (position == Vector3.zero)
+        {
+            movePositionSprite.SetActive(false);
+        }
+        else
+        {
+            movePositionSprite.SetActive(true);
+        }
+
         base.GoToPosition(position);
         movePositionSprite.transform.position = position;
     }

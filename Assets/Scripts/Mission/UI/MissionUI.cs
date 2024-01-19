@@ -26,7 +26,7 @@ public class MissionUI : MonoBehaviour
     [SerializeField] private GameObject battleUI;
     [SerializeField] private TMP_Text curntWpnTxt;
     [SerializeField] private TMP_Text ammoTxt;
-    [SerializeField] private TMP_Text waveTxt;
+    [SerializeField] private TextFadeInOut announcementText;
     [SerializeField] private TMP_Text pointsTxt;
     [SerializeField] private TMP_Text equipmentTxt;
     [SerializeField] private RectTransform reloadBarTransform;
@@ -50,6 +50,7 @@ public class MissionUI : MonoBehaviour
 
     [Header("Building UI")]
     [SerializeField] private GameObject buildingUI;
+    [SerializeField] private TMP_Text weekText;
     [SerializeField] private TMP_Text remainingTUText;
     private TMP_Text wallBuildingButtonText;
     [SerializeField] private Button wallBuildingButton;
@@ -60,6 +61,7 @@ public class MissionUI : MonoBehaviour
 
     private Player player;
     private VolumeProfile postProcProfile;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -85,16 +87,20 @@ public class MissionUI : MonoBehaviour
         wallBuildingButtonText = wallBuildingButton.transform.GetComponentInChildren<TMP_Text>();
         stairsBuildingButtonText = stairsBuildingButton.transform.GetComponentInChildren<TMP_Text>();
         barricadesBuildingButtonText = barricadesBuildingButton.transform.GetComponentInChildren<TMP_Text>();
+
+        MissionManager.OnAttackStart.AddListener(HandleAttackStart);
+        MissionManager.OnAttackEnd.AddListener(HandleAttackEnd);
+        MissionManager.OnNewTurn.AddListener(UpdateWeekText);
     }
 
     private void Start()
     {
-        postProcProfile = CameraManager.Instance.GetPostProcProf();
+        //postProcProfile = CameraManager.Instance.GetPostProcProf();
 
-        // Reset the vingette.
-        Vignette v;
-        postProcProfile.TryGet(out v);
-        v.intensity.Override(0f);
+        //// Reset the vingette.
+        //Vignette v;
+        //postProcProfile.TryGet(out v);
+        //v.intensity.Override(0f);
 
         player = MissionManager.Instance.GetPlayerScript();
         player.OnSwitchWeapons.AddListener(UpdateCurrentWeapon);
@@ -105,19 +111,12 @@ public class MissionUI : MonoBehaviour
         //UpdateCurrentWeapon(player.GetInventory().GetEquippedWeapon());
         //UpdateEquipment(player.GetInventory().GetEquipment());
 
-        AddObjectiveMarker(gateGameObject, "DEFEND");
+        //AddObjectiveMarker(gateGameObject, "DEFEND");
 
         PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
         PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
-    }
 
-    private void OnDragStartRegistered()
-    {
-        selectionRectangle.SetActive(true);
-    }
-    private void OnDragEndRegistered()
-    {
-        selectionRectangle.SetActive(false);
+        UpdateWeekText();
     }
 
     private void Update()
@@ -143,6 +142,37 @@ public class MissionUI : MonoBehaviour
         PlayerInput.OnSelect.RemoveListener(HandleSelectInput);
         PlayerInput.OnNavigate.RemoveListener(HandleNavigation);
         ShopItemButton.OnNewHoveredButton.RemoveListener(UpdateHoveredButton);
+        MissionManager.OnAttackStart.RemoveListener(HandleAttackStart);
+        MissionManager.OnAttackEnd.RemoveListener(HandleAttackEnd);
+        MissionManager.OnNewTurn.RemoveListener(UpdateWeekText);
+    }
+
+    private void HandleAttackStart()
+    {
+        announcementText.ShowAnnouncementText("INCOMING!", "");
+        ShowBattleUI();
+    }
+
+    private void HandleAttackEnd()
+    {
+        ShowBuildingUI();
+    }
+
+    private void UpdateWeekText()
+    {
+        announcementText.ShowAnnouncementText(GameManager.Instance.CurrentMission.missionTitle, $"Week {MissionManager.Instance.TurnNumber}");
+
+        weekText.text = $"Week {MissionManager.Instance.TurnNumber} of {GameManager.Instance.CurrentMission.numberOfTurns}";
+    }
+
+    private void OnDragStartRegistered()
+    {
+        selectionRectangle.SetActive(true);
+    }
+
+    private void OnDragEndRegistered()
+    {
+        selectionRectangle.SetActive(false);
     }
 
     private void HandleSelectInput()
@@ -283,11 +313,18 @@ public class MissionUI : MonoBehaviour
 
     public void ShowBattleUI()
     {
-        ShowWaveText();
-
         rewardUI.SetActive(false);
         buildingUI.SetActive(false);
         battleUI.SetActive(true);
+    }
+
+    public void ShowBuildingUI()
+    {
+        rewardUI.SetActive(false);
+        buildingUI.SetActive(true);
+        battleUI.SetActive(false);
+
+        PlayerInput.DisableGameplayControls();
     }
 
     private void UpdateScore(int totalPoints)
@@ -317,40 +354,6 @@ public class MissionUI : MonoBehaviour
             str = $"{eq.data.displayName} {eq.amount}";
         }
         equipmentTxt.text = str;
-    }
-
-    private void ShowWaveText()
-    {
-        StartCoroutine(WaveTextFade());
-    }
-
-    private IEnumerator WaveTextFade()
-    {
-        float timePassed = 0f;
-        waveTxt.alpha = 0f;
-        waveTxt.gameObject.SetActive(true);
-
-        while (timePassed <  1f)
-        {
-            float percent = timePassed / 1f;
-            waveTxt.alpha = percent;
-
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(1f);
-
-        while (timePassed > 0f)
-        {
-            float percent = timePassed / 1f;
-            waveTxt.alpha = percent;
-
-            timePassed -= Time.deltaTime;
-            yield return null;
-        }
-
-        waveTxt.gameObject.SetActive(false);
     }
 
     /// <summary>

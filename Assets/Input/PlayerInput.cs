@@ -23,6 +23,8 @@ public static class PlayerInput
 	public static UnityEvent<Vector2> OnNavigate = new UnityEvent<Vector2>();
 	public static UnityEvent OnDragStarted = new UnityEvent();
 	public static UnityEvent OnDragEnded = new UnityEvent();
+	public static UnityEvent OnCommandModeEnter = new UnityEvent();
+	public static UnityEvent OnCommandModeExit = new UnityEvent();
 	//public static UnityEvent OnPlaceBuilding = new UnityEvent();
 
 	public static Vector2 MovementInput => movementInput;
@@ -73,6 +75,7 @@ public static class PlayerInput
 		controls.Command.Drag.started += HandleCommandDragStart;
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
+		//controls.Command.FollowMe.performed += HandleCommandFollow;
 		//controls.Build.LeftClick.performed += HandleBuildLeftClick;
 
 		MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
@@ -280,12 +283,16 @@ public static class PlayerInput
 	{
 		controls.Command.Disable();
 		controls.Gameplay.Enable();
+
+		OnCommandModeExit.Invoke();
 	}
 
 	private static void HandleCommandModeEnter(InputAction.CallbackContext cntxt)
 	{
 		controls.Gameplay.Disable();
 		controls.Command.Enable();
+
+		OnCommandModeEnter.Invoke();
 	}
 
 	private static void HandleBButtonInput(InputAction.CallbackContext cntxt)

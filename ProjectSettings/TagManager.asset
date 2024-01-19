@@ -21,22 +21,22 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Actors
+  - 
   - Water
   - UI
-  - MouseOnly
-  - InCover
-  - Projectiles
-  - HouseAndFurniture
-  - IgnoreActorsAndFurniture
-  - IgnoreFurniture
-  - Floor
-  - IgnoreActors
-  - PlayerZoneCollider
-  - PlayerOutline
-  - EnemyOutline
-  - EnemyFill
-  - SnapLayer
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - Building
   - ActorBodies
   - 

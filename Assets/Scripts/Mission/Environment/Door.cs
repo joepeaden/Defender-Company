@@ -18,27 +18,27 @@ public class Door : Interactable
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        col = GetComponent<Collider>();
+        //rb = GetComponent<Rigidbody>();
+        //col = GetComponent<Collider>();
     }
 
     public override void Interact(Actor a)
     {
-        base.Interact(a);
+        //base.Interact(a);
         
-        rb.freezeRotation = false;
-        // OPTIMIZE: Could replce this with animation or just not have animation and snap to position. 
-        rb.AddForce(isOpening ? openForce * -transform.right : openForce * transform.right);
+        //rb.freezeRotation = false;
+        //// OPTIMIZE: Could replce this with animation or just not have animation and snap to position. 
+        //rb.AddForce(isOpening ? openForce * -transform.right : openForce * transform.right);
 
-        isOpening = !isOpening;
+        //isOpening = !isOpening;
 
-        StartCoroutine(ToggleCollisionAfterSwing());
+        //StartCoroutine(ToggleCollisionAfterSwing());
 
-        if (firstOpen)
-        {
-            OnDoorOpen.Invoke();
-            firstOpen = false;
-        }
+        //if (firstOpen)
+        //{
+        //    OnDoorOpen.Invoke();
+        //    firstOpen = false;
+        //}
     }
 
     /// <summary>
@@ -46,19 +46,19 @@ public class Door : Interactable
     /// </summary>
     /// <returns></returns>
     public IEnumerator ToggleCollisionAfterSwing() {
-        HingeJoint hinge = GetComponent<HingeJoint>();
-        col.gameObject.layer = (int)LayerNames.CollisionLayers.IgnoreActorsAndFurniture;
+        //HingeJoint hinge = GetComponent<HingeJoint>();
+        //col.gameObject.layer = (int)LayerNames.CollisionLayers.IgnoreActorsAndFurniture;
 
-        // if we're opening or closing and haven't reached the stop point of the hinge
-        while ((isOpening && hinge.angle > hinge.limits.min - 1f) || (!isOpening && hinge.angle < hinge.limits.max - 1f))
-        {
-            yield return null;
-        }
+        //// if we're opening or closing and haven't reached the stop point of the hinge
+        //while ((isOpening && hinge.angle > hinge.limits.min - 1f) || (!isOpening && hinge.angle < hinge.limits.max - 1f))
+        //{
+        //    yield return null;
+        //}
 
-        rb.freezeRotation = true;
-        rb.velocity = Vector3.zero;
-
-        col.gameObject.layer = (int)LayerNames.CollisionLayers.Default;
+        //rb.freezeRotation = true;
+        //rb.velocity = Vector3.zero;
+        yield return null;
+        //col.gameObject.layer = (int)LayerNames.CollisionLayers.Default;
     }
 
 }

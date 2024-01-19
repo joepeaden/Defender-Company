@@ -12,7 +12,18 @@ public class MissionManager : MonoBehaviour
     /// Raised when mission end. Bool param false if player lost, true if player won.
     /// </summary>
     public static UnityEvent<bool> OnMissionEnd = new UnityEvent<bool>();
-    public static UnityEvent OnMissionStart = new UnityEvent();
+    /// <summary>
+    /// Raised when attack happens in between turns
+    /// </summary>
+    public static UnityEvent OnAttackStart = new UnityEvent();
+    /// <summary>
+    /// Raised when attack ends
+    /// </summary>
+    public static UnityEvent OnAttackEnd = new UnityEvent();
+    /// <summary>
+    /// Called when a new turn begins
+    /// </summary>
+    public static UnityEvent OnNewTurn = new UnityEvent();
 
     public static MissionData CurrentMisison => currentMission;
     private static MissionData currentMission;
@@ -35,6 +46,10 @@ public class MissionManager : MonoBehaviour
     public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>();
 
     private AudioSource genericSoundPlayer;
+
+    private bool hasBeenAnAttackThisDeployment;
+    public int TurnNumber => turnNumber;
+    private int turnNumber = 1;
 
     private void Awake()
     {
@@ -67,10 +82,6 @@ public class MissionManager : MonoBehaviour
 
         EnemyActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
         AIActorController.OnActorKilled.AddListener(HandleActorKilled);
-
-        
-        // What is this here for again? Should have left a comment. I don't think it's necessary. Test some time.
-        //InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
     }
 
     private void Start()
@@ -95,19 +106,8 @@ public class MissionManager : MonoBehaviour
                 friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
             }
         }
-    }
 
-    public void EndBuildPhase()
-    {
-        MissionUI.Instance.ShowBattleUI();
         StartCoroutine(InitializeMissionWhenGameManagerReady());
-    }
-
-    private IEnumerator InitializeMissionWhenGameManagerReady()
-    {
-        yield return new WaitUntil(GameManager.Instance.IsInitialized);
-
-        InitializeMission(GameManager.Instance.CurrentMission);
     }
 
     private void OnDestroy()
@@ -117,18 +117,38 @@ public class MissionManager : MonoBehaviour
         AIActorController.OnActorKilled.RemoveListener(HandleActorKilled);
     }
 
-    public void InitializeMission(MissionData mission)
+    private IEnumerator InitializeMissionWhenGameManagerReady()
     {
-        currentMission = mission;
-        switch (mission.victoryCondition)
-        {
-            case MissionData.VictoryCondition.EliminateAllEnemies:
-                StartCoroutine(CheckForAllEnemiesEliminated());
-                break;
-        }
+        yield return new WaitUntil(GameManager.Instance.IsInitialized);
+        currentMission = GameManager.Instance.CurrentMission;
+    }
 
-        // notify anyone who cares - mission is a go!
-        OnMissionStart.Invoke();
+    /// <summary>
+    /// Set on the EndTurn Button in the inspector. Trigger an attack or start the next turn.
+    /// </summary>
+    public void EndTurn()
+    {
+        float attackChanceRoll = Random.Range(0f, 1f);
+        // if rolled high enough to get an attack, or if there hasn't been an attack and it's the end, trigger attack
+        if (currentMission.perTurnAttackChance > attackChanceRoll || (turnNumber == currentMission.numberOfTurns && !hasBeenAnAttackThisDeployment))
+        {
+            // Incoming!
+            OnAttackStart.Invoke();
+
+            // set up victory condition
+            switch (currentMission.victoryCondition)
+            {
+                case MissionData.VictoryCondition.EliminateAllEnemies:
+                    StartCoroutine(CheckForAllEnemiesEliminated());
+                    break;
+            }
+
+            hasBeenAnAttackThisDeployment = true;
+        }
+        else
+        {
+            NextTurn();
+        }
     }
 
     private IEnumerator CheckForAllEnemiesEliminated()
@@ -139,7 +159,21 @@ public class MissionManager : MonoBehaviour
 
         }
 
-        EndMission(true);
+        OnAttackEnd.Invoke();
+        NextTurn();
+    }
+
+    private void NextTurn()
+    {
+        turnNumber++;
+
+        if (turnNumber > currentMission.numberOfTurns)
+        {
+            // passing true for now - not necessarily that the player won though.
+            OnMissionEnd.Invoke(true);
+        }
+
+        OnNewTurn.Invoke();
     }
 
     /// <summary>
@@ -161,20 +195,7 @@ public class MissionManager : MonoBehaviour
         
     }
 
-    public Player GetPlayerScript()
-    {
-        return player;
-    }
 
-    public GameObject GetGateGO()
-    {
-        return gateGO;
-    }
-
-    public GameObject GetPlayerGO()
-    {
-        return playerGO;
-    }
 
     public void StartSlowMotion(float secondsToWait)
     {
@@ -219,5 +240,20 @@ public class MissionManager : MonoBehaviour
     private void EndMission(bool playerWon)
     {
         OnMissionEnd.Invoke(playerWon);
+    }
+
+    public Player GetPlayerScript()
+    {
+        return player;
+    }
+
+    public GameObject GetGateGO()
+    {
+        return gateGO;
+    }
+
+    public GameObject GetPlayerGO()
+    {
+        return playerGO;
     }
 }

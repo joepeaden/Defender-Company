@@ -517,6 +517,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Control Pawn",
+                    "type": "Button",
+                    "id": "02ac20f3-7def-4898-ae87-5cbc9cefc1fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -574,32 +583,15 @@
                     "action": "Follow Me",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Build",
-            "id": "1688a112-e96e-4855-bc52-2ea5ed07ccb7",
-            "actions": [
-                {
-                    "name": "Left Click",
-                    "type": "Button",
-                    "id": "2d9aebc1-9f32-444c-9f3f-d8de9fff1392",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "ca654885-1cf6-4e4d-912d-d54f83ce855b",
-                    "path": "",
+                    "id": "37cd4b82-c742-40f7-8b48-084a69e8b03f",
+                    "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Left Click",
+                    "action": "Control Pawn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

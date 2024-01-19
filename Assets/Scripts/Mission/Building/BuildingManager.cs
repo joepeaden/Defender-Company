@@ -25,7 +25,8 @@ public class BuildingManager : MonoBehaviour
     private GameObject placeHolderObject = null;
     private GameObject buildingToInstantiate;
 
-    [SerializeField] private int timeUnitsRemaining;
+    [SerializeField] private int maxTimeUnits;
+    private int timeUnitsRemaining;
     public int buildingTUCost;
     private bool canEditBuildings;
     private float buildingYRotation;
@@ -37,14 +38,20 @@ public class BuildingManager : MonoBehaviour
 
     private void Start()
     {
-        MissionManager.OnMissionStart.AddListener(HandleMisisonStart);
-        canEditBuildings = true;
+        MissionManager.OnAttackStart.AddListener(HandleAttackStart);
+        MissionManager.OnNewTurn.AddListener(HandleNewTurn);
+        HandleNewTurn();
     }
 
     private void Update()
     {
         if (canEditBuildings)
         {
+            if (Input.GetKey(KeyCode.W))
+            {
+
+            }
+
             // need to click the button to select first
             if (placeHolderObject != null)
             {
@@ -104,11 +111,19 @@ public class BuildingManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        MissionManager.OnMissionStart.RemoveListener(HandleMisisonStart);
+        MissionManager.OnAttackStart.RemoveListener(HandleAttackStart);
+        MissionManager.OnNewTurn.RemoveListener(HandleNewTurn);
         OnBuildingModified.RemoveAllListeners();
     }
 
-    private void HandleMisisonStart()
+    private void HandleNewTurn()
+    {
+        canEditBuildings = true;
+        timeUnitsRemaining = maxTimeUnits;
+        MissionUI.Instance.UpdateRemainingTU(timeUnitsRemaining);
+    }
+
+    private void HandleAttackStart()
     {
         DisablePlacementMode();
         canEditBuildings = false;

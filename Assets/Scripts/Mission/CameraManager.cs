@@ -1,7 +1,5 @@
 using UnityEngine;
 using Cinemachine;
-using Cinemachine.PostFX;
-using UnityEngine.Rendering;
 
 /// <summary>
 /// Manages the camera. Camerawork should go through here.
@@ -12,6 +10,8 @@ public class CameraManager : MonoBehaviour
     public static CameraManager Instance { get { return _instance; } }
 
     [SerializeField] private CinemachineVirtualCamera vCam;
+    [SerializeField] private Transform freeCameraTarget;
+    [SerializeField] private Transform playerBody;
 
     private void Awake()
     {
@@ -24,15 +24,32 @@ public class CameraManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        UseFreeCamera();
+        MissionManager.OnAttackStart.AddListener(FollowPlayer);
+        MissionManager.OnAttackEnd.AddListener(UseFreeCamera);
+        PlayerInput.OnCommandModeEnter.AddListener(UseFreeCamera);
+        PlayerInput.OnCommandModeExit.AddListener(FollowPlayer);
     }
 
-    /// <summary>
-    /// Gets the post process profile of the virtual camera.
-    /// </summary>
-    /// <returns></returns>
-    public VolumeProfile GetPostProcProf()
+    private void OnDestroy()
     {
-        return vCam.GetComponent<CinemachineVolumeSettings>().m_Profile;
+        MissionManager.OnAttackStart.RemoveListener(FollowPlayer);
+        MissionManager.OnAttackEnd.RemoveListener(UseFreeCamera);
+        PlayerInput.OnCommandModeEnter.RemoveListener(UseFreeCamera);
+        PlayerInput.OnCommandModeExit.RemoveListener(FollowPlayer);
+    }
+
+    public void FollowPlayer()
+    {
+        freeCameraTarget.GetComponent<FreeCameraMovingTarget>().isBeingFollowed = false;
+        FollowTarget(playerBody);
+    }
+
+    public void UseFreeCamera()
+    {
+        freeCameraTarget.GetComponent<FreeCameraMovingTarget>().isBeingFollowed = true;
+        FollowTarget(freeCameraTarget);
     }
 
     public void FollowTarget(Transform toFollow)

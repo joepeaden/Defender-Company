@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
     public void Awake()
     { 
         MissionManager.OnMissionEnd.AddListener(Reset);
-        MissionManager.OnMissionStart.AddListener(StartSpawningCoroutine);
+        MissionManager.OnAttackStart.AddListener(StartSpawningCoroutine);
 
         // for reloading the scene
         spawnableEnemyTypes.Clear();
@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnDestroy()
     {
         MissionManager.OnMissionEnd.RemoveListener(Reset);
-        MissionManager.OnMissionStart.RemoveListener(StartSpawningCoroutine);
+        MissionManager.OnAttackStart.RemoveListener(StartSpawningCoroutine);
     }
 
     /// <summary>
@@ -48,9 +48,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawningCoroutine()
     {
-        foreach (ControllerData enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
+        totalEnemiesSpawned = 0;
+        if (spawnableEnemyTypes.Count == 0)
         {
-            spawnableEnemyTypes.Add(enemyPrefab);
+            foreach (ControllerData enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
+            {
+                spawnableEnemyTypes.Add(enemyPrefab);
+            }
         }
 
         shouldSpawn = true;
