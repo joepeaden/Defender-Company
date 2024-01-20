@@ -222,6 +222,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ReleasePawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce35e547-d2bc-4e00-8915-2cdada88aba0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -488,6 +497,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Enter Command Mode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77aba08a-4796-4872-8627-73d548a93dcf"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ReleasePawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -642,6 +662,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_SwitchWeaponsMouse = m_Gameplay.FindAction("Switch Weapons Mouse", throwIfNotFound: true);
         m_Gameplay_RotateMouse = m_Gameplay.FindAction("Rotate Mouse", throwIfNotFound: true);
         m_Gameplay_EnterCommandMode = m_Gameplay.FindAction("Enter Command Mode", throwIfNotFound: true);
+        m_Gameplay_ReleasePawn = m_Gameplay.FindAction("ReleasePawn", throwIfNotFound: true);
         // Command
         m_Command = asset.FindActionMap("Command", throwIfNotFound: true);
         m_Command_ExitCommandMode = m_Command.FindAction("Exit Command Mode", throwIfNotFound: true);
@@ -793,6 +814,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_SwitchWeaponsMouse;
     private readonly InputAction m_Gameplay_RotateMouse;
     private readonly InputAction m_Gameplay_EnterCommandMode;
+    private readonly InputAction m_Gameplay_ReleasePawn;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -809,6 +831,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @SwitchWeaponsMouse => m_Wrapper.m_Gameplay_SwitchWeaponsMouse;
         public InputAction @RotateMouse => m_Wrapper.m_Gameplay_RotateMouse;
         public InputAction @EnterCommandMode => m_Wrapper.m_Gameplay_EnterCommandMode;
+        public InputAction @ReleasePawn => m_Wrapper.m_Gameplay_ReleasePawn;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -854,6 +877,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EnterCommandMode.started += instance.OnEnterCommandMode;
             @EnterCommandMode.performed += instance.OnEnterCommandMode;
             @EnterCommandMode.canceled += instance.OnEnterCommandMode;
+            @ReleasePawn.started += instance.OnReleasePawn;
+            @ReleasePawn.performed += instance.OnReleasePawn;
+            @ReleasePawn.canceled += instance.OnReleasePawn;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -894,6 +920,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @EnterCommandMode.started -= instance.OnEnterCommandMode;
             @EnterCommandMode.performed -= instance.OnEnterCommandMode;
             @EnterCommandMode.canceled -= instance.OnEnterCommandMode;
+            @ReleasePawn.started -= instance.OnReleasePawn;
+            @ReleasePawn.performed -= instance.OnReleasePawn;
+            @ReleasePawn.canceled -= instance.OnReleasePawn;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1018,6 +1047,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSwitchWeaponsMouse(InputAction.CallbackContext context);
         void OnRotateMouse(InputAction.CallbackContext context);
         void OnEnterCommandMode(InputAction.CallbackContext context);
+        void OnReleasePawn(InputAction.CallbackContext context);
     }
     public interface ICommandActions
     {

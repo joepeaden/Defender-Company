@@ -37,8 +37,8 @@ public class MissionManager : MonoBehaviour
     public static float slowMotionSpeed = .5f;
 
     [SerializeField] private GameObject gateGO;
-    [SerializeField] private GameObject playerGO;
-    private Player player;
+    public Player Player => player;
+    [SerializeField] private Player player;
 
     // list of friendlies that are disabled until they are activated and initialized with CompanySoldier info. Basically for spawning allies in.
     [SerializeField] private List<FriendlyActorController> friendlyActorBodies = new List<FriendlyActorController>();
@@ -63,20 +63,6 @@ public class MissionManager : MonoBehaviour
         {
             _instance = this;
         }
-
-        if (!playerGO)
-        {
-            Debug.LogWarning("Player not assigned, finding by tag.");
-            playerGO = GameObject.FindGameObjectWithTag("Player");
-
-            if (!playerGO)
-            {
-                Debug.LogWarning("Player not found by tag.");
-            }
-        }
-
-        player = playerGO.GetComponent<Player>();
-        player.AddDeathListener(HandlePlayerDeath);
 
         PlayerInput.InitializeControls();
 
@@ -112,7 +98,7 @@ public class MissionManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        player.RemoveDeathListener(HandlePlayerDeath);
+        //player.RemoveDeathListener(HandlePlayerDeath);
         EnemyActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
         AIActorController.OnActorKilled.RemoveListener(HandleActorKilled);
     }
@@ -121,6 +107,8 @@ public class MissionManager : MonoBehaviour
     {
         yield return new WaitUntil(GameManager.Instance.IsInitialized);
         currentMission = GameManager.Instance.CurrentMission;
+
+        OnNewTurn.Invoke();
     }
 
     /// <summary>
@@ -242,18 +230,8 @@ public class MissionManager : MonoBehaviour
         OnMissionEnd.Invoke(playerWon);
     }
 
-    public Player GetPlayerScript()
-    {
-        return player;
-    }
-
     public GameObject GetGateGO()
     {
         return gateGO;
-    }
-
-    public GameObject GetPlayerGO()
-    {
-        return playerGO;
     }
 }

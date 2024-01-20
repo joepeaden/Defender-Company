@@ -11,7 +11,6 @@ public class CameraManager : MonoBehaviour
 
     [SerializeField] private CinemachineVirtualCamera vCam;
     [SerializeField] private Transform freeCameraTarget;
-    [SerializeField] private Transform playerBody;
 
     private void Awake()
     {
@@ -26,24 +25,28 @@ public class CameraManager : MonoBehaviour
         }
 
         UseFreeCamera();
-        MissionManager.OnAttackStart.AddListener(FollowPlayer);
         MissionManager.OnAttackEnd.AddListener(UseFreeCamera);
         PlayerInput.OnCommandModeEnter.AddListener(UseFreeCamera);
         PlayerInput.OnCommandModeExit.AddListener(FollowPlayer);
+        
     }
 
     private void OnDestroy()
     {
-        MissionManager.OnAttackStart.RemoveListener(FollowPlayer);
         MissionManager.OnAttackEnd.RemoveListener(UseFreeCamera);
         PlayerInput.OnCommandModeEnter.RemoveListener(UseFreeCamera);
         PlayerInput.OnCommandModeExit.RemoveListener(FollowPlayer);
     }
 
     public void FollowPlayer()
+    { 
+        FollowPlayer(MissionManager.Instance.Player.ControlledActor.transform);
+    }
+
+    public void FollowPlayer(Transform playerPawn)
     {
         freeCameraTarget.GetComponent<FreeCameraMovingTarget>().isBeingFollowed = false;
-        FollowTarget(playerBody);
+        FollowTarget(playerPawn);
     }
 
     public void UseFreeCamera()

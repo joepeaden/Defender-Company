@@ -31,5 +31,9 @@ public class FreeCameraMovingTarget : MonoBehaviour
                 transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
             }
         }
+        else if (MissionManager.Instance.Player.ControlledActor != null)
+        {
+            transform.position = MissionManager.Instance.Player.ControlledActor.transform.position;
+        }
     }
 }

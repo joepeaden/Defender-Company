@@ -15,7 +15,11 @@ public class FriendlyActorController : AIActorController, ISetActive
     {
         base.Start();
 		SetInitialState(new AIHoldingPositionCombatState());
-        MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
+
+        if (companySoldier != null)
+        {
+            MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
+        }
 
         actor.OnGotKill.AddListener(HandleGotKill);
     }

@@ -102,7 +102,7 @@ public class MissionUI : MonoBehaviour
         //postProcProfile.TryGet(out v);
         //v.intensity.Override(0f);
 
-        player = MissionManager.Instance.GetPlayerScript();
+        player = MissionManager.Instance.Player;
         player.OnSwitchWeapons.AddListener(UpdateCurrentWeapon);
         player.OnUpdateEquipment.AddListener(UpdateEquipment);
         Inventory.OnNewItemAddedPlayer.AddListener(UpdateCurrentWeapon);
@@ -115,8 +115,6 @@ public class MissionUI : MonoBehaviour
 
         PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
         PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
-
-        UpdateWeekText();
     }
 
     private void Update()

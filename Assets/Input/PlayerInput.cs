@@ -25,7 +25,6 @@ public static class PlayerInput
 	public static UnityEvent OnDragEnded = new UnityEvent();
 	public static UnityEvent OnCommandModeEnter = new UnityEvent();
 	public static UnityEvent OnCommandModeExit = new UnityEvent();
-	//public static UnityEvent OnPlaceBuilding = new UnityEvent();
 
 	public static Vector2 MovementInput => movementInput;
 	private static Vector2 movementInput;
@@ -65,6 +64,7 @@ public static class PlayerInput
         controls.Gameplay.Reload.performed += HandleReloadInput;
         controls.Gameplay.UseEquipment.performed += HandleUseEquipmentInput;
         controls.Gameplay.Interact.performed += HandleInteractInput;
+		controls.Gameplay.ReleasePawn.started += HandleReleasePawn;
 		controls.UI.Confirm.performed += HandleConfirmInput;
 		controls.UI.Select.performed += HandleSelectInput;
 		controls.UI.Navigate.started += HandleNavigationInput;
@@ -75,33 +75,46 @@ public static class PlayerInput
 		controls.Command.Drag.started += HandleCommandDragStart;
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
-		//controls.Command.FollowMe.performed += HandleCommandFollow;
-		//controls.Build.LeftClick.performed += HandleBuildLeftClick;
+		controls.Command.ControlPawn.started += HandleControlPawn;
 
 		MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
 	}
 
-	// at some point - migrate building controls to here... ? Is it necessary?
-	// Maybe? Maybe not?
-	// depends how complex they become.
+	private static void HandleControlPawn(InputAction.CallbackContext cntxt)
+	{
+		if (selectedFriendlies.Count > 0)
+		{
+			FriendlyActorController controlledActor = selectedFriendlies[0];
+			MissionManager.Instance.Player.ControlledActor = controlledActor;
+			controlledActor.GetActor().IsPlayer = true;
+			controlledActor.SetActorControlled(true);
+			HandleCommandModeExit(cntxt);
+		}
+	}
 
-	//private static void HandleBuildLeftClick(InputAction.CallbackContext cntxt)
- //   {
-
- //       OnPlaceBuilding.Invoke();
- //   }
+	private static void HandleReleasePawn(InputAction.CallbackContext cntxt)
+    {
+		FriendlyActorController controlledActor = MissionManager.Instance.Player.ControlledActor as FriendlyActorController;
+		controlledActor.SetActorControlled(false);
+		controlledActor.GetActor().IsPlayer = false;
+		MissionManager.Instance.Player.ControlledActor = null;
+		HandleCommandModeEnter(cntxt);
+	}
 
 	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
-    {
-		selectedFriendlies.ForEach(x => x.FollowThisThing(MissionManager.Instance.GetPlayerGO().transform));
-    }
+	{
+		if (MissionManager.Instance.Player.ControlledActor != null)
+		{
+			selectedFriendlies.ForEach(x => x.FollowThisThing(MissionManager.Instance.Player.ControlledActor.transform));
+		}
+	}
 
 	private static void HandleCommandSelect(InputAction.CallbackContext cntxt)
     {
 		DeselectFriendlies();
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1000f, LayerMask.GetMask("ActorBodies"));
+		RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1000f, LayerMask.GetMask("SelectionTriggers"));
 
 		// I actually don't know why this conditional works. Interesting. I wonder if there's an implemented boolean comparision in the type...
 		if (hit)
@@ -281,10 +294,12 @@ public static class PlayerInput
 
 	private static void HandleCommandModeExit(InputAction.CallbackContext cntxt)
 	{
-		controls.Command.Disable();
-		controls.Gameplay.Enable();
-
-		OnCommandModeExit.Invoke();
+	//	if (controlledPawn != null)
+	//	{
+			controls.Command.Disable();
+			controls.Gameplay.Enable();
+			OnCommandModeExit.Invoke();
+		//}
 	}
 
 	private static void HandleCommandModeEnter(InputAction.CallbackContext cntxt)
@@ -333,7 +348,7 @@ public static class PlayerInput
 	{
 		// generally I don't like having more processing in here, but it seemed appropriate.
 		Vector3 mousePosition = cntxt.ReadValue<Vector2>();
-		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(MissionManager.Instance.GetPlayerGO().transform.position);
+		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(MissionManager.Instance.Player.ControlledActor.transform.position);
 		Vector3 normalizedMouseInput = (mousePosition - playerPositionScreen).normalized;
 		rotationInput = normalizedMouseInput;
 		usingMouseForRotation = true;

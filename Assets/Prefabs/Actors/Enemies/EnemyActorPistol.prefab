@@ -905,6 +905,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 8566001981322750499, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8945452603135877412, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -0.1611744

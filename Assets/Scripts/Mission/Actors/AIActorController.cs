@@ -40,12 +40,10 @@ public abstract class AIActorController : ActorController, ISetActive
 	protected bool nameIsSet;
 	private static int nameIndex;
 
+	private bool isPlayerControlled;
+
 	protected void Start()
 	{
-		//base.Start();
-
-		//actor.AddCoverListener(ActorHasPotentialCover);
-		
 		if (activateOnStart)
 		{
 			Activate();
@@ -60,59 +58,28 @@ public abstract class AIActorController : ActorController, ISetActive
 
 	protected void Update()
 	{
-		if (actor.IsAlive && isActiveAndEnabled && aiState != null)
+		if (actor.IsAlive && !isPlayerControlled && isActiveAndEnabled && aiState != null)
 		{
-			//timeSinceLastDecision += Time.deltaTime;
-			//if (timeSinceLastDecision > aiData.decisionInterval)
-			//{
-			//	timeSinceLastDecision = 0f;
-			//}
-
 			targetInRange = IsTargetInRange(false);
             targetInOptimalRange = IsTargetInRange(true);
             targetInLOS = IsTargetInLOS(true);
 
-			////bool targetInDetectionRadius = IsTargetInDetectionRadius();
-
-			////if (IsTargetInDetectionRadius() && targetInLOS)
-			////         {
-			////	pod.isAlerted = true;
-			////         }
-
-			//fullyInCover = AmIFullyInOrOutOfCover(true);
-			//fullyOutOfCover = AmIFullyInOrOutOfCover(false);
-
-			//// ya know. Maybe a smarter way to do this would be have the state call whatever methods to get whatever information it needs. Not all this info is relevant to every state.
-			//AIInput newInput = new AIInput
-			//{
-			//	timeForDecision = timeSinceLastDecision == 0f,
-			//	targetInRange = targetInRange,
-			//	targetInOptimalRange = targetInOptimalRange,
-			//	targetInLOS = targetInLOS,
-			//	//targetInDetectionRadius = targetInDetectionRadius,
-			//	//distFromPodLeader = 0f,//(transform.position - pod.leader.transform.position).magnitude,
-			//	//podAlerted = true,//pod.isAlerted,
-			//	fullyInCover = fullyInCover,
-			//	fullyOutOfCover = fullyOutOfCover
-			//};
-
-			//aiState = aiState.HandleInput(newInput);
-			AIState oldAiState = aiState;
 			aiState = aiState.StateUpdate(this, aiState);
 		}
 	}
 
-  //  public void Move(Vector3 movePosition)
-  //  {
-		//if (movePosition)
-		//GetActor().Move(movePosition);
-  //  }
+	public void SetActorControlled(bool isControlled)
+	{
+		isPlayerControlled = isControlled;
+		actor.Pathfinder.enabled = !isControlled;
+		actor.MainCollider.isTrigger = false;
+	}
 
 	protected void SetInitialState(AIState initialState)
     {
 		if (initialState as AIFollowTargetState != null)
 		{
-			FollowThisThing(MissionManager.Instance.GetPlayerGO().transform);
+			FollowThisThing(FindTarget());
 		}
 		else if (initialState as AIDeliveringBombState != null)
         {
@@ -136,12 +103,19 @@ public abstract class AIActorController : ActorController, ISetActive
             if (!foundWall)
             {
 				initialState = new AIFollowTargetState();
-                FollowThisThing(MissionManager.Instance.GetPlayerGO().transform);
+                FollowThisThing(FindTarget());
             }
         }
 
 		aiState = initialState;
 		aiState.EnterState(this, null);
+	}
+
+	// a temporary method just for finding some friendly AI to hunt
+	private Transform FindTarget()
+    {
+		int result = Random.Range(0, MissionManager.Instance.friendlyActors.Count);
+		return MissionManager.Instance.friendlyActors[result].transform;
 	}
 
 	/// <summary>
@@ -172,9 +146,6 @@ public abstract class AIActorController : ActorController, ISetActive
 			pauseFurtherAttacks = true;
 			attackTarget = null;
 			StopAllCoroutines();
-
-			// if remove this move order, the actor goes to last player position. Might want it to be like that down the line. Just something to consider.
-			//actor.Move(transform.position);
 		}
 	}
 
@@ -256,23 +227,17 @@ public abstract class AIActorController : ActorController, ISetActive
 		
 		while (actor.IsAlive)
 		{
+			if (isPlayerControlled)
+			{
+				yield return null;
+				continue;
+			}
+
 			if (!attackTarget.GetComponent<Actor>().IsAlive)
             {
 				ClearAttackTarget();
 				break;
             }
-
-			// temporary, make bombers not stop to shoot anyone
-			//if (aiState as AIDeliveringBombState != null)
-   //         {
-			//	break;
-   //         }
-
-			//if (target == null)
-   //         {
-			//	yield return null;
-			//	continue;
-   //         }
 
 			// if don't have ammo, reload
 			if (actor.GetEquippedWeaponAmmo() <= 0)
@@ -328,120 +293,6 @@ public abstract class AIActorController : ActorController, ISetActive
 		float distFromTarget = (attackTarget.transform.position - transform.position).magnitude;
 		return distFromTarget <= (optimalRange ? weapon.data.optimalRange : weapon.data.range);
     }
-
-	private bool IsTargetInDetectionRadius()
-	{
-		// if in detection radius return true
-		if (attackTarget != null && (transform.position - attackTarget.transform.position).magnitude <= aiData.detectionRadius)
-        {
-			return true;
-        }
-
-		return false;
-    }
-
-	/// <summary>
-	/// Is the actor fully in cover (from one side of body to the other?) based on actor's transform width
-	/// </summary>
-	/// <returns></returns>
-	private bool AmIFullyInOrOutOfCover(bool intoCover)
-	{
-		return true;
-		//if (attackTarget == null)
-  //      {
-		//	return false;
-  //      }
-
-		//float actorWidth = actor.GetWidth();
-
-		//Quaternion q = Quaternion.LookRotation(attackTarget.transform.position - transform.position);
-		//Vector3 newRot = q * Vector3.right;
-
-
-		////Debug.DrawRay(transform.position + (transform.right * actorWidth / 2), ((transform.position + (transform.right * actorWidth / 2))) * 10f, Color.red);
-
-		//Vector3 rayStartPos = transform.position + (newRot * (actorWidth / 2));
-		//Vector3 rayDir = attackTarget.transform.position - rayStartPos;//((transform.position + (transform.right * actorWidth / 2)));
-
-		//Ray r = new Ray(rayStartPos, rayDir);
-
-		////Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
-
-		//RaycastHit[] hits = Physics.RaycastAll(r, 1000f);
-		//// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
-
-		//RaycastHit[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		//RaycastHit[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
-
-		//// in Line of Sight
-		//int blockingHits1 = 0;
-		//// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
-		//foreach (RaycastHit targetHit in targetHits)
-		//{
-		//	foreach (RaycastHit blockHit in blockHits)
-		//	{
-		//		Cover cover = blockHit.transform.GetComponent<Cover>();
-		//		// if blocking thing is closer than target and not a "floor" cover.
-		//		if (blockHit.distance < targetHit.distance)
-		//		{
-		//			//if (cover != null && cover.coverType == Cover.CoverType.Floor)
-		//			//{
-		//			//	blockingHits += ignoreFloorCover ? 0 : 1;
-		//			//}
-		//			//else
-		//			//{
-		//			blockingHits1 += 1;
-		//			//}
-		//		}
-		//	}
-		//}
-
-		//rayStartPos = transform.position + (-newRot * (actorWidth / 2));
-		//rayDir = attackTarget.transform.position - rayStartPos;//((transform.position - (transform.right * actorWidth / 2)));
-		//r = new Ray(rayStartPos, rayDir);
-
-		////Debug.DrawRay(rayStartPos, rayDir * 100f, Color.red);
-
-		//hits = Physics.RaycastAll(r, 1000f);
-		//// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
-
-		//targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		//blockHits = hits.Where(hit => hit.collider.gameObject.layer == (int)LayerNames.CollisionLayers.HouseAndFurniture).ToArray();
-
-		//int blockingHits2 = 0;
-		//// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
-		//foreach (RaycastHit targetHit in targetHits)
-		//{
-		//	foreach (RaycastHit blockHit in blockHits)
-		//	{
-		//		Cover cover = blockHit.transform.GetComponent<Cover>();
-		//		// if blocking thing is closer than target and not a "floor" cover.
-		//		if (blockHit.distance < targetHit.distance)
-		//		{
-		//			//if (cover != null && cover.coverType == Cover.CoverType.Floor)
-		//			//{
-		//			//	blockingHits += ignoreFloorCover ? 0 : 1;
-		//			//}
-		//			//else
-		//			//{
-		//			blockingHits2 += 1;
-		//			//}
-		//		}
-		//	}
-		//}
-
-		//// if we made it here and hit a target, then we do indeed have LOS and Range (otherwise would have returned or skipped this block)
-		////;
-
-		//if (intoCover)
-		//{
-		//	return blockingHits1 > 0 && blockingHits2 > 0 && targetHits.Count() > 0;
-		//}
-		//else
-  //      {
-		//	return blockingHits1 == 0 && blockingHits2 == 0 && targetHits.Count() > 0;
-  //      }
-	}
 
     private bool IsTargetInLOS(bool ignoreFloorCover)
     {

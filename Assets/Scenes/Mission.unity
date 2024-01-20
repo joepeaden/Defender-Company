@@ -1605,9 +1605,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4578700069549726019, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1366108867}
+    - target: {fileID: 4578700069549726019, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
       propertyPath: playerGO
       value: 
-      objectReference: {fileID: 1409650260}
+      objectReference: {fileID: 1366108866}
     - target: {fileID: 4578700069549726019, guid: 1dadb29e2bcdd47ae95a5c9ba230ced7, type: 3}
       propertyPath: reticleGO
       value: 
@@ -2258,7 +2262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4385406812283568742, guid: 6d6ca141306bf4672be2f1f7fbfe7116, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4763572831686594961, guid: 6d6ca141306bf4672be2f1f7fbfe7116, type: 3}
       propertyPath: data
@@ -3418,7 +3422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4385406812283568742, guid: 6d6ca141306bf4672be2f1f7fbfe7116, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4763572831686594961, guid: 6d6ca141306bf4672be2f1f7fbfe7116, type: 3}
       propertyPath: data
@@ -3746,6 +3750,56 @@ Transform:
   m_Father: {fileID: 95492921}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1366108866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1366108868}
+  - component: {fileID: 1366108867}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1366108867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366108866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3bfc243c5b4e4479f0b6d7fd729add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSwitchWeapons:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUpdateEquipment:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1366108868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366108866}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1033.7972, y: 362.03543, z: -10.264408}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1366604791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4050,6 +4104,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerActor
       objectReference: {fileID: 0}
+    - target: {fileID: 4582820473528141267, guid: d9f2e617d3bb0d04b8b567cc744f13c1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4058,11 +4116,6 @@ PrefabInstance:
 --- !u!4 &1409650259 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4582820473528141265, guid: d9f2e617d3bb0d04b8b567cc744f13c1, type: 3}
-  m_PrefabInstance: {fileID: 1409650258}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1409650260 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3046173046440444258, guid: d9f2e617d3bb0d04b8b567cc744f13c1, type: 3}
   m_PrefabInstance: {fileID: 1409650258}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1409650261 stripped
@@ -5279,6 +5332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 40
+  isBeingFollowed: 0
 --- !u!1001 &2078106630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5649,7 +5703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4385406812283568742, guid: 6d6ca141306bf4672be2f1f7fbfe7116, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

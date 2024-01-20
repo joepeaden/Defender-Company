@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6480009462034988275}
   - component: {fileID: 1462050892178448055}
-  m_Layer: 20
+  m_Layer: 6
   m_Name: SelectionTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_TagString

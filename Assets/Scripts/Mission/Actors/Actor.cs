@@ -67,6 +67,7 @@ public class Actor : MonoBehaviour
 
     #region Components
     private ActorInteractSensor interactSensor;
+	public CircleCollider2D MainCollider => mainCollider;
 	private CircleCollider2D mainCollider;
     private Rigidbody2D rigidBody;
 	public AIPath Pathfinder => pathfinder;

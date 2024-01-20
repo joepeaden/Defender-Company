@@ -5,21 +5,20 @@ using System.Collections;
 /// <summary>
 /// Controller for the player, also handles a few player specific things like death.
 /// </summary>
-public class Player : ActorController
+public class Player : MonoBehaviour//ActorController
 {
 	[HideInInspector] public UnityEvent<InventoryWeapon> OnSwitchWeapons = new UnityEvent<InventoryWeapon>();
 	[HideInInspector] public UnityEvent<Equipment> OnUpdateEquipment = new UnityEvent<Equipment>();
 
 	private bool targetInSights;
 	private bool attemptingToFire;
+	public AIActorController ControlledActor { get; set; }
 
 	///////////////
 	#region Unity Event Methods
 
-	private new void Awake()
+	private void Awake()
 	{
-		base.Awake();
-
         PlayerInput.OnSprint.AddListener(HandleSprintInput);
 		PlayerInput.OnAim.AddListener(HandleAimInput);
 		PlayerInput.OnFire.AddListener(HandleFireInput);
@@ -31,85 +30,12 @@ public class Player : ActorController
 		MissionManager.OnAttackStart.AddListener(EnablePlayerControls);
 	}
 
-	private new void Start()
+	private void Start()
 	{
-		actor.OnHeal.AddListener(HandleHeal);
-
-		StartCoroutine(SetupGear());
-
-		string[] nameOptions =
-		{
-			"Rourke",
-			"Niels",
-			"Smith",
-			"Danson",
-			"Peters",
-			"Wang",
-			"O'Malley",
-			"Bauer",
-			"Rochefort",
-			"Dumas",
-			"Garcia",
-			"Vargas",
-			"Anderson",
-			"Thomas",
-			"Brown",
-			"Grey",
-			"Benson",
-			"Al-Hilli",
-			"Cohen",
-			"Rosenberg",
-			"Goldstein"
-		};
-		int randomIndex = Random.Range(0, nameOptions.Length - 1);
-		MissionUI.Instance.AddEntityMarker(this, nameOptions[randomIndex]);
+		//actor.OnHeal.AddListener(HandleHeal);
 
 		StartCoroutine(AttackCoroutine());
 	}
-
-	private IEnumerator AttackCoroutine()
-	{
-		while (true)
-		{
-			if (attemptingToFire)
-			{
-				if (!pauseFurtherAttacks)
-				{
-					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
-				}
-
-				yield return new WaitForSeconds(data.timeBetweenBursts);
-			}
-			yield return null;
-		}
-	}
-
-	private IEnumerator SetupGear()
-    {
-		yield return new WaitUntil(GameManager.Instance.IsInitialized);
-
-		// add weapons the player owns - for now. This needs to be cleaned up where you can just AttemptAddItem and pass in the GearData.
-		foreach (GearData gear in GameManager.Instance.Company.GetOwnedGear().Values)
-		{
-			if (gear as WeaponData)
-			{
-				actor.GetInventory().AttemptAddItem(new InventoryWeapon((WeaponData)gear));
-			}
-			else if (gear as MedkitData)
-			{
-				actor.GetInventory().AttemptAddItem(new MedkitEquipment((MedkitData)gear));
-			}
-			else if (gear as ExplosiveData)
-			{
-				actor.GetInventory().AttemptAddItem(new ExplosiveEquipment((ExplosiveData)gear));
-			}
-		}
-	}
-
-    private void EnablePlayerControls()
-    {
-        PlayerInput.EnableGameplayControls();
-    }
 
 	private void OnDisable()
 	{
@@ -118,19 +44,20 @@ public class Player : ActorController
 
 	private void Update()
 	{
-		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
+		if (ControlledActor != null && (!MissionUI.Instance || !MissionUI.Instance.InMenu()))
 		{
             if (Input.GetKeyDown(KeyCode.C))
             {
-                actor.ToggleCrouch();
+                ControlledActor.GetActor().ToggleCrouch();
             }
         }
 	}
 
 	private void FixedUpdate()
 	{
-		if (!MissionUI.Instance || !MissionUI.Instance.InMenu())
+		if (ControlledActor != null && (!MissionUI.Instance || !MissionUI.Instance.InMenu()))
 		{
+			Transform actorTransform = ControlledActor.transform;
 			// rotation is based on movement when sprinting and rotation input when otherwise. So need this.
 			//Vector2 rotationInputToUse;
 			//if (!actor.state[Actor.State.Sprinting])
@@ -141,7 +68,7 @@ public class Player : ActorController
 
 				moveDir = Vector2.ClampMagnitude(moveDir, 1f);
 
-				actor.Move(moveDir, false);
+				ControlledActor.GetActor().Move(moveDir, false);
 
 				//rotationInputToUse = PlayerInput.RotationInput;
 			//}
@@ -163,7 +90,7 @@ public class Player : ActorController
 					newRotationYAngle -= 180;
 				}
 
-				float rotationDelta = Mathf.Abs(newRotationYAngle - transform.rotation.eulerAngles.z);
+				float rotationDelta = Mathf.Abs(newRotationYAngle - actorTransform.rotation.eulerAngles.z);
 
 				// fix if we're going from 360 to 0 or the other way; this is confusing but don't stress it.
 				// basically just need to remember that transform.Rotate tatkes a number of degrees to rotate as a param. So going from 359 -> 0  degree rotation should not be -359 degrees, but should be 1 degree. Ya feel me?
@@ -172,28 +99,30 @@ public class Player : ActorController
 					rotationDelta -= 359f;
 				}
 
-				float controllerAimRotationSensitivity = data.baseControllerAimRotaitonSensitivity;
+				float controllerAimRotationSensitivity = ControlledActor.Data.baseControllerAimRotaitonSensitivity;
 				if (!PlayerInput.UsingMouseForRotation && targetInSights)
 				{
 					controllerAimRotationSensitivity = .01f;
 				}
 
-				float stratifiedRotation = rotationDelta / data.controllerMaxRotationSensitivity;
-				float adjustedRotationDelta = stratifiedRotation * (actor.state[Actor.State.Aiming] ? controllerAimRotationSensitivity : data.controllerRotationSensitivity);
-				float adjustedRotationValue = transform.rotation.eulerAngles.z > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
+				// just FYI - the controller stuff really should not be an actor thing. That is only for the player.
+				// so need to create a seperate Data object for that stuff.
+				float stratifiedRotation = rotationDelta / ControlledActor.Data.controllerMaxRotationSensitivity;
+				float adjustedRotationDelta = stratifiedRotation * (ControlledActor.GetActor().state[Actor.State.Aiming] ? controllerAimRotationSensitivity : ControlledActor.Data.controllerRotationSensitivity);
+				float adjustedRotationValue = actorTransform.rotation.eulerAngles.z > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
 
-				Vector3 finalNewEulers = transform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
+				Vector3 finalNewEulers = actorTransform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
 				Quaternion finalNewRotation = new Quaternion();
 				finalNewRotation.eulerAngles = finalNewEulers;
-				transform.rotation = finalNewRotation;
+				actorTransform.rotation = finalNewRotation;
             //}
 		}
 	}
 
-	private new void OnDestroy()
+	private void OnDestroy()
 	{
-		base.OnDestroy();
-		actor.OnHeal.RemoveListener(HandleHeal);
+		//base.OnDestroy();
+		ControlledActor.GetActor().OnHeal.RemoveListener(HandleHeal);
 		PlayerInput.OnSprint.RemoveListener(HandleSprintInput);
 		PlayerInput.OnAim.RemoveListener(HandleAimInput);
 		PlayerInput.OnFire.RemoveListener(HandleFireInput);
@@ -210,28 +139,39 @@ public class Player : ActorController
 	#region Input
 	///////////////
 
+	private void EnablePlayerControls()
+	{
+		PlayerInput.EnableGameplayControls();
+	}
+
 	private void HandleSprintInput(bool starting)
 	{
-		if (starting)
+		if (ControlledActor != null)
 		{
-			actor.SetState(Actor.State.Sprinting);
-		}
-		else
-        {
-			actor.SetState(Actor.State.Walking);
+			if (starting)
+			{
+				ControlledActor.GetActor().SetState(Actor.State.Sprinting);
+			}
+			else
+			{
+				ControlledActor.GetActor().SetState(Actor.State.Walking);
+			}
 		}
 	}
 
 	private void HandleAimInput(bool starting)
 	{
-		if (starting)
+		if (ControlledActor != null)
 		{
-			actor.BeginAiming();
+			if (starting)
+			{
+				ControlledActor.GetActor().BeginAiming();
+			}
+			else
+			{
+				ControlledActor.GetActor().EndAiming();
+			}
 		}
-		else
-        {
-			actor.EndAiming();
-        }
 	}
 
 	private void HandleFireInput(bool starting)
@@ -251,35 +191,62 @@ public class Player : ActorController
 
 	private void HandleSwitchWeaponsInput()
 	{
-		if (actor.GetInventory().weaponCount > 1)
+		if (ControlledActor != null &&  ControlledActor.GetActor().GetInventory().weaponCount > 1)
 		{
-			bool result = actor.AttemptSwitchWeapons();
+			bool result = ControlledActor.GetActor().AttemptSwitchWeapons();
 			if (result == true)
 			{
-				OnSwitchWeapons.Invoke(actor.GetEquippedWeapon());
+				OnSwitchWeapons.Invoke(ControlledActor.GetActor().GetEquippedWeapon());
 			}
 		}
 	}
 
-    private void HandleReloadInput()
+	private void HandleReloadInput()
 	{
-		actor.AttemptReload();
+		if (ControlledActor != null)
+		{
+			ControlledActor.GetActor().AttemptReload();
+		}
 	}
 
 	private void HandleUseEquipmentInput()
 	{
-		actor.AttemptUseEquipment();
-		OnUpdateEquipment.Invoke(actor.GetInventory().GetEquipment());
+		if (ControlledActor != null)
+		{
+			ControlledActor.GetActor().AttemptUseEquipment();
+			OnUpdateEquipment.Invoke(ControlledActor.GetActor().GetInventory().GetEquipment());
+		}
 	}
 
 	private void HandleInteractInput()
 	{
-		actor.AttemptInteraction();
-		// hmmmmm I haven't figured out how to handle swapping equipment, etc. Or even if I will allow that.
-		OnUpdateEquipment.Invoke(actor.GetInventory().GetEquipment());
+		if (ControlledActor != null)
+		{
+			ControlledActor.GetActor().AttemptInteraction();
+			// hmmmmm I haven't figured out how to handle swapping equipment, etc. Or even if I will allow that.
+			OnUpdateEquipment.Invoke(ControlledActor.GetActor().GetInventory().GetEquipment());
+		}
 	}
 
 	#endregion
+
+
+	private IEnumerator AttackCoroutine()
+	{
+		while (true)
+		{
+			if (ControlledActor != null && attemptingToFire)
+			{
+				if (!ControlledActor.PauseFurtherAttacks)
+				{
+					StartCoroutine(ControlledActor.FireBurst(ControlledActor.GetActor().GetEquippedWeapon().data.projPerBurst));
+				}
+
+				yield return new WaitForSeconds(ControlledActor.Data.timeBetweenBursts);
+			}
+			yield return null;
+		}
+	}
 
 	public void HandleTargetInSights(bool inSights)
     {
@@ -288,7 +255,7 @@ public class Player : ActorController
 
 	public Inventory GetInventory()
 	{
-		return actor.GetInventory();
+		return ControlledActor != null ? ControlledActor.GetActor().GetInventory() : null;
 	}
 
 	/// <summary>
@@ -297,19 +264,23 @@ public class Player : ActorController
 	/// <returns>2 integers: the weapon's loaded ammo, and the total backup ammo. If infinite backup, backup val will be int.MinValue</returns>
 	public (int, int) GetAmmo()
 	{
-		int totalAmmo = actor.GetEquippedWeapon().data.hasInfiniteBackupAmmo ? int.MinValue : actor.GetEquippedWeapon().amount;
-		int currentAmmo = actor.GetEquippedWeaponAmmo();
+		if (ControlledActor != null)
+		{
+			//int totalAmmo = ControlledActor.GetActor().GetEquippedWeapon().data.hasInfiniteBackupAmmo ? int.MinValue : ControlledActor.GetActor().GetEquippedWeapon().amount;
+			//int currentAmmo = ControlledActor.GetActor().GetEquippedWeaponAmmo();
+			//return (currentAmmo, totalAmmo);
+		}
 
-		return (currentAmmo, totalAmmo);
+		return (0, 0);
 	}
 
 	/// <summary>
 	/// Don't need params; just update the health UI.
 	/// </summary>
-	protected override void HandleGetHit()
-	{
-		UpdateHealthUI();
-	}
+	//protected override void HandleGetHit()
+	//{
+	//	UpdateHealthUI();
+	//}
 
 	private void HandleHeal()
     {
@@ -318,7 +289,10 @@ public class Player : ActorController
     }
 
 	private void UpdateHealthUI()
-    {
-		MissionUI.Instance.SetVignette(1f - ((float) actor.HitPoints) / ((float) actor.MaxHitPoints));
+	{
+		if (ControlledActor != null)
+		{
+			MissionUI.Instance.SetVignette(1f - ((float)ControlledActor.GetActor().HitPoints) / ((float)ControlledActor.GetActor().MaxHitPoints));
+		}
 	}
 }

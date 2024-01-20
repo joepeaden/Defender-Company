@@ -7,9 +7,11 @@ public abstract class ActorController : MonoBehaviour
     [HideInInspector]
     public UnityEvent OnActorDeath = new UnityEvent();
 
+    public ControllerData Data => data;
     [SerializeField]
     protected ControllerData data;
     protected Actor actor;
+    public bool PauseFurtherAttacks => pauseFurtherAttacks;
     protected bool pauseFurtherAttacks;
 
     protected void Awake()
@@ -70,7 +72,7 @@ public abstract class ActorController : MonoBehaviour
         data = newControllerData;
     }
 
-    protected IEnumerator FireBurst(int numToFire)
+    public IEnumerator FireBurst(int numToFire)
     {
         if (data.canAim && !actor.IsPlayer)
         {
