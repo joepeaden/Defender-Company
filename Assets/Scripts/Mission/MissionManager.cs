@@ -29,6 +29,8 @@ public class MissionManager : MonoBehaviour
     private static MissionData currentMission;
     public static int EnemiesAlive => enemiesAlive;
     private static int enemiesAlive;
+    public static int FriendliesAlive => friendliesAlive;
+    private static int friendliesAlive;
 
     private static MissionManager _instance;
     public static MissionManager Instance { get { return _instance; } }
@@ -46,6 +48,7 @@ public class MissionManager : MonoBehaviour
     public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>();
 
     private AudioSource genericSoundPlayer;
+    [SerializeField] private AudioClip sirenSound;
 
     private bool hasBeenAnAttackThisDeployment;
     public int TurnNumber => turnNumber;
@@ -72,9 +75,15 @@ public class MissionManager : MonoBehaviour
 
     private void Start()
     {
+        // initially, all bodies are not active. in case I leave some enabled in the mission scene.
+        foreach (FriendlyActorController body in friendlyActorBodies)
+        {
+            body.transform.parent.gameObject.SetActive(false);
+        }
+
         if (GameManager.Instance.Company != null)
         {
-            List<CompanySoldier> soldiers = GameManager.Instance.Company.GetSoldiers();
+            List<CompanySoldier> soldiers = GameManager.Instance.Company.GetDeployedSoldiersAsList();
             for (int i = 0; i < soldiers.Count; i++)
             {
                 CompanySoldier soldier = soldiers[i];
@@ -123,6 +132,8 @@ public class MissionManager : MonoBehaviour
             // Incoming!
             OnAttackStart.Invoke();
 
+            PlaySound(sirenSound, .5f);
+
             // set up victory condition
             switch (currentMission.victoryCondition)
             {
@@ -168,14 +179,14 @@ public class MissionManager : MonoBehaviour
     /// Creates a new object with an audio source component to play the sound. One use of this is classes that aren't monobehaviours needing to play audio. 
     /// </summary>
     /// <param name="clip"></param>
-    public void PlaySound(AudioClip clip)
+    public void PlaySound(AudioClip clip, float volume = 1f)
     {
         if (genericSoundPlayer == null)
         {
             GameObject soundPlayerGO = Instantiate(new GameObject());
             soundPlayerGO.name = "GM Sound Player";
             genericSoundPlayer = soundPlayerGO.AddComponent<AudioSource>();
-            genericSoundPlayer.volume = 1f;
+            genericSoundPlayer.volume = volume;
         }
         
         genericSoundPlayer.clip = clip;
@@ -208,11 +219,25 @@ public class MissionManager : MonoBehaviour
         enemiesAlive++;
     }
 
+    public void HandleFriendlySpawned()
+    {
+        friendliesAlive++;
+    }
+
     private void HandleActorKilled(Actor.ActorTeam team)
     {
         if (team == Actor.ActorTeam.Enemy)
         {
             enemiesAlive--;
+        }
+        else if (team == Actor.ActorTeam.Friendly)
+        {
+            friendliesAlive--;
+
+            if (friendliesAlive <= 0)
+            {
+                EndMission(false);
+            }
         }
         else
         {

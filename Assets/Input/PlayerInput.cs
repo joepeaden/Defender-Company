@@ -88,6 +88,7 @@ public static class PlayerInput
 			MissionManager.Instance.Player.ControlledActor = controlledActor;
 			controlledActor.GetActor().IsPlayer = true;
 			controlledActor.SetActorControlled(true);
+			controlledActor.OnActorDeath.AddListener(HandleControlledActorDeath);
 			HandleCommandModeExit(cntxt);
 		}
 	}
@@ -98,7 +99,14 @@ public static class PlayerInput
 		controlledActor.SetActorControlled(false);
 		controlledActor.GetActor().IsPlayer = false;
 		MissionManager.Instance.Player.ControlledActor = null;
+		controlledActor.OnActorDeath.RemoveListener(HandleControlledActorDeath);
 		HandleCommandModeEnter(cntxt);
+	}
+
+	private static void HandleControlledActorDeath()
+    {
+		// no need for the context but it's a param, whatever
+		HandleReleasePawn(new InputAction.CallbackContext());
 	}
 
 	private static void HandleCommandFollow(InputAction.CallbackContext cntxt)
@@ -294,13 +302,13 @@ public static class PlayerInput
 
 	private static void HandleCommandModeExit(InputAction.CallbackContext cntxt)
 	{
-	//	if (controlledPawn != null)
-	//	{
-			controls.Command.Disable();
+		if (MissionManager.Instance.Player.ControlledActor != null)
+        {
+            controls.Command.Disable();
 			controls.Gameplay.Enable();
 			OnCommandModeExit.Invoke();
-		//}
-	}
+        }
+    }
 
 	private static void HandleCommandModeEnter(InputAction.CallbackContext cntxt)
 	{

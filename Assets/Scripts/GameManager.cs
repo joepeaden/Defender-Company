@@ -83,6 +83,9 @@ public class GameManager : MonoBehaviour
     public void SetCurrentMission(MissionData mission)
     {
         currentMission = mission;
+
+        // clear dead soldiers from the last mission
+        company.RemoveDeadSoldiers();
     }
 
     #region Transitional Stuff
@@ -93,7 +96,7 @@ public class GameManager : MonoBehaviour
         SceneLoader.Instance.LoadScene(SceneLoader.SceneName.MainMenu, SceneLoader.SceneName.Mission, true);
         playerWonLastMission = playerWon;
 
-        company.UpdateSoldiers();
+        company.UpdateDeployedSoldiersStats();
 
         if (playerWonLastMission)
         {

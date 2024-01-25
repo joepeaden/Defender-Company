@@ -33,7 +33,7 @@ public class AARScreen : MonoBehaviour
         textEntry = Instantiate(textObject, xpColumn).GetComponent<TMP_Text>();
         textEntry.text = "XP";
 
-        List<CompanySoldier> soldiers = GameManager.Instance.Company.GetSoldiers();
+        List<CompanySoldier> soldiers = GameManager.Instance.Company.GetDeployedSoldiersAsList();
         for (int i = 0; i < soldiers.Count; i++)
         {
             CompanySoldier soldier = soldiers[i];

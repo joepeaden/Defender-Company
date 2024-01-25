@@ -22,6 +22,7 @@ public class FriendlyActorController : AIActorController, ISetActive
         }
 
         actor.OnGotKill.AddListener(HandleGotKill);
+        MissionManager.Instance.HandleFriendlySpawned();
     }
 
     /// <summary>

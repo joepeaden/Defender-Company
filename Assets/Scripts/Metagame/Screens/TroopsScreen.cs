@@ -14,7 +14,9 @@ public class TroopsScreen : MonoBehaviour
     [SerializeField] private TMP_Text infoPanelHitPoints;
     [SerializeField] private TMP_Text infoPanelSpeed;
     [SerializeField] private TMP_Text infoPanelAccuracy;
+    [SerializeField] private TMP_Text deployButtonText;
     [SerializeField] private Button weaponButton;
+    [SerializeField] private Button deployButton;
     [SerializeField] private Button equipmentItemPrefab;
     [SerializeField] private Button prevButton;
     [SerializeField] private Button nextButton;
@@ -27,11 +29,10 @@ public class TroopsScreen : MonoBehaviour
 
     private void Awake()
     {
-        soldiers = GameManager.Instance.Company.GetSoldiers();
-
         nextButton.onClick.AddListener(NextSoldier);
         prevButton.onClick.AddListener(PrevSoldier);
         weaponButton.onClick.AddListener(ShowWeaponsOptions);
+        deployButton.onClick.AddListener(ToggleSoldierDeployed);
     }
 
     private void OnEnable()
@@ -44,7 +45,9 @@ public class TroopsScreen : MonoBehaviour
         nextButton.onClick.RemoveListener(NextSoldier);
         prevButton.onClick.RemoveListener(PrevSoldier);
         weaponButton.onClick.RemoveListener(ShowWeaponsOptions);
+        deployButton.onClick.RemoveListener(ToggleSoldierDeployed);
     }
+
 
     private void ShowWeaponsOptions()
     {
@@ -97,6 +100,7 @@ public class TroopsScreen : MonoBehaviour
     // The answer is no.
     private void RefreshScreen()
     {
+        soldiers = GameManager.Instance.Company.GetLivingSoldiersAsList();
         if (soldiers.Count > 0)
         {
             DisplaySoldierInfo(soldiers[0]);
@@ -106,7 +110,7 @@ public class TroopsScreen : MonoBehaviour
     /// <summary>
     /// Display selected weapon info in center pane.
     /// </summary>
-    public void DisplaySoldierInfo(CompanySoldier soldier)
+    private void DisplaySoldierInfo(CompanySoldier soldier)
     {
         infoPanelName.text = soldier.Name;
         displayedSoldier = soldier;
@@ -117,5 +121,35 @@ public class TroopsScreen : MonoBehaviour
         infoPanelAccuracy.text = "Accuracy Rating: " + displayedSoldier.AccuracyRating;
 
         weaponButton.GetComponentInChildren<TMP_Text>().text = displayedSoldier.CurrentWeapon.displayName;
+
+        UpdateDeployButton();
+    }
+
+    private void ToggleSoldierDeployed()
+    {
+        HashSet<string> deployedSoldiers = GameManager.Instance.Company.DeployedSoldiers;
+        if (deployedSoldiers.Contains(displayedSoldier.ID))
+        {
+            deployedSoldiers.Remove(displayedSoldier.ID);
+        }
+        else
+        {
+            deployedSoldiers.Add(displayedSoldier.ID);
+        }
+        UpdateDeployButton();
+    }
+
+    private void UpdateDeployButton()
+    {
+
+        HashSet<string> deployedSoldiers = GameManager.Instance.Company.DeployedSoldiers;
+        if (deployedSoldiers.Contains(displayedSoldier.ID))
+        {
+            deployButtonText.text = "On Deployment";
+        }
+        else
+        {
+            deployButtonText.text = "In Reserve";
+        }
     }
 }

@@ -27,7 +27,7 @@ public class Player : MonoBehaviour//ActorController
         PlayerInput.OnUseEquipment.AddListener(HandleUseEquipmentInput);
         PlayerInput.OnInteract.AddListener(HandleInteractInput);
 
-		MissionManager.OnAttackStart.AddListener(EnablePlayerControls);
+		MissionManager.OnAttackStart.AddListener(EnableCommandControls);
 	}
 
 	private void Start()
@@ -130,7 +130,7 @@ public class Player : MonoBehaviour//ActorController
 		PlayerInput.OnReload.RemoveListener(HandleReloadInput);
 		PlayerInput.OnUseEquipment.RemoveListener(HandleUseEquipmentInput);
 		PlayerInput.OnInteract.RemoveListener(HandleInteractInput);
-		MissionManager.OnAttackStart.RemoveListener(EnablePlayerControls);
+		MissionManager.OnAttackStart.RemoveListener(EnableCommandControls);
 	}
 
 	#endregion
@@ -139,9 +139,9 @@ public class Player : MonoBehaviour//ActorController
 	#region Input
 	///////////////
 
-	private void EnablePlayerControls()
+	private void EnableCommandControls()
 	{
-		PlayerInput.EnableGameplayControls();
+		PlayerInput.EnableCommandControls();
 	}
 
 	private void HandleSprintInput(bool starting)

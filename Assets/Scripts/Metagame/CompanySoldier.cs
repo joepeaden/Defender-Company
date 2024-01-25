@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,10 @@ public class CompanySoldier
     private int level = 1;
     public int XP => xp;
     private int xp;
+    public string ID => id;
+    private string id;
+
+    public bool isAlive = true;
 
     // mission specific
     public int MissionKills
@@ -45,6 +50,7 @@ public class CompanySoldier
         accuracyRating = newAccuracyRating;
         hireCost = newHireCost;
         CurrentWeapon = newCurrentWeapon;
+        id = Guid.NewGuid().ToString();
     }
 
     public void ResetMissionVariables()
@@ -58,8 +64,8 @@ public class CompanySoldier
     {
         level++;
 
-        hitPoints += Random.Range(10, 30);
-        moveSpeed += Random.Range(.25f, 1);
-        accuracyRating += Random.Range(1, 2);
+        hitPoints += UnityEngine.Random.Range(10, 30);
+        moveSpeed += UnityEngine.Random.Range(.25f, 1);
+        accuracyRating += UnityEngine.Random.Range(1, 2);
     }
 }
