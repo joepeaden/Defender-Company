@@ -49,14 +49,13 @@ public class Actor : MonoBehaviour
 	// shows state and if actor is in that state
 	public Dictionary<State, bool> state;
 	public bool IsAlive { get; private set; } = true;
+	[HideInInspector]
 	public bool IsPlayer;
 	public int HitPoints { get; private set; }
 	public int MaxHitPoints { get; private set; }
 	public int AccuracyRating { get; private set; }
 
-	public ActorData data;
-	[SerializeField] private MeshRenderer modelRenderer;
-	[SerializeField] private Transform TargetSpot;
+	private ControllerData data;
 
 	// temporary to visually show cover status. Remove once we have models, animations etc.
 	//[SerializeField] private Material originalMaterial;
@@ -126,7 +125,30 @@ public class Actor : MonoBehaviour
 		pathfinder = GetComponent<AIPath>();
 		audioSource = GetComponent<AudioSource>();
 		inventory = GetComponent<Inventory>();
-		HitPoints = data.hitPoints;
+		
+		if (IsPlayer)
+        {
+			DisablePathfinding();
+        }
+	}
+
+	private void OnDestroy()
+    {
+		OnDeath.RemoveAllListeners();
+		OnGetHit.RemoveAllListeners();
+		EmitVelocityInfo.RemoveAllListeners();
+		OnCrouch.RemoveAllListeners();
+	    OnStand.RemoveAllListeners();
+	}
+
+	private void LateUpdate()
+	{
+        //EmitVelocityInfo.Invoke(isUsingPathfinding ? .velocity : rigidBody.velocity);
+	}
+
+    public void Initialize(ControllerData newData)
+    {
+		data = newData;
 
 		deathSounds = new List<AudioClip>()
 		{
@@ -147,30 +169,6 @@ public class Actor : MonoBehaviour
 
 		// initialize the move force.
 		moveForce = data.fastWalkMoveForce;
-
-		if (team == ActorTeam.Enemy)
-        {
-			MaxHitPoints = data.hitPoints;
-        }
-
-		if (IsPlayer)
-        {
-			DisablePathfinding();
-        }
-	}
-
-	private void OnDestroy()
-    {
-		OnDeath.RemoveAllListeners();
-		OnGetHit.RemoveAllListeners();
-		EmitVelocityInfo.RemoveAllListeners();
-		OnCrouch.RemoveAllListeners();
-	    OnStand.RemoveAllListeners();
-	}
-
-	private void LateUpdate()
-	{
-        //EmitVelocityInfo.Invoke(isUsingPathfinding ? .velocity : rigidBody.velocity);
 	}
 
 	private void DisablePathfinding()
@@ -240,11 +238,18 @@ public class Actor : MonoBehaviour
 		}
 	}
 
-	public void SetSoldier(CompanySoldier soldier)
+	public void SetStats(CompanySoldier soldier)
     {
-		MaxHitPoints = soldier.HitPoints;
-		SetAgentSpeed(soldier.MoveSpeed);
-		AccuracyRating = soldier.AccuracyRating;
+		SetStats(soldier.HitPoints, soldier.MoveSpeed, soldier.AccuracyRating, soldier.CurrentWeapon);
+	}
+
+	public void SetStats(int newHitPoints, float newMoveSpeed, int newAccuracyRating, WeaponData newWeapon)
+    {
+		MaxHitPoints = newHitPoints;
+		HitPoints = MaxHitPoints;
+		SetAgentSpeed(newMoveSpeed);
+		AccuracyRating = newAccuracyRating;
+		SetWeaponFromData(newWeapon);
 	}
 
 	//public Vector3 GetNearestNavPosition(Vector3 targetPos)
@@ -321,11 +326,6 @@ public class Actor : MonoBehaviour
 			OnActorEndAim.Invoke();
 		}
 	}
-
-	public Transform GetShootAtMeTransform()
-    {
-		return TargetSpot;
-    }
 
 	public void SetWeaponFromData(WeaponData startWeapon)
     {
@@ -479,123 +479,6 @@ public class Actor : MonoBehaviour
 		return false;
     }
 
-	/// <summary>
-	/// Attempt to move the actor to the actorTargetPosition of a cover object, as well as change the collisions layer and visuals for the actor.
-	/// </summary>
-	/// <returns>Whether or not the attempt was successful.</returns>
-	private bool AttemptDuckInCover(Cover cover)
-    {
-		//if (!cover)
-  //      {
-		//	return false;
-  //      }
-		
-		//if (cover && !state[State.InCover] && !coverCoroutineRunning)
-		//{
-		//	modelRenderer.material = coverMaterial;
-
-		//	// set to InCover layer, ignores collisions with bullets
-		//	mainCollider.gameObject.layer = (int)IgnoreLayerCollisions.CollisionLayers.InCover;
-
-		//	StartCoroutine(EnterOrExitCover(true));
-
-		//	posBeforeCover = transform.position;
-
-		//	return true;
-		//}
-
-		return false;
-    }
-
-	/// <summary>
-	/// Attempt to exit a cover object.
-	/// </summary>
-	/// <returns>Whether or not the attempt was successful.</returns>
-	public bool AttemptExitCover()
-	{
-		//if (!interactSensor.GetInteractable() || !state[State.InCover])
-  //      {
-		//	Debug.LogWarning("AttemptExitCover was called, but no cover or actor not in cover state");
-		//	return false;
-  //      }
-
-		//if (!coverCoroutineRunning)
-		//{
-		//	modelRenderer.material = originalMaterial;
-
-		//	mainCollider.gameObject.layer = (int)IgnoreLayerCollisions.CollisionLayers.Actors;
-
-		//	StartCoroutine(EnterOrExitCover(false));
-			
-		//	return true;
-		//}
-
-		return false;
-	}
-
-	/// <summary>
-	/// Enter or exit a cover object.
-	/// </summary>
-	/// <param name="enteringCover">True if the actor is entering cover.</param>
-	/// <returns></returns>
-	private IEnumerator EnterOrExitCover(bool enteringCover)
-	{
-		//Cover cover = interactSensor.GetInteractable().GetComponent<Cover>();
-		//if (!cover)
-		//{
-		//	Debug.LogWarning("StartDuckInCover is called but no cover is set in the sensor.");
-		//	yield return null;
-		//}
-		//else
-		//{
-		//	coverCoroutineRunning = true;
-
-		//	if (cover.coverType == Cover.CoverType.Floor)
-		//	{
-		//		ToggleCrouch();
-		//	}
-
-		//	rigidBody.velocity = Vector3.zero;
-
-		//	//Collider c = interactSensor.GetComponent<Collider>();
-		//	Vector3 closestPoint = interactSensor.GetInteractableCollider().ClosestPointOnBounds(interactSensor.transform.position);
-
-
-		//	Vector3 targetPos = enteringCover ? closestPoint : posBeforeCover;
-		//	targetPos.y = transform.position.y;
-
-		//	targetCover = cover;
-		//	movingToCover = true;
-		//	do
-		//	{
-		//		var step = data.moveToCoverSpeed * Time.deltaTime;
-		//		transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
-
-				yield return null;
-		//	} while (enteringCover ? movingToCover : transform.position != targetPos);	
-
-		//	state[State.InCover] = enteringCover;
-
-		//	coverCoroutineRunning = false;
-		//}
-	}
-
-	private bool AttemptVaultOverCover()
-    {
-		//Cover cover = interactSensor.GetInteractable().GetComponent<Cover>();
-		//if (cover && cover.coverType == Cover.CoverType.Floor)
-  //      {
-		//	// when implementing animations, will have a vault over animation here. for now, just move through.
-		//	cover.GetComponent<Collider>().enabled = false;
-
-		//	cover.GetActorFlipPosition(transform.position);
-
-		//	return true;
-  //      }
-
-		return false;
-    }
-
 	public bool AttemptUseEquipment()
     {
 		if (inventory != null)
@@ -644,10 +527,10 @@ public class Actor : MonoBehaviour
 			}
 
 			// if actor tries to move, exit cover
-			if (state[State.InCover])
-            {
-                AttemptExitCover();
-            }
+			//if (state[State.InCover])
+   //         {
+   //             AttemptExitCover();
+   //         }
         }
 		else if (useNavMesh)
         {

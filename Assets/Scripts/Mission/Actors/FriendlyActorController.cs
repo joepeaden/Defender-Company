@@ -34,13 +34,19 @@ public class FriendlyActorController : AIActorController, ISetActive
         companySoldier = soldier;
         transform.parent.gameObject.SetActive(true);
         transform.parent.gameObject.name = companySoldier.Name;
-        actor.SetSoldier(companySoldier);
-        actor.SetWeaponFromData(companySoldier.CurrentWeapon);
+        actor.SetStats(companySoldier);
 
         companySoldier.ResetMissionVariables();
 
         gameObject.name = soldier.Name;
         nameIsSet = true;
+    }
+
+    public override void SetActorControlled(bool isControlled)
+    {
+        movePositionSprite.SetActive(!isControlled);
+
+        base.SetActorControlled(isControlled);
     }
 
     private void HandleGotKill()

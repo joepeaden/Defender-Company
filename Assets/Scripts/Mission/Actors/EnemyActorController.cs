@@ -8,14 +8,6 @@ public class EnemyActorController : AIActorController, ISetActive
 {
 	public static UnityEvent OnEnemySpawned = new UnityEvent();
 
-	//protected new void Awake()
-	//{
-	//	base.Awake();
-
-
-	//}
-
-
     protected new void Start()
 	{
 		base.Start();
@@ -27,9 +19,7 @@ public class EnemyActorController : AIActorController, ISetActive
 			SetBehaviour();
 		}
 
-		actor.SetAgentSpeed(data.navAgentSpeed);
-
-		actor.SetWeaponFromData(data.startWeapon);
+		actor.SetStats(data.hitPoints, data.moveSpeed, data.accuracyRating, data.startWeapon);
 	}
 
 	private void SetBehaviour()
@@ -47,17 +37,4 @@ public class EnemyActorController : AIActorController, ISetActive
 				break;
 		}
 	}
-
-    //protected override void HandleDeath()
-    ////{
-    //    base.HandleDeath();
-    //}
-
-    // public void OnCollisionEnter(Collider col)
-    // {
-    //     if (col)
-    //     {
-    //bumpedIntoWall = true;
-    //     }
-    // }
 }

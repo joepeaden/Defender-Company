@@ -99,17 +99,17 @@ public class Player : MonoBehaviour//ActorController
 					rotationDelta -= 359f;
 				}
 
-				float controllerAimRotationSensitivity = ControlledActor.Data.baseControllerAimRotaitonSensitivity;
-				if (!PlayerInput.UsingMouseForRotation && targetInSights)
-				{
-					controllerAimRotationSensitivity = .01f;
-				}
+				//float controllerAimRotationSensitivity = ControlledActor.Data.baseControllerAimRotaitonSensitivity;
+				//if (!PlayerInput.UsingMouseForRotation && targetInSights)
+				//{
+				//	controllerAimRotationSensitivity = .01f;
+				//}
 
 				// just FYI - the controller stuff really should not be an actor thing. That is only for the player.
 				// so need to create a seperate Data object for that stuff.
-				float stratifiedRotation = rotationDelta / ControlledActor.Data.controllerMaxRotationSensitivity;
-				float adjustedRotationDelta = stratifiedRotation * (ControlledActor.GetActor().state[Actor.State.Aiming] ? controllerAimRotationSensitivity : ControlledActor.Data.controllerRotationSensitivity);
-				float adjustedRotationValue = actorTransform.rotation.eulerAngles.z > newRotationYAngle ? -adjustedRotationDelta : adjustedRotationDelta;
+				//float stratifiedRotation = rotationDelta / ControlledActor.Data.controllerMaxRotationSensitivity;
+				//float adjustedRotationDelta = stratifiedRotation * (ControlledActor.GetActor().state[Actor.State.Aiming];// ? controllerAimRotationSensitivity : ControlledActor.Data.controllerRotationSensitivity);
+				float adjustedRotationValue = actorTransform.rotation.eulerAngles.z > newRotationYAngle ? -rotationDelta : rotationDelta;
 
 				Vector3 finalNewEulers = actorTransform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
 				Quaternion finalNewRotation = new Quaternion();

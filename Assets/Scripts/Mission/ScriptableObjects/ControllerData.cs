@@ -24,11 +24,6 @@ public class ControllerData : ScriptableObject
 	public AIBehaviourType behaviourType;
 	public bool canMoveAndShoot;
 	public bool canAim;
-	/// <summary>
-    /// Chance they'll use cover; from 0 - 1 (0% - 100%) (rolled every AiControllersData.decisionRate seconds)
-    /// </summary>
-	public float useCoverChance;
-	public int scoreValue;
 	public WeaponData startWeapon;
 
 	#region AttackData
@@ -37,16 +32,31 @@ public class ControllerData : ScriptableObject
     /// </summary>
     public float timeBetweenBursts;
 	/// <summary>
-    /// Number of projectiles fired in a burst
-    /// </summary>
+	/// Number of projectiles fired in a burst
+	/// </summary>
 	//public int projectilesInBurst;
+
+	public int accuracyRating;
 
     #endregion
 
-    public float navAgentSpeed;
+    public float moveSpeed;
 
-	// player control stuff
-	public float baseControllerAimRotaitonSensitivity;
-	public float controllerMaxRotationSensitivity;
-	public float controllerRotationSensitivity;
+	public int hitPoints;
+
+	public AudioClip woundSound1;
+	public AudioClip woundSound2;
+	public AudioClip woundSound3;
+	public AudioClip woundSound4;
+	public AudioClip woundSound5;
+	public AudioClip woundSound6;
+	public AudioClip deathSound1;
+	public AudioClip deathSound2;
+	public AudioClip deathSound3;
+	public float minSemiAutoFireRate;
+	public float maxSemiAutoFireRate;
+
+	public float slowWalkMoveForce;
+	public float fastWalkMoveForce;
+	public float sprintMoveForce;
 }

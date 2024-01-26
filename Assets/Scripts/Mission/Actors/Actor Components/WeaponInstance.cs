@@ -186,14 +186,14 @@ public class WeaponInstance : MonoBehaviour
         }
     }
 
-    public bool InitiateAttack(float actorRecoilControl, bool triggerPull)
+    public bool InitiateAttack(bool triggerPull)
     {
         if (!reloading)// && (triggerPull || inventoryWeapon.data.isAutomatic))
         {
             // wait for gun to cycle (fire rate)
             if (readyToAttack)
             {
-                LaunchAttack(actorRecoilControl);
+                LaunchAttack();
                 return true;
             }
             // returning false to indicate to player out of ammo
@@ -206,7 +206,7 @@ public class WeaponInstance : MonoBehaviour
         return false;
     }
 
-    private void LaunchAttack(float actorRecoilControl)
+    private void LaunchAttack()
     {
         // remove as many bullets as are fired
         ammoInWeapon--;

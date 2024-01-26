@@ -192,7 +192,7 @@ public class Inventory : MonoBehaviour
     {
         if (weaponInstance != null)
         {
-            return weaponInstance.InitiateAttack(actor.data.recoilControl, triggerPull);
+            return weaponInstance.InitiateAttack(triggerPull);
         }
 
         return false;

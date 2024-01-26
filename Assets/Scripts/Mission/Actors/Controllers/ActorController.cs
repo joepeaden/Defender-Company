@@ -20,6 +20,7 @@ public abstract class ActorController : MonoBehaviour
     protected void Awake()
     {
         actor = GetComponent<Actor>();
+        actor.Initialize(data);
         actor.OnDeath.AddListener(HandleDeath);
         actor.OnGetHit.AddListener(HandleGetHit);
     }

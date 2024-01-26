@@ -16,7 +16,6 @@ public abstract class AIActorController : ActorController, ISetActive
 	public static UnityEvent<Actor.ActorTeam> OnActorKilled = new UnityEvent<Actor.ActorTeam>();
 	
 	public bool activateOnStart;
-	[SerializeField] private AIControllersData aiData;
 
 	//private bool pauseFurtherAttacks;
 	private bool isReloading;
@@ -68,7 +67,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
-	public void SetActorControlled(bool isControlled)
+	public virtual void SetActorControlled(bool isControlled)
 	{
 		isPlayerControlled = isControlled;
 		actor.Pathfinder.enabled = actor.IsAlive && !isControlled;
@@ -216,11 +215,6 @@ public abstract class AIActorController : ActorController, ISetActive
 		//actor.target = null;
     }
 
-	public AIControllersData GetAIData()
-    {
-		return aiData;
-    }
-
 	private IEnumerator AttackRoutine()
     {
 		// need to also check if the actor is on the player's screen (unless they are a sniper?)
@@ -305,8 +299,6 @@ public abstract class AIActorController : ActorController, ISetActive
 
 		//Ray r = new Ray();
 		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, (attackTarget.transform.position - transform.position), 1000f);
-		// 1000f is a arbitrary number but maybe don't limit the LOS//aiData.detectionRadius);
-
 		RaycastHit2D[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
 		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == LayerMask.NameToLayer("Building")).ToArray();
 
