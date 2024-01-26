@@ -4,6 +4,9 @@ using UnityEngine.Events;
 
 public abstract class ActorController : MonoBehaviour
 {
+    /// <summary>
+    /// A per-actor death event (OnActorKilled in AIActorController is a static event)
+    /// </summary>
     [HideInInspector]
     public UnityEvent OnActorDeath = new UnityEvent();
 
@@ -38,24 +41,8 @@ public abstract class ActorController : MonoBehaviour
     {
         StopAllCoroutines();
         enabled = false;
-    }
 
-    /// <summary>
-    /// Add callback for actor's death.
-    /// </summary>
-    /// <param name="listener"></param>
-    public void AddDeathListener(UnityAction listener)
-    {
-        OnActorDeath.AddListener(listener);
-    }
-
-    /// <summary>
-    /// Remove callback for actor's death.
-    /// </summary>
-    /// <param name="listener"></param>
-    public void RemoveDeathListener(UnityAction listener)
-    {
-        OnActorDeath.AddListener(listener);
+        OnActorDeath.Invoke();
     }
 
     /// <summary>
@@ -96,15 +83,7 @@ public abstract class ActorController : MonoBehaviour
 
             numToFire--;
 
-            if (!equippedWeapon.data.isAutomatic)
-            {
-                yield return new WaitUntil(() => actor.GetWeaponInstance().IsReadyToAttack());
-                //yield return new WaitForSeconds(Random.Range(actor.data.minSemiAutoFireRate, actor.data.maxSemiAutoFireRate));
-            }
-            else
-            {
-                yield return new WaitUntil(() => actor.GetWeaponInstance().IsReadyToAttack());
-            }
+            yield return new WaitUntil(() => actor.GetWeaponInstance().IsReadyToAttack());
         }
 
         if (data.canAim && !actor.IsPlayer)

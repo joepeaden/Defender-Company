@@ -18,7 +18,7 @@ MonoBehaviour:
   cost: 250
   projectile: {fileID: 6425079759990356200, guid: 10e53212ae4dd434ba9eea4767de7b90, type: 3}
   recoil: 0.88
-  attackInterval: 0.075
+  attackInterval: 0.2
   projPerBurst: 3
   range: 35
   optimalRange: 25
@@ -37,6 +37,6 @@ MonoBehaviour:
   downSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
   rightSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
   hasInfiniteBackupAmmo: 0
-  accuracyAngle: 8
+  accuracyAngle: 20
   movementAccuracyPenalty: 3
-  aimingBoon: 4
+  aimingBoon: 5

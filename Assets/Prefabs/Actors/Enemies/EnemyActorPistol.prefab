@@ -190,16 +190,24 @@ PrefabInstance:
       value: 0.00000061024906
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b1bf07b1306a4744a8e94fc062412f7, type: 3}
+    - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.g
-      value: 0.740566
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Color.r
-      value: 0.75100476
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 705386463118641537, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 872553116337195829, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -291,6 +299,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2062017164814779945, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: infiniteBackupAmmo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127045888308328871, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3177180349973180707, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}

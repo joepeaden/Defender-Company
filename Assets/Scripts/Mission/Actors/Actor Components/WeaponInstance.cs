@@ -220,7 +220,7 @@ public class WeaponInstance : MonoBehaviour
             // make the bullet less accurate
             float rotAdjust = Random.Range(-accuracyAngle / 2, accuracyAngle / 2);
             Quaternion projRot = transform.rotation;
-            projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y + rotAdjust, projRot.eulerAngles.z);
+            projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y, projRot.eulerAngles.z + rotAdjust);
 
             Projectile projectile = Instantiate(inventoryWeapon.data.projectile, transform.position, projRot).GetComponent<Projectile>();
             projectile.Initialize(actor, inventoryWeapon.data, proj);

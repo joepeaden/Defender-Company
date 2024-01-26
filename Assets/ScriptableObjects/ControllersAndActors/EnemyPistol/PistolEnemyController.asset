@@ -17,9 +17,9 @@ MonoBehaviour:
   canAim: 0
   useCoverChance: 0.1
   scoreValue: 50
-  startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
+  startWeapon: {fileID: 11400000, guid: aba532139c3f64fe5b488dac23b6a73f, type: 2}
   timeBetweenBursts: 0.1
-  navAgentSpeed: 2
+  navAgentSpeed: 1.5
   baseControllerAimRotaitonSensitivity: 0
   controllerMaxRotationSensitivity: 0
   controllerRotationSensitivity: 0

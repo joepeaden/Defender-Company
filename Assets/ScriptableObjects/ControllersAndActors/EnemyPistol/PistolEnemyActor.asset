@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d353c0846a3f6a8438f71cbf95ebf6bd, type: 3}
   m_Name: PistolEnemyActor
   m_EditorClassIdentifier: 
-  hitPoints: 100
+  hitPoints: 50
   recoilControl: 10
   slowWalkMoveForce: 8
   fastWalkMoveForce: 20

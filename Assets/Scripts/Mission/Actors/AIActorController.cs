@@ -71,7 +71,7 @@ public abstract class AIActorController : ActorController, ISetActive
 	public void SetActorControlled(bool isControlled)
 	{
 		isPlayerControlled = isControlled;
-		actor.Pathfinder.enabled = !isControlled;
+		actor.Pathfinder.enabled = actor.IsAlive && !isControlled;
 		actor.MainCollider.isTrigger = false;
 	}
 
@@ -262,6 +262,8 @@ public abstract class AIActorController : ActorController, ISetActive
 					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
 				}
 			}
+
+			//yield return new WaitForSeconds(Random.Range(data.maxShootSpee)
 
 			yield return null;
 		}

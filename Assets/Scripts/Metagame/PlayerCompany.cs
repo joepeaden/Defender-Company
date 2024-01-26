@@ -30,17 +30,29 @@ public class PlayerCompany
     /// <returns></returns>
     private void AssignStartTroops()
     {
+        List<CompanySoldier> recruits = GetNewRandomRecruits(4);
+
+        for (int i = 0; i < recruits.Count; i++)
+        {
+            soldiers.Add(recruits[i].ID, recruits[i]);
+        }
+    }
+
+    public List<CompanySoldier> GetNewRandomRecruits(int num)
+    {
+        List<CompanySoldier> recruits = new List<CompanySoldier>();
         for (int i = 0; i < 4; i++)
         {
             int hitPoints = Random.Range(50, 150);
-            float speed = Random.Range(2, 7);
+            float speed = Random.Range(1f, 3f);
             int accuracyRating = Random.Range(0, 5);
             WeaponData weapon = GameManager.Instance.GetDataStore().pistol;
             int cost = (int)(hitPoints + (speed * 60) + (accuracyRating * 100) + weapon.cost);
-
-            CompanySoldier newSoldier = new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, weapon, cost);
-            soldiers.Add(newSoldier.ID, newSoldier);
+            CompanySoldier recruit = new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, weapon, cost);
+            recruits.Add(recruit);
         }
+
+        return recruits;
     }
 
     private string GetRandomName()

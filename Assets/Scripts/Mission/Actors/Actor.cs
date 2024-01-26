@@ -760,7 +760,7 @@ public class Actor : MonoBehaviour
 		IsAlive = false;
 
 		// disable components
-		pathfinder.enabled = false;
+		DisablePathfinding();
 		mainCollider.enabled = false;
 
 		int index = Random.Range(0, deathSounds.Count * 3);

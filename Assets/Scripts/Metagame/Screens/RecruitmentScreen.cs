@@ -58,7 +58,7 @@ public class RecruitmentScreen : MonoBehaviour
             Destroy(recruitListParent.GetChild(i).gameObject);
         }
         
-        List<CompanySoldier> recruits = GetRecruits();
+        List<CompanySoldier> recruits = GameManager.Instance.Company.GetNewRandomRecruits(10);
 
         // add market weapon buttons
         for (int i = 0; i < recruits.Count; i++)
@@ -73,57 +73,6 @@ public class RecruitmentScreen : MonoBehaviour
         cashText.text = "$" + GameManager.Instance.Company.PlayerCash;
 
         DisplayRecruitInfo(recruits[0]);
-    }
-
-    /// <summary>
-    /// Get currently available market items
-    /// </summary>
-    /// <returns></returns>
-    private List<CompanySoldier> GetRecruits()
-    {
-        List<CompanySoldier> potentialrecruits = new List<CompanySoldier>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            int hitPoints = Random.Range(50, 150);
-            float speed = Random.Range(2, 7);
-            int accuracyRating = Random.Range(0, 5);
-            WeaponData weapon = GameManager.Instance.GetDataStore().pistol;
-            int cost = (int) (hitPoints + (speed * 60) + (accuracyRating * 100) + weapon.cost);
-            potentialrecruits.Add(new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, weapon, cost));
-        }
-
-        return potentialrecruits;
-    }
-
-    private string GetRandomName()
-    {
-        string[] nameOptions =
-        {
-            "Rourke",
-            "Niels",
-            "Smith",
-            "Danson",
-            "Peters",
-            "Wang",
-            "O'Malley",
-            "Bauer",
-            "Rochefort",
-            "Dumas",
-            "Garcia",
-            "Vargas",
-            "Anderson",
-            "Thomas",
-            "Brown",
-            "Grey",
-            "Benson",
-            "Al-Hilli",
-            "Cohen",
-            "Rosenberg",
-            "Goldstein"
-        };
-        int randomIndex = Random.Range(0, nameOptions.Length - 1);
-        return nameOptions[randomIndex];
     }
 
     /// <summary>
