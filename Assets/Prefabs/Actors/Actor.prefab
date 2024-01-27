@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 5922548439532969883}
   - component: {fileID: 8959686158009534886}
   - component: {fileID: 2550736703317225369}
+  - component: {fileID: 920739842117764094}
   m_Layer: 20
   m_Name: Body
   m_TagString: Untagged
@@ -245,10 +246,10 @@ MonoBehaviour:
   EmitVelocityInfo:
     m_PersistentCalls:
       m_Calls: []
+  OnDataSet:
+    m_PersistentCalls:
+      m_Calls: []
   IsPlayer: 0
-  data: {fileID: 11400000, guid: 088ef8621086b774c99c9174844e7740, type: 2}
-  modelRenderer: {fileID: 0}
-  TargetSpot: {fileID: 9157430240214517296}
   isInvincible: 0
   lookTarget: {x: 0, y: 0, z: 0}
   team: 0
@@ -496,6 +497,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &920739842117764094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572431464358274882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6a34d769a1e4ac7b0b30e433aa443c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  smoothType: 0
+  subdivisions: 2
+  iterations: 2
+  strength: 0.5
+  uniformLength: 1
+  maxSegmentLength: 2
+  bezierTangentLength: 0.4
+  offset: 0.2
+  factor: 0.1
 --- !u!1 &1310252469257724915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,22 +1372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actor: {fileID: 6288928455270119811}
-  bloodSplats:
-  - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
-  - {fileID: 21300000, guid: df787ab818ec04ef1b294a7dec32b205, type: 3}
-  - {fileID: 21300000, guid: 8757205f9bc22437184e286803e9540a, type: 3}
-  bodyParts:
-  - {fileID: 21300000, guid: 1d9d40e59ae5d47c48b3d96b354b58af, type: 3}
-  - {fileID: 21300000, guid: 92c9600f6c1154e6a898e855b14a42bf, type: 3}
-  - {fileID: 21300000, guid: c5d6c068f33c94b5b87e997a425bf3b3, type: 3}
-  actorFrontStand: {fileID: 21300000, guid: b50ab2ae710834d2a848382a399dc307, type: 3}
-  actorBackStand: {fileID: 21300000, guid: f202cb4102f034e1a8880d0bed84ffa4, type: 3}
-  actorRightStand: {fileID: 21300000, guid: 9ee18a6d8d56d4406bbe20f9247ffa62, type: 3}
-  actorLeftStand: {fileID: 21300000, guid: 64e68c9769f57441c90a096a35e4cbcc, type: 3}
-  actorFrontCrouch: {fileID: 21300000, guid: 37116192af76d43f5a9837eb91782de2, type: 3}
-  actorBackCrouch: {fileID: 21300000, guid: cf6f8b98855b94a4383591a47eb19152, type: 3}
-  actorRightCrouch: {fileID: 21300000, guid: aeed4e4b5dcb54b0c8d2a32ad8310047, type: 3}
-  actorLeftCrouch: {fileID: 21300000, guid: 9280d1b33c13b492ab5ae39071b52772, type: 3}
   deadSprites:
   - {fileID: 21300000, guid: 658a766ccfb9d42c89347d1b455a7221, type: 3}
   - {fileID: 21300000, guid: b521f06fc888f49eaafc4694ecc00a8a, type: 3}

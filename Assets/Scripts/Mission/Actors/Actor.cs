@@ -28,6 +28,7 @@ public class Actor : MonoBehaviour
 	[HideInInspector] public UnityEvent OnStand = new UnityEvent();
 	[HideInInspector] public UnityEvent OnGotKill = new UnityEvent();
 	[HideInInspector] public UnityEvent<Vector3> EmitVelocityInfo = new UnityEvent<Vector3>();
+	[HideInInspector] public UnityEvent OnDataSet = new UnityEvent();
 
 	public enum State
 	{
@@ -55,6 +56,7 @@ public class Actor : MonoBehaviour
 	public int MaxHitPoints { get; private set; }
 	public int AccuracyRating { get; private set; }
 
+	public ControllerData Data => data;
 	private ControllerData data;
 
 	// temporary to visually show cover status. Remove once we have models, animations etc.
@@ -146,7 +148,7 @@ public class Actor : MonoBehaviour
         //EmitVelocityInfo.Invoke(isUsingPathfinding ? .velocity : rigidBody.velocity);
 	}
 
-    public void Initialize(ControllerData newData)
+    public void SetData(ControllerData newData)
     {
 		data = newData;
 
@@ -169,6 +171,8 @@ public class Actor : MonoBehaviour
 
 		// initialize the move force.
 		moveForce = data.fastWalkMoveForce;
+
+		OnDataSet.Invoke();
 	}
 
 	private void DisablePathfinding()

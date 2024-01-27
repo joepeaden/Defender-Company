@@ -970,7 +970,6 @@ MonoBehaviour:
       m_Calls: []
   data: {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}
   activateOnStart: 1
-  aiData: {fileID: 11400000, guid: c97b62c9c12dd40699ccbd2fa27d8db3, type: 2}
   movePosition: {x: 0, y: 0, z: 0}
   targetInLOS: 0
   fullyInCover: 0

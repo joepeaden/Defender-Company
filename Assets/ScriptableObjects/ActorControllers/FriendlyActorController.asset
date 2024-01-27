@@ -18,8 +18,21 @@ MonoBehaviour:
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   timeBetweenBursts: 0.1
   accuracyRating: 0
-  moveSpeed: 0
+  shootInterval: 0.5
+  moveSpeed: 1
   hitPoints: 0
+  sprite: {fileID: 21300000, guid: 6fe3703498da24c40acfb2cabcb4ef8a, type: 3}
+  bloodSplats:
+  - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
+  - {fileID: 21300000, guid: df787ab818ec04ef1b294a7dec32b205, type: 3}
+  - {fileID: 21300000, guid: 8757205f9bc22437184e286803e9540a, type: 3}
+  bodyPartSprites:
+  - {fileID: 21300000, guid: 1d9d40e59ae5d47c48b3d96b354b58af, type: 3}
+  - {fileID: 21300000, guid: 92c9600f6c1154e6a898e855b14a42bf, type: 3}
+  - {fileID: 21300000, guid: c5d6c068f33c94b5b87e997a425bf3b3, type: 3}
+  deadSprites:
+  - {fileID: 21300000, guid: 658a766ccfb9d42c89347d1b455a7221, type: 3}
+  - {fileID: 21300000, guid: b521f06fc888f49eaafc4694ecc00a8a, type: 3}
   woundSound1: {fileID: 8300000, guid: e4e708d164c3e4246845976f393b9741, type: 3}
   woundSound2: {fileID: 8300000, guid: 0454f25f7aff04124a7c8a5a57788990, type: 3}
   woundSound3: {fileID: 8300000, guid: d9920967ceb54495b9dd717c06328e96, type: 3}
@@ -29,8 +42,6 @@ MonoBehaviour:
   deathSound1: {fileID: 8300000, guid: 5d3e7ec09c25f41c48946b51f241eb7b, type: 3}
   deathSound2: {fileID: 8300000, guid: c849c404f273c4a30a046d5d66ac6cb3, type: 3}
   deathSound3: {fileID: 8300000, guid: 060ef4aabd21b4db3bab6646472c16a1, type: 3}
-  minSemiAutoFireRate: 0.1
-  maxSemiAutoFireRate: 1
   slowWalkMoveForce: 15
   fastWalkMoveForce: 25
   sprintMoveForce: 40

@@ -20,7 +20,6 @@ public abstract class ActorController : MonoBehaviour
     protected void Awake()
     {
         actor = GetComponent<Actor>();
-        actor.Initialize(data);
         actor.OnDeath.AddListener(HandleDeath);
         actor.OnGetHit.AddListener(HandleGetHit);
     }
@@ -58,6 +57,7 @@ public abstract class ActorController : MonoBehaviour
     public void SetControllerData(ControllerData newControllerData)
     {
         data = newControllerData;
+        actor.SetData(data);
     }
 
     public IEnumerator FireBurst(int numToFire)

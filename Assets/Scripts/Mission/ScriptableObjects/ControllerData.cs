@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Data for actor controllers. Mostly unique data, shared data can be found in AIControllersData.
+/// Holds data for friendly and enemy types
 /// </summary>
 [CreateAssetMenu(fileName = "ControllerData", menuName = "MyScriptables/ControllerData")]
 public class ControllerData : ScriptableObject
@@ -17,33 +16,35 @@ public class ControllerData : ScriptableObject
 		Sapper
     }
 
-	// not all of these are gonna be used. Can split this data up between player and AI if deemed necessary.
-	// deemed is a cool word.
-
-	// AI control stuff (and navAgentSpeed which is for both)
+	[Header("AI")]
+	#region AI Stuff
 	public AIBehaviourType behaviourType;
 	public bool canMoveAndShoot;
 	public bool canAim;
 	public WeaponData startWeapon;
-
-	#region AttackData
 	/// <summary>
-    /// Pause between bursts
-    /// </summary>
-    public float timeBetweenBursts;
-	/// <summary>
-	/// Number of projectiles fired in a burst
+	/// Pause between bursts
 	/// </summary>
-	//public int projectilesInBurst;
-
+	public float timeBetweenBursts;
 	public int accuracyRating;
-
-    #endregion
-
-    public float moveSpeed;
-
+	/// <summary>
+    /// How long the actor waits between shots
+    /// </summary>
+	public float shootInterval;
+	public float moveSpeed;
 	public int hitPoints;
+	#endregion
 
+	[Header("Visuals")]
+	#region Visuals
+	public Sprite sprite;
+	public List<Sprite> bloodSplats;
+	public List<Sprite> bodyPartSprites;
+	public List<Sprite> deadSprites;
+	#endregion
+
+	#region Audio
+	[Header("Audio")]
 	public AudioClip woundSound1;
 	public AudioClip woundSound2;
 	public AudioClip woundSound3;
@@ -53,10 +54,14 @@ public class ControllerData : ScriptableObject
 	public AudioClip deathSound1;
 	public AudioClip deathSound2;
 	public AudioClip deathSound3;
-	public float minSemiAutoFireRate;
-	public float maxSemiAutoFireRate;
+	#endregion
 
+
+	[Header("Player")]
+	// may wanna move this to another SO sometime. Or just set it as a constant in script. Because probably not unique
+	#region Player Controlled Stuff
 	public float slowWalkMoveForce;
 	public float fastWalkMoveForce;
 	public float sprintMoveForce;
+    #endregion
 }

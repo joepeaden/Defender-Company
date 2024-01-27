@@ -9,45 +9,50 @@ public class ActorSprite : MonoBehaviour
 {
     [SerializeField] private Actor actor;
     //[SerializeField] private GameObject bloodPoofEffect;
-    [SerializeField] private List<Sprite> bloodSplats;
-    [SerializeField] private List<Sprite> bodyParts;
+    private List<Sprite> bloodSplats;
+    private List<Sprite> bodyParts;
 
-    [SerializeField] private Sprite actorFrontStand;
-    [SerializeField] private Sprite actorBackStand;
-    [SerializeField] private Sprite actorRightStand;
-    [SerializeField] private Sprite actorLeftStand;
-    [SerializeField] private Sprite actorFrontCrouch;
-    [SerializeField] private Sprite actorBackCrouch;
-    [SerializeField] private Sprite actorRightCrouch;
-    [SerializeField] private Sprite actorLeftCrouch;
+    //[SerializeField] private Sprite actorFrontStand;
+    //[SerializeField] private Sprite actorBackStand;
+    //[SerializeField] private Sprite actorRightStand;
+    //[SerializeField] private Sprite actorLeftStand;
+    //[SerializeField] private Sprite actorFrontCrouch;
+    //[SerializeField] private Sprite actorBackCrouch;
+    //[SerializeField] private Sprite actorRightCrouch;
+    //[SerializeField] private Sprite actorLeftCrouch;
     [SerializeField] private List<Sprite> deadSprites;
 
-    private Sprite frontSprite;
-    private Sprite backSprite;
-    private Sprite leftSprite;
-    private Sprite rightSprite;
+    //private Sprite frontSprite;
+    //private Sprite backSprite;
+    //private Sprite leftSprite;
+    //private Sprite rightSprite;
 
     private SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
+
+    private void Awake()
+    {
+        actor.OnDataSet.AddListener(HandleActorDataSet);
+    }
 
     void Start()
     {
         actor.OnDeath.AddListener(HandleActorDeath);
         actor.OnGetHit.AddListener(HandleActorHit);
 
-        spriteRend = GetComponent<SpriteRenderer>();
+        
 
         // leaving all this in just in case we add anims later.
         //actor.OnGetHit.AddListener(HandleActorHit);
-        actor.OnCrouch.AddListener(HandleCrouch);
-        actor.OnStand.AddListener(HandleStand);
+        //actor.OnCrouch.AddListener(HandleCrouch);
+        //actor.OnStand.AddListener(HandleStand);
         //reloadClip = ragAnim.runtimeAnimatorController.animationClips.Where(clip => clip.name == "Reload").FirstOrDefault();
         //actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
 
-        frontSprite = actorFrontStand;
-        backSprite = actorBackStand;
-        leftSprite = actorLeftStand;
-        rightSprite = actorRightStand;
+        //frontSprite = actorFrontStand;
+        //backSprite = actorBackStand;
+        //leftSprite = actorLeftStand;
+        //rightSprite = actorRightStand;
 
     }
 
@@ -55,8 +60,19 @@ public class ActorSprite : MonoBehaviour
     {
         actor.OnDeath.RemoveListener(HandleActorDeath);
         actor.EmitVelocityInfo.RemoveListener(UpdateVelocityBasedAnimations);
-        actor.OnCrouch.RemoveListener(HandleCrouch);
-        actor.OnStand.RemoveListener(HandleStand);
+        //actor.OnCrouch.RemoveListener(HandleCrouch);
+        //actor.OnStand.RemoveListener(HandleStand);
+        actor.OnDataSet.RemoveListener(HandleActorDataSet);
+    }
+
+    private void HandleActorDataSet()
+    {
+        spriteRend = GetComponent<SpriteRenderer>();
+
+        spriteRend.sprite = actor.Data.sprite;
+        bloodSplats = actor.Data.bloodSplats;
+        bodyParts = actor.Data.bodyPartSprites;
+        deadSprites = actor.Data.deadSprites;
     }
 
     private void HandleActorDeath(bool fromExplosive)
@@ -121,7 +137,8 @@ public class ActorSprite : MonoBehaviour
 
     private void HandleActorHit()
     {
-        // don't 
+        // don't
+        // lol, don't what?
         if (Random.Range(0, 10) > 7)
         {
             GameObject bloodSplat = Instantiate(new GameObject(), transform.position, transform.rotation);
@@ -277,21 +294,21 @@ public class ActorSprite : MonoBehaviour
         //ragAnim.SetTrigger("Fire");
     }
 
-    private void HandleCrouch()
-    {
-        frontSprite = actorFrontCrouch;
-        backSprite = actorBackCrouch;
-        leftSprite = actorLeftCrouch;
-        rightSprite = actorRightCrouch;
-    }
+    //private void HandleCrouch()
+    //{
+        //frontSprite = actorFrontCrouch;
+        //backSprite = actorBackCrouch;
+        //leftSprite = actorLeftCrouch;
+        //rightSprite = actorRightCrouch;
+    //}
 
-    private void HandleStand()
-    {
-        frontSprite = actorFrontStand;
-        backSprite = actorBackStand;
-        leftSprite = actorLeftStand;
-        rightSprite = actorRightStand;
-    }
+    //private void HandleStand()
+    //{
+        //frontSprite = actorFrontStand;
+        //backSprite = actorBackStand;
+        //leftSprite = actorLeftStand;
+        //rightSprite = actorRightStand;
+    //}
 
     #endregion
 }

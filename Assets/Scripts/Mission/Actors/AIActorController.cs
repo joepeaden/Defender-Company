@@ -90,7 +90,7 @@ public abstract class AIActorController : ActorController, ISetActive
                     wallGameObject.GetComponent<Building>().isTargeted = true;
 
 					Pathfinding.NNInfo info = AstarPath.active.GetNearest(wallGameObject.transform.position);
-					Vector3 targetPos = info.position - ((info.position - transform.position).normalized * actor.GetColliderRadius()*2);
+					Vector3 targetPos = info.position - ((info.position - transform.position).normalized * actor.GetColliderRadius()*3);
 
 					GoToPosition(targetPos);
                     foundWall = true;
@@ -257,7 +257,9 @@ public abstract class AIActorController : ActorController, ISetActive
 				}
 			}
 
-			//yield return new WaitForSeconds(Random.Range(data.maxShootSpee)
+			// shootInterval should be a member var that is set by either data (if an enemy), or by the CompanySoldier info. Maybe tie it to Accuracy
+			// Rating or something like that. "Shooting Skill". Idk. But yeah. Bro. Sometime. Maybe. Ya know?
+			yield return new WaitForSeconds(data.shootInterval);
 
 			yield return null;
 		}

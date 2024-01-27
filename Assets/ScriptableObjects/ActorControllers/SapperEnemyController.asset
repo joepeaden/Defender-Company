@@ -13,13 +13,32 @@ MonoBehaviour:
   m_Name: SapperEnemyController
   m_EditorClassIdentifier: 
   behaviourType: 1
-  canMoveAndShoot: 0
+  canMoveAndShoot: 1
   canAim: 0
-  useCoverChance: 0.1
-  scoreValue: 50
-  startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
+  startWeapon: {fileID: 11400000, guid: aba532139c3f64fe5b488dac23b6a73f, type: 2}
   timeBetweenBursts: 2
-  navAgentSpeed: 3
-  baseControllerAimRotaitonSensitivity: 0
-  controllerMaxRotationSensitivity: 0
-  controllerRotationSensitivity: 0
+  accuracyRating: 0
+  shootInterval: 1
+  moveSpeed: 3
+  hitPoints: 50
+  sprite: {fileID: 21300000, guid: 7e5a34726487a416eb5dfcde13862f9c, type: 3}
+  bloodSplats:
+  - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
+  bodyPartSprites:
+  - {fileID: 21300000, guid: 1d9d40e59ae5d47c48b3d96b354b58af, type: 3}
+  - {fileID: 21300000, guid: 92c9600f6c1154e6a898e855b14a42bf, type: 3}
+  - {fileID: 21300000, guid: c5d6c068f33c94b5b87e997a425bf3b3, type: 3}
+  deadSprites:
+  - {fileID: 21300000, guid: 658a766ccfb9d42c89347d1b455a7221, type: 3}
+  woundSound1: {fileID: 8300000, guid: b393137bc183448579c3b8faf6685aad, type: 3}
+  woundSound2: {fileID: 8300000, guid: 253645c8ed1da4d76b7733a55b3ebc55, type: 3}
+  woundSound3: {fileID: 8300000, guid: b42cadfd596df43bba56fed357a512ff, type: 3}
+  woundSound4: {fileID: 8300000, guid: 68265323544af4d65b8dcf4a8525b0c3, type: 3}
+  woundSound5: {fileID: 8300000, guid: 0a4bab7555efb4d1dbf59121068dc488, type: 3}
+  woundSound6: {fileID: 8300000, guid: 3c7484e8151b44bcb9ead4e041ff3a10, type: 3}
+  deathSound1: {fileID: 8300000, guid: 485c7a7fe26c248babd24a121c66fb13, type: 3}
+  deathSound2: {fileID: 8300000, guid: bc6bf8a2d04f84f9ebd3b2411a92bf90, type: 3}
+  deathSound3: {fileID: 8300000, guid: 144e6277a864549a394760649982ca42, type: 3}
+  slowWalkMoveForce: 0
+  fastWalkMoveForce: 0
+  sprintMoveForce: 0

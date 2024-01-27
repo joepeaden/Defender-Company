@@ -73,6 +73,8 @@ public class BuildingManager : MonoBehaviour
                             OnBuildingModified.Invoke();
                             newBuilding.GetComponent<Building>().HandleWallPlaced();
                             newBuilding.GetComponent<Building>().OnBuildingDestroyed.AddListener(HandleBuildingDestroyed);
+
+                            SetNodeWalkable(placeHolderObject.transform.position, false);
                         }
                     }
                     else
@@ -104,6 +106,8 @@ public class BuildingManager : MonoBehaviour
                     MissionUI.Instance.UpdateRemainingTU(timeUnitsRemaining);
 
                     OnBuildingModified.Invoke();
+
+                    SetNodeWalkable(snapPos, true);
                 }
             }
         }
@@ -127,20 +131,25 @@ public class BuildingManager : MonoBehaviour
     {
         DisablePlacementMode();
         canEditBuildings = false;
-        RebuildPathfindingGrid();
     }
 
     public void HandleBuildingDestroyed(Building building)
     {
         occupiedPositions.Remove(building.transform.position);
 
-        RebuildPathfindingGrid();
         OnBuildingModified.Invoke();
+
+        SetNodeWalkable(building.transform.position, true);
     }
 
-    public void RebuildPathfindingGrid()
+    private void SetNodeWalkable(Vector3 position, bool isWalkable)
     {
-        pathfindingGrid.Scan();
+        // thank you god, for chat gpt.
+        GraphNode node = AstarPath.active.GetNearest(position).node;
+        if (node != null)
+        {
+            node.Walkable = isWalkable;
+        }
     }
 
     private void DisablePlacementMode()

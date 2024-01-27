@@ -35,6 +35,7 @@ public class FriendlyActorController : AIActorController, ISetActive
         transform.parent.gameObject.SetActive(true);
         transform.parent.gameObject.name = companySoldier.Name;
         actor.SetStats(companySoldier);
+        SetControllerData(data);
 
         companySoldier.ResetMissionVariables();
 
