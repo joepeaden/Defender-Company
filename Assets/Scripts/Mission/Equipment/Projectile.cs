@@ -13,11 +13,10 @@ public class Projectile : MonoBehaviour
 
     public Vector3 movementDirection { private set; get; }
 
-    [SerializeField]
     protected ProjectileData data;
 
-    public Actor OwningActor => owningActor;
-    protected Actor owningActor;
+    public Actor Actor => actor;
+    protected Actor actor;
     //protected int damage;
 
     private AudioSource audioSource;
@@ -26,12 +25,15 @@ public class Projectile : MonoBehaviour
 
     public bool firedWhileCrouching;
 
+    private BoxCollider2D theCollider;
+    private SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         lastPoint = transform.position;
         audioSource = GetComponent<AudioSource>();
-
-        //GetComponent<MeshRenderer>().material = data.material;
+        theCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -45,14 +47,50 @@ public class Projectile : MonoBehaviour
             Debug.LogWarning("Projectile velocity for " + gameObject.name + " is zero");
         }
 
-        movementDirection = (transform.position - lastPoint);
-        RaycastHit2D hitInfo = Physics2D.Raycast(lastPoint, movementDirection.normalized, movementDirection.magnitude);
-        if (hitInfo.collider != null)
-        {
-            OnTriggerEnter2D(hitInfo.collider);
-        }
-        lastPoint = transform.position;
+        //movementDirection = (transform.position - lastPoint);
+        //RaycastHit2D hitInfo = Physics2D.Raycast(lastPoint, movementDirection.normalized, movementDirection.magnitude);
+        //if (hitInfo.collider != null)
+        //{
+        //    OnTriggerEnter2D(hitInfo.collider);
+        //}
+        //lastPoint = transform.position;
     }
+
+    /// <summary>
+    /// Init the damage, etc. and play the fire sound.
+    /// </summary>
+    /// <param name="firingActor">Actor who fired it</param>
+    /// <param name="weaponData">The data of the firing weapon (pass in when fired)</param>
+    /// <param name="siblingNumber">If more than one bullet fired, which sibling is this?</param>
+    public void Initialize(Actor firingActor, WeaponData weaponData, int siblingNumber)
+    {
+        data = weaponData.projectileData;
+        actor = firingActor;
+
+        // make sure friendlie(?)'s bullet sounds are never cut off.
+        if (actor.team == Actor.ActorTeam.Friendly)
+        {
+            audioSource.priority = 0;
+        }
+
+        theCollider.size = new Vector2(data.colliderWidth, data.colliderLength);
+        spriteRenderer.sprite = data.sprite;
+
+        // only play one sound when fired.
+        if (siblingNumber < 1 && audioSource != null)
+        {
+            audioSource.clip = weaponData.attackSound;
+            audioSource.Play();
+        }
+
+        // just to tell if it should hit floor cover or not
+        if (actor.state[Actor.State.Crouching])
+        {
+            firedWhileCrouching = true;
+        }
+    }
+
+
 
     public GameObject lastHitCover;
     void OnTriggerEnter2D (Collider2D other)
@@ -67,7 +105,7 @@ public class Projectile : MonoBehaviour
             Actor actor = other.gameObject.GetComponentInParent<Actor>();
 
             // please don't kill yo self or teammates
-            if (actor != null && actor.team == owningActor.team)
+            if (actor != null && actor.team == this.actor.team)
                 return;
 
             // if hit a HIT BOX (not other actor components) or a building, need to destroy bullet
@@ -79,11 +117,11 @@ public class Projectile : MonoBehaviour
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
                 shouldDestroy = actor.ProcessHit(data.damage, projectile: this);
 
-                if (data.isExplosive)
-                {
-                    // implement method per projectile types
-                    CreateExplosion();
-                }
+                //if (data.isExplosive)
+                //{
+                //    // implement method per projectile types
+                //    CreateExplosion();
+                //}
             }
 
             // only destroy projectiles if they hit something solid
@@ -94,41 +132,6 @@ public class Projectile : MonoBehaviour
                 StartCoroutine(BeginDestruction());
             }
         }
-    }
-
-    /// <summary>
-    /// Init the damage, etc. and play the fire sound.
-    /// </summary>
-    /// <param name="firingActor">Actor who fired it</param>
-    /// <param name="data">The data of the firing weapon (pass in when fired)</param>
-    /// <param name="siblingNumber">If more than one bullet fired, which sibling is this?</param>
-    public void Initialize(Actor firingActor, WeaponData data, int siblingNumber)
-    {
-        owningActor = firingActor;
-
-        // make sure friendlie(?)'s bullet sounds are never cut off.
-        if (owningActor.team == Actor.ActorTeam.Friendly)
-        {
-            audioSource.priority = 0;
-        }
-
-        // only play one sound when fired.
-        if (siblingNumber < 1 && audioSource != null)
-        {
-            audioSource.clip = data.attackSound;
-            audioSource.Play();
-        }
-
-        // just to tell if it should hit floor cover or not
-        if (owningActor.state[Actor.State.Crouching])
-        {
-            firedWhileCrouching = true;
-        }
-    }
-
-    public ProjectileData GetData()
-    {
-        return data;
     }
 
     /// <summary>
@@ -143,8 +146,13 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected void CreateExplosion()
+    public ProjectileData GetData()
     {
-        Debug.Log("Boom");
+        return data;
     }
+
+    //protected void CreateExplosion()
+    //{
+    //    Debug.Log("Boom");
+    //}
 }

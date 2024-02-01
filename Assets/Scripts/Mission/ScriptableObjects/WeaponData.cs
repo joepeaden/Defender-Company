@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "WeaponData", menuName = "MyScriptables/WeaponData")]
 public class WeaponData : GearData
 {
+	public ProjectileData projectileData;
 	public GameObject projectile;
 	public float recoil;
 	public float attackInterval;

@@ -19,7 +19,7 @@ public class WeaponSprite : MonoBehaviour
 
     public void FaceFront()
     {
-        if (weaponData != null)
+        if (weaponData != null && spriteRenderer.sprite != null)
         {
             Quaternion q = Quaternion.Euler(new Vector3(0, 0, 180));
             transform.localRotation = q;
@@ -29,7 +29,7 @@ public class WeaponSprite : MonoBehaviour
 
     public void FaceLeft()
     {
-        if (weaponData != null)
+        if (weaponData != null && spriteRenderer.sprite != null)
         {
             Quaternion q = Quaternion.Euler(new Vector3(0, 0, 270));
             transform.localRotation = q;
@@ -39,7 +39,7 @@ public class WeaponSprite : MonoBehaviour
 
     public void FaceBack()
     {
-        if (weaponData != null)
+        if (weaponData != null && spriteRenderer.sprite != null)
         {
             Quaternion q = Quaternion.Euler(new Vector3(0, 0, 0));
             transform.localRotation = q;
@@ -49,7 +49,7 @@ public class WeaponSprite : MonoBehaviour
 
     public void FaceRight()
     {
-        if (weaponData != null)
+        if (weaponData != null && spriteRenderer.sprite != null)
         {
             Quaternion q = Quaternion.Euler(new Vector3(0, 0, 90));
             transform.localRotation = q;

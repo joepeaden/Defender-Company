@@ -1,30 +1,24 @@
 using UnityEngine;
 
-/// <summary>
-/// Attatched to an object will make the object follow where the mouse points in 3D.
-/// </summary>
-/// <author>
-/// Joe
-/// </author>
 public class FollowMouse3D : MonoBehaviour
 {
-    [SerializeField] private GameObject raycastPlane;
-    public LayerMask mask;
+    public static Transform CursorTransform;
+
+    private void Awake()
+    {
+        Cursor.visible = false;
+        CursorTransform = transform;
+    }
 
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] rayCast = Physics.RaycastAll(ray, mask);
+        Vector3 newPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        newPosition.z = 0f;
+        transform.position = newPosition;    
+    }
 
-        foreach (RaycastHit hit in rayCast)
-        {
-            if (rayCast.Length != 0)
-            {
-                if (hit.transform.gameObject == raycastPlane)
-                {
-                    transform.position = hit.point;
-                }
-            }
-        }
+    private void OnDestroy()
+    {
+        Cursor.visible = true;
     }
 }

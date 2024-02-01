@@ -16,9 +16,8 @@ MonoBehaviour:
   canMoveAndShoot: 1
   canAim: 0
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
-  timeBetweenBursts: 0.1
   accuracyRating: 0
-  shootInterval: 0.5
+  pauseBetweenBursts: 0.5
   moveSpeed: 1
   hitPoints: 0
   sprite: {fileID: 21300000, guid: 6fe3703498da24c40acfb2cabcb4ef8a, type: 3}

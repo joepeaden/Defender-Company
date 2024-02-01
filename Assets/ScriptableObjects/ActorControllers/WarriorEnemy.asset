@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 866e09bcba0223943864e529978a571f, type: 3}
-  m_Name: SapperEnemyController
+  m_Name: WarriorEnemy
   m_EditorClassIdentifier: 
-  behaviourType: 1
+  behaviourType: 0
   canMoveAndShoot: 1
   canAim: 0
   startWeapon: {fileID: 11400000, guid: aba532139c3f64fe5b488dac23b6a73f, type: 2}
   accuracyRating: 0
   pauseBetweenBursts: 1
-  moveSpeed: 3
-  hitPoints: 50
-  sprite: {fileID: 21300000, guid: 7e5a34726487a416eb5dfcde13862f9c, type: 3}
+  moveSpeed: 1
+  hitPoints: 100
+  sprite: {fileID: 21300000, guid: d6bda76a06ed848ffac2c9fa22567165, type: 3}
   bloodSplats:
   - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
   bodyPartSprites:

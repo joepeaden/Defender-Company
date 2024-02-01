@@ -2,6 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+// This class really isn't necessary now that every actor has an AIActorController. So probably just merge this with AIActorController.
+
+
 public abstract class ActorController : MonoBehaviour
 {
     /// <summary>
@@ -91,8 +95,6 @@ public abstract class ActorController : MonoBehaviour
         {
             actor.EndAiming();
         }
-
-        yield return new WaitForSeconds(data.timeBetweenBursts);
 
         pauseFurtherAttacks = false;
     }

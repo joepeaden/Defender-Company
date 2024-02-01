@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 006a28bab6cd3473188a9a50e3ea48c0, type: 3}
   m_Name: AlienPistolProj
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: ad11218c2753a4345876bfb6b1173940, type: 3}
+  colliderLength: 0.19
+  colliderWidth: 0.13
   causesHeadShots: 0
-  velocity: 17
-  force: 3000
+  velocity: 12
   damage: 10
-  material: {fileID: 2100000, guid: 05b485efd271f504ea632b458bfb3cbc, type: 2}
-  isExplosive: 0

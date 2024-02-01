@@ -22,15 +22,11 @@ public class ControllerData : ScriptableObject
 	public bool canMoveAndShoot;
 	public bool canAim;
 	public WeaponData startWeapon;
-	/// <summary>
-	/// Pause between bursts
-	/// </summary>
-	public float timeBetweenBursts;
 	public int accuracyRating;
 	/// <summary>
     /// How long the actor waits between shots
     /// </summary>
-	public float shootInterval;
+	public float pauseBetweenBursts;
 	public float moveSpeed;
 	public int hitPoints;
 	#endregion

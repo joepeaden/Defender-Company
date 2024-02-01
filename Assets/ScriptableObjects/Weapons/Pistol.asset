@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Pistol
   rewardKey: 
   cost: 150
+  projectileData: {fileID: 11400000, guid: cea53a00f591947c4b4d4c037386228c, type: 2}
   projectile: {fileID: 6425079759990356200, guid: b5f2e306111ac4e2aab9f9da950c0040, type: 3}
   recoil: 1
   attackInterval: 0.1

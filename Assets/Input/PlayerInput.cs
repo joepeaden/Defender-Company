@@ -57,7 +57,7 @@ public static class PlayerInput
         controls.Gameplay.RotateMouse.performed += HandleRotationInputMouse;
         controls.Gameplay.Aim.performed += HandleAimBeginInput;
         controls.Gameplay.Aim.canceled += HandleAimEndInput;
-        controls.Gameplay.Fire.performed += HandleFireStartInput;
+        controls.Gameplay.Fire.started += HandleFireStartInput;
         controls.Gameplay.Fire.canceled += HandleFireStopInput;
         controls.Gameplay.SwitchWeapons.performed += HandleSwitchWeaponsInput;
         controls.Gameplay.SwitchWeaponsMouse.performed += HandleSwitchWeaponsInput;

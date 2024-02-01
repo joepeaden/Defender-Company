@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31caf38739274904f8ea83d1af25c7e4, type: 3}
+  m_Name: AlienRifle
+  m_EditorClassIdentifier: 
+  gearType: 2
+  displayName: 
+  rewardKey: 
+  cost: 0
+  projectileData: {fileID: 11400000, guid: cea53a00f591947c4b4d4c037386228c, type: 2}
+  projectile: {fileID: 0}
+  recoil: 0
+  attackInterval: 1
+  projPerBurst: 1
+  range: 0
+  optimalRange: 0
+  ammoCapacity: 0
+  totalAmount: 0
+  attackSound: {fileID: 0}
+  emptyWeaponSound: {fileID: 0}
+  reloadSound: {fileID: 0}
+  reloadTime: 0
+  isAutomatic: 0
+  isPistol: 0
+  projPerShot: 0
+  muzzlePosition: {x: 0, y: 0, z: 0}
+  upSprite: {fileID: 0}
+  leftSprite: {fileID: 0}
+  downSprite: {fileID: 0}
+  rightSprite: {fileID: 0}
+  hasInfiniteBackupAmmo: 0
+  accuracyAngle: 0
+  movementAccuracyPenalty: 0
+  aimingBoon: 0

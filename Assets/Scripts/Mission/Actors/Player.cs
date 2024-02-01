@@ -70,7 +70,7 @@ public class Player : MonoBehaviour//ActorController
 
 				ControlledActor.GetActor().Move(moveDir, false);
 
-				//rotationInputToUse = PlayerInput.RotationInput;
+			//rotationInputToUse = PlayerInput.RotationInput;
 			//}
 			//else
 			//{
@@ -81,40 +81,42 @@ public class Player : MonoBehaviour//ActorController
 
 			//if (rotationInputToUse != Vector2.zero)
 			//{
-				// Get the angle of rotation based on the controller input (look, math! I did it!)
-				float newRotationYAngle = Mathf.Atan(-PlayerInput.RotationInput.x / PlayerInput.RotationInput.y) * Mathf.Rad2Deg;
+			// Get the angle of rotation based on the controller input (look, math! I did it!)
+			//float newRotationYAngle = Mathf.Atan(-PlayerInput.RotationInput.x / PlayerInput.RotationInput.y) * Mathf.Rad2Deg;
 
-				// handle the wierd problem with negative y values (idk why man it works ok?)
-				if (PlayerInput.RotationInput.y < 0)
-				{
-					newRotationYAngle -= 180;
-				}
+			// handle the wierd problem with negative y values (idk why man it works ok?)
+			//if (PlayerInput.RotationInput.y < 0)
+			//{
+			//	newRotationYAngle -= 180;
+			//}
 
-				float rotationDelta = Mathf.Abs(newRotationYAngle - actorTransform.rotation.eulerAngles.z);
+			//float rotationDelta = Mathf.Abs(newRotationYAngle - actorTransform.rotation.eulerAngles.z);
 
-				// fix if we're going from 360 to 0 or the other way; this is confusing but don't stress it.
-				// basically just need to remember that transform.Rotate tatkes a number of degrees to rotate as a param. So going from 359 -> 0  degree rotation should not be -359 degrees, but should be 1 degree. Ya feel me?
-				if (rotationDelta >= 180f)
-				{
-					rotationDelta -= 359f;
-				}
+			// fix if we're going from 360 to 0 or the other way; this is confusing but don't stress it.
+			// basically just need to remember that transform.Rotate tatkes a number of degrees to rotate as a param. So going from 359 -> 0  degree rotation should not be -359 degrees, but should be 1 degree. Ya feel me?
+			//if (rotationDelta >= 180f)
+			//{
+			//	rotationDelta -= 359f;
+			//}
 
-				//float controllerAimRotationSensitivity = ControlledActor.Data.baseControllerAimRotaitonSensitivity;
-				//if (!PlayerInput.UsingMouseForRotation && targetInSights)
-				//{
-				//	controllerAimRotationSensitivity = .01f;
-				//}
+			//float controllerAimRotationSensitivity = ControlledActor.Data.baseControllerAimRotaitonSensitivity;
+			//if (!PlayerInput.UsingMouseForRotation && targetInSights)
+			//{
+			//	controllerAimRotationSensitivity = .01f;
+			//}
 
-				// just FYI - the controller stuff really should not be an actor thing. That is only for the player.
-				// so need to create a seperate Data object for that stuff.
-				//float stratifiedRotation = rotationDelta / ControlledActor.Data.controllerMaxRotationSensitivity;
-				//float adjustedRotationDelta = stratifiedRotation * (ControlledActor.GetActor().state[Actor.State.Aiming];// ? controllerAimRotationSensitivity : ControlledActor.Data.controllerRotationSensitivity);
-				float adjustedRotationValue = actorTransform.rotation.eulerAngles.z > newRotationYAngle ? -rotationDelta : rotationDelta;
+			// just FYI - the controller stuff really should not be an actor thing. That is only for the player.
+			// so need to create a seperate Data object for that stuff.
+			//float stratifiedRotation = rotationDelta / ControlledActor.Data.controllerMaxRotationSensitivity;
+			//float adjustedRotationDelta = stratifiedRotation * (ControlledActor.GetActor().state[Actor.State.Aiming];// ? controllerAimRotationSensitivity : ControlledActor.Data.controllerRotationSensitivity);
+			//float adjustedRotationValue = actorTransform.rotation.eulerAngles.z > newRotationYAngle ? -rotationDelta : rotationDelta;
 
-				Vector3 finalNewEulers = actorTransform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
-				Quaternion finalNewRotation = new Quaternion();
-				finalNewRotation.eulerAngles = finalNewEulers;
-				actorTransform.rotation = finalNewRotation;
+			//Vector3 finalNewEulers = actorTransform.rotation.eulerAngles + new Vector3(0f, 0f, adjustedRotationValue);
+			//Quaternion finalNewRotation = new Quaternion();
+			//finalNewRotation.eulerAngles = finalNewEulers;
+
+			ControlledActor.GetActor().UpdateActorWeaponRotation(FollowMouse3D.CursorTransform.position);//SetActorWeaponRotation(finalNewRotation);
+				//actorTransform.rotation = finalNewRotation;
             //}
 		}
 	}
@@ -239,10 +241,15 @@ public class Player : MonoBehaviour//ActorController
 			{
 				if (!ControlledActor.PauseFurtherAttacks)
 				{
-					StartCoroutine(ControlledActor.FireBurst(ControlledActor.GetActor().GetEquippedWeapon().data.projPerBurst));
+					StartCoroutine(ControlledActor.FireBurst(1));
 				}
 
-				yield return new WaitForSeconds(ControlledActor.Data.timeBetweenBursts);
+				if (!ControlledActor.GetActor().GetEquippedWeapon().data.isAutomatic)
+				{
+					attemptingToFire = false;
+				}
+
+				//yield return new WaitForSeconds(ControlledActor.Data.pauseBetweenBursts);
 			}
 			yield return null;
 		}

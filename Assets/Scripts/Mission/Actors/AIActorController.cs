@@ -30,6 +30,12 @@ public abstract class AIActorController : ActorController, ISetActive
 	private bool targetInOptimalRange;
 	public bool targetInLOS;
 
+	/// <summary>
+	/// Where the camera should follow if this actor is directly player controlled
+	/// </summary>
+	public Transform CameraFollowTransform => cameraFollowTransform;
+	[SerializeField] private Transform cameraFollowTransform;
+
 	public bool fullyInCover;
 	public bool fullyOutOfCover;
 
@@ -233,6 +239,9 @@ public abstract class AIActorController : ActorController, ISetActive
 				break;
             }
 
+			// point weapon at target
+			actor.UpdateActorWeaponRotation(attackTarget.transform.position);
+
 			// if don't have ammo, reload
 			if (actor.GetEquippedWeaponAmmo() <= 0)
 			{
@@ -249,8 +258,6 @@ public abstract class AIActorController : ActorController, ISetActive
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
 			if (attackTarget != null && !isReloading && !isDazed && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
-				actor.UpdateActorRotation(attackTarget.transform.position);
-
 				if (!pauseFurtherAttacks)
 				{
 					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
@@ -259,7 +266,7 @@ public abstract class AIActorController : ActorController, ISetActive
 
 			// shootInterval should be a member var that is set by either data (if an enemy), or by the CompanySoldier info. Maybe tie it to Accuracy
 			// Rating or something like that. "Shooting Skill". Idk. But yeah. Bro. Sometime. Maybe. Ya know?
-			yield return new WaitForSeconds(data.shootInterval);
+			yield return new WaitForSeconds(data.pauseBetweenBursts);
 
 			yield return null;
 		}

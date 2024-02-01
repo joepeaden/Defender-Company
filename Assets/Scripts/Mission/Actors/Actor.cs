@@ -179,30 +179,31 @@ public class Actor : MonoBehaviour
 	{
 		pathfinder.enabled = false;
 	}
+ 
 
-	public Vector2 GetActorFacing()
-	{
-		if (transform.rotation.eulerAngles.z > 315 || transform.rotation.eulerAngles.z < 45)
-		{
-			return Vector2.up;
-		}
-		else if (transform.rotation.eulerAngles.z > 225 && transform.rotation.eulerAngles.z < 315)
-		{
-			return Vector2.left;
-		}
-		else if (transform.rotation.eulerAngles.z > 135 && transform.rotation.eulerAngles.z < 225)
-		{
-			return Vector2.down;
-		}
-		else
-		{
-			return Vector2.right;
-		}
-	}
+	//public Vector2 GetActorFacing()
+	//{
+	//	if (transform.rotation.eulerAngles.z > 315 || transform.rotation.eulerAngles.z < 45)
+	//	{
+	//		return Vector2.up;
+	//	}
+	//	else if (transform.rotation.eulerAngles.z > 225 && transform.rotation.eulerAngles.z < 315)
+	//	{
+	//		return Vector2.left;
+	//	}
+	//	else if (transform.rotation.eulerAngles.z > 135 && transform.rotation.eulerAngles.z < 225)
+	//	{
+	//		return Vector2.down;
+	//	}
+	//	else
+	//	{
+	//		return Vector2.right;
+	//	}
+	//}
 
-	public Vector2 GetActorFacingLeftRight()
+	public Vector2 GetWeaponParentFacingLeftRight()
 	{
-		if (transform.rotation.eulerAngles.z > 180 && transform.rotation.eulerAngles.z < 360)
+		if (weaponParent.rotation.eulerAngles.z > 180 && weaponParent.rotation.eulerAngles.z < 360)
 		{
 			return Vector2.right;
 		}
@@ -345,7 +346,7 @@ public class Actor : MonoBehaviour
 	/// Rotate the actor to look at lookTarget.
 	/// </summary>
 	/// <param name="lookTarget">The target to look at.</param>
-	public void UpdateActorRotation(Vector3 newLookTarget)
+	public void UpdateActorWeaponRotation(Vector3 newLookTarget)
 	{
 		//Vector3 rotation = Quaternion.LookRotation(newLookTarget).eulerAngles;
 		////rotation.y = 0f;
@@ -356,9 +357,16 @@ public class Actor : MonoBehaviour
         lookTarget = newLookTarget;
 		//transform.LookAt(lookTarget);
 
-		transform.up = lookTarget - transform.position;
+		weaponParent.up = lookTarget - weaponParent.position;
 		//transform.Rotate(0, 0, -90);
 	}
+
+	public void SetActorWeaponRotation(Quaternion newRotation)
+    {
+		weaponParent.rotation = newRotation;
+    }
+
+	public Transform weaponParent;
 
 	public bool AttemptSwitchWeapons()
     {
@@ -613,7 +621,7 @@ public class Actor : MonoBehaviour
 			{
 				if (projectile != null)
 				{
-					projectile.OwningActor.TallyKill();
+					projectile.Actor.TallyKill();
 				}
 
 				Die(fromExplosive);

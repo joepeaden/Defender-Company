@@ -1145,9 +1145,14 @@ PrefabInstance:
       addedObject: {fileID: 6480009462034988275}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
-      insertIndex: 2
+      insertIndex: 4
       addedObject: {fileID: 4763572831686594961}
   m_SourcePrefab: {fileID: 100100000, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+--- !u!4 &1156188301388788375 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4537782127071023874, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
+  m_PrefabInstance: {fileID: 3383025682066104725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2955281154053637847 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 572431464358274882, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
@@ -1172,6 +1177,7 @@ MonoBehaviour:
   activateOnStart: 1
   movePosition: {x: 0, y: 0, z: 0}
   targetInLOS: 0
+  cameraFollowTransform: {fileID: 1156188301388788375}
   fullyInCover: 0
   fullyOutOfCover: 0
   bombPrefab: {fileID: 0}

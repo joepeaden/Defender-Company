@@ -17,30 +17,9 @@ public class WeaponInstance : MonoBehaviour
     [SerializeField] private GameObject aimGlow;
     [SerializeField] private LineRenderer line;
     [SerializeField] private float crouchYPos;
-    [SerializeField] WeaponSprite weaponSprite;
-
-    /// <summary>
-    /// Just a debug option.
-    /// </summary>
-    //[SerializeField] private bool infiniteAmmo;
-
-    // the actor who is using this weapon
-    private Actor actor;
-    private Actor _Actor
-    {
-        get
-        {
-            if (actor == null)
-            {
-                actor = transform.GetComponentInParent<Actor>();
-            }
-            return actor;
-        }
-        set
-        {
-            actor = value;
-        }
-    }
+    [SerializeField] private WeaponSprite weaponSprite;
+    [SerializeField] private Actor actor;
+    [SerializeField] private GameObject projectilePrefab;
 
     private float standYPos;
     private Vector3 actorVelocity;
@@ -53,14 +32,16 @@ public class WeaponInstance : MonoBehaviour
     [Header("Debug Options")]
     [SerializeField]
     private bool drawAccuracyAngle;
+    //[SerializeField] private bool infiniteAmmo;
+
 
     private void Start()
     {
         standYPos = transform.position.y;
 
-        _Actor.OnActorBeginAim += BeginAim;
-        _Actor.OnActorEndAim += EndAim;
-        _Actor.EmitVelocityInfo.AddListener(ReceiveActorVelocityData);
+        actor.OnActorBeginAim += BeginAim;
+        actor.OnActorEndAim += EndAim;
+        actor.EmitVelocityInfo.AddListener(ReceiveActorVelocityData);
         //_Actor.OnCrouch.AddListener(HandleCrouch);
         //_Actor.OnStand.AddListener(HandleStand);
     }
@@ -83,7 +64,7 @@ public class WeaponInstance : MonoBehaviour
 
         //if (inventoryWeapon != null && inventoryWeapon.data != null)
         //{
-            Vector2 facing = actor.GetActorFacingLeftRight();
+            Vector2 facing = actor.GetWeaponParentFacingLeftRight();
             if (facing == Vector2.left)
             {
                 weaponSprite.FaceLeft();
@@ -97,9 +78,9 @@ public class WeaponInstance : MonoBehaviour
 
     private void OnDestroy()
     {
-        _Actor.OnActorBeginAim -= BeginAim;
-        _Actor.OnActorEndAim -= EndAim;
-        _Actor.EmitVelocityInfo.RemoveListener(ReceiveActorVelocityData);
+        actor.OnActorBeginAim -= BeginAim;
+        actor.OnActorEndAim -= EndAim;
+        actor.EmitVelocityInfo.RemoveListener(ReceiveActorVelocityData);
         //_Actor.OnCrouch.RemoveListener(HandleCrouch);
         //_Actor.OnStand.RemoveListener(HandleStand);
     }
@@ -149,7 +130,7 @@ public class WeaponInstance : MonoBehaviour
             inventoryWeapon.amountLoaded = ammoInWeapon;
         }
 
-        if (_Actor.IsPlayer)
+        if (actor.IsPlayer)
         {
             // play reload when switch for cools
             PlayAudioClip(weapon.data.reloadSound);
@@ -222,7 +203,7 @@ public class WeaponInstance : MonoBehaviour
             Quaternion projRot = transform.rotation;
             projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y, projRot.eulerAngles.z + rotAdjust);
 
-            Projectile projectile = Instantiate(inventoryWeapon.data.projectile, transform.position, projRot).GetComponent<Projectile>();
+            Projectile projectile = Instantiate(projectilePrefab, transform.position, projRot).GetComponent<Projectile>();
             projectile.Initialize(actor, inventoryWeapon.data, proj);
         }
 
@@ -296,7 +277,7 @@ public class WeaponInstance : MonoBehaviour
     {
         PlayAudioClip(inventoryWeapon.data.reloadSound);
 
-        if (_Actor.IsPlayer)
+        if (actor.IsPlayer)
         {
             MissionUI.Instance.StartReloadBarAnimation(inventoryWeapon.data.reloadTime);
         }
@@ -320,7 +301,7 @@ public class WeaponInstance : MonoBehaviour
         }
             
         // if infinite ammo or it's not the player, don't deplete backup ammo.
-        if (inventoryWeapon.data.hasInfiniteBackupAmmo|| !_Actor.IsPlayer)
+        if (inventoryWeapon.data.hasInfiniteBackupAmmo|| !actor.IsPlayer)
         {
             inventoryWeapon.amount = inventoryWeapon.data.totalAmount;
         }
