@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
 
     public Vector3 movementDirection { private set; get; }
 
-    protected ProjectileData data;
+    protected WeaponData data;
 
     public Actor Actor => actor;
     protected Actor actor;
@@ -38,9 +38,9 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (data.velocity != 0)
+        if (data.projVelocity != 0)
         {
-            GetComponent<Rigidbody2D>().velocity = data.velocity * transform.up;
+            GetComponent<Rigidbody2D>().velocity = data.projVelocity * transform.up;
         }
         else
         {
@@ -64,7 +64,7 @@ public class Projectile : MonoBehaviour
     /// <param name="siblingNumber">If more than one bullet fired, which sibling is this?</param>
     public void Initialize(Actor firingActor, WeaponData weaponData, int siblingNumber)
     {
-        data = weaponData.projectileData;
+        data = weaponData;
         actor = firingActor;
 
         // make sure friendlie(?)'s bullet sounds are never cut off.
@@ -73,8 +73,8 @@ public class Projectile : MonoBehaviour
             audioSource.priority = 0;
         }
 
-        theCollider.size = new Vector2(data.colliderWidth, data.colliderLength);
-        spriteRenderer.sprite = data.sprite;
+        theCollider.size = new Vector2(data.projColWidth, data.projColLength);
+        spriteRenderer.sprite = data.projSprite;
 
         // only play one sound when fired.
         if (siblingNumber < 1 && audioSource != null)
@@ -146,7 +146,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public ProjectileData GetData()
+    public WeaponData GetData()
     {
         return data;
     }

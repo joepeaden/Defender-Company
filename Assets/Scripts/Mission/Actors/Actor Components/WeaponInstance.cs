@@ -254,7 +254,7 @@ public class WeaponInstance : MonoBehaviour
     // refers to the time in between shots
     private IEnumerator PrepareToAttack()
     {
-        yield return new WaitForSeconds(inventoryWeapon.data.attackInterval);
+        yield return new WaitForSeconds(inventoryWeapon.data.rateOfFire);
         readyToAttack = true;
     }
 
@@ -286,26 +286,8 @@ public class WeaponInstance : MonoBehaviour
 
         audioSource.Stop();
 
-        // just some mafths. first IF is if there's not enough ammo for a full mag left, second is otherwise.
-        int amountNeeded = inventoryWeapon.data.ammoCapacity - ammoInWeapon;
-        inventoryWeapon.amount = inventoryWeapon.amount - amountNeeded;
-        if (inventoryWeapon.amount < 0)
-        {
-            inventoryWeapon.amount = 0;
-            ammoInWeapon = inventoryWeapon.data.ammoCapacity + inventoryWeapon.amount;
+        ammoInWeapon = inventoryWeapon.data.ammoCapacity;
         
-        }
-        else
-        {
-            ammoInWeapon = inventoryWeapon.data.ammoCapacity;
-        }
-            
-        // if infinite ammo or it's not the player, don't deplete backup ammo.
-        if (inventoryWeapon.data.hasInfiniteBackupAmmo|| !actor.IsPlayer)
-        {
-            inventoryWeapon.amount = inventoryWeapon.data.totalAmount;
-        }
-
         readyToAttack = true;
         reloading = false;
     }

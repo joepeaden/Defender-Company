@@ -16,24 +16,23 @@ MonoBehaviour:
   displayName: Shotgun
   rewardKey: SHOTGUN
   cost: 250
-  projectile: {fileID: 6425079759990356200, guid: e4591a73cc793440ab848b64bdf0554f, type: 3}
-  recoil: 1
-  attackInterval: 0.5
-  projPerBurst: 1
+  damage: 10
   range: 15
-  optimalRange: 7
+  rateOfFire: 0.1
+  shotPerBurst: 1
   ammoCapacity: 8
-  totalAmount: 32
+  reloadTime: 2
+  isAutomatic: 0
   attackSound: {fileID: 8300000, guid: 8c4eb3b500cc54808b668ab9657e44f0, type: 3}
   emptyWeaponSound: {fileID: 8300000, guid: 9e1008f3ca4054a6188ca33900d3d087, type: 3}
   reloadSound: {fileID: 8300000, guid: cad50383732c54e1ba437bb598a3a08d, type: 3}
-  reloadTime: 1.1
-  isAutomatic: 0
-  isPistol: 0
-  projPerShot: 5
-  muzzlePosition: {x: -0.08, y: 1.303, z: 1.975}
-  spritePrefab: {fileID: 8843171384622211854, guid: 6edbcfe2e467a46149d5510e344d0d32, type: 3}
-  hasInfiniteBackupAmmo: 0
+  leftSprite: {fileID: 21300000, guid: 334d26305743742febfcc7a4eff0962b, type: 3}
+  rightSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
+  projSprite: {fileID: 21300000, guid: ad11218c2753a4345876bfb6b1173940, type: 3}
   accuracyAngle: 30
   movementAccuracyPenalty: 1
   aimingBoon: 3
+  projColLength: 0.13
+  projColWidth: 0.13
+  projVelocity: 30
+  projPerShot: 5

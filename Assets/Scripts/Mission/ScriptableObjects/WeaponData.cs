@@ -3,34 +3,63 @@
 [CreateAssetMenu(fileName = "WeaponData", menuName = "MyScriptables/WeaponData")]
 public class WeaponData : GearData
 {
-	public ProjectileData projectileData;
-	public GameObject projectile;
-	public float recoil;
-	public float attackInterval;
-	public int projPerBurst;
+	[Header("Basic Stats")]
+	/// <summary>
+	/// Damage caused on hitting target
+	/// </summary>
+	public int damage;
+	/// <summary>
+	/// Range where an AI actor can fire the weapon
+	/// </summary>
 	public int range;
-	public int optimalRange;
+	/// <summary>
+	/// Time it takes to prepare another shot
+	/// </summary>
+	public float rateOfFire;
+	/// <summary>
+	/// When an AI actor fires this weapon, how many shots do they fire?
+	/// </summary>
+	public int shotPerBurst;
+	/// <summary>
+	/// How much ammo the weapon can hold in a magazine
+	/// </summary>
 	public int ammoCapacity;
 	/// <summary>
-    /// Refers to total amount of ammo
-    /// </summary>
-	public int totalAmount;
-	public AudioClip attackSound;
-	public AudioClip emptyWeaponSound;
-	public AudioClip reloadSound;
+	/// Time to reload
+	/// </summary>
 	public float reloadTime;
+	/// <summary>
+	/// Is the weapon automatic?
+	/// </summary>
 	public bool isAutomatic;
-	public bool isPistol;
-	public int projPerShot;
-	public Vector3 muzzlePosition;
 
-	[Header("Sprite Info")]
-	public Sprite upSprite;
+	[Header("Audio")]
+	/// <summary>
+    /// Audio when weapon is used to attack
+    /// </summary>
+	public AudioClip attackSound;
+	/// <summary>
+    /// Audio when weapon is out of ammo
+    /// </summary>
+	public AudioClip emptyWeaponSound;
+	/// <summary>
+    /// Reload sound effect
+    /// </summary>
+	public AudioClip reloadSound;
+
+	[Header("Sprites")]
+	/// <summary>
+    /// Left-facing sprite
+    /// </summary>
 	public Sprite leftSprite;
-	public Sprite downSprite;
+	/// <summary>
+	/// Right-facing sprite
+	/// </summary>
 	public Sprite rightSprite;
-
-	public bool hasInfiniteBackupAmmo;
+	/// <summary>
+	/// Sprite for projectile
+	/// </summary>
+	public Sprite projSprite;
 
 	[Header("Accuracy")]
 	/// <summary>
@@ -48,4 +77,22 @@ public class WeaponData : GearData
     /// Higher is more accurate.
 	/// </summary>
 	public float aimingBoon;
+
+	[Header("Projectile")]
+	/// <summary>
+    /// Length of projectile's collider
+    /// </summary>
+	public float projColLength;
+	/// <summary>
+    /// Width of projectile's collider
+    /// </summary>
+	public float projColWidth;
+	/// <summary>
+    /// Velocity of projectile
+    /// </summary>
+	public float projVelocity;
+	/// <summary>
+	/// How many projectiles does this fire each trigger pull (i.e. shotguns)
+	/// </summary>
+	public int projPerShot;
 }

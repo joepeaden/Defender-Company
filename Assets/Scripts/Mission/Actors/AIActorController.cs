@@ -65,11 +65,16 @@ public abstract class AIActorController : ActorController, ISetActive
 	{
 		if (actor.IsAlive && !isPlayerControlled && isActiveAndEnabled && aiState != null)
 		{
-			targetInRange = IsTargetInRange(false);
-            targetInOptimalRange = IsTargetInRange(true);
+			targetInRange = IsTargetInRange();
             targetInLOS = IsTargetInLOS(true);
 
 			aiState = aiState.StateUpdate(this, aiState);
+		}
+
+		if (attackTarget == null && !isPlayerControlled)
+        {
+			// point weapon forward if no target currently
+			actor.SetActorWeaponRotation(transform.rotation);
 		}
 	}
 
@@ -256,11 +261,11 @@ public abstract class AIActorController : ActorController, ISetActive
 			}
 
 			// if we're in optimal range (and have stopped), OR if we're dope enough to move and shoot, open fire (and not crouching!!!!!! This is bad! Should also check if in cover.)
-			if (attackTarget != null && !isReloading && !isDazed && targetInLOS && (targetInOptimalRange || targetInRange && data.canMoveAndShoot))//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
+			if (attackTarget != null && !isReloading && !isDazed && targetInLOS && targetInRange && data.canMoveAndShoot)//&& pod.isAlerted && targetInLOS) //&& !actor.state[Actor.State.Crouching])
 			{
 				if (!pauseFurtherAttacks)
 				{
-					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.projPerBurst));
+					StartCoroutine(FireBurst(actor.GetEquippedWeapon().data.shotPerBurst));
 				}
 			}
 
@@ -287,7 +292,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		isDazed = false;
     }
 
-	private bool IsTargetInRange(bool optimalRange)
+	private bool IsTargetInRange()
     {
 		if (attackTarget == null)
         {
@@ -296,7 +301,7 @@ public abstract class AIActorController : ActorController, ISetActive
 
 		InventoryWeapon weapon = actor.GetEquippedWeapon();
 		float distFromTarget = (attackTarget.transform.position - transform.position).magnitude;
-		return distFromTarget <= (optimalRange ? weapon.data.optimalRange : weapon.data.range);
+		return distFromTarget <= weapon.data.range;
     }
 
     private bool IsTargetInLOS(bool ignoreFloorCover)

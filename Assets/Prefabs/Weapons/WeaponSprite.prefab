@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 891841891578720830}
   - component: {fileID: 1928786980913958956}
-  - component: {fileID: 6897414320073880354}
+  - component: {fileID: 6081794128673774911}
   m_Layer: 13
   m_Name: WeaponSprite
   m_TagString: Untagged
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b68e8c9144e114696bf5220bbc3cc188, type: 3}
+  m_SortingOrder: 40
+  m_Sprite: {fileID: 21300000, guid: 4c0a06ea3e47d461b9afc514e2f9269d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6897414320073880354
+--- !u!114 &6081794128673774911
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,10 +94,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8843171384622211854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d142eb74d1a4ef7b72f1e196357bb0, type: 3}
+  m_Script: {fileID: 11500000, guid: cec5679fc4e12445db73e07d7d366162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upSprite: {fileID: 0}
-  leftSprite: {fileID: 0}
-  downSprite: {fileID: 0}
-  rightSprite: {fileID: 0}

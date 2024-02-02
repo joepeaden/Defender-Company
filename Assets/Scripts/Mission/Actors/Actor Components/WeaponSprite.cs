@@ -17,16 +17,6 @@ public class WeaponSprite : MonoBehaviour
         weaponData = newWeaponData;
     }
 
-    public void FaceFront()
-    {
-        if (weaponData != null && spriteRenderer.sprite != null)
-        {
-            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 180));
-            transform.localRotation = q;
-            spriteRenderer.sprite = weaponData.downSprite;
-        }
-    }
-
     public void FaceLeft()
     {
         if (weaponData != null && spriteRenderer.sprite != null)
@@ -34,16 +24,6 @@ public class WeaponSprite : MonoBehaviour
             Quaternion q = Quaternion.Euler(new Vector3(0, 0, 270));
             transform.localRotation = q;
             spriteRenderer.sprite = weaponData.leftSprite;
-        }
-    }
-
-    public void FaceBack()
-    {
-        if (weaponData != null && spriteRenderer.sprite != null)
-        {
-            Quaternion q = Quaternion.Euler(new Vector3(0, 0, 0));
-            transform.localRotation = q;
-            spriteRenderer.sprite = weaponData.upSprite;
         }
     }
 

@@ -201,7 +201,7 @@ public class Inventory : MonoBehaviour
     public bool AttemptStartReload()
     {
         // non-players for now have no backup ammo limit.
-        if (weaponInstance != null && weaponInstance.inventoryWeapon.amount > 0)
+        if (weaponInstance != null)
         {
             weaponInstance.StartReload();
         }

@@ -1195,7 +1195,7 @@ MonoBehaviour:
   aimGlow: {fileID: 1745033373422121327}
   line: {fileID: 6621039823173931288}
   crouchYPos: 0
-  weaponSprite: {fileID: 2020684925269021063}
+  weaponSprite: {fileID: 9038917989716115197}
   actor: {fileID: 6288928455270119811}
   projectilePrefab: {fileID: 6425079759990356200, guid: b5f2e306111ac4e2aab9f9da950c0040, type: 3}
   drawAccuracyAngle: 0
@@ -1600,48 +1600,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 1928786980913958956, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4c0a06ea3e47d461b9afc514e2f9269d, type: 3}
-    - target: {fileID: 1928786980913958956, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
-      propertyPath: m_SortingOrder
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 1928786980913958956, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8843171384622211854, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
       propertyPath: m_Name
       value: WeaponSprite
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6897414320073880354, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8843171384622211854, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2020684925269021063}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
 --- !u!4 &2699374667585425916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 891841891578720830, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
   m_PrefabInstance: {fileID: 2960676456260346818}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6030089044846493900 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8843171384622211854, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
+--- !u!114 &9038917989716115197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6081794128673774911, guid: a01154db858cd49d1bc72ee59756ef64, type: 3}
   m_PrefabInstance: {fileID: 2960676456260346818}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2020684925269021063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6030089044846493900}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cec5679fc4e12445db73e07d7d366162, type: 3}

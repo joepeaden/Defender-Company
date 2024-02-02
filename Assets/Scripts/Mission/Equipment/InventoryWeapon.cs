@@ -17,9 +17,8 @@ public class InventoryWeapon : InventoryItem
     {
         this.data = data;
 
-        amount = data.totalAmount;
         // start weapon off with full mag
         amountLoaded = data.ammoCapacity;
-        amount -= amountLoaded;
+        //amount -= amountLoaded;
     }
 }

@@ -16,28 +16,23 @@ MonoBehaviour:
   displayName: Pistol
   rewardKey: 
   cost: 150
-  projectileData: {fileID: 11400000, guid: 572936826a44d427d88310769a32d4ff, type: 2}
-  projectile: {fileID: 6425079759990356200, guid: 43926b18fedd444018db4eac5ade679b, type: 3}
-  recoil: 1
-  attackInterval: 0.1
-  projPerBurst: 1
+  damage: 10
   range: 20
-  optimalRange: 15
+  rateOfFire: 0.1
+  shotPerBurst: 1
   ammoCapacity: 10
-  totalAmount: 20
+  reloadTime: 1
+  isAutomatic: 0
   attackSound: {fileID: 8300000, guid: 9a7d54770be339e478fc73a7609c5753, type: 3}
   emptyWeaponSound: {fileID: 8300000, guid: e5127082088ae44b4b8998b0d577358d, type: 3}
   reloadSound: {fileID: 8300000, guid: 393d45abd5a0840ee8f142707a4de56a, type: 3}
-  reloadTime: 1
-  isAutomatic: 0
-  isPistol: 1
-  projPerShot: 1
-  muzzlePosition: {x: 0.0866, y: 1.251, z: 1.2001}
-  upSprite: {fileID: 21300000, guid: d8bf21749c9ff4dc196d0cf97e205410, type: 3}
   leftSprite: {fileID: 21300000, guid: d8bf21749c9ff4dc196d0cf97e205410, type: 3}
-  downSprite: {fileID: 21300000, guid: 44cefa911afaa40268dc44048345fb9f, type: 3}
   rightSprite: {fileID: 21300000, guid: 44cefa911afaa40268dc44048345fb9f, type: 3}
-  hasInfiniteBackupAmmo: 1
+  projSprite: {fileID: 21300000, guid: 6601b14f8417e43f4ac51ff05554e70c, type: 3}
   accuracyAngle: 8
   movementAccuracyPenalty: 10
   aimingBoon: 2
+  projColLength: 0.25
+  projColWidth: 0.25
+  projVelocity: 12
+  projPerShot: 1

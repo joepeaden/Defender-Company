@@ -15,9 +15,11 @@ MonoBehaviour:
   missionTitle: Deployment Beta
   missionDifficulty: Medium
   completionReward: 2500
-  enemyCount: 10
+  enemyCount: 30
   perTurnAttackChance: 1
   numberOfTurns: 1
   victoryCondition: 0
   includedEnemyTypes:
   - {fileID: 11400000, guid: 7fe59f827d7584676bacf8564f9a15e1, type: 2}
+  - {fileID: 11400000, guid: bd1446c01f3ba446fadcb0a9a49d0c77, type: 2}
+  - {fileID: 11400000, guid: 3c62f3ae3d8f4455194330ee2bae97c8, type: 2}

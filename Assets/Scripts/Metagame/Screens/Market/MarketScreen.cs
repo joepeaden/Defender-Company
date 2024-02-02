@@ -106,7 +106,7 @@ public class MarketScreen : MonoBehaviour
         // removed temporarily until figure out graphics and balance for them
         //marketItems.Add(dataStore.subMachineGun);
         //marketItems.Add(dataStore.semiAutoRifle);
-        //marketItems.Add(dataStore.shotgun);
+        marketItems.Add(dataStore.shotgun);
         //marketItems.Add(dataStore.psaSabre);
         return marketItems;
     }

@@ -13,31 +13,26 @@ MonoBehaviour:
   m_Name: AlienRifle
   m_EditorClassIdentifier: 
   gearType: 2
-  displayName: 
-  rewardKey: 
-  cost: 0
-  projectileData: {fileID: 11400000, guid: cea53a00f591947c4b4d4c037386228c, type: 2}
-  projectile: {fileID: 0}
-  recoil: 0
-  attackInterval: 1
-  projPerBurst: 1
-  range: 0
-  optimalRange: 0
-  ammoCapacity: 0
-  totalAmount: 0
-  attackSound: {fileID: 0}
-  emptyWeaponSound: {fileID: 0}
-  reloadSound: {fileID: 0}
-  reloadTime: 0
-  isAutomatic: 0
-  isPistol: 0
-  projPerShot: 0
-  muzzlePosition: {x: 0, y: 0, z: 0}
-  upSprite: {fileID: 0}
-  leftSprite: {fileID: 0}
-  downSprite: {fileID: 0}
-  rightSprite: {fileID: 0}
-  hasInfiniteBackupAmmo: 0
-  accuracyAngle: 0
-  movementAccuracyPenalty: 0
-  aimingBoon: 0
+  displayName: Assault Rifle
+  rewardKey: RIFLE
+  cost: 250
+  damage: 15
+  range: 35
+  rateOfFire: 0.1
+  shotPerBurst: 1
+  ammoCapacity: 30
+  reloadTime: 2
+  isAutomatic: 1
+  attackSound: {fileID: 8300000, guid: 35cc1f58fa1809547859e43a9bcea968, type: 3}
+  emptyWeaponSound: {fileID: 8300000, guid: 8e47353dd30fd4b87b726b819632eab8, type: 3}
+  reloadSound: {fileID: 8300000, guid: cad50383732c54e1ba437bb598a3a08d, type: 3}
+  leftSprite: {fileID: 21300000, guid: c002d057adde64f3c9202841ea060e45, type: 3}
+  rightSprite: {fileID: 21300000, guid: 38ffd622703ba47c0bb76dbd2346682c, type: 3}
+  projSprite: {fileID: 21300000, guid: 6601b14f8417e43f4ac51ff05554e70c, type: 3}
+  accuracyAngle: 20
+  movementAccuracyPenalty: 3
+  aimingBoon: 5
+  projColLength: 0.13
+  projColWidth: 0.13
+  projVelocity: 17
+  projPerShot: 1
