@@ -27,7 +27,7 @@ public class Player : MonoBehaviour//ActorController
         PlayerInput.OnUseEquipment.AddListener(HandleUseEquipmentInput);
         PlayerInput.OnInteract.AddListener(HandleInteractInput);
 
-		MissionManager.OnAttackStart.AddListener(EnableCommandControls);
+		MissionManager.OnLeaveBuildMode.AddListener(EnableCommandControls);
 	}
 
 	private void Start()
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour//ActorController
 		PlayerInput.OnReload.RemoveListener(HandleReloadInput);
 		PlayerInput.OnUseEquipment.RemoveListener(HandleUseEquipmentInput);
 		PlayerInput.OnInteract.RemoveListener(HandleInteractInput);
-		MissionManager.OnAttackStart.RemoveListener(EnableCommandControls);
+		MissionManager.OnLeaveBuildMode.RemoveListener(EnableCommandControls);
 	}
 
 	#endregion

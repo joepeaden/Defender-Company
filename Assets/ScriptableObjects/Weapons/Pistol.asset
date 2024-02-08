@@ -18,8 +18,9 @@ MonoBehaviour:
   cost: 150
   damage: 10
   range: 20
+  projectileLifetime: 0
   rateOfFire: 0.1
-  shotPerBurst: 0
+  shotPerBurst: 1
   ammoCapacity: 10
   reloadTime: 1
   isAutomatic: 0

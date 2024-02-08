@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BasicEnemyController
   m_EditorClassIdentifier: 
   behaviourType: 0
-  canMoveAndShoot: 0
+  canMoveAndShoot: 1
   canAim: 0
-  startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
+  startWeapon: {fileID: 11400000, guid: aba532139c3f64fe5b488dac23b6a73f, type: 2}
   accuracyRating: 0
   pauseBetweenBursts: 1
   moveSpeed: 2

@@ -16,6 +16,7 @@ public class MissionManager : MonoBehaviour
     /// Raised when attack happens in between turns
     /// </summary>
     public static UnityEvent OnAttackStart = new UnityEvent();
+    public static UnityEvent OnLeaveBuildMode = new UnityEvent();
     /// <summary>
     /// Raised when attack ends
     /// </summary>
@@ -25,7 +26,7 @@ public class MissionManager : MonoBehaviour
     /// </summary>
     public static UnityEvent OnNewTurn = new UnityEvent();
 
-    public static MissionData CurrentMisison => currentMission;
+    public static MissionData CurrentMission => currentMission;
     private static MissionData currentMission;
     public static int EnemiesAlive => enemiesAlive;
     private static int enemiesAlive;
@@ -45,14 +46,23 @@ public class MissionManager : MonoBehaviour
     // list of friendlies that are disabled until they are activated and initialized with CompanySoldier info. Basically for spawning allies in.
     [SerializeField] private List<FriendlyActorController> friendlyActorBodies = new List<FriendlyActorController>();
     // already initialized friendlies that are in the mission.
+    [HideInInspector]
     public List<FriendlyActorController> friendlyActors = new List<FriendlyActorController>();
 
     private AudioSource genericSoundPlayer;
     [SerializeField] private AudioClip sirenSound;
 
     private bool hasBeenAnAttackThisDeployment;
+    [HideInInspector]
     public int TurnNumber => turnNumber;
     private int turnNumber = 1;
+
+    [Header("Testing Stuff")]
+    [SerializeField] private bool testMode = false;
+    [SerializeField] private ControllerData basicEnemy;
+    [SerializeField] private ControllerData sapperEnemy;
+    [SerializeField] private ControllerData warriorEnemy;
+
 
     private void Awake()
     {
@@ -71,16 +81,63 @@ public class MissionManager : MonoBehaviour
 
         EnemyActorController.OnEnemySpawned.AddListener(HandleEnemySpawned);
         AIActorController.OnActorKilled.AddListener(HandleActorKilled);
-    }
 
-    private void Start()
-    {
         // initially, all bodies are not active. in case I leave some enabled in the mission scene.
         foreach (FriendlyActorController body in friendlyActorBodies)
         {
             body.transform.parent.gameObject.SetActive(false);
         }
 
+        if (!testMode)
+        {
+            DeployFriendlies();
+            StartCoroutine(InitializeMissionWhenGameManagerReady());
+        }
+        else
+        {
+            currentMission = new MissionData();
+            currentMission.completionReward = 100000;
+            currentMission.enemyCount = 1;
+            currentMission.numberOfTurns = 100;
+            currentMission.perTurnAttackChance = 1f;
+            currentMission.victoryCondition = MissionData.VictoryCondition.EliminateAllEnemies;
+
+            currentMission.includedEnemyTypes = new List<ControllerData>
+            {
+                basicEnemy,
+                warriorEnemy,
+                sapperEnemy
+            };
+        }
+    }
+
+    //private void Start()
+    //{
+        
+    //}
+        
+        // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
+        //else
+        //{
+        //    GameObject[] friendlyBodies = GameObject.FindGameObjectsWithTag("FriendlyActorBody");
+        //    for (int i = 0; i <  friendlyBodies.Length; i++)
+        //    {
+        //        friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
+        //    }
+        //}
+
+       
+    //}
+
+    private void OnDestroy()
+    {
+        //player.RemoveDeathListener(HandlePlayerDeath);
+        EnemyActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
+        AIActorController.OnActorKilled.RemoveListener(HandleActorKilled);
+    }
+
+    private void DeployFriendlies()
+    {
         if (GameManager.Instance.Company != null)
         {
             List<CompanySoldier> soldiers = GameManager.Instance.Company.GetDeployedSoldiersAsList();
@@ -92,31 +149,91 @@ public class MissionManager : MonoBehaviour
                 friendlyActors.Add(actorController);
             }
         }
-        // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
-        else
-        {
-            GameObject[] friendlyBodies = GameObject.FindGameObjectsWithTag("FriendlyActorBody");
-            for (int i = 0; i <  friendlyBodies.Length; i++)
-            {
-                friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
-            }
-        }
-
-        StartCoroutine(InitializeMissionWhenGameManagerReady());
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// Set on button in the TestMission in inspector!
+    /// </summary>
+    public void SpawnFriendlyPistolSoldier()
     {
-        //player.RemoveDeathListener(HandlePlayerDeath);
-        EnemyActorController.OnEnemySpawned.RemoveListener(HandleEnemySpawned);
-        AIActorController.OnActorKilled.RemoveListener(HandleActorKilled);
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        soldier.CurrentWeapon = GameManager.Instance.GetDataStore().pistol;
+        GameManager.Instance.Company.AddRecruit(soldier);
+
+        for (int i = 0; i < friendlyActorBodies.Count; i++)
+        {
+            if (!friendlyActorBodies[i].isActiveAndEnabled)
+            {
+                FriendlyActorController actorController = friendlyActorBodies[i];
+                actorController.SetSoldier(soldier);
+                friendlyActors.Add(actorController);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set on button in the TestMission in inspector!
+    /// </summary>
+    public void SpawnFriendlyShotgunSoldier()
+    {
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        soldier.CurrentWeapon = GameManager.Instance.GetDataStore().shotgun;
+        GameManager.Instance.Company.AddRecruit(soldier);
+
+        for (int i = 0; i < friendlyActorBodies.Count; i++)
+        {
+            if (!friendlyActorBodies[i].isActiveAndEnabled)
+            {
+                FriendlyActorController actorController = friendlyActorBodies[i];
+                actorController.SetSoldier(soldier);
+                friendlyActors.Add(actorController);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set on button in the TestMission in inspector!
+    /// </summary>
+    public void SpawnFriendlyAssaultRifleSoldier()
+    {
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        soldier.CurrentWeapon = GameManager.Instance.GetDataStore().assaultRifle;
+        GameManager.Instance.Company.AddRecruit(soldier);
+
+        for (int i = 0; i < friendlyActorBodies.Count; i++)
+        {
+            if (!friendlyActorBodies[i].isActiveAndEnabled)
+            {
+                FriendlyActorController actorController = friendlyActorBodies[i];
+                actorController.SetSoldier(soldier);
+                friendlyActors.Add(actorController);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set on button in the TestMission in inspector!
+    /// </summary>
+    public void ToggleBuildMode()
+    {
+        if (BuildingManager.Instance.InBuildMode)
+        {
+            OnLeaveBuildMode.Invoke();
+        }
+        else
+        {
+            OnAttackEnd.Invoke();
+            OnNewTurn.Invoke();
+        }
     }
 
     private IEnumerator InitializeMissionWhenGameManagerReady()
     {
         yield return new WaitUntil(GameManager.Instance.IsInitialized);
         currentMission = GameManager.Instance.CurrentMission;
-
         OnNewTurn.Invoke();
     }
 
@@ -131,6 +248,7 @@ public class MissionManager : MonoBehaviour
         {
             // Incoming!
             OnAttackStart.Invoke();
+            OnLeaveBuildMode.Invoke();
 
             PlaySound(sirenSound, .5f);
 

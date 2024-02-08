@@ -88,7 +88,7 @@ public class MissionUI : MonoBehaviour
         stairsBuildingButtonText = stairsBuildingButton.transform.GetComponentInChildren<TMP_Text>();
         barricadesBuildingButtonText = barricadesBuildingButton.transform.GetComponentInChildren<TMP_Text>();
 
-        MissionManager.OnAttackStart.AddListener(HandleAttackStart);
+        MissionManager.OnLeaveBuildMode.AddListener(HandleLeaveBuildMode);
         MissionManager.OnAttackEnd.AddListener(HandleAttackEnd);
         MissionManager.OnNewTurn.AddListener(UpdateWeekText);
     }
@@ -140,12 +140,12 @@ public class MissionUI : MonoBehaviour
         PlayerInput.OnSelect.RemoveListener(HandleSelectInput);
         PlayerInput.OnNavigate.RemoveListener(HandleNavigation);
         ShopItemButton.OnNewHoveredButton.RemoveListener(UpdateHoveredButton);
-        MissionManager.OnAttackStart.RemoveListener(HandleAttackStart);
+        MissionManager.OnLeaveBuildMode.RemoveListener(HandleLeaveBuildMode);
         MissionManager.OnAttackEnd.RemoveListener(HandleAttackEnd);
         MissionManager.OnNewTurn.RemoveListener(UpdateWeekText);
     }
 
-    private void HandleAttackStart()
+    private void HandleLeaveBuildMode()
     {
         announcementText.ShowAnnouncementText("INCOMING!", "");
         ShowBattleUI();
@@ -158,9 +158,9 @@ public class MissionUI : MonoBehaviour
 
     private void UpdateWeekText()
     {
-        announcementText.ShowAnnouncementText(GameManager.Instance.CurrentMission.missionTitle, $"Week {MissionManager.Instance.TurnNumber}");
+        announcementText.ShowAnnouncementText(MissionManager.CurrentMission.missionTitle, $"Week {MissionManager.Instance.TurnNumber}");
 
-        weekText.text = $"Week {MissionManager.Instance.TurnNumber} of {GameManager.Instance.CurrentMission.numberOfTurns}";
+        weekText.text = $"Week {MissionManager.Instance.TurnNumber} of {MissionManager.CurrentMission.numberOfTurns}";
     }
 
     private void OnDragStartRegistered()

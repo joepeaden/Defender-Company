@@ -27,7 +27,6 @@ public abstract class AIActorController : ActorController, ISetActive
 	public Vector3 MovePosition => movePosition;
 	public Vector3 movePosition;
 	private bool targetInRange;
-	private bool targetInOptimalRange;
 	public bool targetInLOS;
 
 	/// <summary>
@@ -36,16 +35,15 @@ public abstract class AIActorController : ActorController, ISetActive
 	public Transform CameraFollowTransform => cameraFollowTransform;
 	[SerializeField] private Transform cameraFollowTransform;
 
-	public bool fullyInCover;
-	public bool fullyOutOfCover;
-
 	protected AIState aiState;
-	private float timeSinceLastDecision;
 
 	protected bool nameIsSet;
 	private static int nameIndex;
 
 	private bool isPlayerControlled;
+
+	[HideInInspector]
+	public bool IsDummy;
 
 	protected void Start()
 	{
@@ -59,22 +57,30 @@ public abstract class AIActorController : ActorController, ISetActive
 			gameObject.name = $"Actor {nameIndex} ({actor.team})";
 			nameIndex++;
         }
+
+		if (IsDummy)
+        {
+			aiState = new AIHoldingPositionCombatState();
+        }
 	}
 
 	protected void Update()
 	{
-		if (actor.IsAlive && !isPlayerControlled && isActiveAndEnabled && aiState != null)
+		if (!IsDummy)
 		{
-			targetInRange = IsTargetInRange();
-            targetInLOS = IsTargetInLOS(true);
+			if (actor.IsAlive && !isPlayerControlled && isActiveAndEnabled && aiState != null)
+			{
+				targetInRange = IsTargetInRange();
+				targetInLOS = IsTargetInLOS(true);
 
-			aiState = aiState.StateUpdate(this, aiState);
-		}
+				aiState = aiState.StateUpdate(this, aiState);
+			}
 
-		if (attackTarget == null && !isPlayerControlled)
-        {
-			// point weapon forward if no target currently
-			actor.SetActorWeaponRotation(transform.rotation);
+			if (attackTarget == null && !isPlayerControlled)
+			{
+				// point weapon forward if no target currently
+				actor.SetActorWeaponRotation(transform.rotation);
+			}
 		}
 	}
 
@@ -232,7 +238,7 @@ public abstract class AIActorController : ActorController, ISetActive
 		
 		while (actor.IsAlive)
 		{
-			if (isPlayerControlled)
+			if (IsDummy || isPlayerControlled)
 			{
 				yield return null;
 				continue;

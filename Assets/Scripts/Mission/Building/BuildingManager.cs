@@ -28,6 +28,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private int maxTimeUnits;
     private int timeUnitsRemaining;
     public int buildingTUCost;
+    public bool InBuildMode => canEditBuildings;
     private bool canEditBuildings;
     private float buildingYRotation;
 
@@ -38,9 +39,9 @@ public class BuildingManager : MonoBehaviour
 
     private void Start()
     {
-        MissionManager.OnAttackStart.AddListener(HandleAttackStart);
-        MissionManager.OnNewTurn.AddListener(HandleNewTurn);
-        HandleNewTurn();
+        MissionManager.OnLeaveBuildMode.AddListener(DisableBuildMode);
+        MissionManager.OnNewTurn.AddListener(EnableBuildMode);
+        EnableBuildMode();
     }
 
     private void Update()
@@ -115,19 +116,19 @@ public class BuildingManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        MissionManager.OnAttackStart.RemoveListener(HandleAttackStart);
-        MissionManager.OnNewTurn.RemoveListener(HandleNewTurn);
+        MissionManager.OnLeaveBuildMode.RemoveListener(DisableBuildMode);
+        MissionManager.OnNewTurn.RemoveListener(EnableBuildMode);
         OnBuildingModified.RemoveAllListeners();
     }
 
-    private void HandleNewTurn()
+    public void EnableBuildMode()
     {
         canEditBuildings = true;
         timeUnitsRemaining = maxTimeUnits;
         MissionUI.Instance.UpdateRemainingTU(timeUnitsRemaining);
     }
 
-    private void HandleAttackStart()
+    public void DisableBuildMode()
     {
         DisablePlacementMode();
         canEditBuildings = false;

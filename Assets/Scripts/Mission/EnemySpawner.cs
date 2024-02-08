@@ -29,7 +29,17 @@ public class EnemySpawner : MonoBehaviour
 
         // for reloading the scene
         spawnableEnemyTypes.Clear();
+    }
 
+    private void Start()
+    {
+        if (spawnableEnemyTypes.Count == 0)
+        {
+            foreach (ControllerData enemyPrefab in MissionManager.CurrentMission.includedEnemyTypes)
+            {
+                spawnableEnemyTypes.Add(enemyPrefab);
+            }
+        }
     }
 
     private void OnDestroy()
@@ -49,16 +59,21 @@ public class EnemySpawner : MonoBehaviour
     private void StartSpawningCoroutine()
     {
         totalEnemiesSpawned = 0;
-        if (spawnableEnemyTypes.Count == 0)
-        {
-            foreach (ControllerData enemyPrefab in GameManager.Instance.CurrentMission.includedEnemyTypes)
-            {
-                spawnableEnemyTypes.Add(enemyPrefab);
-            }
-        }
 
         shouldSpawn = true;
         StartCoroutine(SpawnEnemies());
+    }
+
+
+    public void SpawnEnemy(bool isDummy)
+    {
+        int randomEnemyIndex = Random.Range(0, spawnableEnemyTypes.Count);
+
+        GameObject newEnemy = Instantiate(actorPrefab, transform.position, Quaternion.identity, enemiesParent);
+        newEnemy.GetComponentInChildren<Actor>().GetComponentInChildren<ActorController>().SetControllerData(spawnableEnemyTypes[randomEnemyIndex]);
+
+        newEnemy.GetComponentInChildren<Actor>().GetComponentInChildren<AIActorController>().IsDummy = isDummy;
+        newEnemy.name = isDummy ? "DummyEnemyTest" + ++totalEnemiesSpawned : "EnemyTest" + ++totalEnemiesSpawned;
     }
 
     private IEnumerator SpawnEnemies() 
@@ -71,7 +86,7 @@ public class EnemySpawner : MonoBehaviour
             int randomEnemyIndex = Random.Range(0, spawnableEnemyTypes.Count);
 
             // here because it's after the waitforseconds, so should be no accidental spawns after over the limit
-            if (totalEnemiesSpawned >= MissionManager.CurrentMisison.enemyCount)
+            if (totalEnemiesSpawned >= MissionManager.CurrentMission.enemyCount)
             {
                 shouldSpawn = false;
                 break;
@@ -99,7 +114,7 @@ public class EnemySpawner : MonoBehaviour
                 newEnemy.GetComponentInChildren<Actor>().GetComponentInChildren<ActorController>().SetControllerData(spawnableEnemyTypes[randomEnemyIndex]);
                 newEnemy.name = "Enemy " + ++totalEnemiesSpawned; 
 
-                if (totalEnemiesSpawned >= MissionManager.CurrentMisison.enemyCount)
+                if (totalEnemiesSpawned >= MissionManager.CurrentMission.enemyCount)
                 {
                     shouldSpawn = false;
                 }

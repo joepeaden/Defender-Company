@@ -14,16 +14,16 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (_instance == null)
-            {
-                // the idea here is just to allow loading the mission scene standalone
-                // make a temporary game manager
-                GameObject tempGameManager = Instantiate(new GameObject());
-                tempGameManager.name = "Temporary Game Manager";
-                _instance = tempGameManager.AddComponent<GameManager>();
-                // just assign an example mission
-                Addressables.LoadAssetAsync<MissionData>("MedMission").Completed += _instance.OnLoadMissionDone;
-            }
+            //if (_instance == null)
+            //{
+            //    // the idea here is just to allow loading the mission scene standalone
+            //    // make a temporary game manager
+            //    GameObject tempGameManager = Instantiate(new GameObject());
+            //    tempGameManager.name = "Temporary Game Manager";
+            //    _instance = tempGameManager.AddComponent<GameManager>();
+            //    // just assign an example mission
+            //    Addressables.LoadAssetAsync<MissionData>("MedMission").Completed += _instance.OnLoadMissionDone;
+            //}
             return _instance;
         }
     }
