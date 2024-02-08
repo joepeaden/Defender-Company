@@ -49,33 +49,33 @@ public class HitBox : MonoBehaviour
         return actor;
     }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
-        {
-            if (other.gameObject.GetComponent<CoverZone>() != null)
-            {
-                actor.isBehindSandbags = true;
-            }
-            if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
-            {
-                actor.isOnWall = true;
-            }
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D other)
+    //{
+    //    if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
+    //    {
+    //        if (other.gameObject.GetComponent<CoverZone>() != null)
+    //        {
+    //            actor.isBehindSandbags = true;
+    //        }
+    //        if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
+    //        {
+    //            actor.isOnWall = true;
+    //        }
+    //    }
+    //}
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
-        {
-            if (other.gameObject.GetComponent<CoverZone>() != null)
-            {
-                actor.isBehindSandbags = false;
-            }
-            if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
-            {
-                actor.isOnWall = false;
-            }
-        }
-    }
+    //private void OnTriggerExit2D(Collider2D other)
+    //{
+    //    if (other.gameObject.GetComponent<Building>() && !other.gameObject.GetComponent<Building>().isBeingPlaced)
+    //    {
+    //        if (other.gameObject.GetComponent<CoverZone>() != null)
+    //        {
+    //            actor.isBehindSandbags = false;
+    //        }
+    //        if (other.gameObject.GetComponent<Building>().buildingType == Building.BuildingType.Wall)
+    //        {
+    //            actor.isOnWall = false;
+    //        }
+    //    }
+    //}
 }

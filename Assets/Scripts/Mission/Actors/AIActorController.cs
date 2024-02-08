@@ -45,6 +45,8 @@ public abstract class AIActorController : ActorController, ISetActive
 	[HideInInspector]
 	public bool IsDummy;
 
+	private List<Actor> possibleTargets = new List<Actor>();
+
 	protected void Start()
 	{
 		if (activateOnStart)
@@ -150,6 +152,25 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
+	public void AddPossibleTarget(Actor targetActor)
+    {
+		if (AttackTarget == null)
+        {
+			SetAttackTarget(targetActor.gameObject);
+		}
+
+		possibleTargets.Add(targetActor);
+	}
+
+	public void RemovePossibleTarget(Actor targetActor)
+    {
+		possibleTargets.Remove(targetActor);
+		if (attackTarget == targetActor)
+        {
+			attackTarget = null;
+        }
+    }
+
     /// <summary>
     /// Hide model, and stop looking for players or doing anything else.
     /// </summary>
@@ -228,8 +249,29 @@ public abstract class AIActorController : ActorController, ISetActive
 	public void ClearAttackTarget()
     {
 		StopCoroutine(AttackRoutine());
+		possibleTargets.Remove(attackTarget.GetComponent<Actor>());
 		attackTarget = null;
-		//actor.target = null;
+    }
+
+	/// <summary>
+    /// Pick new target from list of targets available (detcted by TargetDetectionTrigger)
+    /// </summary>
+    /// <returns>True if found a target, false if none</returns>
+	private bool PickNewAttackTarget()
+    {
+		for (int i = 0; i < possibleTargets.Count; i++)
+        {
+			if (!possibleTargets[i].IsAlive)
+            {
+				possibleTargets.Remove(possibleTargets[i]);
+				continue;
+            }
+
+			SetAttackTarget(possibleTargets[i].gameObject);
+			return true;
+		}
+
+		return false;
     }
 
 	private IEnumerator AttackRoutine()
@@ -247,7 +289,12 @@ public abstract class AIActorController : ActorController, ISetActive
 			if (!attackTarget.GetComponent<Actor>().IsAlive)
             {
 				ClearAttackTarget();
-				break;
+
+				bool newTargetFound = PickNewAttackTarget();
+				if (!newTargetFound)
+                {
+					break;
+				}
             }
 
 			// point weapon at target

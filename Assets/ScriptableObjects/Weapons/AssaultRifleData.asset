@@ -16,8 +16,9 @@ MonoBehaviour:
   displayName: Assault Rifle
   rewardKey: RIFLE
   cost: 250
-  damage: 50
+  damage: 20
   range: 35
+  projectileLifetime: 0
   rateOfFire: 0.1
   shotPerBurst: 1
   ammoCapacity: 30
@@ -26,12 +27,12 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: daf2a7aa4b10def4f92c1ca44ab3552d, type: 3}
   emptyWeaponSound: {fileID: 8300000, guid: 8e47353dd30fd4b87b726b819632eab8, type: 3}
   reloadSound: {fileID: 8300000, guid: cad50383732c54e1ba437bb598a3a08d, type: 3}
-  leftSprite: {fileID: 21300000, guid: 334d26305743742febfcc7a4eff0962b, type: 3}
-  rightSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
+  leftSprite: {fileID: 21300000, guid: 0cb836aa99440410c96c7ce4f9b9a881, type: 3}
+  rightSprite: {fileID: 21300000, guid: 8d078b8a18dd842f7ae42d8d4a2005e8, type: 3}
   projSprite: {fileID: 21300000, guid: ad11218c2753a4345876bfb6b1173940, type: 3}
-  accuracyAngle: 20
+  accuracyAngle: 15
   movementAccuracyPenalty: 3
-  aimingBoon: 5
+  aimingBoon: 10
   projColLength: 0.13
   projColWidth: 0.13
   projVelocity: 32

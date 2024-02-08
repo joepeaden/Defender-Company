@@ -31,17 +31,6 @@ public class EnemySpawner : MonoBehaviour
         spawnableEnemyTypes.Clear();
     }
 
-    private void Start()
-    {
-        if (spawnableEnemyTypes.Count == 0)
-        {
-            foreach (ControllerData enemyPrefab in MissionManager.CurrentMission.includedEnemyTypes)
-            {
-                spawnableEnemyTypes.Add(enemyPrefab);
-            }
-        }
-    }
-
     private void OnDestroy()
     {
         MissionManager.OnMissionEnd.RemoveListener(Reset);
@@ -60,6 +49,14 @@ public class EnemySpawner : MonoBehaviour
     {
         totalEnemiesSpawned = 0;
 
+        if (spawnableEnemyTypes.Count == 0)
+        {
+            foreach (ControllerData enemyPrefab in MissionManager.CurrentMission.includedEnemyTypes)
+            {
+                spawnableEnemyTypes.Add(enemyPrefab);
+            }
+        }
+
         shouldSpawn = true;
         StartCoroutine(SpawnEnemies());
     }
@@ -67,6 +64,14 @@ public class EnemySpawner : MonoBehaviour
 
     public void SpawnEnemy(bool isDummy)
     {
+        if (spawnableEnemyTypes.Count == 0)
+        {
+            foreach (ControllerData enemyPrefab in MissionManager.CurrentMission.includedEnemyTypes)
+            {
+                spawnableEnemyTypes.Add(enemyPrefab);
+            }
+        }
+
         int randomEnemyIndex = Random.Range(0, spawnableEnemyTypes.Count);
 
         GameObject newEnemy = Instantiate(actorPrefab, transform.position, Quaternion.identity, enemiesParent);

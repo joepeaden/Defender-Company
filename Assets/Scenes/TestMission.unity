@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add Soldier
+  m_text: Add Pistol Soldier
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
   m_sharedMaterial: {fileID: -1644954341006048005, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
@@ -208,8 +208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 22.3
+  m_fontSizeBase: 22.3
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add Soldier
+  m_text: Add Shotgun Soldier
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
   m_sharedMaterial: {fileID: -1644954341006048005, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
@@ -343,8 +343,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18.78
+  m_fontSizeBase: 18.78
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1772,6 +1772,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bd1446c01f3ba446fadcb0a9a49d0c77, type: 2}
     - target: {fileID: 3126523878502941923, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
+      propertyPath: testMission
+      value: 
+      objectReference: {fileID: 11400000, guid: fec8cc544b6704c2db23c1a2a9c11d68, type: 2}
+    - target: {fileID: 3126523878502941923, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: warriorEnemy
       value: 
       objectReference: {fileID: 11400000, guid: 3c62f3ae3d8f4455194330ee2bae97c8, type: 2}
@@ -1901,7 +1905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add Soldier
+  m_text: Add Rifle Soldier
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}
   m_sharedMaterial: {fileID: -1644954341006048005, guid: fa85977a25b8d4d46801ab858c31ea6e, type: 2}

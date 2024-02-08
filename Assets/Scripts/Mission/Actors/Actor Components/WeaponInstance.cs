@@ -193,18 +193,20 @@ public class WeaponInstance : MonoBehaviour
         ammoInWeapon--;
 
         readyToAttack = false;
+        float accuracyAngle = GetAccuracy();
+        float angle = inventoryWeapon.data.projPerShot == 1 ? Random.Range(-accuracyAngle / 2, accuracyAngle / 2) : -accuracyAngle/2;
 
         for (int proj = 0; proj < inventoryWeapon.data.projPerShot; proj++)
         {
-            float accuracyAngle = GetAccuracy();
-
             // make the bullet less accurate
-            float rotAdjust = Random.Range(-accuracyAngle / 2, accuracyAngle / 2);
+            //float rotAdjust = Random.Range(-accuracyAngle / 2, accuracyAngle / 2);
             Quaternion projRot = transform.rotation;
-            projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y, projRot.eulerAngles.z + rotAdjust);
+            projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y, projRot.eulerAngles.z + angle);
 
             Projectile projectile = Instantiate(projectilePrefab, transform.position, projRot).GetComponent<Projectile>();
             projectile.Initialize(actor, inventoryWeapon.data, proj);
+
+            angle += accuracyAngle / inventoryWeapon.data.projPerShot;
         }
 
         StopCoroutine(Flash());

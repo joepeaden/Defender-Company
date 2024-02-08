@@ -59,6 +59,7 @@ public class MissionManager : MonoBehaviour
 
     [Header("Testing Stuff")]
     [SerializeField] private bool testMode = false;
+    [SerializeField] private MissionData testMission;
     [SerializeField] private ControllerData basicEnemy;
     [SerializeField] private ControllerData sapperEnemy;
     [SerializeField] private ControllerData warriorEnemy;
@@ -95,19 +96,7 @@ public class MissionManager : MonoBehaviour
         }
         else
         {
-            currentMission = new MissionData();
-            currentMission.completionReward = 100000;
-            currentMission.enemyCount = 1;
-            currentMission.numberOfTurns = 100;
-            currentMission.perTurnAttackChance = 1f;
-            currentMission.victoryCondition = MissionData.VictoryCondition.EliminateAllEnemies;
-
-            currentMission.includedEnemyTypes = new List<ControllerData>
-            {
-                basicEnemy,
-                warriorEnemy,
-                sapperEnemy
-            };
+            currentMission = testMission;
         }
     }
 

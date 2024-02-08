@@ -16,24 +16,24 @@ MonoBehaviour:
   displayName: Shotgun
   rewardKey: SHOTGUN
   cost: 250
-  damage: 10
+  damage: 20
   range: 15
   projectileLifetime: 0
-  rateOfFire: 0.5
+  rateOfFire: 0.7
   shotPerBurst: 1
   ammoCapacity: 8
-  reloadTime: 2
+  reloadTime: 2.5
   isAutomatic: 0
   attackSound: {fileID: 8300000, guid: 8c4eb3b500cc54808b668ab9657e44f0, type: 3}
   emptyWeaponSound: {fileID: 8300000, guid: 9e1008f3ca4054a6188ca33900d3d087, type: 3}
   reloadSound: {fileID: 8300000, guid: cad50383732c54e1ba437bb598a3a08d, type: 3}
-  leftSprite: {fileID: 21300000, guid: 334d26305743742febfcc7a4eff0962b, type: 3}
-  rightSprite: {fileID: 21300000, guid: 858b4f382f84444f4ae8076c0d645179, type: 3}
-  projSprite: {fileID: 21300000, guid: ad11218c2753a4345876bfb6b1173940, type: 3}
-  accuracyAngle: 30
+  leftSprite: {fileID: 21300000, guid: 010f41b69fd174902bddc543ae000abf, type: 3}
+  rightSprite: {fileID: 21300000, guid: 7d1bf4018c79747d8a0c0ca4cbdb587d, type: 3}
+  projSprite: {fileID: 21300000, guid: 6cff346cfa2184fec918d7a8f8d409d0, type: 3}
+  accuracyAngle: 20
   movementAccuracyPenalty: 1
-  aimingBoon: 3
-  projColLength: 0.13
-  projColWidth: 0.13
+  aimingBoon: 1
+  projColLength: 0.7
+  projColWidth: 0.7
   projVelocity: 30
   projPerShot: 10

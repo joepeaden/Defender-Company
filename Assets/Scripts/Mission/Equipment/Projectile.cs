@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
         //float timeElapsed = Time.time - spawnTime;
         ////Mathf.Log
 
-        //damage -= Mathf.Log(Time.time + 1) / timeToDecrease;
+        //damage -= ;
 
         //// Ensure the value doesn't go below zero
         //damage = Mathf.Max(0, damage);

@@ -8,7 +8,10 @@ using UnityEngine.UIElements;
 
 public class ScriptableObjectComparer : EditorWindow
 {
+    [SerializeField]
     bool rowsEstablished;
+    [SerializeField]
+    private List<ScriptableObject> comparisonScriptables = new List<ScriptableObject>();
 
     [MenuItem("Window/Custom Windows/ScriptableObjectComparer")]
     public static void ShowObjectComparer()
@@ -18,15 +21,9 @@ public class ScriptableObjectComparer : EditorWindow
         wnd.Show();
     }
 
-    //[MenuItem("Window/Custom Windows/ScriptableObjectComparer2")]
-    //public static void ShowSecondObjectComparer()
-    //{
-    //    ScriptableObjectComparer wnd = CreateWindow<ScriptableObjectComparer>("ScriptableObjectComparer2");
-    //    wnd.titleContent = new GUIContent("ScriptableObjectComparer2");
-    //}
-
     public void CreateGUI()
     {
+
         rowsEstablished = false;
 
         // Each editor window contains a root VisualElement object
@@ -43,20 +40,34 @@ public class ScriptableObjectComparer : EditorWindow
         b.clicked += AddScriptable;
         root.Add(b);
 
+        Button c = new Button();
+        c.text = "Clear";
+        c.clicked += Clear;
+        root.Add(c);
+
         Box gridContainer = new Box();
         gridContainer.style.flexDirection = FlexDirection.Row;
         gridContainer.name = "GridContainer";
         root.Add(gridContainer);
+
+        foreach (ScriptableObject so in comparisonScriptables)
+        {
+            AddScriptable(so);
+        }
     }
 
-    private void AddScriptable()
+    private void Clear()
+    {
+        comparisonScriptables.Clear();
+        rootVisualElement.Q("GridContainer").Clear();
+        rowsEstablished = false;
+    }
+
+    private void AddScriptable(ScriptableObject scriptableToCompare)
     {
         VisualElement root = rootVisualElement;
 
-        ObjectField f = (ObjectField) root.Q("Scriptable");
-        ScriptableObject scriptablesToCompare = f.value as ScriptableObject;
-
-        var fieldValues = scriptablesToCompare.GetType().GetFields();
+        var fieldValues = scriptableToCompare.GetType().GetFields();
 
         // Set up rows
         Box parentContainer = new Box();
@@ -70,7 +81,7 @@ public class ScriptableObjectComparer : EditorWindow
             spacer.style.width = 160;
             titleContainer.Add(spacer);
         }
-        Label scriptableName = new Label(scriptablesToCompare.name);
+        Label scriptableName = new Label(scriptableToCompare.name);
         scriptableName.style.width = 100;
         titleContainer.Add(scriptableName);
         parentContainer.Add(titleContainer);
@@ -93,7 +104,7 @@ public class ScriptableObjectComparer : EditorWindow
             }
 
             VisualElement inputField;
-            var value = field.GetValue(scriptablesToCompare);
+            var value = field.GetValue(scriptableToCompare);
 
             if (value is string strVal)
             {
@@ -102,8 +113,8 @@ public class ScriptableObjectComparer : EditorWindow
                 inputField.AddToClassList(".unity-base-field__aligned");
                 inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
-                    
-                    field.SetValue(scriptablesToCompare, evt.newValue);
+
+                    field.SetValue(scriptableToCompare, evt.newValue);
                 });
             }
             else if (value is float floatVal)
@@ -113,7 +124,7 @@ public class ScriptableObjectComparer : EditorWindow
                 inputField.AddToClassList(".unity-base-field__aligned");
                 inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, float.Parse(evt.newValue));
+                    field.SetValue(scriptableToCompare, float.Parse(evt.newValue));
                 });
             }
             else if (value is int intVal)
@@ -123,7 +134,7 @@ public class ScriptableObjectComparer : EditorWindow
                 inputField.AddToClassList(".unity-base-field__aligned");
                 inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, int.Parse(evt.newValue));
+                    field.SetValue(scriptableToCompare, int.Parse(evt.newValue));
                 });
             }
             else if (value is bool boolVal)
@@ -133,7 +144,7 @@ public class ScriptableObjectComparer : EditorWindow
 
                 inputField.RegisterCallback<ChangeEvent<bool>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, evt.newValue);
+                    field.SetValue(scriptableToCompare, evt.newValue);
                 });
 
                 //newTextField.AddToClassList(".unity-base-field__aligned");
@@ -144,7 +155,7 @@ public class ScriptableObjectComparer : EditorWindow
                 (inputField as ObjectField).value = so;
                 inputField.RegisterCallback<ChangeEvent<ScriptableObject>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, evt.newValue);
+                    field.SetValue(scriptableToCompare, evt.newValue);
                 });
             }
             else if (value is Sprite sprite)
@@ -153,7 +164,7 @@ public class ScriptableObjectComparer : EditorWindow
                 (inputField as ObjectField).value = sprite;
                 inputField.RegisterCallback<ChangeEvent<Sprite>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, evt.newValue);
+                    field.SetValue(scriptableToCompare, evt.newValue);
                 });
             }
             else if (value is AudioClip audioClip)
@@ -162,7 +173,7 @@ public class ScriptableObjectComparer : EditorWindow
                 (inputField as ObjectField).value = audioClip;
                 inputField.RegisterCallback<ChangeEvent<AudioClip>>((evt) =>
                 {
-                    field.SetValue(scriptablesToCompare, evt.newValue);
+                    field.SetValue(scriptableToCompare, evt.newValue);
                 });
             }
             else
@@ -176,7 +187,7 @@ public class ScriptableObjectComparer : EditorWindow
             //newTextField.style.borderBottomColor = Color.black;
             //newTextField.style.borderBottomWidth = 2;
 
-            
+
 
             theContainer.Add(inputField);
 
@@ -198,5 +209,17 @@ public class ScriptableObjectComparer : EditorWindow
         //root.Add(theContainer);
 
         //root.Add(labelFromUXML);
+
+    }
+
+    private void AddScriptable()
+    {
+        VisualElement root = rootVisualElement;
+
+        ObjectField scriptableField = (ObjectField)root.Q("Scriptable");
+        ScriptableObject scriptableToCompare = scriptableField.value as ScriptableObject;
+
+        comparisonScriptables.Add(scriptableToCompare);
+        AddScriptable(scriptableToCompare);
     }
 }
