@@ -13,6 +13,10 @@ public class WeaponData : GearData
 	/// </summary>
 	public int range;
 	/// <summary>
+    /// 
+    /// </summary>
+	public int projectileLifetime;
+	/// <summary>
 	/// Time it takes to prepare another shot
 	/// </summary>
 	public float rateOfFire;

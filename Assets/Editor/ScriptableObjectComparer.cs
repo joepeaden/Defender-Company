@@ -92,15 +92,15 @@ public class ScriptableObjectComparer : EditorWindow
                 theContainer.Add(label);
             }
 
-            VisualElement newTextField;
+            VisualElement inputField;
             var value = field.GetValue(scriptablesToCompare);
 
             if (value is string strVal)
             {
-                newTextField = new TextField();
-                (newTextField as TextField).value = strVal;
-                newTextField.AddToClassList(".unity-base-field__aligned");
-                newTextField.RegisterCallback<ChangeEvent<string>>((evt) =>
+                inputField = new TextField();
+                (inputField as TextField).value = strVal;
+                inputField.AddToClassList(".unity-base-field__aligned");
+                inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
                     
                     field.SetValue(scriptablesToCompare, evt.newValue);
@@ -108,50 +108,77 @@ public class ScriptableObjectComparer : EditorWindow
             }
             else if (value is float floatVal)
             {
-                newTextField = new TextField();
-                (newTextField as TextField).value = floatVal.ToString();
-                newTextField.AddToClassList(".unity-base-field__aligned");
-                newTextField.RegisterCallback<ChangeEvent<string>>((evt) =>
+                inputField = new TextField();
+                (inputField as TextField).value = floatVal.ToString();
+                inputField.AddToClassList(".unity-base-field__aligned");
+                inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
                     field.SetValue(scriptablesToCompare, float.Parse(evt.newValue));
                 });
             }
             else if (value is int intVal)
             {
-                newTextField = new TextField();
-                (newTextField as TextField).value = intVal.ToString();
-                newTextField.AddToClassList(".unity-base-field__aligned");
-                newTextField.RegisterCallback<ChangeEvent<string>>((evt) =>
+                inputField = new TextField();
+                (inputField as TextField).value = intVal.ToString();
+                inputField.AddToClassList(".unity-base-field__aligned");
+                inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
                     field.SetValue(scriptablesToCompare, int.Parse(evt.newValue));
                 });
             }
             else if (value is bool boolVal)
             {
-                newTextField = new Toggle();
-                (newTextField as Toggle).value = boolVal;
+                inputField = new Toggle();
+                (inputField as Toggle).value = boolVal;
 
-                newTextField.RegisterCallback<ChangeEvent<bool>>((evt) =>
+                inputField.RegisterCallback<ChangeEvent<bool>>((evt) =>
                 {
                     field.SetValue(scriptablesToCompare, evt.newValue);
                 });
 
                 //newTextField.AddToClassList(".unity-base-field__aligned");
             }
+            else if (value is ScriptableObject so)
+            {
+                inputField = new ObjectField();
+                (inputField as ObjectField).value = so;
+                inputField.RegisterCallback<ChangeEvent<ScriptableObject>>((evt) =>
+                {
+                    field.SetValue(scriptablesToCompare, evt.newValue);
+                });
+            }
+            else if (value is Sprite sprite)
+            {
+                inputField = new ObjectField();
+                (inputField as ObjectField).value = sprite;
+                inputField.RegisterCallback<ChangeEvent<Sprite>>((evt) =>
+                {
+                    field.SetValue(scriptablesToCompare, evt.newValue);
+                });
+            }
+            else if (value is AudioClip audioClip)
+            {
+                inputField = new ObjectField();
+                (inputField as ObjectField).value = audioClip;
+                inputField.RegisterCallback<ChangeEvent<AudioClip>>((evt) =>
+                {
+                    field.SetValue(scriptablesToCompare, evt.newValue);
+                });
+            }
             else
             {
-                newTextField = new TextField("NotValid");
+                inputField = new TextField("NotValid");
             }
 
-            newTextField.style.width = 100;
-            newTextField.style.borderRightColor = Color.black;
-            newTextField.style.borderRightWidth = 2;
+            inputField.style.width = 100;
+            inputField.style.borderRightColor = Color.black;
+            inputField.style.borderRightWidth = 2;
             //newTextField.style.borderBottomColor = Color.black;
             //newTextField.style.borderBottomWidth = 2;
 
             
 
-            theContainer.Add(newTextField);
+            theContainer.Add(inputField);
 
             parentContainer.Add(theContainer);
 

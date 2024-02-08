@@ -20,20 +20,38 @@ public class Projectile : MonoBehaviour
     //protected int damage;
 
     private AudioSource audioSource;
-    private Vector3 lastPoint;
+    //private Vector3 lastPoint;
     private bool destroying;
 
     public bool firedWhileCrouching;
 
     private BoxCollider2D theCollider;
     private SpriteRenderer spriteRenderer;
+    private float spawnTime;
+    private int damage;
 
     private void Awake()
     {
-        lastPoint = transform.position;
+        //lastPoint = transform.position;
         audioSource = GetComponent<AudioSource>();
         theCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        //float timeElapsed = Time.time - spawnTime;
+        ////Mathf.Log
+
+        //damage -= Mathf.Log(Time.time + 1) / timeToDecrease;
+
+        //// Ensure the value doesn't go below zero
+        //damage = Mathf.Max(0, damage);
+
+        //if (timeElapsed > data.projectileLifetime)
+        //{
+        //    Destroy(this);
+        //}
     }
 
     private void FixedUpdate()
@@ -46,14 +64,6 @@ public class Projectile : MonoBehaviour
         {
             Debug.LogWarning("Projectile velocity for " + gameObject.name + " is zero");
         }
-
-        //movementDirection = (transform.position - lastPoint);
-        //RaycastHit2D hitInfo = Physics2D.Raycast(lastPoint, movementDirection.normalized, movementDirection.magnitude);
-        //if (hitInfo.collider != null)
-        //{
-        //    OnTriggerEnter2D(hitInfo.collider);
-        //}
-        //lastPoint = transform.position;
     }
 
     /// <summary>
@@ -64,8 +74,11 @@ public class Projectile : MonoBehaviour
     /// <param name="siblingNumber">If more than one bullet fired, which sibling is this?</param>
     public void Initialize(Actor firingActor, WeaponData weaponData, int siblingNumber)
     {
+        spawnTime = Time.time;
+
         data = weaponData;
         actor = firingActor;
+        damage = data.damage;
 
         // make sure friendlie(?)'s bullet sounds are never cut off.
         if (actor.team == Actor.ActorTeam.Friendly)
@@ -115,7 +128,7 @@ public class Projectile : MonoBehaviour
             if (actor != null && other.gameObject.GetComponent<HitBox>())
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-                shouldDestroy = actor.ProcessHit(data.damage, projectile: this);
+                shouldDestroy = actor.ProcessHit(damage, projectile: this);
 
                 //if (data.isExplosive)
                 //{

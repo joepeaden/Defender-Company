@@ -18,7 +18,8 @@ MonoBehaviour:
   cost: 250
   damage: 10
   range: 15
-  rateOfFire: 0.1
+  projectileLifetime: 0
+  rateOfFire: 0.5
   shotPerBurst: 1
   ammoCapacity: 8
   reloadTime: 2
@@ -35,4 +36,4 @@ MonoBehaviour:
   projColLength: 0.13
   projColWidth: 0.13
   projVelocity: 30
-  projPerShot: 5
+  projPerShot: 10
