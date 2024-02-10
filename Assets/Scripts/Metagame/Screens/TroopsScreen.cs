@@ -14,6 +14,8 @@ public class TroopsScreen : MonoBehaviour
     [SerializeField] private TMP_Text infoPanelHitPoints;
     [SerializeField] private TMP_Text infoPanelSpeed;
     [SerializeField] private TMP_Text infoPanelAccuracy;
+    [SerializeField] private TMP_Text backgroundName;
+    [SerializeField] private TMP_Text backgroundDescription;
     [SerializeField] private TMP_Text deployButtonText;
     [SerializeField] private Button weaponButton;
     [SerializeField] private Button deployButton;
@@ -22,6 +24,7 @@ public class TroopsScreen : MonoBehaviour
     [SerializeField] private Button nextButton;
     [SerializeField] private Transform equipmentListParent;
     [SerializeField] private GameObject equipmentListScrollView;
+    [SerializeField] private Image faceImg;
 
     private CompanySoldier displayedSoldier;
     private List<CompanySoldier> soldiers;
@@ -119,6 +122,9 @@ public class TroopsScreen : MonoBehaviour
         infoPanelHitPoints.text = "Hitpoints:" + displayedSoldier.HitPoints;
         infoPanelSpeed.text = "Speed: " + displayedSoldier.MoveSpeed;
         infoPanelAccuracy.text = "Accuracy Rating: " + displayedSoldier.AccuracyRating;
+        backgroundName.text = "Background: " + soldier.BackgroundData.backgroundName;
+        backgroundDescription.text = soldier.BackgroundData.backgroundDescription;
+        faceImg.sprite = soldier.Face;
 
         weaponButton.GetComponentInChildren<TMP_Text>().text = displayedSoldier.CurrentWeapon.displayName;
 

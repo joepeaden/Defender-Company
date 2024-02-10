@@ -20,7 +20,7 @@ MonoBehaviour:
   pauseBetweenBursts: 0.5
   moveSpeed: 1
   hitPoints: 100
-  sprite: {fileID: 21300000, guid: 6fe3703498da24c40acfb2cabcb4ef8a, type: 3}
+  sprite: {fileID: 21300000, guid: 4b37b80ea45564435b9548bb7419de96, type: 3}
   bloodSplats:
   - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
   - {fileID: 21300000, guid: df787ab818ec04ef1b294a7dec32b205, type: 3}

@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class CompanySoldier
 {
+    public enum SoldierBackgrounds
+    {
+        Mercenary,
+        Prisoner,
+        Laborer
+    }
+
     public string Name => name;
     private string name;
     public int HitPoints => hitPoints;
@@ -22,6 +29,10 @@ public class CompanySoldier
     private int xp;
     public string ID => id;
     private string id;
+    public SoldierBackgroundData BackgroundData => backgroundData;
+    private SoldierBackgroundData backgroundData;
+    public Sprite Face => face;
+    private Sprite face;
 
     public bool isAlive = true;
 
@@ -42,15 +53,18 @@ public class CompanySoldier
     private int missionKills;
     public int MissionHP { get; set; }
 
-    public CompanySoldier(string newName, int newHitPoints, float newMoveSpeed, int newAccuracyRating, WeaponData newCurrentWeapon, int newHireCost)
+    public CompanySoldier(SoldierBackgroundData newData, Sprite newFace)
     {
-        name = newName;
-        hitPoints = newHitPoints;
-        moveSpeed = newMoveSpeed;
-        accuracyRating = newAccuracyRating;
-        hireCost = newHireCost;
-        CurrentWeapon = newCurrentWeapon;
+        backgroundData = newData;
+
+        hitPoints = UnityEngine.Random.Range(backgroundData.minHP, backgroundData.maxHP);
+        moveSpeed = UnityEngine.Random.Range(backgroundData.minSpeed, backgroundData.maxSpeed);
+        accuracyRating = UnityEngine.Random.Range(backgroundData.minAcc, backgroundData.maxAcc);
+        CurrentWeapon = GameManager.Instance.GetDataStore().pistol;
+        hireCost = (int)(hitPoints + (moveSpeed * 60) + (accuracyRating * 100) + CurrentWeapon.cost);
         id = Guid.NewGuid().ToString();
+        face = newFace;
+        name = GetRandomName();
     }
 
     public void ResetMissionVariables()
@@ -67,5 +81,36 @@ public class CompanySoldier
         hitPoints += UnityEngine.Random.Range(10, 30);
         moveSpeed += UnityEngine.Random.Range(.25f, 1);
         accuracyRating += UnityEngine.Random.Range(1, 2);
+    }
+
+    // this should be in the customizer. And I wonder if the customizer ref should be in here actually. perhaps a static reference.
+    private string GetRandomName()
+    {
+        string[] nameOptions =
+        {
+            "Rourke",
+            "Niels",
+            "Smith",
+            "Danson",
+            "Peters",
+            "Wang",
+            "O'Malley",
+            "Bauer",
+            "Rochefort",
+            "Dumas",
+            "Garcia",
+            "Vargas",
+            "Anderson",
+            "Thomas",
+            "Brown",
+            "Grey",
+            "Benson",
+            "Al-Hilli",
+            "Cohen",
+            "Rosenberg",
+            "Goldstein"
+        };
+        int randomIndex = UnityEngine.Random.Range(0, nameOptions.Length - 1);
+        return nameOptions[randomIndex];
     }
 }

@@ -231,6 +231,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5979f5a-04d5-462b-816c-aa7528d9ff4b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -508,6 +517,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ReleasePawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1beea5f-c68f-4a54-8ec6-6d10f832ba91"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -564,6 +584,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Control Pawn"",
                     ""type"": ""Button"",
                     ""id"": ""02ac20f3-7def-4898-ae87-5cbc9cefc1fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PushPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""63e282e0-870b-4608-8836-06e91c131cdc"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -636,6 +665,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Control Pawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15c0dbb2-46dc-4adf-bd2b-bf411c6853d2"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PushPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -663,6 +703,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_RotateMouse = m_Gameplay.FindAction("Rotate Mouse", throwIfNotFound: true);
         m_Gameplay_EnterCommandMode = m_Gameplay.FindAction("Enter Command Mode", throwIfNotFound: true);
         m_Gameplay_ReleasePawn = m_Gameplay.FindAction("ReleasePawn", throwIfNotFound: true);
+        m_Gameplay_PushPause = m_Gameplay.FindAction("PushPause", throwIfNotFound: true);
         // Command
         m_Command = asset.FindActionMap("Command", throwIfNotFound: true);
         m_Command_ExitCommandMode = m_Command.FindAction("Exit Command Mode", throwIfNotFound: true);
@@ -671,6 +712,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Command_Drag = m_Command.FindAction("Drag", throwIfNotFound: true);
         m_Command_FollowMe = m_Command.FindAction("Follow Me", throwIfNotFound: true);
         m_Command_ControlPawn = m_Command.FindAction("Control Pawn", throwIfNotFound: true);
+        m_Command_PushPause = m_Command.FindAction("PushPause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -815,6 +857,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_RotateMouse;
     private readonly InputAction m_Gameplay_EnterCommandMode;
     private readonly InputAction m_Gameplay_ReleasePawn;
+    private readonly InputAction m_Gameplay_PushPause;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -832,6 +875,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @RotateMouse => m_Wrapper.m_Gameplay_RotateMouse;
         public InputAction @EnterCommandMode => m_Wrapper.m_Gameplay_EnterCommandMode;
         public InputAction @ReleasePawn => m_Wrapper.m_Gameplay_ReleasePawn;
+        public InputAction @PushPause => m_Wrapper.m_Gameplay_PushPause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -880,6 +924,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ReleasePawn.started += instance.OnReleasePawn;
             @ReleasePawn.performed += instance.OnReleasePawn;
             @ReleasePawn.canceled += instance.OnReleasePawn;
+            @PushPause.started += instance.OnPushPause;
+            @PushPause.performed += instance.OnPushPause;
+            @PushPause.canceled += instance.OnPushPause;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -923,6 +970,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ReleasePawn.started -= instance.OnReleasePawn;
             @ReleasePawn.performed -= instance.OnReleasePawn;
             @ReleasePawn.canceled -= instance.OnReleasePawn;
+            @PushPause.started -= instance.OnPushPause;
+            @PushPause.performed -= instance.OnPushPause;
+            @PushPause.canceled -= instance.OnPushPause;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -950,6 +1000,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Command_Drag;
     private readonly InputAction m_Command_FollowMe;
     private readonly InputAction m_Command_ControlPawn;
+    private readonly InputAction m_Command_PushPause;
     public struct CommandActions
     {
         private @PlayerControls m_Wrapper;
@@ -960,6 +1011,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Drag => m_Wrapper.m_Command_Drag;
         public InputAction @FollowMe => m_Wrapper.m_Command_FollowMe;
         public InputAction @ControlPawn => m_Wrapper.m_Command_ControlPawn;
+        public InputAction @PushPause => m_Wrapper.m_Command_PushPause;
         public InputActionMap Get() { return m_Wrapper.m_Command; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -987,6 +1039,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ControlPawn.started += instance.OnControlPawn;
             @ControlPawn.performed += instance.OnControlPawn;
             @ControlPawn.canceled += instance.OnControlPawn;
+            @PushPause.started += instance.OnPushPause;
+            @PushPause.performed += instance.OnPushPause;
+            @PushPause.canceled += instance.OnPushPause;
         }
 
         private void UnregisterCallbacks(ICommandActions instance)
@@ -1009,6 +1064,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ControlPawn.started -= instance.OnControlPawn;
             @ControlPawn.performed -= instance.OnControlPawn;
             @ControlPawn.canceled -= instance.OnControlPawn;
+            @PushPause.started -= instance.OnPushPause;
+            @PushPause.performed -= instance.OnPushPause;
+            @PushPause.canceled -= instance.OnPushPause;
         }
 
         public void RemoveCallbacks(ICommandActions instance)
@@ -1048,6 +1106,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnRotateMouse(InputAction.CallbackContext context);
         void OnEnterCommandMode(InputAction.CallbackContext context);
         void OnReleasePawn(InputAction.CallbackContext context);
+        void OnPushPause(InputAction.CallbackContext context);
     }
     public interface ICommandActions
     {
@@ -1057,5 +1116,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDrag(InputAction.CallbackContext context);
         void OnFollowMe(InputAction.CallbackContext context);
         void OnControlPawn(InputAction.CallbackContext context);
+        void OnPushPause(InputAction.CallbackContext context);
     }
 }

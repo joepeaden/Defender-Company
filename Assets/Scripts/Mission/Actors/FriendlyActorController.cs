@@ -9,7 +9,8 @@ public class FriendlyActorController : AIActorController, ISetActive
     [SerializeField]
     private GameObject selectionHighlight;
 
-    CompanySoldier companySoldier;
+    public CompanySoldier TheCompanySoldier => companySoldier;
+    private CompanySoldier companySoldier;
 
     protected new void Start()
     {

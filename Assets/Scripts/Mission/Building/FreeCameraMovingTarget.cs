@@ -16,19 +16,19 @@ public class FreeCameraMovingTarget : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                transform.Translate(Vector2.up * Time.deltaTime * moveSpeed);
+                transform.Translate(Vector2.up * Time.unscaledDeltaTime * moveSpeed);
             }
             if (Input.GetKey(KeyCode.S))
             {
-                transform.Translate(-Vector2.up * Time.deltaTime * moveSpeed);
+                transform.Translate(-Vector2.up * Time.unscaledDeltaTime * moveSpeed);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                transform.Translate(-Vector2.right * Time.deltaTime * moveSpeed);
+                transform.Translate(-Vector2.right * Time.unscaledDeltaTime * moveSpeed);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
+                transform.Translate(Vector2.right * Time.unscaledDeltaTime * moveSpeed);
             }
         }
         else if (MissionManager.Instance.Player.ControlledActor != null)

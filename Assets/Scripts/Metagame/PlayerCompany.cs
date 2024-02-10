@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerCompany
 {
     public int PlayerCash => playerCash;
-    private int playerCash = 30000;
+    private int playerCash = 300;
 
     private Dictionary<GearData.GearType, GearData> ownedGear = new Dictionary<GearData.GearType, GearData>();
 
@@ -16,12 +16,13 @@ public class PlayerCompany
     private Dictionary<string, CompanySoldier> soldiers = new Dictionary<string, CompanySoldier>();
     public HashSet<string> DeployedSoldiers = new HashSet<string>();
 
+    private CharacterCustomization customizer = new CharacterCustomization();
+
     // eventually remove the dataStore param when we add addressables. Or whatever. Just clean this up at some point.
     public PlayerCompany(InventoryItemDataStorage dataStore)
     {
         ownedGear.Add(GearData.GearType.Pistol, dataStore.pistol);
-
-        AssignStartTroops();
+        customizer.OnCustomizationInitialized.AddListener(AssignStartTroops);
     }
 
     /// <summary>
@@ -30,7 +31,7 @@ public class PlayerCompany
     /// <returns></returns>
     private void AssignStartTroops()
     {
-        List<CompanySoldier> recruits = GetNewRandomRecruits(4);
+        List<CompanySoldier> recruits = GetNewRecruits(3);
 
         for (int i = 0; i < recruits.Count; i++)
         {
@@ -38,51 +39,45 @@ public class PlayerCompany
         }
     }
 
-    public List<CompanySoldier> GetNewRandomRecruits(int num)
+    public List<CompanySoldier> GetNewRecruits(int num, List<CompanySoldier.SoldierBackgrounds> recruitBackgrounds = null)
     {
-        List<CompanySoldier> recruits = new List<CompanySoldier>();
-        for (int i = 0; i < 4; i++)
+        List<SoldierBackgroundData> allowedBackgrounds = new List<SoldierBackgroundData>();
+        InventoryItemDataStorage dataStore = GameManager.Instance.GetDataStore();
+        if (recruitBackgrounds == null)
         {
-            int hitPoints = Random.Range(50, 150);
-            float speed = Random.Range(1f, 3f);
-            int accuracyRating = Random.Range(0, 5);
-            WeaponData weapon = GameManager.Instance.GetDataStore().pistol;
-            int cost = (int)(hitPoints + (speed * 60) + (accuracyRating * 100) + weapon.cost);
-            CompanySoldier recruit = new CompanySoldier(GetRandomName(), hitPoints, speed, accuracyRating, weapon, cost);
+            allowedBackgrounds.Add(dataStore.mercenary);
+            allowedBackgrounds.Add(dataStore.laborer);
+            allowedBackgrounds.Add(dataStore.prisoner);
+        }
+        else
+        {
+            foreach (CompanySoldier.SoldierBackgrounds background in recruitBackgrounds)
+            {
+                switch (background)
+                {
+                    case CompanySoldier.SoldierBackgrounds.Laborer:
+                        allowedBackgrounds.Add(GameManager.Instance.GetDataStore().laborer);
+                        break;
+                    case CompanySoldier.SoldierBackgrounds.Mercenary:
+                        allowedBackgrounds.Add(GameManager.Instance.GetDataStore().mercenary);
+                        break;
+                    case CompanySoldier.SoldierBackgrounds.Prisoner:
+                        allowedBackgrounds.Add(GameManager.Instance.GetDataStore().prisoner);
+                        break;
+                }
+            }
+        }
+
+        List<CompanySoldier> recruits = new List<CompanySoldier>();
+        for (int i = 0; i < num; i++)
+        {
+            SoldierBackgroundData data = allowedBackgrounds[Random.Range(0, allowedBackgrounds.Count)];
+            Sprite face = customizer.GetRandomFace();
+            CompanySoldier recruit = new CompanySoldier(data, face);
             recruits.Add(recruit);
         }
 
         return recruits;
-    }
-
-    private string GetRandomName()
-    {
-        string[] nameOptions =
-        {
-            "Rourke",
-            "Niels",
-            "Smith",
-            "Danson",
-            "Peters",
-            "Wang",
-            "O'Malley",
-            "Bauer",
-            "Rochefort",
-            "Dumas",
-            "Garcia",
-            "Vargas",
-            "Anderson",
-            "Thomas",
-            "Brown",
-            "Grey",
-            "Benson",
-            "Al-Hilli",
-            "Cohen",
-            "Rosenberg",
-            "Goldstein"
-        };
-        int randomIndex = Random.Range(0, nameOptions.Length - 1);
-        return nameOptions[randomIndex];
     }
 
     public void AddCash(int amount)

@@ -52,3 +52,6 @@ MonoBehaviour:
   shotgun: {fileID: 11400000, guid: abb47702383f949c88dc7ed2f0ef932b, type: 2}
   pistol: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   psaSabre: {fileID: 11400000, guid: fb5d901f20a6c48488060578a0dc9d1b, type: 2}
+  mercenary: {fileID: 11400000, guid: 5643840e5110e4bee9c2855314c71e8a, type: 2}
+  laborer: {fileID: 11400000, guid: 8cd6bc807d48d4f93803db6a994b8d14, type: 2}
+  prisoner: {fileID: 11400000, guid: 1e24f5efd52d44fd4bc51b7b63e76138, type: 2}

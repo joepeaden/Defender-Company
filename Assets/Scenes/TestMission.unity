@@ -1759,6 +1759,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1937243303739929516, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
+      propertyPath: m_IgnoreTimeScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3126523878502941923, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: testMode
       value: 1
@@ -1781,7 +1785,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 3c62f3ae3d8f4455194330ee2bae97c8, type: 2}
     - target: {fileID: 5421468670936602112, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: orthographic size
-      value: 8.4375
+      value: 11.25
       objectReference: {fileID: 0}
     - target: {fileID: 6803546171786674491, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: m_RootOrder

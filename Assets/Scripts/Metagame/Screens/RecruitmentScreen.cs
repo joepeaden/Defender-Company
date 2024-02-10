@@ -15,9 +15,12 @@ public class RecruitmentScreen : MonoBehaviour
     [SerializeField] private TMP_Text infoPanelHitPoints;
     [SerializeField] private TMP_Text infoPanelSpeed;
     [SerializeField] private TMP_Text infoPanelAccuracy;
+    [SerializeField] private TMP_Text backgroundName;
+    [SerializeField] private TMP_Text backgroundDescription;
     [SerializeField] private Transform recruitListParent;
     [SerializeField] private Button recruitItemPrefab;
     [SerializeField] private Button hireButton;
+    [SerializeField] private Image faceImg;
 
     private CompanySoldier displayedRecruit;
 
@@ -58,7 +61,7 @@ public class RecruitmentScreen : MonoBehaviour
             Destroy(recruitListParent.GetChild(i).gameObject);
         }
         
-        List<CompanySoldier> recruits = GameManager.Instance.Company.GetNewRandomRecruits(10);
+        List<CompanySoldier> recruits = GameManager.Instance.Company.GetNewRecruits(10);
 
         // add market weapon buttons
         for (int i = 0; i < recruits.Count; i++)
@@ -74,6 +77,9 @@ public class RecruitmentScreen : MonoBehaviour
 
         DisplayRecruitInfo(recruits[0]);
     }
+
+
+    // I should move DisplayRecruitInfo into a new script for the SoldierData prefab. Also remove from TroopsScreen.
 
     /// <summary>
     /// Display selected weapon info in center pane.
@@ -94,7 +100,9 @@ public class RecruitmentScreen : MonoBehaviour
         infoPanelHitPoints.text = "Hitpoints:" + displayedRecruit.HitPoints;
         infoPanelSpeed.text = "Speed: " + displayedRecruit.MoveSpeed;
         infoPanelAccuracy.text = "Accuracy Rating: " + displayedRecruit.AccuracyRating;
-
+        backgroundName.text = "Background: " + displayedRecruit.BackgroundData.backgroundName;
+        backgroundDescription.text = displayedRecruit.BackgroundData.backgroundDescription;
+        faceImg.sprite = recruit.Face;
 
         hireButton.interactable = playerCanAfford;
     }

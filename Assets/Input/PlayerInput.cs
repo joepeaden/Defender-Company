@@ -65,6 +65,7 @@ public static class PlayerInput
         controls.Gameplay.UseEquipment.performed += HandleUseEquipmentInput;
         controls.Gameplay.Interact.performed += HandleInteractInput;
 		controls.Gameplay.ReleasePawn.started += HandleReleasePawn;
+		controls.Gameplay.PushPause.started += HandlePushPause;
 		controls.UI.Confirm.performed += HandleConfirmInput;
 		controls.UI.Select.performed += HandleSelectInput;
 		controls.UI.Navigate.started += HandleNavigationInput;
@@ -76,9 +77,15 @@ public static class PlayerInput
 		controls.Command.Drag.canceled += HandleCommandDragEnd;
 		controls.Command.FollowMe.performed += HandleCommandFollow;
 		controls.Command.ControlPawn.started += HandleControlPawn;
+		controls.Command.PushPause.started += HandlePushPause;
 
 		MissionManager.OnMissionEnd.AddListener(HandleMissionEnd);
 	}
+
+	private static void HandlePushPause(InputAction.CallbackContext cntxt)
+    {
+		Time.timeScale = Time.timeScale == 0 ? 1 : 0;
+    }
 
 	private static void HandleControlPawn(InputAction.CallbackContext cntxt)
 	{

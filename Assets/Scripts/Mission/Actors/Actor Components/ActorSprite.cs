@@ -27,8 +27,10 @@ public class ActorSprite : MonoBehaviour
     //private Sprite leftSprite;
     //private Sprite rightSprite;
 
-    private SpriteRenderer spriteRend;
+    public SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
+
+    public SpriteRenderer faceSpriteRend;
 
     private void Awake()
     {
@@ -67,12 +69,17 @@ public class ActorSprite : MonoBehaviour
 
     private void HandleActorDataSet()
     {
-        spriteRend = GetComponent<SpriteRenderer>();
-
         spriteRend.sprite = actor.Data.sprite;
         bloodSplats = actor.Data.bloodSplats;
         bodyParts = actor.Data.bodyPartSprites;
         deadSprites = actor.Data.deadSprites;
+
+
+        if (actor.team == Actor.ActorTeam.Friendly)
+        {
+            faceSpriteRend.sprite = actor.GetComponent<FriendlyActorController>().TheCompanySoldier.Face;
+        }
+
     }
 
     private void HandleActorDeath(bool fromExplosive)

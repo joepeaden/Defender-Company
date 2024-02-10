@@ -102,20 +102,20 @@ public class MissionManager : MonoBehaviour
 
     //private void Start()
     //{
-        
-    //}
-        
-        // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
-        //else
-        //{
-        //    GameObject[] friendlyBodies = GameObject.FindGameObjectsWithTag("FriendlyActorBody");
-        //    for (int i = 0; i <  friendlyBodies.Length; i++)
-        //    {
-        //        friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
-        //    }
-        //}
 
-       
+    //}
+
+    // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
+    //else
+    //{
+    //    GameObject[] friendlyBodies = GameObject.FindGameObjectsWithTag("FriendlyActorBody");
+    //    for (int i = 0; i <  friendlyBodies.Length; i++)
+    //    {
+    //        friendlyActors.Add(friendlyBodies[i].GetComponent<FriendlyActorController>());
+    //    }
+    //}
+
+
     //}
 
     private void OnDestroy()
@@ -145,7 +145,7 @@ public class MissionManager : MonoBehaviour
     /// </summary>
     public void SpawnFriendlyPistolSoldier()
     {
-        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRecruits(1)[0];
         soldier.CurrentWeapon = GameManager.Instance.GetDataStore().pistol;
         GameManager.Instance.Company.AddRecruit(soldier);
 
@@ -166,7 +166,7 @@ public class MissionManager : MonoBehaviour
     /// </summary>
     public void SpawnFriendlyShotgunSoldier()
     {
-        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRecruits(1)[0];
         soldier.CurrentWeapon = GameManager.Instance.GetDataStore().shotgun;
         GameManager.Instance.Company.AddRecruit(soldier);
 
@@ -187,7 +187,7 @@ public class MissionManager : MonoBehaviour
     /// </summary>
     public void SpawnFriendlyAssaultRifleSoldier()
     {
-        CompanySoldier soldier = GameManager.Instance.Company.GetNewRandomRecruits(1)[0];
+        CompanySoldier soldier = GameManager.Instance.Company.GetNewRecruits(1)[0];
         soldier.CurrentWeapon = GameManager.Instance.GetDataStore().assaultRifle;
         GameManager.Instance.Company.AddRecruit(soldier);
 

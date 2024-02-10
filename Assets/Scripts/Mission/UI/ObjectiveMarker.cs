@@ -35,7 +35,7 @@ public class ObjectiveMarker : MonoBehaviour
     }
 
     // Fixed update so it properly displays in case player may be moving with physics stuff.
-    public void FixedUpdate()
+    public void Update()
     {
         if (objectiveTransform != null)
         {
