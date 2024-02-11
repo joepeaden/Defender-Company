@@ -1783,9 +1783,13 @@ PrefabInstance:
       propertyPath: warriorEnemy
       value: 
       objectReference: {fileID: 11400000, guid: 3c62f3ae3d8f4455194330ee2bae97c8, type: 2}
+    - target: {fileID: 5417565117421705683, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5421468670936602112, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: orthographic size
-      value: 11.25
+      value: 8.25
       objectReference: {fileID: 0}
     - target: {fileID: 6803546171786674491, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: m_RootOrder

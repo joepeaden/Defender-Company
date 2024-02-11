@@ -196,6 +196,8 @@ public class WeaponInstance : MonoBehaviour
         float accuracyAngle = GetAccuracy();
         float angle = inventoryWeapon.data.projPerShot == 1 ? Random.Range(-accuracyAngle / 2, accuracyAngle / 2) : -accuracyAngle/2;
 
+        weaponSprite.PlayFireAnim();
+
         for (int proj = 0; proj < inventoryWeapon.data.projPerShot; proj++)
         {
             // make the bullet less accurate

@@ -279,9 +279,9 @@ public class ActorSprite : MonoBehaviour
         //float horiz = Vector3.Dot(velocity, transform.right);
 
         float velocityValue = velocity.magnitude;
-        // make sure it's negative so it's "less than zero" so that the anim controller knows we stopped
-        if (velocity.magnitude == 0)
+        if (velocity.magnitude <= .5f)
         {
+            // make sure it's negative so it's "less than zero" so that the anim controller knows we stopped
             velocityValue = -1f;
             isMoving = false;
         }
