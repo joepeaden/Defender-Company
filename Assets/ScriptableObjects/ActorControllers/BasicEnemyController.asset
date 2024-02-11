@@ -38,6 +38,6 @@ MonoBehaviour:
   deathSound1: {fileID: 8300000, guid: 060ef4aabd21b4db3bab6646472c16a1, type: 3}
   deathSound2: {fileID: 8300000, guid: c849c404f273c4a30a046d5d66ac6cb3, type: 3}
   deathSound3: {fileID: 8300000, guid: 5d3e7ec09c25f41c48946b51f241eb7b, type: 3}
-  slowWalkMoveForce: 0
+  slowWalkMoveForce: 1
   fastWalkMoveForce: 0
   sprintMoveForce: 0

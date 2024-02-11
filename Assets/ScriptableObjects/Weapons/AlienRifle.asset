@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AlienRifle
   m_EditorClassIdentifier: 
   gearType: 2
-  displayName: Assault Rifle
+  displayName: Alien Rifle
   rewardKey: RIFLE
   cost: 250
   damage: 15

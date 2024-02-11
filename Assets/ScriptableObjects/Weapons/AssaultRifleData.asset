@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssaultRifleData
   m_EditorClassIdentifier: 
   gearType: 2
-  displayName: Assault Rifle
+  displayName: Assault Rifle v2
   rewardKey: RIFLE
   cost: 250
   damage: 20

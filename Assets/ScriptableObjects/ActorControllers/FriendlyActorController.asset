@@ -16,7 +16,7 @@ MonoBehaviour:
   canMoveAndShoot: 1
   canAim: 0
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
-  accuracyRating: 0
+  accuracyRating: 1
   pauseBetweenBursts: 0.5
   moveSpeed: 1
   hitPoints: 100

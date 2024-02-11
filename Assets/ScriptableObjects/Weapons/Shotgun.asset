@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   gearType: 5
-  displayName: Shotgun
+  displayName: HM-2 Shotgun
   rewardKey: SHOTGUN
   cost: 250
   damage: 20

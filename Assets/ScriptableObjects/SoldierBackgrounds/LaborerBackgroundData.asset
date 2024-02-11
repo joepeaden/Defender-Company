@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8965830df5c40a08d5deb4c99ba997, type: 3}
   m_Name: LaborerBackgroundData
   m_EditorClassIdentifier: 
-  backgroundName: 
-  minHP: 0
-  maxHP: 0
-  minSpeed: 0
-  maxSpeed: 0
-  minAcc: 0
-  maxAcc: 0
-  backgroundDescription: 
+  backgroundName: Laborer
+  minHP: 80
+  maxHP: 110
+  minSpeed: 1
+  maxSpeed: 1
+  minAcc: 1
+  maxAcc: 2
+  backgroundDescription: Back-breaking work, harsh overseers, and scraping the trash-chutes
+    make up life for most Laborers. Military work is dangerous, but at least here
+    you can shoot back at what's trying to kill you.

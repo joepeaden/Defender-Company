@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AlienPistol
   m_EditorClassIdentifier: 
   gearType: 6
-  displayName: Pistol
+  displayName: Alien Pistol
   rewardKey: 
   cost: 150
   damage: 10
