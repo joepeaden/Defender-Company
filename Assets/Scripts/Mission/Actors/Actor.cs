@@ -145,7 +145,7 @@ public class Actor : MonoBehaviour
 
 	private void LateUpdate()
 	{
-        //EmitVelocityInfo.Invoke(isUsingPathfinding ? .velocity : rigidBody.velocity);
+        EmitVelocityInfo.Invoke(isUsingPathfinding ? pathfinder.velocity : rigidBody.velocity);
 	}
 
     public void SetData(ControllerData newData)

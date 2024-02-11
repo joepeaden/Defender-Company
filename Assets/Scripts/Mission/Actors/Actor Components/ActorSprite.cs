@@ -27,10 +27,14 @@ public class ActorSprite : MonoBehaviour
     //private Sprite leftSprite;
     //private Sprite rightSprite;
 
+    [SerializeField] private Animator animator;
+
     public SpriteRenderer spriteRend;
     //[SerializeField] private AnimationClip reloadClip;
 
     public SpriteRenderer faceSpriteRend;
+
+    private bool isMoving;
 
     private void Awake()
     {
@@ -49,7 +53,7 @@ public class ActorSprite : MonoBehaviour
         //actor.OnCrouch.AddListener(HandleCrouch);
         //actor.OnStand.AddListener(HandleStand);
         //reloadClip = ragAnim.runtimeAnimatorController.animationClips.Where(clip => clip.name == "Reload").FirstOrDefault();
-        //actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
+        actor.EmitVelocityInfo.AddListener(UpdateVelocityBasedAnimations);
 
         //frontSprite = actorFrontStand;
         //backSprite = actorBackStand;
@@ -274,9 +278,21 @@ public class ActorSprite : MonoBehaviour
         //float vert = Vector3.Dot(velocity, transform.forward);
         //float horiz = Vector3.Dot(velocity, transform.right);
 
-        //ragAnim.SetFloat("Velocity", velocity.magnitude);
-        //ragAnim.SetFloat("VerticalAxis", vert);
-        //ragAnim.SetFloat("HorizontalAxis", horiz);
+        float velocityValue = velocity.magnitude;
+        // make sure it's negative so it's "less than zero" so that the anim controller knows we stopped
+        if (velocity.magnitude == 0)
+        {
+            velocityValue = -1f;
+            isMoving = false;
+        }
+        else if (!isMoving)
+        {
+            isMoving = true;
+            animator.SetFloat("AnimOffset", Random.Range(0f, 1f));
+        }
+        animator.SetFloat("Velocity", velocityValue);
+        //animator.SetFloat("VerticalAxis", vert);
+        //animator.SetFloat("HorizontalAxis", horiz);
     }
 
     public void StartReloadAnimation(float reloadWeaponDuration)

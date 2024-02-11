@@ -227,6 +227,7 @@ public class MissionUI : MonoBehaviour
     {
         GameObject marker = Instantiate(entityMarkerPrefab, battleUI.transform);
         marker.GetComponent<EntityMarker>().SetData(controller, label);
+        marker.GetComponent<EntityMarker>().heightOffset = 80;
     }
 
     public bool InMenu()
