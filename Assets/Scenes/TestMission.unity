@@ -1759,22 +1759,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 629086143376907250, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: platformBuildingPrefab
-      value: 
-      objectReference: {fileID: 3194097672140570826, guid: 925bbbfe92ed1483f9f98fa674faa830, type: 3}
-    - target: {fileID: 699673549201815167, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AttachPlatformToMouse
-      objectReference: {fileID: 0}
-    - target: {fileID: 1937243303739929516, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: m_IgnoreTimeScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2080184658864447599, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: m_text
-      value: Platform
-      objectReference: {fileID: 0}
     - target: {fileID: 3126523878502941923, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: testMode
       value: 1
@@ -1795,18 +1779,6 @@ PrefabInstance:
       propertyPath: warriorEnemy
       value: 
       objectReference: {fileID: 11400000, guid: 3c62f3ae3d8f4455194330ee2bae97c8, type: 2}
-    - target: {fileID: 3735795615611354680, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: data.dataString
-      value: UEsDBBQAAAgIAACYn+uXGL3AWwIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMzk3HEDJOemuBkB6SMKGZXHwR1hprkCWPPgIkw3/vrmxjh05PXr99u3r7IX0yqV0NuTd2aaV4NALYjxEjm30b9c4HOPCt0Wv5AR3nTQpfEolHzgv30iA+pjBnKvBW5j/1VhE5QTBoWRhbLcQWZsZ5h3DBlQN0WeMpWiP0OWIH/FzdUcgRrUlK1gdad8nohGYO2oPtqcn3m5baWERtmEHnilc1CJLdB4yTLjdakaixpJZD8nOjlHStHuaPdaz3hR+pWiE51hYFELcEuS096RwGPheFA98WbvlxLi22qMnIfpmmbxV3u0bVO1chHj65jXqapI//+K/G0V1YUz105zbV+FLmO1SYc+cHjR3C86/Cg95zteMbBW8l6CeztCZogU5vA4UGB5N5/3subVZCvuvxRuoFGOrBeLrhtKOhGk6x+sNMyWoT5zZtgLUysddx+GBxKr9RcFwN16ZAlFS8OvjDt8Mdah330jqPrrZKTfI2Jliisns0qPN58DNjNdhhgho0V/64wjT+coQXvv9H3XO6Le3hra+7BBchEe75SXLhWpn9eViuNPtHcOVz8Epq6DtNjifs08xo3WyY++qkqHWwBc8HUdsgxdfNYmIq7m5v0ulmUqTXPB1f4W+apgUU1zcimY4LFldPaiyTq1Wjs+0ODk33yTWuWfeGjJaW13HZheX7pfyozECf1IVZ5xZAPzcZug45sHgIXkixEBL7swbvpY7jZp8ZUybfgcjOibJY6eLgLc/6LBmr5bvxhGRsFh+NjBF8XuWVhXcJezq8S3Zip79QSwMEFAAACAgAAJif6zL6AUVsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tFKKSYqlham5SZJRmrlxormhLpBrbm6elppmbJpiYGKYphQLVF9SWZDql5ibCtETkFiSkZaZl5KZl67nXpSZ4g4yWim2FgBQSwECLQAUAAAICAAAmJ/rlxi9wFsCAAATBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/rMvoBRWwAAAB4AAAACQAkAAAAAAAAAAAAAACoAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAF8DAAAAAA==
-      objectReference: {fileID: 0}
-    - target: {fileID: 5417565117421705683, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5421468670936602112, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: orthographic size
-      value: 11.25
-      objectReference: {fileID: 0}
     - target: {fileID: 6803546171786674491, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1854,10 +1826,6 @@ PrefabInstance:
     - target: {fileID: 7527194757726179863, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
       propertyPath: m_Name
       value: Mission
-      objectReference: {fileID: 0}
-    - target: {fileID: 7992592716203256872, guid: caa8cef4564e34a03b21e13d8cce68cc, type: 3}
-      propertyPath: m_Name
-      value: PlatformButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

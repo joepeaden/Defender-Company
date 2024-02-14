@@ -67,14 +67,20 @@ public class Projectile : MonoBehaviour
         actor = firingActor;
         damage = data.damage;
 
-        GameObject aiAttackTarget = actor.GetComponent<AIActorController>().AttackTarget;
-        GameObject playerAttackTarget = MissionManager.Instance.Player.FindPlayerTarget();
+        if (actor.IsPlayer)
+        {
+            GameObject playerAttackTarget = MissionManager.Instance.Player.FindPlayerTarget();
+            // target height lvl is ignored for player
+            TargetHeightLevel = int.MaxValue;
+            FiringHeightLevel = playerAttackTarget != null ? actor.HeightLevel > playerAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : playerAttackTarget.GetComponent<Actor>().HeightLevel : actor.HeightLevel;
+        }
+        else
+        {
+            GameObject aiAttackTarget = actor.GetComponent<AIActorController>().AttackTarget;
+            TargetHeightLevel = aiAttackTarget != null ? aiAttackTarget.GetComponent<Actor>().HeightLevel : int.MaxValue;
+            FiringHeightLevel = aiAttackTarget != null ? (actor.HeightLevel > aiAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : aiAttackTarget.GetComponent<Actor>().HeightLevel) : actor.HeightLevel;
+        }
 
-        // maxvalue should be pretty clear that this is player controlled
-        TargetHeightLevel = aiAttackTarget != null ? aiAttackTarget.GetComponent<Actor>().HeightLevel : int.MaxValue;
-
-        // good god
-        FiringHeightLevel = aiAttackTarget != null ? (actor.HeightLevel > aiAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : aiAttackTarget.GetComponent<Actor>().HeightLevel) : playerAttackTarget != null ? playerAttackTarget.GetComponent<Actor>().HeightLevel: int.MaxValue;
 
         // make sure friendlie(?)'s bullet sounds are never cut off.
         if (actor.team == Actor.ActorTeam.Friendly)
@@ -120,7 +126,7 @@ public class Projectile : MonoBehaviour
             bool shouldDestroy = (hitBox != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
 
             // if hitting an actor's hitbox and we're at the same height level, process hit
-            if (hitBox != null && (hitActor.HeightLevel == FiringHeightLevel || actor.IsPlayer))
+            if (hitBox != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer))
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
                 shouldDestroy = hitActor.ProcessHit(damage, projectile: this);

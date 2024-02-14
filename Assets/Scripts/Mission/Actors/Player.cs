@@ -142,7 +142,8 @@ public class Player : MonoBehaviour//ActorController
     /// </summary>
 	public GameObject FindPlayerTarget()
     {
-		RaycastHit2D[] hits = Physics2D.RaycastAll(ControlledActor.transform.position, FollowMouse3D.CursorTransform.position, 500, LayerMask.GetMask("ActorBodies"));
+
+		RaycastHit2D[] hits = Physics2D.RaycastAll(ControlledActor.transform.position, (FollowMouse3D.CursorTransform.position - ControlledActor.transform.position), 500, LayerMask.GetMask("ActorBodies"));
 		foreach (RaycastHit2D hit in hits)
         {
 			Actor hitActor = hit.transform.GetComponent<Actor>();
