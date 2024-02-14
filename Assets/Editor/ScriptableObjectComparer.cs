@@ -86,6 +86,7 @@ public class ScriptableObjectComparer : EditorWindow
         titleContainer.Add(scriptableName);
         parentContainer.Add(titleContainer);
 
+
         foreach (FieldInfo field in fieldValues)
         {
             Box theContainer = new Box();
@@ -113,8 +114,10 @@ public class ScriptableObjectComparer : EditorWindow
                 inputField.AddToClassList(".unity-base-field__aligned");
                 inputField.RegisterCallback<ChangeEvent<string>>((evt) =>
                 {
-
                     field.SetValue(scriptableToCompare, evt.newValue);
+                    EditorUtility.SetDirty(scriptableToCompare);
+                    //Undo.RecordObject(scriptableToCompare, "Changed Variable");
+                    
                 });
             }
             else if (value is float floatVal)

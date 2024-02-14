@@ -25,6 +25,7 @@ TagManager:
   - Water
   - UI
   - SelectionTriggers
+  - Obstacle
   - 
   - 
   - 
@@ -37,7 +38,6 @@ TagManager:
   - 
   - 
   - 
-  - Building
   - ActorBodies
   - 
   - 

@@ -19,6 +19,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private GameObject stairsBuildingPrefab;
     [SerializeField] private GameObject barricadesPrefab;
     [SerializeField] private GameObject minesBuildingPrefab;
+    [SerializeField] private GameObject platformBuildingPrefab;
     [SerializeField] private AstarPath pathfindingGrid;
 
     Dictionary<Vector3, GameObject> occupiedPositions = new Dictionary<Vector3, GameObject>();
@@ -75,7 +76,10 @@ public class BuildingManager : MonoBehaviour
                             newBuilding.GetComponent<Building>().HandleWallPlaced();
                             newBuilding.GetComponent<Building>().OnBuildingDestroyed.AddListener(HandleBuildingDestroyed);
 
-                            SetNodeWalkable(placeHolderObject.transform.position, false);
+                            if (newBuilding.layer == LayerMask.NameToLayer("Obstacle"))
+                            {
+                                SetNodeWalkable(placeHolderObject.transform.position, false);
+                            }
                         }
                     }
                     else
@@ -212,6 +216,23 @@ public class BuildingManager : MonoBehaviour
         placeHolderObject = Instantiate(stairsBuildingPrefab);
         placeHolderObject.GetComponent<Building>().isBeingPlaced = true;
         buildingToInstantiate = stairsBuildingPrefab;
+    }
+
+    public void AttachPlatformToMouse()
+    {
+        if (timeUnitsRemaining - buildingTUCost < 0)
+        {
+            return;
+        }
+
+        if (placeHolderObject != null)
+        {
+            Destroy(placeHolderObject);
+        }
+
+        placeHolderObject = Instantiate(platformBuildingPrefab);
+        placeHolderObject.GetComponent<Building>().isBeingPlaced = true;
+        buildingToInstantiate = platformBuildingPrefab;
     }
 
     public void AttachBarricadesToMouse()

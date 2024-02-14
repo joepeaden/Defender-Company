@@ -12,6 +12,10 @@ public class Building : MonoBehaviour
     public BuildingType buildingType;
     [HideInInspector] public bool isTargeted;
 
+    //public int HeightLevel => heightLevel;
+    public int HeightLevel = 0;
+    public int heightBoost;
+
     private SpriteRenderer spriteRenderer;
 
     public Sprite vertWallSprite;
@@ -57,6 +61,43 @@ public class Building : MonoBehaviour
         }
 
         OnBuildingDestroyed.RemoveAllListeners();
+    }
+
+
+    private void Update()
+    {
+        if (hitPoints <= 0)
+        {
+            GetComponentInChildren<Collider2D>().enabled = false;
+
+            OnBuildingDestroyed.Invoke(this);
+
+            Destroy(gameObject);
+        }
+
+        if (isBeingPlaced)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = BuildingManager.Instance.GetClosestSnapPos(mousePos);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Actor actor = other.GetComponent<Actor>();
+        if (actor != null)
+        {
+            actor.HeightLevel += 1;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        Actor actor = other.GetComponent<Actor>();
+        if (actor != null)
+        {
+            actor.HeightLevel -= 1;
+        }
     }
 
     public void HandleWallPlaced()
@@ -139,23 +180,4 @@ public class Building : MonoBehaviour
         //}
     }
 
-
-
-    private void Update()
-    {
-        if (hitPoints <= 0)
-        {
-            GetComponentInChildren<Collider2D>().enabled = false;
-
-            OnBuildingDestroyed.Invoke(this);
-
-            Destroy(gameObject);
-        }
-
-        if (isBeingPlaced)
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = BuildingManager.Instance.GetClosestSnapPos(mousePos);
-        }
-    }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2409353087513574609}
   - component: {fileID: 7570453854393189487}
-  m_Layer: 9
+  m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1813405571730439835}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8207634065529741779}
@@ -72,9 +72,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 74726a3862316495fb283e2ce760def9, type: 3}
-  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 0.54509807}
+  m_Color: {r: 0.5, g: 0.35199165, b: 0.2995283, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,11 +94,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8207634065529741779}
   - component: {fileID: 5937584948231941901}
-  - component: {fileID: 1169093349102959214}
-  - component: {fileID: 4192351481893730521}
-  m_Layer: 7
-  m_Name: Barricades
-  m_TagString: Untagged
+  - component: {fileID: 8390426588987221375}
+  m_Layer: 0
+  m_Name: Platform
+  m_TagString: WallBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,38 +135,27 @@ MonoBehaviour:
       m_Calls: []
   hitPoints: 10
   isBeingPlaced: 0
-  buildingType: 1
+  buildingType: 0
   isTargeted: 0
   HeightLevel: 0
-  vertWallSprite: {fileID: 0}
-  vertWallCapTopSprite: {fileID: 0}
-  vertWallCapBotSprite: {fileID: 0}
-  horizWallSprite: {fileID: 0}
-  horizWallCapRightSprite: {fileID: 0}
-  horizWallCapLeftSprite: {fileID: 0}
-  topRightWallCornerSprite: {fileID: 0}
-  topLeftWallCornerSprite: {fileID: 0}
-  bottomRightWallCornerSprite: {fileID: 0}
-  bottomLeftWallCornerSprite: {fileID: 0}
-  singleWallSprite: {fileID: 0}
-  centerWallSprite: {fileID: 0}
-  centerRightWallSprite: {fileID: 0}
-  centerLeftWallSprite: {fileID: 0}
-  centerTopWallSprite: {fileID: 0}
-  centerBottomWallSprite: {fileID: 0}
---- !u!114 &1169093349102959214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3194097672140570826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb75d293a1e2b4ff587a65e9f93d5163, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!61 &4192351481893730521
+  heightBoost: 1
+  vertWallSprite: {fileID: 21300000, guid: 6856764e711a64a30b2e4d4b36dcfe0c, type: 3}
+  vertWallCapTopSprite: {fileID: 21300000, guid: 817b06aeaee0d4c36a888ed3f1562307, type: 3}
+  vertWallCapBotSprite: {fileID: 21300000, guid: 4db3b7e267d8f4dcfb477be003a125dd, type: 3}
+  horizWallSprite: {fileID: 21300000, guid: e38ab9e33dd204ce8988aee649057983, type: 3}
+  horizWallCapRightSprite: {fileID: 21300000, guid: c5439b95afbe7467287af7b0220ca519, type: 3}
+  horizWallCapLeftSprite: {fileID: 21300000, guid: 7a380f95147e740978fc16b4c15bb7bd, type: 3}
+  topRightWallCornerSprite: {fileID: 21300000, guid: 0020576e7e1bf48e084ff6035d79d742, type: 3}
+  topLeftWallCornerSprite: {fileID: 21300000, guid: 523ede2394d6b493e9397ca2e8a36b0a, type: 3}
+  bottomRightWallCornerSprite: {fileID: 21300000, guid: 1bf3d446b109946699e6db08b7784bf8, type: 3}
+  bottomLeftWallCornerSprite: {fileID: 21300000, guid: eb79ca3a6c7e34ec78207412dcf83809, type: 3}
+  singleWallSprite: {fileID: 21300000, guid: 9e10a2618f3cd4002b7ea6d27f60999b, type: 3}
+  centerWallSprite: {fileID: 21300000, guid: 3fc3bbee8e0fc452cb74f40d9f1d17d4, type: 3}
+  centerRightWallSprite: {fileID: 21300000, guid: c6ce83617f6d3407ba9a02c9568b9dfa, type: 3}
+  centerLeftWallSprite: {fileID: 21300000, guid: be4030865f78a44e4b610acb0974a5f9, type: 3}
+  centerTopWallSprite: {fileID: 21300000, guid: bee7581b6729a452e91fe3b548d20e26, type: 3}
+  centerBottomWallSprite: {fileID: 21300000, guid: 8c932990ffeed4a5c9e3365c80687b16, type: 3}
+--- !u!61 &8390426588987221375
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,7 +184,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

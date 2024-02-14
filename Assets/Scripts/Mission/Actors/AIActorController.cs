@@ -367,33 +367,49 @@ public abstract class AIActorController : ActorController, ISetActive
 		//Ray r = new Ray();
 		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, (attackTarget.transform.position - transform.position), 1000f);
 		RaycastHit2D[] targetHits = hits.Where(hit => hit.collider.GetComponent<HitBox>() != null && hit.collider.GetComponent<HitBox>().GetActor().gameObject == attackTarget).ToArray();
-		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == LayerMask.NameToLayer("Building")).ToArray();
+		RaycastHit2D[] blockHits = hits.Where(hit => hit.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle")).ToArray();
 
 		// in Line of Sight
 		int blockingHits = 0;
 		// should only be one or zero targetHits. Check if any blocking hit is closer than the target, if so, can't shoot 
 		foreach (RaycastHit2D targetHit in targetHits)
 		{
-			foreach (RaycastHit2D blockHit in blockHits)
-			{
-				Cover cover = blockHit.transform.GetComponent<Cover>();
-				// if blocking thing is closer than target and not a "floor" cover.
-				if (blockHit.distance < targetHit.distance)
-				{
-					if (cover != null && cover.coverType == Cover.CoverType.Floor)
-					{
-						blockingHits += ignoreFloorCover ? 0 : 1;
-					}
-					else
-					{
-						blockingHits += 1;
-					}
-				}
-			}
-		}
 
-		// if we made it here and hit a target, then we do indeed have LOS and Range (otherwise would have returned or skipped this block)
-		bool targetInLOSInput = blockingHits == 0 && targetHits.Count() > 0;
+			//Building building = blockHit.transform.GetComponent<Building>();
+			Actor actorTarget = attackTarget.GetComponent<Actor>();
+
+			int highestActor = actorTarget.HeightLevel > actor.HeightLevel ? actorTarget.HeightLevel : actor.HeightLevel;
+
+
+            foreach (RaycastHit2D blockHit in blockHits)
+            {
+
+
+				if (blockHit.transform.GetComponent<Building>().HeightLevel >= highestActor)
+				{
+					blockingHits += 1;
+				}
+
+				//Cover cover = blockHit.transform.GetComponent<Cover>();
+				//// if blocking thing is closer than target and not a "floor" cover.
+				//if (blockHit.distance < targetHit.distance)
+				//{
+				//	if (cover != null && cover.coverType == Cover.CoverType.Floor)
+				//	{
+				//		blockingHits += ignoreFloorCover ? 0 : 1;
+				//	}
+				//	else
+				//	{
+
+
+
+			}
+            //}
+            //}
+        }
+
+            // if we made it here and hit a target, then we do indeed have LOS and Range (otherwise would have returned or skipped this block)
+            bool targetInLOSInput = blockingHits == 0 && targetHits.Count() > 0;
 		
 		return targetInLOSInput;
     }

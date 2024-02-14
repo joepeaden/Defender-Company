@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8207634065529741779}
   - component: {fileID: 4294192460384212037}
   - component: {fileID: 2458996109479672389}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Stairs
   m_TagString: WallBuilding
   m_Icon: {fileID: 0}
@@ -53,6 +53,7 @@ MonoBehaviour:
   isBeingPlaced: 0
   buildingType: 2
   isTargeted: 0
+  HeightLevel: 0
   vertWallSprite: {fileID: 0}
   vertWallCapTopSprite: {fileID: 0}
   vertWallCapBotSprite: {fileID: 0}

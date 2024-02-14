@@ -137,6 +137,24 @@ public class Player : MonoBehaviour//ActorController
 
 	#endregion
 
+	/// <summary>
+    /// Guess what target the player is shooting at based on a raycast.
+    /// </summary>
+	public GameObject FindPlayerTarget()
+    {
+		RaycastHit2D[] hits = Physics2D.RaycastAll(ControlledActor.transform.position, FollowMouse3D.CursorTransform.position, 500, LayerMask.GetMask("ActorBodies"));
+		foreach (RaycastHit2D hit in hits)
+        {
+			Actor hitActor = hit.transform.GetComponent<Actor>();
+			if (hitActor != null && hitActor.team != Actor.ActorTeam.Friendly)
+            {
+				return hit.transform.gameObject;
+            }
+		}
+
+		return null;
+	}
+
 	///////////////
 	#region Input
 	///////////////

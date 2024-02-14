@@ -109,6 +109,9 @@ public class Actor : MonoBehaviour
 	//public bool IsOnWall => isOnWall;
 	[SerializeField] public bool isOnWall;
 
+	//public int HeightLevel => heightLevel;
+	public int HeightLevel = 0;
+
 	private void Awake()
     {
 		state = new Dictionary<State, bool>()

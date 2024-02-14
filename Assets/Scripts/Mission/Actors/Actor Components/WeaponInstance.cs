@@ -151,7 +151,7 @@ public class WeaponInstance : MonoBehaviour
         while (aiming)
         {
             Ray2D ray = new Ray2D(transform.position, transform.up);
-            int layerMask = LayerMask.GetMask("ActorBodies", "Building");
+            int layerMask = LayerMask.GetMask("ActorBodies", "Obstacle");
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
             if (hit)

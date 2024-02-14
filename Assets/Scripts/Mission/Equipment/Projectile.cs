@@ -30,28 +30,15 @@ public class Projectile : MonoBehaviour
     private float spawnTime;
     private int damage;
 
+    private int FiringHeightLevel;
+    private int TargetHeightLevel;
+
     private void Awake()
     {
         //lastPoint = transform.position;
         audioSource = GetComponent<AudioSource>();
         theCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    private void Update()
-    {
-        //float timeElapsed = Time.time - spawnTime;
-        ////Mathf.Log
-
-        //damage -= ;
-
-        //// Ensure the value doesn't go below zero
-        //damage = Mathf.Max(0, damage);
-
-        //if (timeElapsed > data.projectileLifetime)
-        //{
-        //    Destroy(this);
-        //}
     }
 
     private void FixedUpdate()
@@ -80,6 +67,15 @@ public class Projectile : MonoBehaviour
         actor = firingActor;
         damage = data.damage;
 
+        GameObject aiAttackTarget = actor.GetComponent<AIActorController>().AttackTarget;
+        GameObject playerAttackTarget = MissionManager.Instance.Player.FindPlayerTarget();
+
+        // maxvalue should be pretty clear that this is player controlled
+        TargetHeightLevel = aiAttackTarget != null ? aiAttackTarget.GetComponent<Actor>().HeightLevel : int.MaxValue;
+
+        // good god
+        FiringHeightLevel = aiAttackTarget != null ? (actor.HeightLevel > aiAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : aiAttackTarget.GetComponent<Actor>().HeightLevel) : playerAttackTarget != null ? playerAttackTarget.GetComponent<Actor>().HeightLevel: int.MaxValue;
+
         // make sure friendlie(?)'s bullet sounds are never cut off.
         if (actor.team == Actor.ActorTeam.Friendly)
         {
@@ -105,30 +101,29 @@ public class Projectile : MonoBehaviour
 
 
 
-    public GameObject lastHitCover;
+    //public GameObject lastHitCover;
     void OnTriggerEnter2D (Collider2D other)
     {
         if (!destroying)
         {
-            if (other.gameObject.GetComponent<Cover>())
-            {
-                lastHitCover = other.gameObject;
-            }
 
-            Actor actor = other.gameObject.GetComponentInParent<Actor>();
+            Actor hitActor = other.gameObject.GetComponentInParent<Actor>();
 
             // please don't kill yo self or teammates
-            if (actor != null && actor.team == this.actor.team)
+            if (hitActor != null && hitActor.team == this.actor.team)
                 return;
 
-            // if hit a HIT BOX (not other actor components) or a building, need to destroy bullet
-            bool shouldDestroy = other.CompareTag("HitBox") || other.GetComponent<Building>() != null; //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
+            HitBox hitBox = other.gameObject.GetComponent<HitBox>();
+            Building building = other.GetComponent<Building>();
 
-            // only hit an actor if it's the actor's hit box
-            if (actor != null && other.gameObject.GetComponent<HitBox>())
+            // if hit a hit box or a building and at the correct height level, need to destroy bullet
+            bool shouldDestroy = (hitBox != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
+
+            // if hitting an actor's hitbox and we're at the same height level, process hit
+            if (hitBox != null && (hitActor.HeightLevel == FiringHeightLevel || actor.IsPlayer))
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-                shouldDestroy = actor.ProcessHit(damage, projectile: this);
+                shouldDestroy = hitActor.ProcessHit(damage, projectile: this);
 
                 //if (data.isExplosive)
                 //{
@@ -141,7 +136,6 @@ public class Projectile : MonoBehaviour
             if (shouldDestroy)
             {
                 destroying = true;
-                //GetComponent<MeshRenderer>().enabled = false;
                 StartCoroutine(BeginDestruction());
             }
         }
