@@ -594,16 +594,22 @@ public class Actor : MonoBehaviour
 		//      }
 
 		int hitPenalty = 0;
-		if (isBehindSandbags)
+		//if (isBehindSandbags)
+		//{
+		//	hitPenalty += 30;
+		//}
+		//if (isOnWall)
+		//{
+		//	hitPenalty += 30;
+		//}
+
+		// if higher than the one who shot the projectile, bonus to dodge chance
+		if (HeightLevel > projectile.Actor.HeightLevel)
 		{
-			hitPenalty += 30;
-		}
-		if (isOnWall)
-		{
-			hitPenalty += 30;
+			hitPenalty += 10 * Mathf.Abs(HeightLevel - projectile.Actor.HeightLevel);
 		}
 
-		float hitRoll = Random.Range(0, 100);
+        float hitRoll = Random.Range(0, 100);
 		gotHit = hitRoll > hitPenalty;
 
 		
