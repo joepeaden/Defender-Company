@@ -88,6 +88,8 @@ public class ActorSprite : MonoBehaviour
 
     private void HandleActorDeath(bool fromExplosive)
     {
+        spriteRend.enabled = false;
+
         if (fromExplosive)
         {
             Quaternion randomRotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0, 359)));
@@ -141,7 +143,12 @@ public class ActorSprite : MonoBehaviour
         }
         else
         {
-            spriteRend.sprite = deadSprites[Random.Range(0, deadSprites.Count)];
+            GameObject decalObject = ObjectPool.instance.GetDecal();
+            decalObject.SetActive(true);
+            decalObject.transform.position = transform.position;
+            decalObject.transform.rotation = transform.rotation;
+            decalObject.GetComponent<SpriteRenderer>().sprite = deadSprites[Random.Range(0, deadSprites.Count)];
+
         }
         //StartCoroutine(DeletePoofAfterWait(poof));
     }
@@ -152,9 +159,12 @@ public class ActorSprite : MonoBehaviour
         // lol, don't what?
         if (Random.Range(0, 10) > 7)
         {
-            GameObject bloodSplat = Instantiate(new GameObject(), transform.position, transform.rotation);
-            SpriteRenderer bloodSpltSpriteRenderer = bloodSplat.AddComponent<SpriteRenderer>();
-            bloodSpltSpriteRenderer.sprite = bloodSplats[Random.Range(0, bloodSplats.Count)];
+            GameObject bloodSplat = ObjectPool.instance.GetDecal();//Instantiate(new GameObject(), transform.position, transform.rotation);
+            //SpriteRenderer bloodSpltSpriteRenderer = bloodSplat.AddComponent<SpriteRenderer>();
+            bloodSplat.SetActive(true);
+            bloodSplat.transform.position = transform.position;
+            bloodSplat.transform.rotation = transform.rotation;
+            bloodSplat.GetComponent<SpriteRenderer>().sprite = bloodSplats[Random.Range(0, bloodSplats.Count)];
         }
     }
 

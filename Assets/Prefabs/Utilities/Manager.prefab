@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4578700069549726018}
   - component: {fileID: 4578700069549726019}
+  - component: {fileID: 8594193087705724215}
   - component: {fileID: 4578700069549726045}
   m_Layer: 0
   m_Name: Manager
@@ -28,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.9862812, y: -0.25806245, z: -3.8728535}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -44,8 +46,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b804985061377004ba9319d9fc317b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerGO: {fileID: 0}
-  reticleGO: {fileID: 0}
+  gateGO: {fileID: 0}
+  player: {fileID: 0}
+  friendlyActorBodies: []
+  friendlyActors: []
+  sirenSound: {fileID: 0}
+  testMode: 0
+  testMission: {fileID: 0}
+  basicEnemy: {fileID: 0}
+  sapperEnemy: {fileID: 0}
+  warriorEnemy: {fileID: 0}
+--- !u!114 &8594193087705724215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4578700069549726016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148d8be584d1d44c589f7d0f12ef1812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 6425079759990356200, guid: b5f2e306111ac4e2aab9f9da950c0040, type: 3}
+  amountProjToPool: 100
+  spriteDecalPrefab: {fileID: 8665252995200630762, guid: 7ca46142507464a358d432cfd3d91d76, type: 3}
+  amountDeadBodyToPool: 200
 --- !u!114 &4578700069549726045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,5 +84,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4566072f6f64a4e87db94a5f1306f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vCam: {fileID: 0}
-  mainCam: {fileID: 0}
+  freeCameraTarget: {fileID: 0}

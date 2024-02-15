@@ -15,7 +15,7 @@ MonoBehaviour:
   missionTitle: Deployment Test
   missionDifficulty: Test
   completionReward: 2500
-  enemyCount: 15
+  enemyCount: 100
   perTurnAttackChance: 1
   numberOfTurns: 1
   victoryCondition: 0

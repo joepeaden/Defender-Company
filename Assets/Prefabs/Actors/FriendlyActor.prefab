@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 3697046242640056988}
   - component: {fileID: 8749304545861988586}
   - component: {fileID: 890308715921755800}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: DetectionCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1178,8 +1178,7 @@ MonoBehaviour:
   movePosition: {x: 0, y: 0, z: 0}
   targetInLOS: 0
   cameraFollowTransform: {fileID: 1156188301388788375}
-  fullyInCover: 0
-  fullyOutOfCover: 0
+  IsDummy: 0
   bombPrefab: {fileID: 0}
   movePositionSprite: {fileID: 5405348601360001930}
   selectionHighlight: {fileID: 5309291495994027439}

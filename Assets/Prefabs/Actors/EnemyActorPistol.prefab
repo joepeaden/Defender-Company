@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5449866676460356095}
   - component: {fileID: 7097923607929041212}
   - component: {fileID: 7848368006440743662}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: DetectionCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,11 +879,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7366401
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5179043301488269364, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7366401
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5754784319907122149, guid: 20320dc72a4bb5444a2e11119a2ac8ea, type: 3}
       propertyPath: m_Layer

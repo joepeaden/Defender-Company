@@ -84,6 +84,10 @@ public class WeaponData : GearData
 
 	[Header("Projectile")]
 	/// <summary>
+    /// Is this an instant-hit kind of projectile (single instant raycast on fire), or a slow-moving (raycast every frame) 
+    /// </summary>
+	public bool isHitScan;
+	/// <summary>
     /// Length of projectile's collider
     /// </summary>
 	public float projColLength;

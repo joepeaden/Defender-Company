@@ -21,12 +21,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - HitBoxes
   - Water
   - UI
   - SelectionTriggers
   - Obstacle
-  - 
+  - RaycastBackboard
   - 
   - 
   - 

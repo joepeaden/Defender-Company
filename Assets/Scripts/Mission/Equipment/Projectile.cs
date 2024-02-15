@@ -33,24 +33,56 @@ public class Projectile : MonoBehaviour
     private int FiringHeightLevel;
     private int TargetHeightLevel;
 
-    private void Awake()
+    public float lifetime;
+
+    public float projVelocity;
+
+    private Vector3 lastFixedUpdatePos;
+
+    public bool useProjectilePhysics;
+
+    private void OnEnable()
     {
         //lastPoint = transform.position;
-        audioSource = GetComponent<AudioSource>();
-        theCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //audioSource = GetComponent<AudioSource>();
+        //theCollider = GetComponent<BoxCollider2D>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
+
+        lastFixedUpdatePos = transform.position;
+
+        spawnTime = Time.time;
     }
 
     private void FixedUpdate()
     {
-        if (data.projVelocity != 0)
+        if (Time.time - spawnTime > lifetime)
         {
-            GetComponent<Rigidbody2D>().velocity = data.projVelocity * transform.up;
+            gameObject.SetActive(false);
         }
-        else
+
+        if (useProjectilePhysics)
         {
-            Debug.LogWarning("Projectile velocity for " + gameObject.name + " is zero");
+            float travelDist = (transform.position - lastFixedUpdatePos).magnitude;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, -transform.up * travelDist, travelDist, LayerMask.GetMask("HitBoxes", "Obstacle"));
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.GetComponent<HitBox>() != null)
+                {
+                    hit.transform.GetComponentInParent<Actor>().ProcessHit(FiringHeightLevel)
+                }
+            }
         }
+
+        //    if (data.projVelocity != 0)
+        //    {
+        GetComponent<Rigidbody2D>().velocity = projVelocity * transform.up;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("Projectile velocity for " + gameObject.name + " is zero");
+        //    }
+
+        lastFixedUpdatePos = transform.position;
     }
 
     /// <summary>
@@ -103,12 +135,32 @@ public class Projectile : MonoBehaviour
         {
             firedWhileCrouching = true;
         }
+
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(actor.transform.position, transform.up, 500f, LayerMask.GetMask("HitBoxes", "Obstacle"));
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            //if (hit)
+            //{
+                //Actor hitActor = hit.transform.GetComponentInParent<Actor>();
+
+                // maybe use a different way to see if it's a building
+
+                Actor actor = hit.transform.GetComponentInParent<Actor>();
+                if (actor != null)
+                {
+                    HitTarget(hit.transform.GetComponent<Collider2D>());
+                }
+
+            //}
+        }
     }
 
 
 
     //public GameObject lastHitCover;
-    void OnTriggerEnter2D (Collider2D other)
+    void HitTarget (Collider2D other)
     {
         if (!destroying)
         {
@@ -119,17 +171,17 @@ public class Projectile : MonoBehaviour
             if (hitActor != null && hitActor.team == this.actor.team)
                 return;
 
-            HitBox hitBox = other.gameObject.GetComponent<HitBox>();
+            //HitBox hitBox = other.gameObject.GetComponent<HitBox>();
             Building building = other.GetComponent<Building>();
 
             // if hit a hit box or a building and at the correct height level, need to destroy bullet
-            bool shouldDestroy = (hitBox != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
+            bool shouldDestroy = (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
 
             // if hitting an actor's hitbox and we're at the same height level, process hit
-            if (hitBox != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer))
+            if (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer))
             {
                 // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-                shouldDestroy = hitActor.ProcessHit(damage, projectile: this);
+                //shouldDestroy = hitActor.ProcessHit(damagetarget);//, projectile: this);
 
                 //if (data.isExplosive)
                 //{
@@ -141,8 +193,10 @@ public class Projectile : MonoBehaviour
             // only destroy projectiles if they hit something solid
             if (shouldDestroy)
             {
-                destroying = true;
-                StartCoroutine(BeginDestruction());
+                gameObject.SetActive(false);
+                //Destroy(gameObject);
+                //destroying = true;
+                //StartCoroutine(BeginDestruction());
             }
         }
     }
@@ -151,13 +205,13 @@ public class Projectile : MonoBehaviour
     /// Wait a period of time to allow audio source to fully play out.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator BeginDestruction()
-    {
-        GetComponent<Collider2D>().enabled = false;
-        GetComponentInChildren<SpriteRenderer>().enabled = false;
-        yield return new WaitForSeconds(1.5f);
-        Destroy(gameObject);
-    }
+    //private IEnumerator BeginDestruction()
+    //{
+    //    GetComponent<Collider2D>().enabled = false;
+    //    GetComponentInChildren<SpriteRenderer>().enabled = false;
+    //    yield return new WaitForSeconds(1.5f);
+    //    Destroy(gameObject);
+    //}
 
     public WeaponData GetData()
     {

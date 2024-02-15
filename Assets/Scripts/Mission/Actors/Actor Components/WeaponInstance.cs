@@ -32,6 +32,7 @@ public class WeaponInstance : MonoBehaviour
     [Header("Debug Options")]
     [SerializeField]
     private bool drawAccuracyAngle;
+    private bool drawProjectileLines;
     //[SerializeField] private bool infiniteAmmo;
 
 
@@ -58,8 +59,8 @@ public class WeaponInstance : MonoBehaviour
             Quaternion ray2Dir = new Quaternion();
             ray2Dir.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y - accuracy, projRot.eulerAngles.z);
 
-            Debug.DrawRay(transform.position, ray1Dir * Vector3.forward * 10f, Color.red);
-            Debug.DrawRay(transform.position, ray2Dir * Vector3.forward * 10f, Color.red);
+            Debug.DrawRay(transform.position, ray1Dir * Vector3.up * 10f, Color.red);
+            Debug.DrawRay(transform.position, ray2Dir * Vector3.up * 10f, Color.red);
         }
 
         //if (inventoryWeapon != null && inventoryWeapon.data != null)
@@ -151,7 +152,7 @@ public class WeaponInstance : MonoBehaviour
         while (aiming)
         {
             Ray2D ray = new Ray2D(transform.position, transform.up);
-            int layerMask = LayerMask.GetMask("ActorBodies", "Obstacle");
+            int layerMask = LayerMask.GetMask("ActorBodies", "Obstacle", "RaycastBackboard");
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
             if (hit)
@@ -205,8 +206,13 @@ public class WeaponInstance : MonoBehaviour
             Quaternion projRot = transform.rotation;
             projRot.eulerAngles = new Vector3(projRot.eulerAngles.x, projRot.eulerAngles.y, projRot.eulerAngles.z + angle);
 
-            Projectile projectile = Instantiate(projectilePrefab, transform.position, projRot).GetComponent<Projectile>();
-            projectile.Initialize(actor, inventoryWeapon.data, proj);
+            //Projectile projectile = ObjectPool.instance.GetProjectile().GetComponent<Projectile>();
+            //projectile.gameObject.SetActive(true);
+            //projectile.transform.position = transform.position;
+            //projectile.transform.rotation = projRot;
+            //projectile.Initialize(actor, inventoryWeapon.data, proj);
+
+            FireProjectile(projRot);
 
             angle += accuracyAngle / inventoryWeapon.data.projPerShot;
         }
@@ -218,6 +224,142 @@ public class WeaponInstance : MonoBehaviour
         {
             StartCoroutine("PrepareToAttack");
         }
+    }
+
+    private int FiringHeightLevel;
+    private int TargetHeightLevel;
+    private void FireProjectile(Quaternion projRot)
+    {
+        //data = weaponData;
+        //actor = firingActor;
+        //damage = data.damage;
+
+        if (actor.IsPlayer)
+        {
+            GameObject playerAttackTarget = MissionManager.Instance.Player.FindPlayerTarget();
+            // target height lvl is ignored for player
+            TargetHeightLevel = int.MaxValue;
+            FiringHeightLevel = playerAttackTarget != null ? actor.HeightLevel > playerAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : playerAttackTarget.GetComponent<Actor>().HeightLevel : actor.HeightLevel;
+        }
+        else
+        {
+            GameObject aiAttackTarget = actor.GetComponent<AIActorController>().AttackTarget;
+            TargetHeightLevel = aiAttackTarget != null ? aiAttackTarget.GetComponent<Actor>().HeightLevel : int.MaxValue;
+            FiringHeightLevel = aiAttackTarget != null ? (actor.HeightLevel > aiAttackTarget.GetComponent<Actor>().HeightLevel ? actor.HeightLevel : aiAttackTarget.GetComponent<Actor>().HeightLevel) : actor.HeightLevel;
+        }
+
+
+        // make sure friendlie(?)'s bullet sounds are never cut off.
+        if (actor.team == Actor.ActorTeam.Friendly)
+        {
+            audioSource.priority = 0;
+        }
+
+        //theCollider.size = new Vector2(data.projColWidth, data.projColLength);
+        //spriteRenderer.sprite = data.projSprite;
+
+        // only play one sound when fired.
+        //if (siblingNumber < 1 && audioSource != null)
+        //{
+        PlayAudioClip(inventoryWeapon.data.attackSound);
+        //audioSource.Play();
+        //}
+
+        // just to tell if it should hit floor cover or not
+        //if (actor.state[Actor.State.Crouching])
+        //{
+        //    firedWhileCrouching = true;
+        //}
+
+        if (drawProjectileLines)
+        {
+            Debug.DrawRay(transform.position, projRot * Vector3.up * 500, Color.red, 60f);
+        }
+
+        Projectile projectile = ObjectPool.instance.GetProjectile().GetComponent<Projectile>();
+        projectile.projVelocity = inventoryWeapon.data.projVelocity;
+        projectile.GetComponent<SpriteRenderer>().sprite = inventoryWeapon.data.projSprite;
+        projectile.transform.position = transform.position;
+        projectile.transform.rotation = projRot;
+        projectile.gameObject.SetActive(true);
+
+        if (inventoryWeapon.data.isHitScan)
+        {
+            CastProjectileHitRay(projRot);
+        }
+        else
+        {
+            projectile.useProjectilePhysics = true;
+        }
+    }
+
+    private void CastProjectileHitRay(Quaternion projRot)
+    {
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(actor.transform.position, projRot * Vector3.up, 500f, LayerMask.GetMask("HitBoxes", "Obstacle"));
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            //if (hit)
+            //{
+            //Actor hitActor = hit.transform.GetComponentInParent<Actor>();
+
+            // maybe use a different way to see if it's a building
+
+            Actor actor = hit.transform.GetComponentInParent<Actor>();
+            if (actor != null)
+            {
+                HitTarget(hit.transform.GetComponent<Collider2D>());
+            }
+
+            //}
+        }
+    }
+
+    void HitTarget(Collider2D other)
+    {
+        //if (!destroying)
+        //{
+
+        Actor hitActor = other.gameObject.GetComponentInParent<Actor>();
+
+        // please don't kill yo self or teammates
+        if (hitActor != null && hitActor.team == this.actor.team)
+            return;
+
+        //HitBox hitBox = other.gameObject.GetComponent<HitBox>();
+        Building building = other.GetComponent<Building>();
+
+        // if hit a hit box or a building and at the correct height level, need to destroy bullet
+        bool shouldDestroy = (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
+
+        // if hitting an actor's hitbox and we're at the same height level, process hit
+        if (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer))
+        {
+            // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
+            shouldDestroy = hitActor.ProcessHit(inventoryWeapon.data.damage, firingActorHeightLevel: actor.HeightLevel);//, projectile: this);
+
+            if (hitActor.HitPoints <= 0)
+            {
+                actor.TallyKill();
+            }
+
+            //if (data.isExplosive)
+            //{
+            //    // implement method per projectile types
+            //    CreateExplosion();
+            //}
+        }
+
+        // only destroy projectiles if they hit something solid
+        //if (shouldDestroy)
+        //{
+        //    gameObject.SetActive(false);
+        //    //Destroy(gameObject);
+        //    //destroying = true;
+        //    //StartCoroutine(BeginDestruction());
+        //}
+        //}
     }
 
     /// <summary>

@@ -29,11 +29,11 @@ MonoBehaviour:
   reloadSound: {fileID: 8300000, guid: cad50383732c54e1ba437bb598a3a08d, type: 3}
   leftSprite: {fileID: 21300000, guid: c002d057adde64f3c9202841ea060e45, type: 3}
   rightSprite: {fileID: 21300000, guid: 38ffd622703ba47c0bb76dbd2346682c, type: 3}
-  projSprite: {fileID: 21300000, guid: 419181ea0573543fe96c066e89bc7023, type: 3}
+  projSprite: {fileID: 21300000, guid: 0fbf44d7c1f6b44f491b4f7f9a0ff96b, type: 3}
   accuracyAngle: 20
   movementAccuracyPenalty: 3
   aimingBoon: 5
   projColLength: 0.13
   projColWidth: 0.13
-  projVelocity: 17
+  projVelocity: 80
   projPerShot: 1

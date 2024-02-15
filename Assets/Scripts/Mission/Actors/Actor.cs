@@ -569,7 +569,7 @@ public class Actor : MonoBehaviour
 	/// </summary>
 	/// <param name="damage">Damage to deal to this actor.</param>
 	/// <returns>If the projectile should </returns>
-	public bool ProcessHit(int damage, bool fromExplosive = false, Projectile projectile = null)
+	public bool ProcessHit(int damage, bool fromExplosive = false, int firingActorHeightLevel = 0)//Projectile projectile = null)
 	{
 		bool gotHit = true;
 		if (!IsAlive || isInvincible)
@@ -604,9 +604,9 @@ public class Actor : MonoBehaviour
 		//}
 
 		// if higher than the one who shot the projectile, bonus to dodge chance
-		if (HeightLevel > projectile.Actor.HeightLevel)
+		if (HeightLevel > firingActorHeightLevel)
 		{
-			hitPenalty += 10 * Mathf.Abs(HeightLevel - projectile.Actor.HeightLevel);
+			hitPenalty += 10 * Mathf.Abs(HeightLevel - firingActorHeightLevel);
 		}
 
         float hitRoll = Random.Range(0, 100);
@@ -628,10 +628,10 @@ public class Actor : MonoBehaviour
 
 			if (HitPoints <= 0)
 			{
-				if (projectile != null)
-				{
-					projectile.Actor.TallyKill();
-				}
+				//if (projectile != null)
+				//{
+				//	projectile.Actor.TallyKill();
+				//}
 
 				Die(fromExplosive);
 			}
@@ -677,5 +677,14 @@ public class Actor : MonoBehaviour
 
 		// have actor handle it's own inevitable destruction. It's ok buddy.
 		OnDeath.Invoke(fromExplosive);
+
+		StartCoroutine(DestroyAfterDelay());
 	}
+
+	private IEnumerator DestroyAfterDelay()
+    {
+		yield return new WaitUntil(() => audioSource.isPlaying == false);
+
+		Destroy(transform.parent.gameObject);
+    }
 }
