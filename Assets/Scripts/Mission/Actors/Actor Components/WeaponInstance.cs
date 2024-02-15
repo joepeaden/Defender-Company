@@ -277,7 +277,7 @@ public class WeaponInstance : MonoBehaviour
         }
 
         Projectile projectile = ObjectPool.instance.GetProjectile().GetComponent<Projectile>();
-        projectile.projVelocity = inventoryWeapon.data.projVelocity;
+        projectile.Initialize(actor, inventoryWeapon.data);
         projectile.GetComponent<SpriteRenderer>().sprite = inventoryWeapon.data.projSprite;
         projectile.transform.position = transform.position;
         projectile.transform.rotation = projRot;
