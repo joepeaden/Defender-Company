@@ -277,89 +277,75 @@ public class WeaponInstance : MonoBehaviour
         }
 
         Projectile projectile = ObjectPool.instance.GetProjectile().GetComponent<Projectile>();
-        projectile.Initialize(actor, inventoryWeapon.data);
-        projectile.GetComponent<SpriteRenderer>().sprite = inventoryWeapon.data.projSprite;
+
+        //projectile.GetComponent<SpriteRenderer>().sprite = inventoryWeapon.data.projSprite;
         projectile.transform.position = transform.position;
         projectile.transform.rotation = projRot;
         projectile.gameObject.SetActive(true);
 
         if (inventoryWeapon.data.isHitScan)
         {
-            CastProjectileHitRay(projRot);
+            projectile.Initialize(actor, inventoryWeapon.data, false);
+            CastProjectileHitRay(projRot, projectile);
         }
         else
         {
-            projectile.useProjectilePhysics = true;
+            projectile.Initialize(actor, inventoryWeapon.data, true);
         }
     }
 
-    private void CastProjectileHitRay(Quaternion projRot)
+    private void CastProjectileHitRay(Quaternion projRot, Projectile projectile)
     {
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(actor.transform.position, projRot * Vector3.up, 500f, LayerMask.GetMask("HitBoxes", "Obstacle"));
 
         foreach (RaycastHit2D hit in hits)
         {
-            //if (hit)
-            //{
-            //Actor hitActor = hit.transform.GetComponentInParent<Actor>();
+            bool shouldDestroy = false;
 
-            // maybe use a different way to see if it's a building
-
-            Actor actor = hit.transform.GetComponentInParent<Actor>();
-            if (actor != null)
+            Actor hitActor = hit.transform.GetComponentInParent<Actor>();
+            if (hitActor != null)
             {
-                HitTarget(hit.transform.GetComponent<Collider2D>());
+                if (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)
+                {
+                    // don't do anything if it's the firing actor
+                    if (hitActor == actor)
+                    {
+                        continue;
+                    }
+
+                    // could (should) implement friendly fire here, but for now just be invulnerable
+                    if (hitActor.team == this.actor.team)
+                    {
+                        shouldDestroy = true;
+                    }
+                    else
+                    {
+                        shouldDestroy = hitActor.ProcessHit(inventoryWeapon.data.damage, firingActorHeightLevel: actor.HeightLevel);
+                    }
+
+                    if (hitActor.HitPoints <= 0)
+                    {
+                        actor.TallyKill();
+                    }
+                }
             }
 
-            //}
-        }
-    }
-
-    void HitTarget(Collider2D other)
-    {
-        //if (!destroying)
-        //{
-
-        Actor hitActor = other.gameObject.GetComponentInParent<Actor>();
-
-        // please don't kill yo self or teammates
-        if (hitActor != null && hitActor.team == this.actor.team)
-            return;
-
-        //HitBox hitBox = other.gameObject.GetComponent<HitBox>();
-        Building building = other.GetComponent<Building>();
-
-        // if hit a hit box or a building and at the correct height level, need to destroy bullet
-        bool shouldDestroy = (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer)) || (building != null && building.HeightLevel >= FiringHeightLevel); //|| (other.CompareTag("Cover") && other.GetComponent<Cover>().coverType == Cover.CoverType.Floor && firedWhileCrouching);//&& lastHitCover != other.gameObject && actor == null);
-
-        // if hitting an actor's hitbox and we're at the same height level, process hit
-        if (hitActor != null && (hitActor.HeightLevel == TargetHeightLevel || actor.IsPlayer))
-        {
-            // may not always destroy if hit actor, i.e. if actor is in cover and it "missed"
-            shouldDestroy = hitActor.ProcessHit(inventoryWeapon.data.damage, firingActorHeightLevel: actor.HeightLevel);//, projectile: this);
-
-            if (hitActor.HitPoints <= 0)
+            Building building = hit.transform.GetComponent<Building>();
+            if (building != null && building.HeightLevel >= FiringHeightLevel)
             {
-                actor.TallyKill();
+                shouldDestroy = true;
             }
 
-            //if (data.isExplosive)
-            //{
-            //    // implement method per projectile types
-            //    CreateExplosion();
-            //}
-        }
+            // if we hit with something, stop further collisions
+            if (shouldDestroy)
+            {
+                float dist = (actor.transform.position - hit.transform.position).magnitude;
+                projectile.lifeSpan = dist / inventoryWeapon.data.projVelocity;
 
-        // only destroy projectiles if they hit something solid
-        //if (shouldDestroy)
-        //{
-        //    gameObject.SetActive(false);
-        //    //Destroy(gameObject);
-        //    //destroying = true;
-        //    //StartCoroutine(BeginDestruction());
-        //}
-        //}
+                break;
+            }
+        }
     }
 
     /// <summary>

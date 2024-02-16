@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 74726a3862316495fb283e2ce760def9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -138,6 +138,7 @@ MonoBehaviour:
   buildingType: 0
   isTargeted: 0
   HeightLevel: 0
+  heightBoost: 0
   vertWallSprite: {fileID: 21300000, guid: 6856764e711a64a30b2e4d4b36dcfe0c, type: 3}
   vertWallCapTopSprite: {fileID: 21300000, guid: 817b06aeaee0d4c36a888ed3f1562307, type: 3}
   vertWallCapBotSprite: {fileID: 21300000, guid: 4db3b7e267d8f4dcfb477be003a125dd, type: 3}

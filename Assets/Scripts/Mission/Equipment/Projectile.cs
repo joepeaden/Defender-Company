@@ -35,6 +35,8 @@ public class Projectile : MonoBehaviour
 
     public bool useProjectilePhysics;
 
+    public float lifeSpan;
+
     private void Awake()
     {
         //lastPoint = transform.position;
@@ -45,6 +47,12 @@ public class Projectile : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // if this is purely visual (we're using raycast to detect hit instead), disable once it will have travelled to the target
+        if (!useProjectilePhysics && (Time.time - spawnTime) > lifeSpan)
+        {
+            gameObject.SetActive(false);
+        }
+
         if (data.projVelocity != 0)
         {
             GetComponent<Rigidbody2D>().velocity = data.projVelocity * transform.up;
@@ -60,13 +68,18 @@ public class Projectile : MonoBehaviour
     /// </summary>
     /// <param name="firingActor">Actor who fired it</param>
     /// <param name="weaponData">The data of the firing weapon (pass in when fired)</param>
-    public void Initialize(Actor firingActor, WeaponData weaponData)//, int siblingNumber)
+    public void Initialize(Actor firingActor, WeaponData weaponData, bool shouldUseProjectilePhysics)//, int siblingNumber)
     {
         spawnTime = Time.time;
 
         data = weaponData;
         actor = firingActor;
         damage = data.damage;
+
+        useProjectilePhysics = shouldUseProjectilePhysics;
+
+        // this will be overwritten later in WeaponInstance if using hitscan
+        lifeSpan = 1f;
 
         if (actor.IsPlayer)
         {
