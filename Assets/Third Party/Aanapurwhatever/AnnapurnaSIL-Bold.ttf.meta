@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 6a19492eec345435887e7980070d4ebf
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Annapurna SIL
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: e6b31a9d736924ad4bf72a32e61ddd0d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
