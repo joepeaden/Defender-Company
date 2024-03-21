@@ -12,7 +12,8 @@ public class SceneLoader : MonoBehaviour
     public enum SceneName
     {
         MainMenu,
-        Mission
+        Mission,
+        TutorialMission
     }
 
     private void Awake()

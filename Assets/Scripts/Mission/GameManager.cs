@@ -114,4 +114,11 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public void HandleNewGame()
+    {
+        SceneLoader.Instance.LoadScene(SceneLoader.SceneName.TutorialMission, SceneLoader.SceneName.MainMenu, true);
+
+        //SetCurrentMission(tutorialMission);
+    }
 }
