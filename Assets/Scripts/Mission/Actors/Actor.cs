@@ -511,6 +511,7 @@ public class Actor : MonoBehaviour
 
 	/// <summary>
 	/// Move laterally in moveVector direction. Move force can be found in the ActorData Scriptable Object.
+    /// Why did I feel the need to include the word "laterally"? 
 	/// </summary>
 	/// <param name="useNavMesh">Should this actor use NavMesh? Affects how moveVector is interpeted.</param>
 	/// <param name="moveVector">If not useNavMesh, direction of movement. If useNavMesh, the destination of the agent.</param>
@@ -616,6 +617,10 @@ public class Actor : MonoBehaviour
         if (gotHit)
 		{
 			HitPoints -= damage;
+			if (HitPoints < 0)
+            {
+				HitPoints = 0;
+            }
 
 			// don't always play the sound.
 			int index = Random.Range(0, woundSounds.Count * 3);

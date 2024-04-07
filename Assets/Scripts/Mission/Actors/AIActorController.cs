@@ -45,7 +45,10 @@ public abstract class AIActorController : ActorController, ISetActive
 	[HideInInspector]
 	public bool IsDummy;
 
-	private List<Actor> possibleTargets = new List<Actor>();
+	/// <summary>
+    /// The actor, then the bool is "inEmergencyRange"
+    /// </summary>
+	private Dictionary<Actor, bool> possibleTargets = new Dictionary<Actor, bool>();
 
 	protected void Start()
 	{
@@ -64,6 +67,8 @@ public abstract class AIActorController : ActorController, ISetActive
         {
 			aiState = new AIHoldingPositionCombatState();
         }
+
+		StartCoroutine(AttackRoutine());
 	}
 
 	protected void Update()
@@ -75,7 +80,10 @@ public abstract class AIActorController : ActorController, ISetActive
 				targetInRange = IsTargetInRange();
 				targetInLOS = IsTargetInLOS(true);
 
-				aiState = aiState.StateUpdate(this, aiState);
+				if (actor.team != Actor.ActorTeam.Friendly)
+				{
+					aiState = aiState.StateUpdate(this, aiState);
+				}
 			}
 
 			if (attackTarget == null && !isPlayerControlled)
@@ -152,25 +160,6 @@ public abstract class AIActorController : ActorController, ISetActive
 		}
 	}
 
-	public void AddPossibleTarget(Actor targetActor)
-    {
-		if (AttackTarget == null)
-        {
-			SetAttackTarget(targetActor.gameObject);
-		}
-
-		possibleTargets.Add(targetActor);
-	}
-
-	public void RemovePossibleTarget(Actor targetActor)
-    {
-		possibleTargets.Remove(targetActor);
-		if (attackTarget == targetActor)
-        {
-			attackTarget = null;
-        }
-    }
-
     /// <summary>
     /// Hide model, and stop looking for players or doing anything else.
     /// </summary>
@@ -228,51 +217,71 @@ public abstract class AIActorController : ActorController, ISetActive
 		followTarget = t;
 	}
 
-	public void SetAttackTarget(GameObject g)
-	{
-		if (isActiveAndEnabled)
-		{
-			attackTarget = g;
-			//if (target.GetComponent<Actor>() != null)
-			//      {
-			//	actor.target = target.GetComponent<Actor>().GetShootAtMeTransform();
-			//}
-			//else
-			//      {
-			//	actor.target = target.transform;
-			//      }
-
-			StartCoroutine(AttackRoutine());
-		}
-	}
-
-	public void ClearAttackTarget()
-    {
-		StopCoroutine(AttackRoutine());
-		possibleTargets.Remove(attackTarget.GetComponent<Actor>());
-		attackTarget = null;
-    }
-
 	/// <summary>
     /// Pick new target from list of targets available (detcted by TargetDetectionTrigger)
     /// </summary>
     /// <returns>True if found a target, false if none</returns>
 	private bool PickNewAttackTarget()
     {
-		for (int i = 0; i < possibleTargets.Count; i++)
-        {
-			if (!possibleTargets[i].IsAlive)
-            {
-				possibleTargets.Remove(possibleTargets[i]);
-				continue;
-            }
+		attackTarget = null;
+		List<Actor> actorsToRemove = new List<Actor>();
+		foreach (KeyValuePair<Actor, bool> kvp in possibleTargets)
+		{
+			Actor attackActor = kvp.Key;
+			bool isInEmergencyRange = kvp.Value;
 
-			SetAttackTarget(possibleTargets[i].gameObject);
-			return true;
+			if (!attackActor.IsAlive)
+			{
+				//possibleTargets.Remove(attackActor);
+
+				actorsToRemove.Add(attackActor);
+				continue;
+			}
+
+			// if there has been no target assigned, assign one. Then, keep looking in case there is an emergency range (higher priority) target
+			if (attackTarget == null || isInEmergencyRange)
+			{
+				attackTarget = attackActor.gameObject;
+
+				// if we picked an emergency target (they're close enough to prioritize) then no need to keep iterating.
+				if (isInEmergencyRange)
+                {
+					break;
+                }
+			}
+
+
 		}
 
-		return false;
+		foreach (Actor ac in actorsToRemove)
+        {
+			possibleTargets.Remove(ac);
+        }
+
+		return attackTarget != null;
     }
+
+	public void AddAttackTarget(Actor targetActor, bool isEmergencyRange)
+	{
+		if (AttackTarget == null)
+		{
+			attackTarget = targetActor.gameObject;
+		}
+
+		possibleTargets[targetActor] = isEmergencyRange;
+	}
+
+	public void RemoveAttackTarget(Actor targetActor)
+	{
+		if (possibleTargets.Keys.Contains(targetActor))
+		{
+			possibleTargets.Remove(targetActor);
+			if (attackTarget == targetActor)
+			{
+				attackTarget = null;
+			}
+		}
+	}
 
 	private IEnumerator AttackRoutine()
     {
@@ -286,14 +295,21 @@ public abstract class AIActorController : ActorController, ISetActive
 				continue;
 			}
 
-			if (!attackTarget.GetComponent<Actor>().IsAlive)
+			if (attackTarget == null || !attackTarget.GetComponent<Actor>().IsAlive)
             {
-				ClearAttackTarget();
+				Actor oldAttackTarget = attackTarget == null? null : attackTarget.GetComponent<Actor>();
 
 				bool newTargetFound = PickNewAttackTarget();
+
+				if (oldAttackTarget != null)
+				{
+					RemoveAttackTarget(oldAttackTarget);
+				}
+
 				if (!newTargetFound)
                 {
-					break;
+					yield return null;
+					continue;
 				}
             }
 
@@ -384,8 +400,8 @@ public abstract class AIActorController : ActorController, ISetActive
             foreach (RaycastHit2D blockHit in blockHits)
             {
 
-
-				if (blockHit.transform.GetComponent<Building>().HeightLevel >= highestActor)
+				// if blocked by something and it's at a blocking height level
+				if (blockHit.transform.GetComponent<Building>().HeightLevel >= highestActor && blockHit.distance < targetHit.distance)
 				{
 					blockingHits += 1;
 				}

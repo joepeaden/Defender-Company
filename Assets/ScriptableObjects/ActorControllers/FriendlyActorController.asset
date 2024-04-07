@@ -17,10 +17,10 @@ MonoBehaviour:
   canAim: 0
   startWeapon: {fileID: 11400000, guid: 2051f262877fb4190b4af1e6c02e6562, type: 2}
   accuracyRating: 1
-  pauseBetweenBursts: 0.5
+  pauseBetweenBursts: 0.1
   moveSpeed: 1
-  hitPoints: 100
-  sprite: {fileID: 21300000, guid: 4b37b80ea45564435b9548bb7419de96, type: 3}
+  hitPoints: 5
+  sprite: {fileID: 21300000, guid: ce8a338e671094999bf8c3c349984789, type: 3}
   bloodSplats:
   - {fileID: 21300000, guid: 23a34616cbb014cca936d14d5774801b, type: 3}
   - {fileID: 21300000, guid: df787ab818ec04ef1b294a7dec32b205, type: 3}

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MercenaryBackgroundData
   m_EditorClassIdentifier: 
   backgroundName: Mercenary
-  minHP: 100
-  maxHP: 150
-  minSpeed: 1
-  maxSpeed: 2
-  minAcc: 3
-  maxAcc: 5
+  minHP: 5
+  maxHP: 7
+  minSpeed: 5
+  maxSpeed: 5
+  minAcc: 10
+  maxAcc: 10
   backgroundDescription: Mercenaries have military experience, whether from a previous
     career as a soldier, riot-guard, or wastelander. These days, the value of a good
     fighter has never been higher. And this recruit knows it.

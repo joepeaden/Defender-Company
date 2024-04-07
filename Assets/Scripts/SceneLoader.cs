@@ -13,7 +13,8 @@ public class SceneLoader : MonoBehaviour
     {
         MainMenu,
         Mission,
-        TutorialMission
+        TutorialMission,
+        Map
     }
 
     private void Awake()
@@ -29,7 +30,7 @@ public class SceneLoader : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        LoadScene(SceneName.MainMenu, null, true);
+        ChangeScene(SceneName.Map, null, true);
     }
 
     private void OnDestroy()
@@ -38,19 +39,25 @@ public class SceneLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Load scene; additive or not.
+    /// Load or unload scene; additive or not.
     /// </summary>
     /// <param name="sceneToLoad"></param>
     /// <param name="sceneToUnload">Pass null if you don't wanna unload nuthin</param>
     /// <param name="additive"></param>
-    public void LoadScene(SceneName sceneToLoad, SceneName? sceneToUnload, bool additive)
+    public void ChangeScene(SceneName? sceneToLoad, SceneName? sceneToUnload, bool additive)
     {
         if (sceneToUnload.HasValue)
         {
             SceneManager.UnloadSceneAsync(sceneToUnload.Value.ToString());
         }
-
-        SceneManager.LoadScene(sceneToLoad.ToString(), additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        else if (sceneToLoad.HasValue)
+        {
+            SceneManager.LoadScene(sceneToLoad.Value.ToString(), additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+        }
+        else
+        {
+            Debug.LogWarning("No scene to load or unload");
+        }
     }
 
     /// <summary>

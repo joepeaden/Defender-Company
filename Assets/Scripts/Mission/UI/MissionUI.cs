@@ -88,7 +88,7 @@ public class MissionUI : MonoBehaviour
         stairsBuildingButtonText = stairsBuildingButton.transform.GetComponentInChildren<TMP_Text>();
         barricadesBuildingButtonText = barricadesBuildingButton.transform.GetComponentInChildren<TMP_Text>();
 
-        MissionManager.OnLeaveBuildMode.AddListener(HandleLeaveBuildMode);
+        //MissionManager.OnLeaveBuildMode.AddListener(HandleLeaveBuildMode);
         MissionManager.OnAttackEnd.AddListener(HandleAttackEnd);
         MissionManager.OnNewTurn.AddListener(UpdateWeekText);
     }
@@ -115,6 +115,9 @@ public class MissionUI : MonoBehaviour
 
         PlayerInput.OnDragStarted.AddListener(OnDragStartRegistered);
         PlayerInput.OnDragEnded.AddListener(OnDragEndRegistered);
+
+        announcementText.ShowAnnouncementText("INCOMING!", "");
+        ShowBattleUI();
     }
 
     private void Update()
@@ -140,20 +143,20 @@ public class MissionUI : MonoBehaviour
         PlayerInput.OnSelect.RemoveListener(HandleSelectInput);
         PlayerInput.OnNavigate.RemoveListener(HandleNavigation);
         ShopItemButton.OnNewHoveredButton.RemoveListener(UpdateHoveredButton);
-        MissionManager.OnLeaveBuildMode.RemoveListener(HandleLeaveBuildMode);
+        //MissionManager.OnLeaveBuildMode.RemoveListener(HandleLeaveBuildMode);
         MissionManager.OnAttackEnd.RemoveListener(HandleAttackEnd);
         MissionManager.OnNewTurn.RemoveListener(UpdateWeekText);
     }
 
-    private void HandleLeaveBuildMode()
-    {
-        announcementText.ShowAnnouncementText("INCOMING!", "");
-        ShowBattleUI();
-    }
+    //private void HandleLeaveBuildMode()
+    //{
+    //    announcementText.ShowAnnouncementText("INCOMING!", "");
+    //    ShowBattleUI();
+    //}
 
     private void HandleAttackEnd()
     {
-        ShowBuildingUI();
+        //ShowBuildingUI();
     }
 
     private void UpdateWeekText()

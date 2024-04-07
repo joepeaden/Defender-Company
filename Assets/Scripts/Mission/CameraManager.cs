@@ -26,17 +26,17 @@ public class CameraManager : MonoBehaviour
 
         vCam = GetComponent<CinemachineVirtualCamera>();
 
-        UseFreeCamera();
-        MissionManager.OnAttackEnd.AddListener(UseFreeCamera);
-        PlayerInput.OnCommandModeEnter.AddListener(UseFreeCamera);
+        //UseFreeCamera();
+        //MissionManager.OnAttackEnd.AddListener(UseFreeCamera);
+        //PlayerInput.OnCommandModeEnter.AddListener(UseFreeCamera);
         PlayerInput.OnCommandModeExit.AddListener(FollowPlayer);
         
     }
 
     private void OnDestroy()
     {
-        MissionManager.OnAttackEnd.RemoveListener(UseFreeCamera);
-        PlayerInput.OnCommandModeEnter.RemoveListener(UseFreeCamera);
+        //MissionManager.OnAttackEnd.RemoveListener(UseFreeCamera);
+        //PlayerInput.OnCommandModeEnter.RemoveListener(UseFreeCamera);
         PlayerInput.OnCommandModeExit.RemoveListener(FollowPlayer);
     }
 

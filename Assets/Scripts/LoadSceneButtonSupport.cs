@@ -11,6 +11,6 @@ public class LoadSceneButtonSupport : MonoBehaviour
     private void Start()
     {
         SceneLoader.SceneName? _sceneToUnload = unloadScene ? sceneToUnload : null;
-        GetComponent<Button>().onClick.AddListener(delegate { SceneLoader.Instance.LoadScene(sceneToLoad, _sceneToUnload, loadSceneAdditive); } );
+        GetComponent<Button>().onClick.AddListener(delegate { SceneLoader.Instance.ChangeScene(sceneToLoad, _sceneToUnload, loadSceneAdditive); } );
     }
 }

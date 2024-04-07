@@ -16,8 +16,8 @@ MonoBehaviour:
   displayName: Alien Pistol
   rewardKey: 
   cost: 150
-  damage: 10
-  range: 20
+  damage: 1
+  range: 25
   projectileLifetime: 0
   rateOfFire: 0.1
   shotPerBurst: 1
@@ -33,6 +33,7 @@ MonoBehaviour:
   accuracyAngle: 8
   movementAccuracyPenalty: 10
   aimingBoon: 2
+  isHitScan: 0
   projColLength: 0.25
   projColWidth: 0.25
   projVelocity: 60

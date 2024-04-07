@@ -60,7 +60,7 @@ public class CompanySoldier
         hitPoints = UnityEngine.Random.Range(backgroundData.minHP, backgroundData.maxHP);
         moveSpeed = UnityEngine.Random.Range(backgroundData.minSpeed, backgroundData.maxSpeed);
         accuracyRating = UnityEngine.Random.Range(backgroundData.minAcc, backgroundData.maxAcc);
-        CurrentWeapon = GameManager.Instance.GetDataStore().pistol;
+        CurrentWeapon = GameManager.Instance.GetDataStore().assaultRifle;
         hireCost = (int)(hitPoints + (moveSpeed * 60) + (accuracyRating * 100) + CurrentWeapon.cost);
         id = Guid.NewGuid().ToString();
         face = newFace;

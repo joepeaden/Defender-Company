@@ -8,8 +8,14 @@ public class WeaponSprite : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator gunBlastAnim;
     [SerializeField] private Animator gunMoveAnim;
+    //[SerializeField] private Animator shellCasingAnim;
+    //[SerializeField] private Animator shellCasingAnim2;
+    //[SerializeField] private Animator shellCasingAnim3;
+    public GameObject shellCasing;
 
     private bool isFacingLeft = false;
+
+    public Transform weaponParent;
 
     private void Start()
     {
@@ -25,6 +31,8 @@ public class WeaponSprite : MonoBehaviour
     {
         gunBlastAnim.Play("HumanGunBlast", -1, 0);
 
+        PlayShellCasingAnim();
+
         if (isFacingLeft)
         {
             gunMoveAnim.Play("GunKickingLeft", -1, 0);
@@ -33,6 +41,23 @@ public class WeaponSprite : MonoBehaviour
         {
             gunMoveAnim.Play("GunKicking", -1, 0);
         }
+    }
+
+
+    private void PlayShellCasingAnim()
+    {
+        GameObject casing = Instantiate(shellCasing, transform.position, transform.rotation);
+        casing.GetComponent<Rigidbody2D>().AddForce(-weaponParent.up * Random.Range(200f, 500f));
+        if (isFacingLeft)
+        {
+            casing.GetComponent<Rigidbody2D>().AddForce(-weaponParent.right * Random.Range(150f, 200f));
+        }
+        else
+        {
+            casing.GetComponent<Rigidbody2D>().AddForce(weaponParent.right * Random.Range(150f, 200f));
+        }
+
+        casing.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-500f, 500f));
     }
 
     public void FaceLeft()

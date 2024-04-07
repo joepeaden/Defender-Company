@@ -366,7 +366,7 @@ public class WeaponInstance : MonoBehaviour
 
         accuracyAngle -= actor.AccuracyRating * 3;
 
-        return accuracyAngle;
+        return accuracyAngle > 0 ? accuracyAngle : 0;
     }
 
     private IEnumerator Flash()

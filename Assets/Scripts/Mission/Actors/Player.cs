@@ -27,12 +27,15 @@ public class Player : MonoBehaviour//ActorController
         PlayerInput.OnUseEquipment.AddListener(HandleUseEquipmentInput);
         PlayerInput.OnInteract.AddListener(HandleInteractInput);
 
-		MissionManager.OnLeaveBuildMode.AddListener(EnableCommandControls);
+		//MissionManager.OnLeaveBuildMode.AddListener(EnableCommandControls);
 	}
 
 	private void Start()
 	{
 		//actor.OnHeal.AddListener(HandleHeal);
+
+		//EnableCommandControls();
+		PlayerInput.EnableGameplayControls();
 
 		StartCoroutine(AttackCoroutine());
 	}
@@ -132,7 +135,7 @@ public class Player : MonoBehaviour//ActorController
 		PlayerInput.OnReload.RemoveListener(HandleReloadInput);
 		PlayerInput.OnUseEquipment.RemoveListener(HandleUseEquipmentInput);
 		PlayerInput.OnInteract.RemoveListener(HandleInteractInput);
-		MissionManager.OnLeaveBuildMode.RemoveListener(EnableCommandControls);
+		//MissionManager.OnLeaveBuildMode.RemoveListener(EnableCommandControls);
 	}
 
 	#endregion
@@ -160,10 +163,10 @@ public class Player : MonoBehaviour//ActorController
 	#region Input
 	///////////////
 
-	private void EnableCommandControls()
-	{
-		PlayerInput.EnableCommandControls();
-	}
+	//private void EnableCommandControls()
+	//{
+	//	PlayerInput.EnableCommandControls();
+	//}
 
 	private void HandleSprintInput(bool starting)
 	{

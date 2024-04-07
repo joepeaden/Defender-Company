@@ -81,7 +81,9 @@ public class ActorSprite : MonoBehaviour
 
         if (actor.team == Actor.ActorTeam.Friendly)
         {
-            faceSpriteRend.sprite = actor.GetComponent<FriendlyActorController>().TheCompanySoldier.Face;
+            // just for now since I don't feel like doing lighting for other faces than the default yet
+
+            //faceSpriteRend.sprite = actor.GetComponent<FriendlyActorController>().TheCompanySoldier.Face;
         }
 
     }

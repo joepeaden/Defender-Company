@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     private InventoryItemDataStorage dataStore;
 
+    public int playerMapNodeIndex;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -92,16 +94,18 @@ public class GameManager : MonoBehaviour
 
     private void HandleMissionEnd(bool playerWon)
     {
-        SceneLoader.OnSceneLoadComplete.AddListener(LoadAARScreen);
-        SceneLoader.Instance.LoadScene(SceneLoader.SceneName.MainMenu, SceneLoader.SceneName.Mission, true);
+        //SceneLoader.OnSceneLoadComplete.AddListener(LoadAARScreen);
+        SceneLoader.Instance.ChangeScene(null, SceneLoader.SceneName.Mission, true);
+        MapManager.Instance.RenableMap();
+
         playerWonLastMission = playerWon;
 
         company.UpdateDeployedSoldiersStats();
 
-        if (playerWonLastMission)
-        {
-            company.AddCash(currentMission.completionReward);
-        }
+        //if (playerWonLastMission)
+        //{
+        //    company.AddCash(currentMission.completionReward);
+        //}
     }
 
     /// <summary>
@@ -117,7 +121,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleNewGame()
     {
-        SceneLoader.Instance.LoadScene(SceneLoader.SceneName.TutorialMission, SceneLoader.SceneName.MainMenu, true);
+        SceneLoader.Instance.ChangeScene(SceneLoader.SceneName.TutorialMission, SceneLoader.SceneName.MainMenu, true);
 
         //SetCurrentMission(tutorialMission);
     }

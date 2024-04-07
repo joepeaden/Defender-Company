@@ -65,6 +65,8 @@ public class MissionManager : MonoBehaviour
     [SerializeField] private ControllerData warriorEnemy;
 
 
+    public Dictionary<Vector3, bool> followOffsets = new Dictionary<Vector3, bool>();
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -89,21 +91,60 @@ public class MissionManager : MonoBehaviour
             body.transform.parent.gameObject.SetActive(false);
         }
 
+        // while developing new game loop, just use the test mission. Will rework later.
+        currentMission = testMission;
+
         if (!testMode)
         {
             DeployFriendlies();
             StartCoroutine(InitializeMissionWhenGameManagerReady());
         }
-        else
+
+        GenerateFollowOffsets();
+    }
+
+    private void Start()
+    {
+        // set up victory condition
+        switch (currentMission.victoryCondition)
         {
-            currentMission = testMission;
+            case MissionData.VictoryCondition.EliminateAllEnemies:
+                StartCoroutine(CheckForAllEnemiesEliminated());
+                break;
+        }
+
+        // if in test mode, will begin attack from button
+        if (!testMode)
+        {
+            BeginAttack();
         }
     }
 
-    //private void Start()
-    //{
 
-    //}
+    public void BeginAttack()
+    {
+        // Incoming!
+        OnAttackStart.Invoke();
+        //OnLeaveBuildMode.Invoke();
+
+        PlaySound(sirenSound, .5f);
+
+    }
+
+    private void GenerateFollowOffsets()
+    {
+        followOffsets[new Vector3(0, 0, 0)] = false;
+        followOffsets[new Vector3(.5f, -.5f, 0)] = false;
+        followOffsets[new Vector3(-.5f, -.5f, 0)] = false;
+        followOffsets[new Vector3(0f, -1f, 0)] = false;
+
+        // haven't set these ones up
+        //followOffsets[new Vector3(2, 0, 0)] = false;
+        //followOffsets[new Vector3(2, 1, 0)] = false;
+        //followOffsets[new Vector3(0, 2, 0)] = false;
+        //followOffsets[new Vector3(1, 2, 0)] = false;
+        //followOffsets[new Vector3(2, 2, 0)] = false;
+    }
 
     // this case is just for if we're testing the Mission scene, shouldn't be in this case if playing the game normally (through Bootstrap scene)
     //else
@@ -136,8 +177,17 @@ public class MissionManager : MonoBehaviour
                 FriendlyActorController actorController = friendlyActorBodies[i];
                 actorController.SetSoldier(soldier);
                 friendlyActors.Add(actorController);
+                
             }
+
+            FriendlyActorController controlledActor = friendlyActors[0];
+            player.ControlledActor = controlledActor;
+            controlledActor.GetActor().IsPlayer = true;
+            controlledActor.SetActorControlled(true);
+            //controlledActor.OnActorDeath.AddListener(HandleControlledActorDeath);
+            //HandleCommandModeExit(cntxt);
         }
+
     }
 
     /// <summary>
@@ -156,9 +206,22 @@ public class MissionManager : MonoBehaviour
                 FriendlyActorController actorController = friendlyActorBodies[i];
                 actorController.SetSoldier(soldier);
                 friendlyActors.Add(actorController);
+                
+
+                if (friendlyActors.Count == 1)
+                {
+
+                    FriendlyActorController controlledActor = friendlyActors[0];
+                    player.ControlledActor = controlledActor;
+                    controlledActor.GetActor().IsPlayer = true;
+                    controlledActor.SetActorControlled(true);
+                }
+
+
                 return;
             }
         }
+
     }
 
     /// <summary>
@@ -177,6 +240,17 @@ public class MissionManager : MonoBehaviour
                 FriendlyActorController actorController = friendlyActorBodies[i];
                 actorController.SetSoldier(soldier);
                 friendlyActors.Add(actorController);
+
+                
+
+                if (friendlyActors.Count == 1)
+                {        
+                    FriendlyActorController controlledActor = friendlyActors[0];
+                    player.ControlledActor = controlledActor;
+                    controlledActor.GetActor().IsPlayer = true;
+                    controlledActor.SetActorControlled(true);
+                }
+
                 return;
             }
         }
@@ -198,6 +272,15 @@ public class MissionManager : MonoBehaviour
                 FriendlyActorController actorController = friendlyActorBodies[i];
                 actorController.SetSoldier(soldier);
                 friendlyActors.Add(actorController);
+
+                if (friendlyActors.Count == 1)
+                {             
+                    FriendlyActorController controlledActor = friendlyActors[0];
+                    player.ControlledActor = controlledActor;
+                    controlledActor.GetActor().IsPlayer = true;
+                    controlledActor.SetActorControlled(true);
+                }
+
                 return;
             }
         }
@@ -222,40 +305,40 @@ public class MissionManager : MonoBehaviour
     private IEnumerator InitializeMissionWhenGameManagerReady()
     {
         yield return new WaitUntil(GameManager.Instance.IsInitialized);
-        currentMission = GameManager.Instance.CurrentMission;
+        //currentMission = GameManager.Instance.CurrentMission;
         OnNewTurn.Invoke();
     }
 
     /// <summary>
     /// Set on the EndTurn Button in the inspector. Trigger an attack or start the next turn.
     /// </summary>
-    public void EndTurn()
-    {
-        float attackChanceRoll = Random.Range(0f, 1f);
-        // if rolled high enough to get an attack, or if there hasn't been an attack and it's the end, trigger attack
-        if (currentMission.perTurnAttackChance > attackChanceRoll || (turnNumber == currentMission.numberOfTurns && !hasBeenAnAttackThisDeployment))
-        {
-            // Incoming!
-            OnAttackStart.Invoke();
-            OnLeaveBuildMode.Invoke();
+    //public void EndTurn()
+    //{
+        //float attackChanceRoll = Random.Range(0f, 1f);
+        //// if rolled high enough to get an attack, or if there hasn't been an attack and it's the end, trigger attack
+        //if (currentMission.perTurnAttackChance > attackChanceRoll || (turnNumber == currentMission.numberOfTurns && !hasBeenAnAttackThisDeployment))
+        //{
+        //    // Incoming!
+        //    OnAttackStart.Invoke();
+        //    OnLeaveBuildMode.Invoke();
 
-            PlaySound(sirenSound, .5f);
+        //    PlaySound(sirenSound, .5f);
 
-            // set up victory condition
-            switch (currentMission.victoryCondition)
-            {
-                case MissionData.VictoryCondition.EliminateAllEnemies:
-                    StartCoroutine(CheckForAllEnemiesEliminated());
-                    break;
-            }
+        //    // set up victory condition
+        //    switch (currentMission.victoryCondition)
+        //    {
+        //        case MissionData.VictoryCondition.EliminateAllEnemies:
+        //            StartCoroutine(CheckForAllEnemiesEliminated());
+        //            break;
+        //    }
 
-            hasBeenAnAttackThisDeployment = true;
-        }
-        else
-        {
-            NextTurn();
-        }
-    }
+        //    hasBeenAnAttackThisDeployment = true;
+        //}
+        //else
+        //{
+        //    NextTurn();
+        //}
+    //}
 
     private IEnumerator CheckForAllEnemiesEliminated()
     {

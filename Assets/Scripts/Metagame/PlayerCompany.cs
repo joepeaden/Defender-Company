@@ -36,6 +36,7 @@ public class PlayerCompany
         for (int i = 0; i < recruits.Count; i++)
         {
             soldiers.Add(recruits[i].ID, recruits[i]);
+            DeployedSoldiers.Add(recruits[i].ID);
         }
     }
 

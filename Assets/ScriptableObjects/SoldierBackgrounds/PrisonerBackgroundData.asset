@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PrisonerBackgroundData
   m_EditorClassIdentifier: 
   backgroundName: Prisoner
-  minHP: 50
-  maxHP: 90
-  minSpeed: 1
-  maxSpeed: 1
-  minAcc: 0
-  maxAcc: 1
+  minHP: 2
+  maxHP: 4
+  minSpeed: 5
+  maxSpeed: 5
+  minAcc: 10
+  maxAcc: 10
   backgroundDescription: 'In most city-refuges, punishment for crime has 3 manifestations:
     execution, slave labor, or combat service in the Wastes. Some would say execution
     is the most merciful of these options; but this recruit believes otherwise.'

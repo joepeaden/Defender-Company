@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class FriendlyActorController : AIActorController, ISetActive
 {
+    private const int EMERGENCY_RANGE = 12;
+
     [SerializeField]
     private GameObject movePositionSprite;
 
@@ -12,12 +14,65 @@ public class FriendlyActorController : AIActorController, ISetActive
     public CompanySoldier TheCompanySoldier => companySoldier;
     private CompanySoldier companySoldier;
 
+    // the index of teh character in the list of player characters, for following etc.
+    public Vector3 followOffset;
+
     protected new void Start()
     {
         base.Start();
-		SetInitialState(new AIHoldingPositionCombatState());
         actor.OnGotKill.AddListener(HandleGotKill);
         MissionManager.Instance.HandleFriendlySpawned();
+
+        //FollowPlayer();
+    }
+
+    void OnEnable()
+    {
+        GetFollowPosition();
+    }
+
+    void GetFollowPosition()
+    {
+        bool foundFollowOffset = false;
+        foreach (KeyValuePair<Vector3, bool> kvp in MissionManager.Instance.followOffsets)
+        {
+            bool isOccupied = kvp.Value;
+            Vector3 position = kvp.Key;
+
+            if (isOccupied)
+            {
+                continue;
+            }
+
+            followOffset = position;
+            foundFollowOffset = true;
+
+            break;
+        }
+
+        if (foundFollowOffset)
+        {
+            MissionManager.Instance.followOffsets[followOffset] = true;
+        }
+    }
+
+    //void FollowPlayer()
+    //{
+        //SetInitialState(new AIFollowTargetState());
+        //FollowThisThing(MissionManager.Instance.Player.ControlledActor.transform);
+    //}
+
+
+    new void Update()
+    {
+        base.Update();
+
+        if (!actor.IsPlayer)
+        {
+            Vector3 newPos = MissionManager.Instance.Player.ControlledActor.transform.position + followOffset;
+            
+            actor.Move(newPos);
+        }
     }
 
     /// <summary>
@@ -37,7 +92,7 @@ public class FriendlyActorController : AIActorController, ISetActive
         gameObject.name = soldier.Name;
         nameIsSet = true;
 
-        MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
+        //MissionUI.Instance.AddEntityMarker(this, companySoldier.Name);
     }
 
     public override void SetActorControlled(bool isControlled)
@@ -45,6 +100,18 @@ public class FriendlyActorController : AIActorController, ISetActive
         movePositionSprite.SetActive(!isControlled);
 
         base.SetActorControlled(isControlled);
+    }
+
+    public void CheckIfInEmergencyRange(EnemyActorController enemy)
+    {
+        if ((transform.position - enemy.transform.position).magnitude <= EMERGENCY_RANGE)
+        {
+            AddAttackTarget(enemy.GetActor(), true);
+        }
+        else
+        {
+            RemoveAttackTarget(enemy.GetActor());
+        }
     }
 
     private void HandleGotKill()

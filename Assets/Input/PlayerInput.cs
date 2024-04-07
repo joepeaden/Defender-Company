@@ -241,7 +241,7 @@ public static class PlayerInput
 		{
 			if (isTargetingSomeone)
 			{
-				selectedFriendlies.ForEach((friendly) => friendly.SetAttackTarget(targetedActor.gameObject));
+				//selectedFriendlies.ForEach((friendly) => friendly.AddAttackTarget(targetedActor.gameObject));
 			}
 			else
 			{
@@ -361,12 +361,15 @@ public static class PlayerInput
 
 	private static void HandleRotationInputMouse(InputAction.CallbackContext cntxt)
 	{
-		// generally I don't like having more processing in here, but it seemed appropriate.
-		Vector3 mousePosition = cntxt.ReadValue<Vector2>();
-		Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(MissionManager.Instance.Player.ControlledActor.transform.position);
-		Vector3 normalizedMouseInput = (mousePosition - playerPositionScreen).normalized;
-		rotationInput = normalizedMouseInput;
-		usingMouseForRotation = true;
+		if (MissionManager.Instance.Player.ControlledActor != null)
+		{
+			// generally I don't like having more processing in here, but it seemed appropriate.
+			Vector3 mousePosition = cntxt.ReadValue<Vector2>();
+			Vector3 playerPositionScreen = Camera.main.WorldToScreenPoint(MissionManager.Instance.Player.ControlledActor.transform.position);
+			Vector3 normalizedMouseInput = (mousePosition - playerPositionScreen).normalized;
+			rotationInput = normalizedMouseInput;
+			usingMouseForRotation = true;
+		}
 	}
 
 	private static void HandleAimBeginInput(InputAction.CallbackContext cntxt)

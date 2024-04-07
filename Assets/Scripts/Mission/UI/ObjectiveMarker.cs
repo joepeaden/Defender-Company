@@ -34,7 +34,6 @@ public class ObjectiveMarker : MonoBehaviour
         label.text = newLabel;
     }
 
-    // Fixed update so it properly displays in case player may be moving with physics stuff.
     public void Update()
     {
         if (objectiveTransform != null)
@@ -42,8 +41,11 @@ public class ObjectiveMarker : MonoBehaviour
             Vector3 objScreenPos = Camera.main.WorldToScreenPoint(objectiveTransform.position);
             objScreenPos.y += heightOffset;
 
-            // make sure we're not off-screen
-            objScreenPos = new Vector3(Mathf.Clamp(objScreenPos.x, padding, Screen.width - padding), Mathf.Clamp(objScreenPos.y, padding, (Screen.height - padding)), objScreenPos.z);
+            if (!(this as EntityMarker))
+            {
+                // make sure we're not off-screen
+                objScreenPos = new Vector3(Mathf.Clamp(objScreenPos.x, padding, Screen.width - padding), Mathf.Clamp(objScreenPos.y, padding, (Screen.height - padding)), objScreenPos.z);
+            }
 
             rectTrans.position = objScreenPos;
         }
